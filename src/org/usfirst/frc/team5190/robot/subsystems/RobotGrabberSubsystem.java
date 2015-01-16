@@ -22,11 +22,11 @@ public class RobotGrabberSubsystem extends Subsystem {
 
 	// Opens the grabber
 	public void Opengrabber() {
-
+			Grabbersolenoid.set(false);
 	}
-
+ 
 	// Close the grabber
 	public void Closegrabber() {
-
+			Grabbersolenoid.set(true);
 	}
 }
