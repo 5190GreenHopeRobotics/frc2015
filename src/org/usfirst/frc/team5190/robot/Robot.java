@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -19,6 +20,7 @@ public class Robot extends IterativeRobot {
 	
 	public static OI oi;
 	public static final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
+	public static RobotGrabberSubsystem robotgrabber = new RobotGrabberSubsystem();
 
     Command autonomousCommand;
     CameraServer serv;
