@@ -1,6 +1,11 @@
 package org.usfirst.frc.team5190.robot;
 
+
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -9,11 +14,23 @@ public class OI {
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
+	// Button numbers on joystick
+	public static final int TRIGGER = 1;
+	public static final int THUMB_BUTTON = 2;
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
+	// Drive Stick button/peripheral initialization
+	private Button changeSpeed = new JoystickButton(driveStick, THUMB_BUTTON);
+	private double findThrottle = driveStick.getThrottle();
+	// private double findX = driveStick.getX();
+	// private double findY = driveStick.getY();
+	// private double findZ = driveStick.getZ();
+	private double findTwist = driveStick.getTwist();
+	// Shoot stick button/peripheral initialization
+	private Button raiseArm = new JoystickButton(shootStick, TRIGGER);
+	private Button lowerArm = new JoystickButton(shootStick, THUMB_BUTTON);
 
-	// give drivestick to other classes
 	/**
 	 * @return returns driveStick instance
 	 */
@@ -21,13 +38,49 @@ public class OI {
 		return driveStick;
 	}
 
-	// give shootstick to other classes
 	/**
 	 * @return returns shootStick instance
 	 */
 	public Joystick getShootStick() {
 		return shootStick;
 	}
+
+	/**
+	 * @return returns changeSpeed button
+	 */
+	public Button getChangeSpeed() {
+		return changeSpeed;
+	}
+
+	/**
+	 * @return returns raiseArm button (button 1 (TRIGGER)) on shootstick
+	 */
+	public Button getRaiseArm() {
+		return raiseArm;
+	}
+
+	/**
+	 * @return returns lowerArm button (button 2 (Thumb side button)) on
+	 *         shootstick
+	 */
+	public Button getLowerArm() {
+		return lowerArm;
+	}
+
+	/**
+	 * @return returns throttle on driveStick Joystick.
+	 */
+	public double accessThrottle() {
+		return findThrottle;
+	}
+
+	/**
+	 * @return double value from twist motion on joystick Drivestick
+	 */
+	public double accessTwist() {
+		return findTwist;
+	}
+
 	// // CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	// joystick.
