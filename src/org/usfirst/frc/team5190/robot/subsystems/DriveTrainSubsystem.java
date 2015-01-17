@@ -101,7 +101,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 *            the one joystick
 	 */
 
-	public void arcadeYoystickDrive(Joystick stick) {
+	public void arcadeJoystickDrive(Joystick stick) {
 		mDrive.arcadeDrive(stick);
 	}
 
