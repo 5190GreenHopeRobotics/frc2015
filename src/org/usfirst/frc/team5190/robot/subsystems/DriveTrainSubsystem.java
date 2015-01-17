@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import java.util.concurrent.TimeUnit;
+
 import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -58,7 +60,24 @@ public class DriveTrainSubsystem extends Subsystem {
 	public void drive(double speed) {
 		mDrive.tankDrive(speed, speed);
 	}
-
+	
+	/**
+	 * drive the robot at speed for time second
+	 * @param speed the speed(-1 -1), which the robot will go at
+	 * @param time the number of second it will run
+	 */
+	
+	public void drive(double speed, long time) {
+		mDrive.tankDrive(speed, speed);
+		try {
+			TimeUnit.SECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			
+		} finally {
+			this.stopAll();
+		}
+	}
+	
 	/**
 	 * stop the robot
 	 */
