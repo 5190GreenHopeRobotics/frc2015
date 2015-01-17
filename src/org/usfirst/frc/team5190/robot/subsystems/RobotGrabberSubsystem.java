@@ -13,7 +13,7 @@ public class RobotGrabberSubsystem extends Subsystem {
 
 	private Solenoid Grabbersolenoid = new Solenoid(
 			RobotMap.GRABBER_SOLENOID_PORT);
-	Compressor Compressor1 = new Compressor();
+	private Compressor Compressor1 = new Compressor();
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -21,8 +21,12 @@ public class RobotGrabberSubsystem extends Subsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
+	
+	public RobotGrabberSubsystem()
+	{
+	}
 
-	// Opens the grabber
+	// Opens the grabber. Now it just turns the grabber on, more will be added when I know what I'm doing
 	public void Opengrabber() {
 			Grabbersolenoid.set(true);
 	}
@@ -32,6 +36,7 @@ public class RobotGrabberSubsystem extends Subsystem {
 			Grabbersolenoid.set(true);
 	}
 	
+	// Stop the grabber
 	public void Stopgrabber() {
 			Grabbersolenoid.set(false);
 	}
