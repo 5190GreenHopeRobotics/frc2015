@@ -2,6 +2,10 @@
 package org.usfirst.frc.team5190.robot;
 
 
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,6 +20,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
+	public static ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+	public static RobotGrabberSubsystem robotGrabberSubsystem = new RobotGrabberSubsystem();
+	
 	public static OI oi;
 
     Command autonomousCommand;
