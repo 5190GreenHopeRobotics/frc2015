@@ -21,6 +21,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
+	public static RobotGrabberSubsystem robotgrabber = new RobotGrabberSubsystem();
 
     Command autonomousCommand;
     CameraServer serv;
