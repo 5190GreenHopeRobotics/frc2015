@@ -20,6 +20,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
+	
+	
+	
+	/*
+	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
+	 */
+	boolean RobotIsEnabled = true;
+	/*
+	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
+	 */
+	
+	
 	public static ArmSubsystem armSubsystem = new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static RobotGrabberSubsystem robotGrabberSubsystem = new RobotGrabberSubsystem();
