@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Opengrabber extends Command {
+public class OpenGrabberCommand extends Command {
 
-    public Opengrabber() {
+    public OpenGrabberCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
