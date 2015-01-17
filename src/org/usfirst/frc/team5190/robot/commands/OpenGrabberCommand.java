@@ -18,7 +18,7 @@ public class OpenGrabberCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.robotGrabberSubsystem.Opengrabber();
+    	Robot.robotGrabberSubsystem.openGrabber();
     }
 
     // Called repeatedly when this Command is scheduled to run(every 0.2 seconds)
@@ -32,12 +32,12 @@ public class OpenGrabberCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.robotGrabberSubsystem.Stopgrabber();
+    	Robot.robotGrabberSubsystem.stopGrabber();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.robotGrabberSubsystem.Stopgrabber();
+    	Robot.robotGrabberSubsystem.closeGrabber();
     }
 }
