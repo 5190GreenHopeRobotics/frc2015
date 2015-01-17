@@ -2,30 +2,34 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
+
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
- *
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the IterativeRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the manifest file in the resource
+ * directory.
  */
 public class Robot extends IterativeRobot {
-	
+
 	public static ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+	public static RobotGrabberSubsystem robotGrabberSubsystem = new RobotGrabberSubsystem();
 	
 	public static OI oi;
-	public static final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
-	public static RobotGrabberSubsystem robotgrabber = new RobotGrabberSubsystem();
 
     Command autonomousCommand;
-    CameraServer serv;
-    
+
+    public Camera camera;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -35,12 +39,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         // instantiate the command used for the autonomous period
         
-        
-        serv = CameraServer.getInstance();
-        serv.setQuality(50);
-        serv.startAutomaticCapture("cam0");
-
-        
+		camera = new Camera();
         
     }
 	

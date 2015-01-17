@@ -12,7 +12,7 @@ public class DriveForwardCommand extends Command {
     public DriveForwardCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+    	requires(Robot.driveTrainSubsystem);
     	setTimeout(2);
     }
 
@@ -24,7 +24,7 @@ public class DriveForwardCommand extends Command {
     * drive at full speed forward for 2 second.
     */
     protected void execute() {
-    	Robot.driveTrain.drive(1);
+    	Robot.driveTrainSubsystem.drive(1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,7 +34,7 @@ public class DriveForwardCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.stopAll();
+    	Robot.driveTrainSubsystem.stopAll();
     }
 
     // Called when another command which requires one or more of the same
