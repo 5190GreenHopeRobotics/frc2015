@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team5190.robot;
 
-import edu.wpi.first.wpilibj.CameraServer;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -19,8 +19,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
     Command autonomousCommand;
-    CameraServer serv;
-    
+
+    public Camera camera;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -30,12 +30,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         // instantiate the command used for the autonomous period
         
-        
-        serv = CameraServer.getInstance();
-        serv.setQuality(50);
-        serv.startAutomaticCapture("cam0");
-
-        
+		camera = new Camera();
         
     }
 	
