@@ -12,13 +12,13 @@ public class OpenGrabberCommand extends Command {
     public OpenGrabberCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.robotgrabber);
+    	requires(Robot.robotGrabberSubsystem);
     	setTimeout(1);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.robotgrabber.Opengrabber();
+    	Robot.robotGrabberSubsystem.Opengrabber();
     }
 
     // Called repeatedly when this Command is scheduled to run(every 0.2 seconds)
@@ -32,7 +32,7 @@ public class OpenGrabberCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.robotgrabber.Stopgrabber();
+    	Robot.robotGrabberSubsystem.Stopgrabber();
     }
 
     // Called when another command which requires one or more of the same
