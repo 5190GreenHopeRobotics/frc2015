@@ -22,7 +22,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	
-	
+	//NO REMOVE 
+	//NO REMOVE
+	//NO REMOVE
+	//NO REMOVE
 	
 	/*
 	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
@@ -31,6 +34,13 @@ public class Robot extends IterativeRobot {
 	/*
 	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
 	 */
+	
+	
+	//NO REMOVE
+	//NO REMOVE
+	//NO REMOVE
+	//NO REMOVE
+	
 	
 	
 	public static ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -42,6 +52,7 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
 
     public Camera camera;
+    public robotValues val;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -52,6 +63,8 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
         
 		camera = new Camera();
+		val = new robotValues();
+		
         
     }
 	
