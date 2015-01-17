@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
@@ -50,6 +51,8 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         // schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
+        DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
+        controledDrive.start();
     }
 
     /**
@@ -79,6 +82,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	
         Scheduler.getInstance().run();
     }
     
