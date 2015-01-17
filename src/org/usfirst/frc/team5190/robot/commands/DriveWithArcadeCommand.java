@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveWithArcadeCommand extends Command {
 
     public DriveWithArcadeCommand() {
-        //this controls the drive train
-    	requires(Robot.mDriveTrain);
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.driveTrain);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class DriveWithArcadeCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//Robot.mDriveTrain.arcadeJoystickDrive(Robot.oi.getDriveStick());
+    	Robot.driveTrain.arcadeJoystickDrive(Robot.oi.getDriveStick());
     }
 
     // Make this return true when this Command no longer needs to run execute()
