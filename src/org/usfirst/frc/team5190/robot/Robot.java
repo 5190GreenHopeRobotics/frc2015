@@ -1,12 +1,14 @@
 
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.ExampleCommand;
+import org.usfirst.frc.team5190.robot.subsystems.ExampleSubsystem;
+
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team5190.robot.commands.ExampleCommand;
-import org.usfirst.frc.team5190.robot.subsystems.ExampleSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,6 +23,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
     Command autonomousCommand;
+    CameraServer serv;
+    
 
     /**
      * This function is run when the robot is first started up and should be
@@ -30,6 +34,14 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         // instantiate the command used for the autonomous period
         autonomousCommand = new ExampleCommand();
+        
+        
+        serv = CameraServer.getInstance();
+        serv.setQuality(50);
+        serv.startAutomaticCapture("cam0");
+
+        
+        
     }
 	
 	public void disabledPeriodic() {
