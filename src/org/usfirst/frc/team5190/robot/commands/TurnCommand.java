@@ -30,10 +30,10 @@ public class TurnCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(mDir == Direction.LEFT) {
-    		Robot.driveTrainSubsystem.turn(0.5);
+    		Robot.driveTrainSubsystem.turn(-0.5);
     	}
     	else if(mDir == Direction.RIGHT) {
-    		Robot.driveTrainSubsystem.turn(-0.5);
+    		Robot.driveTrainSubsystem.turn(0.5);
     	}
     }
 
