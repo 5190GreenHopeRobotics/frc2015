@@ -10,9 +10,6 @@ import org.usfirst.frc.team5190.robot.RobotMap;
  *
  */
 public class RobotGrabberSubsystem extends Subsystem {
-	private final boolean ON = true;
-	private final boolean OFF = false;
-	public Encoder grabberEncoder = new Encoder(0, 1, OFF, Encoder.EncodingType.k4X);
 	private Talon grabberTalon = new Talon(RobotMap.GRABBER_TALON_PORT);
 	public Ultrasonic grabberUltrasonic = new Ultrasonic(1,1);
 
