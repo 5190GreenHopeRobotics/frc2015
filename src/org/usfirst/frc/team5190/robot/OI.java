@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5190.robot;
 
-
+import org.usfirst.frc.team5190.robot.commands.CloseGrabberCommand;
+import org.usfirst.frc.team5190.robot.commands.OpenGrabberCommand;
+import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -10,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+
 public class OI {
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
@@ -27,10 +30,15 @@ public class OI {
 	// private double findY = driveStick.getY();
 	// private double findZ = driveStick.getZ();
 	private double findTwist = driveStick.getTwist();
-	// Shoot stick button/peripheral initialization
-	private Button raiseArm = new JoystickButton(shootStick, TRIGGER);
-	private Button lowerArm = new JoystickButton(shootStick, THUMB_BUTTON);
+	// Shoot stick button links to commands
+	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
+	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
 
+	public OI(){
+		//buttons to link up to commands.
+		raiseArmButton.whenPressed(new OpenGrabberCommand());
+		lowerArmButton.whenPressed(new CloseGrabberCommand());
+	}
 	/**
 	 * @return returns driveStick instance
 	 */
@@ -44,36 +52,6 @@ public class OI {
 	public Joystick getShootStick() {
 		return shootStick;
 	}
-
-	/**
-	 * @return returns changeSpeed button
-	 */
-	public Button getChangeSpeed() {
-		return changeSpeed;
-	}
-
-	/**
-	 * @return returns raiseArm button (button 1 (TRIGGER)) on shootstick
-	 */
-	public Button getRaiseArm() {
-		return raiseArm;
-	}
-
-	/**
-	 * @return returns lowerArm button (button 2 (Thumb side button)) on
-	 *         shootstick
-	 */
-	public Button getLowerArm() {
-		return lowerArm;
-	}
-
-	/**
-	 * @return returns throttle on driveStick Joystick.
-	 */
-	public double accessThrottle() {
-		return findThrottle;
-	}
-
 	/**
 	 * @return double value from twist motion on joystick Drivestick
 	 */

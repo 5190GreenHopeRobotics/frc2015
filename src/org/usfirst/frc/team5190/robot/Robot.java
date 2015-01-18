@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team5190.robot;
 
-
+import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
@@ -20,6 +20,28 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
+	
+	//NO REMOVE 
+	//NO REMOVE
+	//NO REMOVE
+	//NO REMOVE
+	
+	/*
+	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
+	 */
+	boolean RobotIsEnabled = true;
+	/*
+	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
+	 */
+	
+	
+	//NO REMOVE
+	//NO REMOVE
+	//NO REMOVE
+	//NO REMOVE
+	
+	
+	
 	public static ArmSubsystem armSubsystem = new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static RobotGrabberSubsystem robotGrabberSubsystem = new RobotGrabberSubsystem();
@@ -29,6 +51,7 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
 
     public Camera camera;
+    public robotValues val;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -39,6 +62,8 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
         
 		camera = new Camera();
+		val = new robotValues();
+		
         
     }
 	
@@ -64,6 +89,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
+        controledDrive.start();
     }
 
     /**
@@ -78,6 +105,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	
         Scheduler.getInstance().run();
     }
     
