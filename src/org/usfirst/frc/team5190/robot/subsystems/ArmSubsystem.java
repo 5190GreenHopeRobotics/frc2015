@@ -2,36 +2,60 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ *We use 
  */
 public class ArmSubsystem extends Subsystem {
 
-	private Solenoid armSolenoid = new Solenoid(RobotMap.ARM_SOLENOID_PORT);
+	private TalonSRX armLengthTalon = new TalonSRX(RobotMap.ARMLENGTH_TALONSRX_PORT);
+	private TalonSRX armAngleTalon = new TalonSRX(RobotMap.ARMANGLE_TALONSRX_PORT);
+	double motorSpeed = 0.5;
 
 	public void initDefaultCommand() {
 
 	}
-
 	/**
-	 * Turns the arm on.
+	 * Turns the arm on, and extends it with a positive speed.
 	 */
 	public void extendArm() {
-		armSolenoid.set(true);
+		armLengthTalon.set(motorSpeed);
 	}
 
 	/**
-	 * Turns the arm off.
+	 * Turns the arm off, by putting the motor to a stop with a speed of 0.
 	 */
-	public void stopArm() {
-		armSolenoid.set(false);
+	public void stopArmLengthChange() {
+		armLengthTalon.set(0);
+	}
+	/**
+	 * This sets the speed as negative, retracting the arm.
+	 */
+	public void retractArm() {
+		armLengthTalon.set(-motorSpeed);
+		
+	}
+	/**
+	 * This raises the arm by using motorSpeed (positive value).
+	 */
+	public void raiseArm() {
+		armAngleTalon.set(motorSpeed);
+		
+	}
+	/**
+	 * This stops the arm angle from changing (No rise or lowering) = speed is 0.
+	 */
+	public void stopArmAngleChange() {
+		armAngleTalon.set(0);
+	}
+	/**
+	 * This sets the motorSpeed to negative, lowering the arm.
+	 */
+	public void lowerArm() {
+		armAngleTalon.set(-motorSpeed);
+		
 	}
 
-	public void retractArm() {
-		armSolenoid.set(true);
-		// There will be more content, right now, it just turns the arm on.
-	}
 }

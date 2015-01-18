@@ -5,21 +5,21 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This command requires the armSubsystem.
  */
-public class RetractArmCommand extends Command {
+public class RaiseArmCommand extends Command {
 
-    public RetractArmCommand() {
+    public RaiseArmCommand() {
         requires(Robot.armSubsystem);
         setTimeout(1.0);
-        
+    	
     }
 
     /**
-     * This starts the command, and begins to retract the Arm.
+     * This starts raising the arm.
      */
     protected void initialize() {
-    	Robot.armSubsystem.retractArm();
+    	Robot.armSubsystem.raiseArm();
     	
     }
 
@@ -27,30 +27,27 @@ public class RetractArmCommand extends Command {
      * Called repeatedly when this Command is scheduled to run
      */
     protected void execute() {
-    	
     }
 
     /**
-     * This is the returned value after the time is finished.
+     * This is returned when the set time is up.
      */
     protected boolean isFinished() {
         return isTimedOut();
-        
     }
 
     /**
-     * This stops the arm when the time is "out"/ended, and it will start to rerun.
+     * This stops the arm from rising when the time ends.
      */
     protected void end() {
-    	Robot.armSubsystem.stopArmLengthChange();
-    	
+    	Robot.armSubsystem.stopArmAngleChange();
     }
 
     /**
-     * This stops the arm from retracting when the code is interrupted.
+     * This stops the arm from rising when the code is interrupted.
      */
     protected void interrupted() {
-    	Robot.armSubsystem.stopArmLengthChange();
+    	Robot.armSubsystem.stopArmAngleChange();
     	
     }
 }
