@@ -22,8 +22,8 @@ public class DriveTrainSubsystem extends Subsystem {
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
-		mDrive = new RobotDrive(RobotMap.ROBOT_DRIVE_PORT1,
-				RobotMap.ROBOT_DRIVE_PORT2, RobotMap.ROBOT_DRIVE_PORT3, RobotMap.ROBOT_DRIVE_PORT4);
+		mDrive = new RobotDrive(RobotMap.FRONTLEFT,
+				RobotMap.BACKLEFT, RobotMap.FRONTRIGHT, RobotMap.BACKRIGHT);
 		//gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
