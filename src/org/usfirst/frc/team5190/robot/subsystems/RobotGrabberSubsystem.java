@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team5190.robot.RobotMap;
@@ -10,7 +9,7 @@ import org.usfirst.frc.team5190.robot.RobotMap;
  *
  */
 public class RobotGrabberSubsystem extends Subsystem {
-	private Talon grabberTalon = new Talon(RobotMap.GRABBER_TALON_PORT);
+	private TalonSRX grabberTalon = new TalonSRX(RobotMap.GRABBER_TALONSRX_PORT);
 	public Ultrasonic grabberUltrasonic = new Ultrasonic(1,1);
 
 	// Put methods for controlling this subsystem
