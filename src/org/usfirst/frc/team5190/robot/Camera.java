@@ -25,6 +25,8 @@ public class Camera {
 	
 	public void cameraInit(){
 		
+		
+		
 		cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
 		
@@ -53,7 +55,7 @@ public class Camera {
 					DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
 			
 			CameraServer.getInstance().setImage(cameraFrame);
-			
+		
 		}
 		
 		NIVision.IMAQdxStopAcquisition(cameraSession);

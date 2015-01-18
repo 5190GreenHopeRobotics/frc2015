@@ -14,23 +14,37 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 
 public class OI {
+	
+	
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
+	
+	
+	
 	// Button numbers on joystick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
+	
+	
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
+	
+	
 	// Drive Stick button/peripheral initialization
 	private Button changeSpeed = new JoystickButton(driveStick, THUMB_BUTTON);
 	private double findThrottle = driveStick.getThrottle();
+	
+	
 	// private double findX = driveStick.getX();
 	// private double findY = driveStick.getY();
 	// private double findZ = driveStick.getZ();
+	
 	private double findTwist = driveStick.getTwist();
+	
 	// Shoot stick button links to commands
+	
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
 	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
 
@@ -56,7 +70,9 @@ public class OI {
 	 * @return double value from twist motion on joystick Drivestick
 	 */
 	public double accessTwist() {
+		
 		return findTwist;
+		
 	}
 
 	// // CREATING BUTTONS
