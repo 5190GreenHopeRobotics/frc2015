@@ -1,8 +1,8 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.CloseGrabberCommand;
+import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
 import org.usfirst.frc.team5190.robot.commands.OpenGrabberCommand;
-import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -14,45 +14,37 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 
 public class OI {
-	
-	
+
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
-	
-	
-	
+
 	// Button numbers on joystick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
-	
-	
+
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
-	
-	
+
 	// Drive Stick button/peripheral initialization
 	private Button changeSpeed = new JoystickButton(driveStick, THUMB_BUTTON);
 	private double findThrottle = driveStick.getThrottle();
-	
-	
-	// private double findX = driveStick.getX();
-	// private double findY = driveStick.getY();
-	// private double findZ = driveStick.getZ();
-	
 	private double findTwist = driveStick.getTwist();
-	
+
 	// Shoot stick button links to commands
-	
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
 	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
 
-	public OI(){
-		//buttons to link up to commands.
+	// Operator interface constructor
+	public OI() {
+		// buttons to link up to commands. (Shootstick)
 		raiseArmButton.whenPressed(new OpenGrabberCommand());
 		lowerArmButton.whenPressed(new CloseGrabberCommand());
+		// buttons to link up to commands (Drivestick)
+		changeSpeed.whenPressed(new LowerSpeedCommand());
 	}
+
 	/**
 	 * @return returns driveStick instance
 	 */
@@ -66,13 +58,12 @@ public class OI {
 	public Joystick getShootStick() {
 		return shootStick;
 	}
+
 	/**
 	 * @return double value from twist motion on joystick Drivestick
 	 */
 	public double accessTwist() {
-		
 		return findTwist;
-		
 	}
 
 	// // CREATING BUTTONS
