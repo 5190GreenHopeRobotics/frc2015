@@ -23,18 +23,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 	public DriveTrainSubsystem() {
 		mDrive = new RobotDrive(RobotMap.ROBOT_DRIVE_PORT1,
-				RobotMap.ROBOT_DRIVE_PORT2);
-	}
-
-	/**
-	 * 
-	 * @param port1
-	 * @param port2
-	 *            init Drive Train at port port1 and port 2
-	 */
-
-	public DriveTrainSubsystem(int port1, int port2) {
-		mDrive = new RobotDrive(port1, port2);
+				RobotMap.ROBOT_DRIVE_PORT2, RobotMap.ROBOT_DRIVE_PORT3, RobotMap.ROBOT_DRIVE_PORT4);
 	}
 
 	public void initDefaultCommand() {
