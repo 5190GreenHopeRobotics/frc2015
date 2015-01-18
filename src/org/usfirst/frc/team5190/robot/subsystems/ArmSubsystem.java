@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -13,7 +14,7 @@ public class ArmSubsystem extends Subsystem {
 	private TalonSRX armLengthTalon = new TalonSRX(RobotMap.ARMLENGTH_TALONSRX_PORT);
 	private TalonSRX armAngleTalon = new TalonSRX(RobotMap.ARMANGLE_TALONSRX_PORT);
 	double motorSpeed = 0.5;
-
+	private Encoder armLengthEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);	
 	public void initDefaultCommand() {
 
 	}
