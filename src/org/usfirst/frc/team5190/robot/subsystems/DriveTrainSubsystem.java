@@ -1,13 +1,12 @@
 package org.usfirst.frc.team5190.robot.subsystems;
-
 import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 /**
  *
  */
@@ -17,13 +16,15 @@ public class DriveTrainSubsystem extends Subsystem {
 	// here. Call these from Commands.
 
 	RobotDrive mDrive;
-
+	Gyro gyro;
+	
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
 		mDrive = new RobotDrive(RobotMap.ROBOT_DRIVE_PORT1,
 				RobotMap.ROBOT_DRIVE_PORT2, RobotMap.ROBOT_DRIVE_PORT3, RobotMap.ROBOT_DRIVE_PORT4);
+		gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
 	public void initDefaultCommand() {
@@ -36,7 +37,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void driveForward() {
-		mDrive.tankDrive(1, 1);
+		mDrive.drive(1, -gyro.getAngle());
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void drive(double speed) {
-		mDrive.tankDrive(speed, speed);
+		mDrive.drive(speed, -gyro.getAngle());
 	}
 	
 	/**
