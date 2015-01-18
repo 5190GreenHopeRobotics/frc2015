@@ -1,8 +1,10 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.CloseGrabberCommand;
+import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
 import org.usfirst.frc.team5190.robot.commands.OpenGrabberCommand;
+import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -22,6 +24,8 @@ public class OI {
 	// Button numbers on joystick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
+	public static final int KILL_SWITCH = 11;
+	public static final int ENABLE_SWITCH = 12;
 
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
@@ -29,8 +33,8 @@ public class OI {
 
 	// Drive Stick button/peripheral initialization
 	private Button changeSpeed = new JoystickButton(driveStick, THUMB_BUTTON);
-	private double findThrottle = driveStick.getThrottle();
-	private double findTwist = driveStick.getTwist();
+	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
+	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 
 	// Shoot stick button links to commands
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
@@ -39,10 +43,12 @@ public class OI {
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
-		raiseArmButton.whenPressed(new OpenGrabberCommand());
-		lowerArmButton.whenPressed(new CloseGrabberCommand());
+		raiseArmButton.whenPressed(new OpenGrabberCommand()); //raise/open arm
+		lowerArmButton.whenPressed(new CloseGrabberCommand()); //lower/close arm
 		// buttons to link up to commands (Drivestick)
-		changeSpeed.whenPressed(new LowerSpeedCommand());
+		changeSpeed.whenPressed(new LowerSpeedCommand());  //half speed while pressed
+		killSwitch.whenReleased(new TerminateRobotCommand()); //kill robot after release
+		enableSwitch.whenReleased(new EnableRobotCommand()); //undo kill after release
 	}
 
 	/**
@@ -57,13 +63,6 @@ public class OI {
 	 */
 	public Joystick getShootStick() {
 		return shootStick;
-	}
-
-	/**
-	 * @return double value from twist motion on joystick Drivestick
-	 */
-	public double accessTwist() {
-		return findTwist;
 	}
 
 	// // CREATING BUTTONS
