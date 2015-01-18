@@ -116,6 +116,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void arcadeJoystickDrive(Joystick stick) {
 		mDrive.arcadeDrive(stick);
+		mDrive.setMaxOutput(0.5);
 	}
 
 	/**
