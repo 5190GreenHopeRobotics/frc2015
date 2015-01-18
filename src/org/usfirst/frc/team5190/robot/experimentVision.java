@@ -1,5 +1,8 @@
 package org.usfirst.frc.team5190.robot;
 
+import com.ni.vision.NIVision.ParticleFilterCriteria;
+import edu.wpi.first.wpilibj.CameraServer;
+
 public class experimentVision {
 	
 	
@@ -28,9 +31,33 @@ public class experimentVision {
 	// Max of Particles 
 	final int MAX_PART = 8;
 	
+	CameraServer camera;
+	ParticleFilterCriteria PFC;
 	
 	
+    public class Scores {
+        double rectangularity;
+        double aspectRatioVertical;
+        double aspectRatioHorizontal;
+    }
+    
+    public class TargetReport {
+		int verticalIndex;
+		int horizontalIndex;
+		boolean Hot;
+		double totalScore;
+		double leftScore;
+		double rightScore;
+		double tapeWidthScore;
+		double verticalScore;
+    };
 	
+	
+	public void cameraInit(){
+		
+		
+		
+	}
 	
 	
 }
