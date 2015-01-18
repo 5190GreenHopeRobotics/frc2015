@@ -82,6 +82,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void turnRight() {
 		mDrive.tankDrive(0, 0.1);
+		gyro.reset();
 	}
 
 	/**
@@ -90,6 +91,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void turnLeft() {
 		mDrive.tankDrive(0.1, 0);
+		gyro.reset();
 	}
 
 	/**
@@ -101,6 +103,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void turn(double amount) {
 		mDrive.arcadeDrive(0, amount, false);
+		gyro.reset();
 	}
 
 	/**
@@ -111,6 +114,10 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void arcadeJoystickDrive(Joystick stick) {
+		// reset if turned
+		if(stick.getX()!=0) {
+			gyro.reset();
+		}
 		mDrive.arcadeDrive(stick);
 	}
 
@@ -124,6 +131,10 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void tankJoystickDrive(Joystick s1, Joystick s2) {
+		// reset if turned
+		if(s1.getY() != s2.getY()) {
+			gyro.reset();
+		}
 		mDrive.tankDrive(s1, s2);
 	}
 }
