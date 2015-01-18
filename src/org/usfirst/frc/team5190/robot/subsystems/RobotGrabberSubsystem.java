@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,8 +15,16 @@ public class RobotGrabberSubsystem extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
+		// Set the default command for a subsystem here.h6
 		// setDefaultCommand(new MySpecialCommand());
+	}
+	
+	public RobotGrabberSubsystem() {
+		//Enable the ultrasonic sensor
+		grabberUltrasonic.setEnabled(true);
+		
+		//Automatic mode coordinates the signals from all ultrasonic signals on the robot
+		grabberUltrasonic.setAutomaticMode(true);
 	}
 
 	// Opens the grabber. Sets the speed 
