@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot;
 
-import com.ni.vision.NIVision.ParticleFilterCriteria;
 import edu.wpi.first.wpilibj.CameraServer;
 
 public class experimentVision {
@@ -32,7 +31,8 @@ public class experimentVision {
 	final int MAX_PART = 8;
 	
 	CameraServer camera;
-	ParticleFilterCriteria PFC;
+	//ParticleFilterCriteria PFC;
+	
 	
 	
     public class Scores {
@@ -55,8 +55,10 @@ public class experimentVision {
 	
 	public void cameraInit(){
 		
-		
-		
+		/*
+		PFC = new ParticleFilterCriteria();
+		PFC.addCriteria(MeasurementType.MT_AREA, AREA_MIN, 65535, false);
+		*/
 	}
 	
 	
