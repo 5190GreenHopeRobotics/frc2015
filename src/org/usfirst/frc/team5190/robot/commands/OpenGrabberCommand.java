@@ -26,7 +26,9 @@ public class OpenGrabberCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
+    	//Line below is for if we use an ultrasonic sensor
+       // return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
+    	return true;
     }
 
     // Called once after isFinished returns true

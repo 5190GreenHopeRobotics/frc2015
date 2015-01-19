@@ -29,7 +29,7 @@ public class OI {
 
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
-	//private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
+	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
 
 	// Drive Stick button/peripheral initialization
 	private Button changeSpeed = new JoystickButton(driveStick, THUMB_BUTTON);
@@ -37,18 +37,18 @@ public class OI {
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 
 	// Shoot stick button links to commands
-	//private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
-	//private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
+	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
+	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
 
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
-		//raiseArmButton.whenPressed(new OpenGrabberCommand()); //raise/open arm
-		//lowerArmButton.whenPressed(new CloseGrabberCommand()); //lower/close arm
+		raiseArmButton.whenPressed(new OpenGrabberCommand()); //raise/open arm
+		lowerArmButton.whenPressed(new CloseGrabberCommand()); //lower/close arm
 		// buttons to link up to commands (Drivestick)
-//		changeSpeed.whenPressed(new LowerSpeedCommand());  //half speed while pressed
-//		killSwitch.whenReleased(new TerminateRobotCommand()); //kill robot after release
-//		enableSwitch.whenReleased(new EnableRobotCommand()); //undo kill after release
+		changeSpeed.whenPressed(new LowerSpeedCommand());  //half speed while pressed
+		killSwitch.whenReleased(new TerminateRobotCommand()); //kill robot after release
+		enableSwitch.whenReleased(new EnableRobotCommand()); //undo kill after release
 	}
 
 	/**
@@ -61,9 +61,9 @@ public class OI {
 	/**
 	 * @return returns shootStick instance
 	 */
-	//public Joystick getShootStick() {
-		//return shootStick;
-	//}
+	public Joystick getShootStick() {
+		return shootStick;
+	}
 
 	// // CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
