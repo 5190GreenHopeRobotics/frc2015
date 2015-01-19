@@ -18,6 +18,14 @@ public class ArmSubsystem extends Subsystem {
 	public void initDefaultCommand() {
 
 	}
+	
+	public double getLengthPercent() {
+		double distance = armLengthEncoder.getDistance();
+		
+		
+		
+		return getLengthPercent();
+	}
 	/**
 	 * Turns the arm on, and extends it with a positive speed.
 	 */
