@@ -1,5 +1,11 @@
 
 package org.usfirst.frc.team5190.robot;
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
+
+import edu.wpi.first.wpilibj.CameraServer;
 
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
@@ -42,13 +48,74 @@ public class Robot extends IterativeRobot {
 	
 	
 	
-	public static ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static ArmSubsystem armSubsystem = null; //new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	public static RobotGrabberSubsystem robotGrabberSubsystem = new RobotGrabberSubsystem();
+	public static RobotGrabberSubsystem robotGrabberSubsystem = null; //new RobotGrabberSubsystem();
+	
+	protected class Camera {
+		
+		
+		//Define Some Variables
+		int cameraSession;
+		Image cameraFrame;
+		CameraServer server;
+		Camera() {
+			server = CameraServer.getInstance();
+	        server.setQuality(50);
+	        //the camera name (ex "cam0") can be found through the roborio web interface
+	        server.startAutomaticCapture("cam0");
+		}
+		
+		public void cameraInit(){
+			
+			
+			
+			cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+			
+			
+			cameraSession = NIVision.IMAQdxOpenCamera("cam0", 
+					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+			
+			
+			NIVision.IMAQdxConfigureGrab(cameraSession);
+			
+		}
+		
+		public void cameraControl(){
+			
+			NIVision.IMAQdxStartAcquisition(cameraSession);
+			
+			
+			NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+			
+			
+			while(RobotIsEnabled){
+				
+				
+				NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
+				
+				NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect, 
+						DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+				
+				CameraServer.getInstance().setImage(cameraFrame);
+			
+			}
+			
+			NIVision.IMAQdxStopAcquisition(cameraSession);
+			
+		}
+
+
+	}
+
 	
 	public static OI oi;
-
-    Command autonomousCommand;
+	{
+		oi = new OI();
+		camera = new Camera();
+		//val = new robotValues();
+	}
+    //Command autonomousCommand;
 
     public Camera camera;
     public robotValues val;
@@ -58,11 +125,8 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-		oi = new OI();
         // instantiate the command used for the autonomous period
         
-		camera = new Camera();
-		val = new robotValues();
 		
         
     }
@@ -73,7 +137,7 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        //if (autonomousCommand != null) autonomousCommand.start();
     }
 
     /**
@@ -88,7 +152,7 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        //if (autonomousCommand != null) autonomousCommand.cancel();
         DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
         controledDrive.start();
     }
