@@ -1,10 +1,10 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CloseGrabberCommand;
+import org.usfirst.frc.team5190.robot.commands.CloseForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerArmCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
-import org.usfirst.frc.team5190.robot.commands.OpenGrabberCommand;
+import org.usfirst.frc.team5190.robot.commands.OpenForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.RaiseArmCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
@@ -26,8 +26,8 @@ public class OI {
 	// Button numbers on joystick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
-	public static final int OPENGRABBER_BUTTON = 3;
-	public static final int CLOSEGRABBER_BUTTON = 4;
+	public static final int OPENFORKLIFT_BUTTON = 3;
+	public static final int CLOSEFORKLIFT_BUTTON = 4;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
 
@@ -44,17 +44,17 @@ public class OI {
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
 	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
 	private Button openGrabberButton = new JoystickButton(shootStick,
-			OPENGRABBER_BUTTON);
+			OPENFORKLIFT_BUTTON);
 	private Button closeGrabberButton = new JoystickButton(shootStick,
-			CLOSEGRABBER_BUTTON);
+			CLOSEFORKLIFT_BUTTON);
 
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
 		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
 		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-		openGrabberButton.whileHeld(new OpenGrabberCommand());
-		closeGrabberButton.whileHeld(new CloseGrabberCommand());
+		openGrabberButton.whileHeld(new OpenForkliftCommand());
+		closeGrabberButton.whileHeld(new CloseForkliftCommand());
 		// buttons to link up to commands (Drivestick)
 		changeSpeed.whenPressed(new LowerSpeedCommand()); // half speed while
 															// pressed

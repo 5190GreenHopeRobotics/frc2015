@@ -1,12 +1,13 @@
 package org.usfirst.frc.team5190.robot.subsystems;
+
 import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 /**
  *
  */
@@ -16,15 +17,26 @@ public class DriveTrainSubsystem extends Subsystem {
 	// here. Call these from Commands.
 
 	RobotDrive mDrive;
-	//Gyro gyro;
-	
+
+	// Gyro gyro;
+
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
-		mDrive = new RobotDrive(RobotMap.FRONTLEFT,
-				RobotMap.BACKLEFT, RobotMap.FRONTRIGHT, RobotMap.BACKRIGHT);
-		//gyro = new Gyro(RobotMap.GYRO_PORT);
+		mDrive = new RobotDrive(RobotMap.FRONTLEFT, RobotMap.BACKLEFT,
+				RobotMap.FRONTRIGHT, RobotMap.BACKRIGHT);
+		// gyro = new Gyro(RobotMap.GYRO_PORT);
+	}
+
+	/**
+	 * set the output of the motor
+	 * 
+	 * @param power
+	 *            the power, from 0 to 1
+	 */
+	public void setPower(double power) {
+		mDrive.setMaxOutput(power);
 	}
 
 	public void initDefaultCommand() {
@@ -37,7 +49,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void driveForward() {
-		//-gyro.getAngle()
+		// -gyro.getAngle()
 		mDrive.drive(1, 0);
 	}
 
@@ -51,24 +63,27 @@ public class DriveTrainSubsystem extends Subsystem {
 	public void drive(double speed) {
 		mDrive.drive(speed, 0);
 	}
-	
+
 	/**
 	 * drive the robot at speed for time second
-	 * @param speed the speed(-1 -1), which the robot will go at
-	 * @param time the number of second it will run
+	 * 
+	 * @param speed
+	 *            the speed(-1 -1), which the robot will go at
+	 * @param time
+	 *            the number of second it will run
 	 */
-	
+
 	public void drive(double speed, long time) {
 		mDrive.tankDrive(speed, speed);
 		try {
 			TimeUnit.SECONDS.sleep(time);
 		} catch (InterruptedException e) {
-			
+
 		} finally {
 			this.stopAll();
 		}
 	}
-	
+
 	/**
 	 * stop the robot
 	 */
@@ -83,7 +98,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void turnRight() {
 		mDrive.tankDrive(0, 0.1);
-		//gyro.reset();
+		// gyro.reset();
 	}
 
 	/**
@@ -92,7 +107,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void turnLeft() {
 		mDrive.tankDrive(0.1, 0);
-		//gyro.reset();
+		// gyro.reset();
 	}
 
 	/**
@@ -104,7 +119,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void turn(double amount) {
 		mDrive.arcadeDrive(0, amount, false);
-	//	gyro.reset();
+		// gyro.reset();
 	}
 
 	/**
@@ -115,13 +130,12 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void arcadeJoystickDrive(Joystick stick) {
-		
+		System.out.println("working");
 		mDrive.arcadeDrive(stick);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-		mDrive.setMaxOutput(0.2);
 	}
 
 	/**
@@ -134,7 +148,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void tankJoystickDrive(Joystick s1, Joystick s2) {
-		
+
 		mDrive.tankDrive(s1, s2);
 	}
 }
