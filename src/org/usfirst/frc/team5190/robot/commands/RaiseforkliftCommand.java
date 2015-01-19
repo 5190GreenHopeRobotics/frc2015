@@ -17,7 +17,7 @@ public class RaiseforkliftCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.forkLiftSubsystem.raiseGrabber();
+		// Robot.forkLiftSubsystem.raiseGrabber();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -31,12 +31,12 @@ public class RaiseforkliftCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.forkLiftSubsystem.stopraiseGrabber();
+		// Robot.forkLiftSubsystem.stopraiseGrabber();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.forkLiftSubsystem.stopraiseGrabber();
+		// Robot.forkLiftSubsystem.stopraiseGrabber();
 	}
 }
