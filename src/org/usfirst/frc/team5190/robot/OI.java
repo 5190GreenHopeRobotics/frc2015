@@ -2,10 +2,12 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.CloseForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
+import org.usfirst.frc.team5190.robot.commands.ExtendArmCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerArmCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
 import org.usfirst.frc.team5190.robot.commands.OpenForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.RaiseArmCommand;
+import org.usfirst.frc.team5190.robot.commands.RetractArmCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -27,7 +29,9 @@ public class OI {
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
 	public static final int OPENFORKLIFT_BUTTON = 3;
-	public static final int CLOSEFORKLIFT_BUTTON = 4;
+	public static final int CLOSEFORKLIFT_BUTTON = 5;
+	public static final int EXTENDARM_BUTTON = 4;
+	public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
 
@@ -43,18 +47,24 @@ public class OI {
 	// Shoot stick button links to commands
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
 	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
-	private Button openGrabberButton = new JoystickButton(shootStick,
+	private Button openForkliftButton = new JoystickButton(shootStick,
 			OPENFORKLIFT_BUTTON);
-	private Button closeGrabberButton = new JoystickButton(shootStick,
+	private Button closeForkliftButton = new JoystickButton(shootStick,
 			CLOSEFORKLIFT_BUTTON);
+	private Button extendArmButton = new JoystickButton(shootStick,
+			EXTENDARM_BUTTON);
+	private Button retractArmButton = new JoystickButton(shootStick,
+			RETRACTARM_BUTTON);
 
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
 		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
 		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-		openGrabberButton.whileHeld(new OpenForkliftCommand());
-		closeGrabberButton.whileHeld(new CloseForkliftCommand());
+		openForkliftButton.whileHeld(new OpenForkliftCommand());
+		closeForkliftButton.whileHeld(new CloseForkliftCommand());
+		extendArmButton.whileHeld(new ExtendArmCommand());
+		retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
 		changeSpeed.whenPressed(new LowerSpeedCommand()); // half speed while
 															// pressed
