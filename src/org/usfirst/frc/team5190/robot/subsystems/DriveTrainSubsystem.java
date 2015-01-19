@@ -117,7 +117,11 @@ public class DriveTrainSubsystem extends Subsystem {
 	public void arcadeJoystickDrive(Joystick stick) {
 		
 		mDrive.arcadeDrive(stick);
-		mDrive.setMaxOutput(0.1);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+		mDrive.setMaxOutput(0.2);
 	}
 
 	/**
