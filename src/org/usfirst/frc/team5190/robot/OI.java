@@ -43,27 +43,24 @@ public class OI {
 	// Shoot stick button links to commands
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
 	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
-	private Button openGrabberButton = new JoystickButton(shootStick,
-			OPENGRABBER_BUTTON);
-	private Button closeGrabberButton = new JoystickButton(shootStick,
-			CLOSEGRABBER_BUTTON);
+	private Button openGrabberButton = new JoystickButton(shootStick,OPENGRABBER_BUTTON);
+	private Button closeGrabberButton = new JoystickButton(shootStick,CLOSEGRABBER_BUTTON);
 
+	//throttle
+	private double robotSpeed = 0.0;
 	// Operator interface constructor
 	public OI() {
+		robotSpeed = driveStick.getThrottle();
 		// buttons to link up to commands. (Shootstick)
 		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
 		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
 		openGrabberButton.whileHeld(new OpenGrabberCommand());
 		closeGrabberButton.whileHeld(new CloseGrabberCommand());
 		// buttons to link up to commands (Drivestick)
-		changeSpeed.whenPressed(new LowerSpeedCommand()); // half speed while
-															// pressed
-		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
-																// after release
-		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
-																// release
+		changeSpeed.whileHeld(new LowerSpeedCommand()); // half speed while pressed
+		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot after release
+		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after release
 	}
-
 	/**
 	 * @return returns driveStick instance
 	 */
