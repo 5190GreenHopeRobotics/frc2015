@@ -9,9 +9,10 @@ public class LowerSpeedCommand extends Command {
 	private final double FULL_STOP = 0.0;
 	private final double HALF_SPEED = .5;
 	private final double FULL_SPEED = 1.0;
-	OI oi = new OI();
+	OI oi = Robot.oi;
+
 	/**
-	 * @return Sets robot speed to half while button 
+	 * @return Sets robot speed to half while button
 	 */
 	public LowerSpeedCommand() {
 		requires(Robot.driveTrainSubsystem);
@@ -19,7 +20,7 @@ public class LowerSpeedCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.drive(FULL_SPEED);
+		Robot.driveTrainSubsystem.setPower(FULL_SPEED);
 	}
 
 	@Override
@@ -28,12 +29,12 @@ public class LowerSpeedCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.driveTrainSubsystem.drive(HALF_SPEED);
+		Robot.driveTrainSubsystem.setPower(HALF_SPEED);
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.driveTrainSubsystem.drive(FULL_STOP);
+		Robot.driveTrainSubsystem.setPower(FULL_STOP);
 	}
 
 	@Override
