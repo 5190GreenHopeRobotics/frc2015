@@ -38,5 +38,6 @@ public class RaiseforkliftCommand extends Command {
 	// subsystems is scheduled to run
 	protected void interrupted() {
 		// Robot.forkLiftSubsystem.stopraiseGrabber();
+		Robot.forkLiftSubsystem.raiseGrabber();
 	}
 }
