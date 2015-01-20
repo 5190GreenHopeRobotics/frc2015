@@ -85,7 +85,7 @@ public class OI {
 		originalValue -= 1;
 		return -1 * (originalValue / 2);
 	}
-
+	//
 	// // CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	// joystick.
