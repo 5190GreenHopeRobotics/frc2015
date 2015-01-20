@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import java.util.concurrent.TimeUnit;
 
+import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -130,6 +131,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void arcadeJoystickDrive(Joystick stick) {
+		setPower(Robot.oi.getSpeed());
 		System.out.println("working");
 		mDrive.arcadeDrive(stick);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);

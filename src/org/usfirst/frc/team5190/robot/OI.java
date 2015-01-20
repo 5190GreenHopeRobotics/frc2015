@@ -1,11 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CloseForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-import org.usfirst.frc.team5190.robot.commands.LowerArmCommand;
-import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
-import org.usfirst.frc.team5190.robot.commands.OpenForkliftCommand;
-import org.usfirst.frc.team5190.robot.commands.RaiseArmCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -57,15 +52,14 @@ public class OI {
 
 	// Operator interface constructor
 	public OI() {
-		robotSpeed = driveStick.getThrottle();
 		// buttons to link up to commands. (Shootstick)
-		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
-		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-		openGrabberButton.whileHeld(new OpenForkliftCommand());
-		closeGrabberButton.whileHeld(new CloseForkliftCommand());
+		// raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
+		// lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
+		// openGrabberButton.whileHeld(new OpenForkliftCommand());
+		// closeGrabberButton.whileHeld(new CloseForkliftCommand());
 		// buttons to link up to commands (Drivestick)
-		changeSpeed.whileHeld(new LowerSpeedCommand()); // half speed while
-														// pressed
+		// changeSpeed.whileHeld(new LowerSpeedCommand()); // half speed while
+		// pressed
 		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
 																// after release
 		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
@@ -87,7 +81,9 @@ public class OI {
 	}
 
 	public double getSpeed() {
-		return robotSpeed;
+		double originalValue = driveStick.getThrottle();
+		originalValue -= 1;
+		return -1 * (originalValue / 2);
 	}
 
 	// // CREATING BUTTONS
