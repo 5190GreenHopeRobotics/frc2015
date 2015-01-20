@@ -1,9 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CloseGrabberCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
-import org.usfirst.frc.team5190.robot.commands.OpenGrabberCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,7 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 
 public class OI {
-//alex was here
+	// alex was here
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
@@ -43,12 +41,17 @@ public class OI {
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
-		raiseArmButton.whenPressed(new OpenGrabberCommand()); //raise/open arm
-		lowerArmButton.whenPressed(new CloseGrabberCommand()); //lower/close arm
+		// raiseArmButton.whenPressed(new OpenGrabberCommand()); //raise/open
+		// arm
+		// lowerArmButton.whenPressed(new CloseGrabberCommand()); //lower/close
+		// arm
 		// buttons to link up to commands (Drivestick)
-		changeSpeed.whenPressed(new LowerSpeedCommand());  //half speed while pressed
-		killSwitch.whenReleased(new TerminateRobotCommand()); //kill robot after release
-		enableSwitch.whenReleased(new EnableRobotCommand()); //undo kill after release
+		changeSpeed.whenPressed(new LowerSpeedCommand()); // half speed while
+															// pressed
+		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
+																// after release
+		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
+																// release
 	}
 
 	/**
