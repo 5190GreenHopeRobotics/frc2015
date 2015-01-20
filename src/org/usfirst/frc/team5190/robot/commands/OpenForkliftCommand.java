@@ -28,7 +28,7 @@ public class OpenForkliftCommand extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		// Line below is for if we use an ultrasonic sensor
-		// return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
+		//return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
 		return true;
 	}
 
