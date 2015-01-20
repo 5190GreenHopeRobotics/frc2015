@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.RobotGrabberSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.RobotPawSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	
 	public static ArmSubsystem armSubsystem = null; //new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	public static RobotGrabberSubsystem robotGrabberSubsystem = null; //new RobotGrabberSubsystem();
+	public static RobotPawSubsystem robotPawSubsystem = null; //new RobotPawSubsystem();
 	
 	protected class Camera {
 		

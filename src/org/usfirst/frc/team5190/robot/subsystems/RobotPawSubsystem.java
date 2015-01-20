@@ -1,10 +1,5 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-
-import org.usfirst.frc.team5190.robot.RobotMap;
-
-
-
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,9 +8,9 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 /**
  *
  */
-public class RobotGrabberSubsystem extends Subsystem {
-	private TalonSRX grabberTalon = new TalonSRX(RobotMap.GRABBER_TALONSRX_PORT);
-	public Ultrasonic grabberUltrasonic = new Ultrasonic(1,1);
+public class RobotPawSubsystem extends Subsystem {
+	private TalonSRX pawTalon = new TalonSRX(RobotMap.PAW_TALONSRX_PORT);
+	public Ultrasonic pawUltrasonic = new Ultrasonic(1,1);
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -24,22 +19,22 @@ public class RobotGrabberSubsystem extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 	
-	public RobotGrabberSubsystem() {
-		grabberUltrasonic.setEnabled(true);
-		grabberUltrasonic.setAutomaticMode(true);
+	public RobotPawSubsystem() {
+		pawUltrasonic.setEnabled(true);
+		pawUltrasonic.setAutomaticMode(true);
 	}
 
 	// Opens the grabber. Sets the speed 
 	public void openGrabber() {
-			grabberTalon.set(1);
+			pawTalon.set(1);
 	}
 	// Close the grabber
 	public void closeGrabber() {
-			grabberTalon.set(-1);
+			pawTalon.set(-1);
 	}
 	
 	// Stop the grabber
 	public void stopGrabber() {
-			grabberTalon.set(0);
+			pawTalon.set(0);
 	}
 }
