@@ -83,7 +83,7 @@ public class OI {
 	public Joystick getShootStick() {
 		return shootStick;
 	}
-
+	//
 	// // CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	// joystick.
