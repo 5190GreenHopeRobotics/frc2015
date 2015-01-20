@@ -1,11 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CloseGrabberCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-import org.usfirst.frc.team5190.robot.commands.LowerArmCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
-import org.usfirst.frc.team5190.robot.commands.OpenGrabberCommand;
-import org.usfirst.frc.team5190.robot.commands.RaiseArmCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -51,10 +47,7 @@ public class OI {
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
-		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
-		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-		openGrabberButton.whileHeld(new OpenGrabberCommand());
-		closeGrabberButton.whileHeld(new CloseGrabberCommand());
+
 		// buttons to link up to commands (Drivestick)
 		changeSpeed.whenPressed(new LowerSpeedCommand()); // half speed while
 															// pressed
