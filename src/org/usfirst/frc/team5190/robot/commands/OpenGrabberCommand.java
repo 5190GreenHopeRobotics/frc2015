@@ -13,7 +13,6 @@ public class OpenGrabberCommand extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.robotGrabberSubsystem);
-    	setTimeout(1);
     }
 
     // Called just before this Command runs the first time
@@ -27,7 +26,7 @@ public class OpenGrabberCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.robotGrabberSubsystem.grabberUltrasonic.getRangeInches() > 40;
+        return Robot.robotGrabberSubsystem.grabberUltrasonic.getRangeInches() < 35;
     }
 
     // Called once after isFinished returns true
