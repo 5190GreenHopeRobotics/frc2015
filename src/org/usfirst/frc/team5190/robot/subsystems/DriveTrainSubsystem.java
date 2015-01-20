@@ -131,7 +131,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void arcadeJoystickDrive(Joystick stick) {
-		//setPower(Robot.oi.getSpeed());
+		setPower(Robot.oi.getSpeed());
 		System.out.println("working");
 		mDrive.arcadeDrive(stick);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
