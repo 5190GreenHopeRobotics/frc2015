@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ForkliftSubsystem extends Subsystem {
 	private TalonSRX forkLiftTalon = new TalonSRX(
 			RobotMap.FORKLIFT_TALONSRX_PORT);
+	private TalonSRX forkLiftRaiseTalon = new TalonSRX(
+			RobotMap.FORKLIFTRAISE_TALONSRX_PORT);
 	public Ultrasonic forkLiftUltrasonic = new Ultrasonic(1, 1);
 
 	// Put methods for controlling this subsystem
@@ -39,5 +41,17 @@ public class ForkliftSubsystem extends Subsystem {
 	// Stop the grabber
 	public void stopGrabber() {
 		forkLiftTalon.set(0);
+	}
+
+	public void raiseGrabber() {
+		forkLiftRaiseTalon.set(1);
+	}
+
+	public void lowerGrabber() {
+		forkLiftRaiseTalon.set(-1);
+	}
+
+	public void stopraiseGrabber() {
+		forkLiftRaiseTalon.set(0);
 	}
 }
