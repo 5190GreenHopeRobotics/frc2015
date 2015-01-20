@@ -3,7 +3,7 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.RobotPawSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
@@ -44,8 +44,8 @@ public class Robot extends IterativeRobot {
 
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	public static RobotPawSubsystem robotPawSubsystem = null; // new
-																// RobotPawSubsystem();
+
+	public static ForkliftSubsystem forkLiftSubsystem = null; // new
 
 	protected class Camera {
 

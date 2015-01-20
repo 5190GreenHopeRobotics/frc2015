@@ -1,7 +1,11 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.CloseForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
+import org.usfirst.frc.team5190.robot.commands.LowerArmCommand;
 import org.usfirst.frc.team5190.robot.commands.LowerSpeedCommand;
+import org.usfirst.frc.team5190.robot.commands.OpenForkliftCommand;
+import org.usfirst.frc.team5190.robot.commands.RaiseArmCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,8 +26,8 @@ public class OI {
 	// Button numbers on joystick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
-	public static final int OPENGRABBER_BUTTON = 3;
-	public static final int CLOSEGRABBER_BUTTON = 4;
+	public static final int OPENFORKLIFT_BUTTON = 3;
+	public static final int CLOSEFORKLIFT_BUTTON = 4;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
 
@@ -39,18 +43,29 @@ public class OI {
 	// Shoot stick button links to commands
 	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
 	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
+	// private Button openGrabberButton = new
+	// JoystickButton(shootStick,OPENGRABBER_BUTTON);
+	// private Button closeGrabberButton = new
+	// JoystickButton(shootStick,CLOSEGRABBER_BUTTON);
 	private Button openGrabberButton = new JoystickButton(shootStick,
-			OPENGRABBER_BUTTON);
+			OPENFORKLIFT_BUTTON);
 	private Button closeGrabberButton = new JoystickButton(shootStick,
-			CLOSEGRABBER_BUTTON);
+			CLOSEFORKLIFT_BUTTON);
+
+	// throttle
+	private double robotSpeed = 0.0;
 
 	// Operator interface constructor
 	public OI() {
+		robotSpeed = driveStick.getThrottle();
 		// buttons to link up to commands. (Shootstick)
-
+		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
+		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
+		openGrabberButton.whileHeld(new OpenForkliftCommand());
+		closeGrabberButton.whileHeld(new CloseForkliftCommand());
 		// buttons to link up to commands (Drivestick)
-		changeSpeed.whenPressed(new LowerSpeedCommand()); // half speed while
-															// pressed
+		changeSpeed.whileHeld(new LowerSpeedCommand()); // half speed while
+														// pressed
 		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
 																// after release
 		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
@@ -69,6 +84,10 @@ public class OI {
 	 */
 	public Joystick getShootStick() {
 		return shootStick;
+	}
+
+	public double getSpeed() {
+		return robotSpeed;
 	}
 
 	// // CREATING BUTTONS
