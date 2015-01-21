@@ -10,4 +10,5 @@ public class RobotMap {
 	public static final int FRONTRIGHT = 2;
 	public static final int BACKRIGHT = 3;
 	public static final int GYRO_PORT = 0;
+	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 1;
 }
