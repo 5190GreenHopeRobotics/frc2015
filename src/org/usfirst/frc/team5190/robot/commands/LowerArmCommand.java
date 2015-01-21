@@ -11,8 +11,7 @@ public class LowerArmCommand extends Command {
 
 	public LowerArmCommand() {
 		requires(Robot.armSubsystem);
-		setTimeout(1.0);
-
+		// setTimeout(1.0);
 	}
 
 	/**
@@ -20,6 +19,9 @@ public class LowerArmCommand extends Command {
 	 * degrees is > 0.
 	 */
 	protected void initialize() {
+		if (Robot.armSubsystem.armLengthEncoder.getDirection() == false) {
+			Robot.armSubsystem.armLengthEncoder.reset();
+		}
 		Robot.armSubsystem.currentdegrees = Robot.armSubsystem.currentdegrees
 				- (Robot.armSubsystem.armLengthEncoder.getDistance()
 						/ Robot.armSubsystem.shaftcircumference * 360);
@@ -47,7 +49,7 @@ public class LowerArmCommand extends Command {
 	 */
 	protected void end() {
 		Robot.armSubsystem.stopArmAngleChange();
-		Robot.armSubsystem.armLengthEncoder.reset();
+		// Robot.armSubsystem.armLengthEncoder.reset();
 	}
 
 	/**
@@ -55,6 +57,6 @@ public class LowerArmCommand extends Command {
 	 */
 	protected void interrupted() {
 		Robot.armSubsystem.stopArmAngleChange();
-		Robot.armSubsystem.armLengthEncoder.reset();
+		// Robot.armSubsystem.armLengthEncoder.reset();
 	}
 }

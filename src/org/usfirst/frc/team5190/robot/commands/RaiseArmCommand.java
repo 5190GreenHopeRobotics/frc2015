@@ -11,15 +11,17 @@ public class RaiseArmCommand extends Command {
 
 	public RaiseArmCommand() {
 		requires(Robot.armSubsystem);
-		setTimeout(1.0);
-
+		// setTimeout(1.0);
 	}
 
 	/**
 	 * This starts raising the arm. The arm only raises if the current degrees
-	 * is less than 80.
+	 * is less than 80. The encoder will reset if the direction has just changed
 	 */
 	protected void initialize() {
+		if (Robot.armSubsystem.armLengthEncoder.getDirection() == true) {
+			Robot.armSubsystem.armLengthEncoder.reset();
+		}
 		Robot.armSubsystem.currentdegrees = (Robot.armSubsystem.armLengthEncoder
 				.getDistance() / Robot.armSubsystem.shaftcircumference * 360);
 		if (Robot.armSubsystem.currentdegrees < 80) {
