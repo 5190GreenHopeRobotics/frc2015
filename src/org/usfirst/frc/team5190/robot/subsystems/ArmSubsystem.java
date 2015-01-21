@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,6 +20,8 @@ public class ArmSubsystem extends Subsystem {
 	public Encoder armLengthEncoder = new Encoder(0, 1, false,
 			Encoder.EncodingType.k4X);
 	public double currentdegrees = 0;
+	public DigitalInput armLimitSwitch = new DigitalInput(
+			RobotMap.ARM_LIMIT_SWITCH_PORT);
 	public final double shaftcircumference = 0; // Give this a real value when
 												// we find the circumference of
 												// the shaft
