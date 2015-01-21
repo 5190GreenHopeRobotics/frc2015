@@ -56,3 +56,4 @@ public class RaiseArmCommand extends Command {
 
 	}
 }
+// Pressed down limit switch will return false
