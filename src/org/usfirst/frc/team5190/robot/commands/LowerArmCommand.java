@@ -9,46 +9,54 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LowerArmCommand extends Command {
 
-    public LowerArmCommand() {
-    	requires(Robot.armSubsystem);
-    	setTimeout(1.0);
-    	
-    }
+	public LowerArmCommand() {
+		requires(Robot.armSubsystem);
+		// setTimeout(1.0);
+	}
 
-    /**
-     * This starts the lowering of the arm.
-     */
-    protected void initialize() {
-    	Robot.armSubsystem.lowerArm();
-    	
-    }
+	/**
+	 * This starts the lowering of the arm. The arm only lowers if the current
+	 * degrees is > 0.
+	 */
+	protected void initialize() {
+		if (Robot.armSubsystem.armLengthEncoder.getDirection() == false) {
+			Robot.armSubsystem.armLengthEncoder.reset();
+		}
+		Robot.armSubsystem.currentdegrees = Robot.armSubsystem.currentdegrees
+				- (Robot.armSubsystem.armLengthEncoder.getDistance()
+						/ Robot.armSubsystem.shaftcircumference * 360);
+		if (Robot.armSubsystem.currentdegrees > 0) {
+			Robot.armSubsystem.lowerArm();
+		}
+	}
 
-    /**
-     *  Called repeatedly when this Command is scheduled to run
-     */
-    protected void execute() {
-    }
+	/**
+	 * Called repeatedly when this Command is scheduled to run
+	 */
+	protected void execute() {
+	}
 
-    /**
-     * This returns when the time is finished.
-     */
-    protected boolean isFinished() {
-        return isTimedOut();
-    }
+	/**
+	 * This returns when the time is finished.
+	 */
+	protected boolean isFinished() {
+		return true;
+	}
 
-    /**
-     * This stops the arm from lowering when this command ends.
-     */
-    protected void end() {
-    	Robot.armSubsystem.stopArmAngleChange();
-    	
-    }
+	/**
+	 * This stops the arm from lowering when this command ends. WILL add encoder
+	 * reset later
+	 */
+	protected void end() {
+		Robot.armSubsystem.stopArmAngleChange();
+		// Robot.armSubsystem.armLengthEncoder.reset();
+	}
 
-    /**
-     * This stops the arm from lowering when the code is interrupted.
-     */
-    protected void interrupted() {
-    	Robot.armSubsystem.stopArmAngleChange();
-    	
-    }
+	/**
+	 * This stops the arm from lowering when the code is interrupted.
+	 */
+	protected void interrupted() {
+		Robot.armSubsystem.stopArmAngleChange();
+		// Robot.armSubsystem.armLengthEncoder.reset();
+	}
 }
