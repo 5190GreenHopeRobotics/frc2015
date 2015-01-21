@@ -59,10 +59,14 @@ public class OI {
 		// buttons to link up to commands. (Shootstick)
 		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
 		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-		openForkliftButton.whileHeld(new OpenForkliftCommand());
-		closeForkliftButton.whileHeld(new CloseForkliftCommand());
-		extendArmButton.whileHeld(new ExtendArmCommand());
-		retractArmButton.whileHeld(new RetractArmCommand());
+
+		openForkliftButton.whileHeld(new OpenForkliftCommand()); // open
+																	// Forklift/grabber
+		closeForkliftButton.whileHeld(new CloseForkliftCommand()); // close
+																	// Forklift/grabber
+
+		extendArmButton.whileHeld(new ExtendArmCommand()); // extends the arm
+		retractArmButton.whileHeld(new RetractArmCommand()); // retracts the arm
 		// buttons to link up to commands (Drivestick)
 		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
 																// after release

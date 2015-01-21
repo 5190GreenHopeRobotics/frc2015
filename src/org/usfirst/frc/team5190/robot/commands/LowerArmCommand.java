@@ -42,16 +42,17 @@ public class LowerArmCommand extends Command {
 	}
 
 	/**
-	 * This stops the arm from lowering when this command ends. WILL add encoder
-	 * reset later
+	 * This stops the arm from lowering when this command ends, and also stops
+	 * and resets the encoder.
 	 */
 	protected void end() {
 		Robot.armSubsystem.stopArmAngleChange();
-		Robot.armSubsystem.armLengthEncoder.reset();
+		// Robot.armSubsystem.armLengthEncoder.reset();
 	}
 
 	/**
-	 * This stops the arm from lowering when the code is interrupted.
+	 * This stops the arm from lowering when the code is interrupted. This will
+	 * also cause the encoder to reset and stop.
 	 */
 	protected void interrupted() {
 		Robot.armSubsystem.stopArmAngleChange();

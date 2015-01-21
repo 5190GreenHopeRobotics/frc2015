@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * The Forklift/grabber uses talonsrx to operate
  */
 public class ForkliftSubsystem extends Subsystem {
 	private TalonSRX forkLiftTalon = new TalonSRX(

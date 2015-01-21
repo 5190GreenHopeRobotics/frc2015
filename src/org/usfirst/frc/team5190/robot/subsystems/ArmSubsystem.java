@@ -21,7 +21,7 @@ public class ArmSubsystem extends Subsystem {
 	public double currentdegrees = 0;
 	public final double shaftcircumference = 0; // Give this a real value when
 												// we find the circumference of
-												// the wheel
+												// the shaft
 
 	public void initDefaultCommand() {
 
