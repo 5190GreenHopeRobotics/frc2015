@@ -33,6 +33,15 @@ public class ArmSubsystem extends Subsystem {
 	/**
 	 * Turns the arm on, and extends it with a positive speed.
 	 */
+
+	public ArmSubsystem() {
+		armLengthEncoder.setMaxPeriod(.1);
+		armLengthEncoder.setMinRate(10);
+		armLengthEncoder.setDistancePerPulse(5);
+		armLengthEncoder.setReverseDirection(true);
+		armLengthEncoder.setSamplesToAverage(7);
+	}
+
 	public void extendArm() {
 		armLengthTalon.set(motorSpeed);
 	}
