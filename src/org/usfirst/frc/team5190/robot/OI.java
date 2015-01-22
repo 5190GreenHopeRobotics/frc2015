@@ -1,12 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CloseForkliftCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-import org.usfirst.frc.team5190.robot.commands.ExtendArmCommand;
-import org.usfirst.frc.team5190.robot.commands.LowerArmCommand;
-import org.usfirst.frc.team5190.robot.commands.OpenForkliftCommand;
-import org.usfirst.frc.team5190.robot.commands.RaiseArmCommand;
-import org.usfirst.frc.team5190.robot.commands.RetractArmCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -43,30 +37,38 @@ public class OI {
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 
 	// Shoot stick button links to commands
-	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
-	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
-	private Button openForkliftButton = new JoystickButton(shootStick,
-			OPENFORKLIFT_BUTTON);
-	private Button closeForkliftButton = new JoystickButton(shootStick,
-			CLOSEFORKLIFT_BUTTON);
-	private Button extendArmButton = new JoystickButton(shootStick,
-			EXTENDARM_BUTTON);
-	private Button retractArmButton = new JoystickButton(shootStick,
-			RETRACTARM_BUTTON);
+	// private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
+	// private Button lowerArmButton = new JoystickButton(shootStick,
+	// THUMB_BUTTON);
+	// private Button openForkliftButton = new JoystickButton(shootStick,
+	// OPENFORKLIFT_BUTTON);
+	// private Button closeForkliftButton = new JoystickButton(shootStick,
+	// CLOSEFORKLIFT_BUTTON);
+	// private Button extendArmButton = new JoystickButton(shootStick,
+	// EXTENDARM_BUTTON);
+	// private Button retractArmButton = new JoystickButton(shootStick,
+	// RETRACTARM_BUTTON);
 
 	// Operator interface constructor
 	public OI() {
 		// buttons to link up to commands. (Shootstick)
-		raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
-		lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
+		// raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
+		// lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
 
-		openForkliftButton.whileHeld(new OpenForkliftCommand()); // open
-																	// Forklift/grabber
-		closeForkliftButton.whileHeld(new CloseForkliftCommand()); // close
-																	// Forklift/grabber
+		// openForkliftButton.whileHeld(new OpenForkliftCommand()); // open
+		// Forklift/grabber
+		// closeForkliftButton.whileHeld(new CloseForkliftCommand()); // close
+		// Forklift/grabber
 
-		extendArmButton.whileHeld(new ExtendArmCommand()); // extends the arm
-		retractArmButton.whileHeld(new RetractArmCommand()); // retracts the arm
+		// extendArmButton.whileHeld(new ExtendArmCommand()); // extends the arm
+		// retractArmButton.whileHeld(new RetractArmCommand()); // retracts the
+		// arm
+		// raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
+		// lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
+		// openForkliftButton.whileHeld(new OpenForkliftCommand());
+		// closeForkliftButton.whileHeld(new CloseForkliftCommand());
+		// extendArmButton.whileHeld(new ExtendArmCommand());
+		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
 		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
 																// after release

@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,8 +17,9 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-
+	DigitalInput mLimitSwitch;
 	RobotDrive mDrive;
+	boolean disable = false;
 
 	// Gyro gyro;
 
@@ -27,6 +29,12 @@ public class DriveTrainSubsystem extends Subsystem {
 	public DriveTrainSubsystem() {
 		mDrive = new RobotDrive(RobotMap.FRONTLEFT, RobotMap.BACKLEFT,
 				RobotMap.FRONTRIGHT, RobotMap.BACKRIGHT);
+		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
+		mDrive.setSafetyEnabled(true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
@@ -40,6 +48,10 @@ public class DriveTrainSubsystem extends Subsystem {
 		mDrive.setMaxOutput(power);
 	}
 
+	public void setDisable(boolean flag) {
+		disable = flag;
+	}
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -51,7 +63,9 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void driveForward() {
 		// -gyro.getAngle()
-		mDrive.drive(1, 0);
+		if (!disable) {
+			mDrive.drive(1, 0);
+		}
 	}
 
 	/**
@@ -62,7 +76,10 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void drive(double speed) {
-		mDrive.drive(speed, 0);
+		if (!disable) {
+			mDrive.arcadeDrive(speed, 0);
+
+		}
 	}
 
 	/**
@@ -73,7 +90,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	 * @param time
 	 *            the number of second it will run
 	 */
-
+	@Deprecated
 	public void drive(double speed, long time) {
 		mDrive.tankDrive(speed, speed);
 		try {
@@ -98,7 +115,9 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void turnRight() {
-		mDrive.tankDrive(0, 0.1);
+		if (!disable) {
+			mDrive.tankDrive(0, 0.1);
+		}
 		// gyro.reset();
 	}
 
@@ -107,7 +126,9 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void turnLeft() {
-		mDrive.tankDrive(0.1, 0);
+		if (!disable) {
+			mDrive.tankDrive(0.1, 0);
+		}
 		// gyro.reset();
 	}
 
@@ -119,7 +140,9 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void turn(double amount) {
-		mDrive.arcadeDrive(0, amount, false);
+		if (!disable) {
+			mDrive.arcadeDrive(0, amount, false);
+		}
 		// gyro.reset();
 	}
 
@@ -131,13 +154,14 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void arcadeJoystickDrive(Joystick stick) {
-		setPower(Robot.oi.getSpeed());
-		System.out.println("working");
-		mDrive.arcadeDrive(stick);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+		if (!disable) {
+			if (!mLimitSwitch.get()) {
+				drive(1);
+				return;
+			}
+			setPower(Robot.oi.getSpeed());
+			mDrive.arcadeDrive(stick);
+		}
 	}
 
 	/**
@@ -150,7 +174,8 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void tankJoystickDrive(Joystick s1, Joystick s2) {
-
-		mDrive.tankDrive(s1, s2);
+		if (!disable) {
+			mDrive.tankDrive(s1, s2);
+		}
 	}
 }
