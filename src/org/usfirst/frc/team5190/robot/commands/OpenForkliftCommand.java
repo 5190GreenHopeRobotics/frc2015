@@ -7,35 +7,39 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveWithArcadeCommand extends Command {
+public class OpenForkliftCommand extends Command {
 
-	public DriveWithArcadeCommand() {
+	public OpenForkliftCommand() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrainSubsystem);
-		Robot.driveTrainSubsystem.setPower(0.2);
+		// eg. requires(chassis);
+		requires(Robot.forkLiftSubsystem);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.forkLiftSubsystem.openGrabber();
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+	// Called repeatedly when this Command is scheduled to run(every 0.2
+	// seconds)
 	protected void execute() {
-		Robot.driveTrainSubsystem.arcadeJoystickDrive(Robot.oi.getDriveStick());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		// Line below is for if we use an ultrasonic sensor
+		//return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.forkLiftSubsystem.stopGrabber();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		end();
+		Robot.forkLiftSubsystem.stopGrabber();
 	}
 }

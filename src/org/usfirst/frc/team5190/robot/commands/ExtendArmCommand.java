@@ -23,23 +23,30 @@ public class ExtendArmCommand extends Command {
     	Robot.armSubsystem.extendArm();
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    /**
+     * Called repeatedly when this Command is scheduled to run
+     */
     protected void execute() {
     }
     
-    // Returns it when the amount of time is finished.
+    /**
+     * Returns it when the amount of time is finished.
+     */
     protected boolean isFinished() {
     	return isTimedOut();
     }
 
-    // Stops the Arm when the Time is out
+    /**
+     * Stops the Arm when the Time is out
+     */
     protected void end() {
-    	Robot.armSubsystem.stopArm();
+    	Robot.armSubsystem.stopArmLengthChange();
     }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    /**
+     * Stops the Arm when the code is interrupted.
+     */
     protected void interrupted() {
-    	Robot.armSubsystem.stopArm();
+    	Robot.armSubsystem.stopArmLengthChange();
+    	
     }
 }

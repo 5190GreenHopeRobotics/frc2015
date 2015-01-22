@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import org.usfirst.frc.team5190.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -8,29 +10,47 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RetractArmCommand extends Command {
 
     public RetractArmCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.armSubsystem);
+        setTimeout(1.0);
+        
     }
 
-    // Called just before this Command runs the first time
+    /**
+     * This starts the command, and begins to retract the Arm.
+     */
     protected void initialize() {
+    	Robot.armSubsystem.retractArm();
+    	
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    /**
+     * Called repeatedly when this Command is scheduled to run
+     */
     protected void execute() {
+    	
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    /**
+     * This is the returned value after the time is finished.
+     */
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
+        
     }
 
-    // Called once after isFinished returns true
+    /**
+     * This stops the arm when the time is "out"/ended, and it will start to rerun.
+     */
     protected void end() {
+    	Robot.armSubsystem.stopArmLengthChange();
+    	
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    /**
+     * This stops the arm from retracting when the code is interrupted.
+     */
     protected void interrupted() {
+    	Robot.armSubsystem.stopArmLengthChange();
+    	
     }
 }
