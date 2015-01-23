@@ -41,10 +41,8 @@ public class Robot extends IterativeRobot {
 	// NO REMOVE
 	// NO REMOVE
 	// NO REMOVE
-
-	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
+	public static ArmSubsystem armSubsystem = null;
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
 
 	protected class Camera {
@@ -157,7 +155,6 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-
 		Scheduler.getInstance().run();
 	}
 

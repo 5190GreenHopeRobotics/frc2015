@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
+import org.usfirst.frc.team5190.robot.commands.LightsOn;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-
 public class OI {
-	// alex was here
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
@@ -60,8 +58,8 @@ public class OI {
 		// buttons to link up to commands (Drivestick)
 		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
 																// after release
-		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
-																// release
+		enableSwitch.whenReleased(new LightsOn()); // undo kill after
+													// release
 	}
 
 	/**

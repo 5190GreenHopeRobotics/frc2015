@@ -84,5 +84,4 @@ public class ArmSubsystem extends Subsystem {
 		armAngleTalon.set(-motorSpeed);
 
 	}
-
 }
