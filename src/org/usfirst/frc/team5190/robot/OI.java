@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
+import org.usfirst.frc.team5190.robot.commands.getEncoderProofOfConcept;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -58,9 +58,11 @@ public class OI {
 		// extendArmButton.whileHeld(new ExtendArmCommand());
 		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
-		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
-																// after release
-		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
+		killSwitch.whenReleased(new getEncoderProofOfConcept()); // kill robot
+																	// after
+																	// release
+		enableSwitch.whenPressed(new TerminateRobotCommand()); // undo kill
+																// after
 																// release
 	}
 
