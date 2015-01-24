@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * The Forklift/grabber uses talonsrx to operate
  */
 public class ForkliftSubsystem extends Subsystem {
 	private TalonSRX forkLiftTalon = new TalonSRX(
