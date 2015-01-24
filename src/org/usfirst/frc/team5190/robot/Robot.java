@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// instantiate the command used for the autonomous period
 		
-		//new CameraMovementCommand().start();
+		new CameraMovementCommand().start();
 		
 	}
 
