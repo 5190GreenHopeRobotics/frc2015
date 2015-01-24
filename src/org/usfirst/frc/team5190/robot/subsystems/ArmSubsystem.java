@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * We use
  */
 public class ArmSubsystem extends Subsystem {
-
 	private TalonSRX armLengthTalon = new TalonSRX(
 			RobotMap.ARMLENGTH_TALONSRX_PORT);
 	private TalonSRX armAngleTalon = new TalonSRX(

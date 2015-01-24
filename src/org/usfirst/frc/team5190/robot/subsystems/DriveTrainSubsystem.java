@@ -156,7 +156,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	public void arcadeJoystickDrive(Joystick stick) {
 		if (!disable) {
 			if (!mLimitSwitch.get()) {
-				drive(1);
+				stopAll();
 				return;
 			}
 			setPower(Robot.oi.getSpeed());
