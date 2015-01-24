@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
+import org.usfirst.frc.team5190.robot.commands.PneumaticsProofOfConcept;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -25,6 +26,7 @@ public class OI {
 	public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
+	public static final int PNEUMATICS_TEST = 7;
 
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
@@ -33,6 +35,10 @@ public class OI {
 	// Drive Stick button/peripheral initialization
 	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
+
+	// Just a test for Pneumatics
+	private Button PneumaticButton = new JoystickButton(driveStick,
+			PNEUMATICS_TEST);
 
 	// Shoot stick button links to commands
 	// private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
@@ -68,7 +74,9 @@ public class OI {
 		// extendArmButton.whileHeld(new ExtendArmCommand());
 		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
+		PneumaticButton.whileHeld(new PneumaticsProofOfConcept());
 		killSwitch.whenPressed(new TerminateRobotCommand()); // kill robot
+
 		// =======
 		// // killSwitch.whenReleased(new TerminateRobotCommand()); // kill
 		// robot
