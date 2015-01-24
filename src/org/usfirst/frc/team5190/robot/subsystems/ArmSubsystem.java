@@ -11,13 +11,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * We use
  */
 public class ArmSubsystem extends Subsystem {
-
 	private TalonSRX armLengthTalon = new TalonSRX(
 			RobotMap.ARMLENGTH_TALONSRX_PORT);
 	private TalonSRX armAngleTalon = new TalonSRX(
 			RobotMap.ARMANGLE_TALONSRX_PORT);
 	double motorSpeed = 0.5;
-	public Encoder armLengthEncoder = new Encoder(0, 1, false,
+	public Encoder armLengthEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
 	public double currentdegrees = 0;
 	public DigitalInput armLimitSwitch = new DigitalInput(
@@ -84,5 +83,4 @@ public class ArmSubsystem extends Subsystem {
 		armAngleTalon.set(-motorSpeed);
 
 	}
-
 }

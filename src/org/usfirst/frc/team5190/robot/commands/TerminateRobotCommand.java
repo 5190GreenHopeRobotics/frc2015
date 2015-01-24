@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 //Stop robot upon driver pressing kill switch (button 11 on joystick)
 public class TerminateRobotCommand extends Command {
-	// private final double FULL_STOP = 0.0;
-
 	@Override
 	protected void initialize() {
 		requires(Robot.driveTrainSubsystem);
@@ -20,7 +18,7 @@ public class TerminateRobotCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-
 public class OI {
-	// alex was here
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
@@ -70,10 +68,21 @@ public class OI {
 		// extendArmButton.whileHeld(new ExtendArmCommand());
 		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
-		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
-																// after release
-		enableSwitch.whenReleased(new EnableRobotCommand()); // undo kill after
-																// release
+		killSwitch.whenPressed(new TerminateRobotCommand()); // kill robot
+		// =======
+		// // killSwitch.whenReleased(new TerminateRobotCommand()); // kill
+		// robot
+		// // after release
+		// enableSwitch.whenReleased(new LightsOn()); // undo kill after
+		// // relea
+		// killSwitch.whenPressed(new getEncoderProofOfConcept()); // kill robot
+		// >>>>>>> branch 'master' of
+		// https://github.com/5190GreenHopeRobotics/frc2015.git
+		// // after
+		// // release
+		enableSwitch.whenPressed(new EnableRobotCommand()); // undo kill
+		// after
+		// release
 	}
 
 	/**
