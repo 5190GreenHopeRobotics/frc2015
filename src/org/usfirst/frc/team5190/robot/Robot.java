@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.commands.getEncoderProofOfConcept;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
@@ -26,24 +26,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
-	// NO REMOVE
-	// NO REMOVE
-	// NO REMOVE
-	// NO REMOVE
-
-	/*
-	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
-	 */
+	// important for camera
 	boolean RobotIsEnabled = true;
-	/*
-	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
-	 */
-
-	// NO REMOVE
-	// NO REMOVE
-	// NO REMOVE
-	// NO REMOVE
-	private Command autonomousCommand = new DriveForwardCommand();
+	private Command autonomousCommand = new getEncoderProofOfConcept();
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
@@ -126,8 +111,7 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		autonomousCommand.start();
 	}
 
 	/**
@@ -142,8 +126,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		// if (autonomousCommand != null)
+		// autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 	}

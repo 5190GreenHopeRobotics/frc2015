@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class getEncoderProofOfConcept extends Command {
 	private Encoder testEncoder;
 	boolean isFinished = false;
+	int counter = 0;
 
 	public getEncoderProofOfConcept() {
 		// Use requires() here to declare subsystem dependencies
@@ -23,17 +24,23 @@ public class getEncoderProofOfConcept extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		@SuppressWarnings("unused")
-		int test1 = testEncoder.get();
-		boolean test2 = testEncoder.getDirection();
-		double test3 = testEncoder.getDistance();
-		double test4 = testEncoder.getRate();
-		isFinished = true;
+		counter++;
+		if (counter % 50 == 0) {
+			@SuppressWarnings("unused")
+			// int test1 = testEncoder.get();
+			boolean test2 = testEncoder.getDirection();
+			double test3 = testEncoder.getDistance();
+			double test4 = testEncoder.getRate();
+			System.err.println("Direction:" + test2);
+			System.err.println("Rate:" + test4);
+			System.err.println("Distance:" + test3);
+		}
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isFinished;
+		return false;
 	}
 
 	// Called once after isFinished returns true
