@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class getEncoderProofOfConcept extends Command {
-	private Encoder testEncoder;
 	boolean isFinished = false;
+	private Encoder testEncoder;
 
 	public getEncoderProofOfConcept() {
 		// Use requires() here to declare subsystem dependencies
