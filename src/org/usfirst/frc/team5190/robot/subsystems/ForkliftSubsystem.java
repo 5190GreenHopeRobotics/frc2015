@@ -4,6 +4,7 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -12,8 +13,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ForkliftSubsystem extends Subsystem {
 	private TalonSRX forkLiftTalon = new TalonSRX(
 			RobotMap.FORKLIFT_TALONSRX_PORT);
-	private TalonSRX forkLiftRaiseTalon = new TalonSRX(
-			RobotMap.FORKLIFTRAISE_TALONSRX_PORT);
+	private Victor forkLiftRaiseVictor = new Victor(
+			RobotMap.FORKLIFTRAISE_VICTOR_PORT);
 	public Ultrasonic forkLiftUltrasonic = new Ultrasonic(1, 1);
 
 	// Put methods for controlling this subsystem
@@ -44,14 +45,14 @@ public class ForkliftSubsystem extends Subsystem {
 	}
 
 	public void raiseGrabber() {
-		forkLiftRaiseTalon.set(1);
+		forkLiftRaiseVictor.set(1);
 	}
 
 	public void lowerGrabber() {
-		forkLiftRaiseTalon.set(-1);
+		forkLiftRaiseVictor.set(-1);
 	}
 
 	public void stopraiseGrabber() {
-		forkLiftRaiseTalon.set(0);
+		forkLiftRaiseVictor.set(0);
 	}
 }
