@@ -1,8 +1,10 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.getEncoderProofOfConcept;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
 
@@ -32,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
+	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
 
 	protected class Camera {
 
@@ -102,7 +105,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		// instantiate the command used for the autonomous period
-
+		
+		//new CameraMovementCommand().start();
+		
 	}
 
 	public void disabledPeriodic() {
