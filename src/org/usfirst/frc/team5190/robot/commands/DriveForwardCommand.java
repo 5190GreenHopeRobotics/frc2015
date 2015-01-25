@@ -18,7 +18,6 @@ public class DriveForwardCommand extends Command {
 		requires(Robot.driveTrainSubsystem);
 		ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 				RobotMap.ULTRASONIC_RECIEVE);
-		ultraSonicSensor.setAutomaticMode(true);
 		ultraSonicSensor.setEnabled(true);
 	}
 

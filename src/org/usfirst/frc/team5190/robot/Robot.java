@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
+
 	private Command autonomousCommand = new DriveForwardCommand();
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
@@ -85,15 +86,16 @@ public class Robot extends IterativeRobot {
 	}
 
 	public static OI oi;
-	{
+	static {
 		oi = new OI();
-		camera = new Camera();
-		// val = new robotValues();
 	}
 	// Command autonomousCommand;
-
+	{
+		camera = new Camera();
+	}
 	public Camera camera;
-	public robotValues val;
+
+	// public robotValues val;
 
 	/**
 	 * This function is run when the robot is first started up and should be
