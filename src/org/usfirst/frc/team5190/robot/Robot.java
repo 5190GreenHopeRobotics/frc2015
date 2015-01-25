@@ -1,9 +1,12 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
 
 import com.ni.vision.NIVision;
@@ -27,9 +30,16 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
+	// camera
+	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
+
+	// hardware not present
+	public static ElevatorSubsystem elevatorSubsystem = null;
+
 	private Command autonomousCommand = new DriveForwardCommand();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
+	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// hardware not present
 	public static ForkliftSubsystem forkLiftSubsystem = null;
@@ -106,8 +116,7 @@ public class Robot extends IterativeRobot {
 		camera = new Camera();
 	}
 	public Camera camera;
-
-	// public robotValues val;
+	public robotValues val;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -145,6 +154,9 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
+
+		new CameraMovementCommand().start();
+
 	}
 
 	/**

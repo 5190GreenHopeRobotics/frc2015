@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	// test
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
@@ -27,6 +28,8 @@ public class OI {
 	public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
+	public static final int ADD_SERVO = 7;
+	public static final int SUB_SERVO = 8;
 
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
@@ -37,7 +40,6 @@ public class OI {
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 
 	// light button
-
 	private Button lightSwitch = new JoystickButton(driveStick, LIGHT_ON_BUTTON);
 
 	/**
@@ -53,6 +55,7 @@ public class OI {
 
 		// turn on the led
 		lightSwitch.whenPressed(new LightsOn());
+
 	}
 
 	/**
