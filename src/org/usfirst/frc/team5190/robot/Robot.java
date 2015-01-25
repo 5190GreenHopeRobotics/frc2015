@@ -116,7 +116,6 @@ public class Robot extends IterativeRobot {
 		camera = new Camera();
 	}
 	public Camera camera;
-	public robotValues val;
 
 	/**
 	 * This function is run when the robot is first started up and should be
