@@ -7,49 +7,51 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * drive forward until 11 inches from an object
  */
 public class DriveForwardCommand extends Command {
 	private Ultrasonic ultraSonicSensor;
 
+	/**
+	 * 
+	 */
 	public DriveForwardCommand() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+		// needs drive train
 		requires(Robot.driveTrainSubsystem);
+		// ini the ultrasonics
 		ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 				RobotMap.ULTRASONIC_RECIEVE);
 		ultraSonicSensor.setEnabled(true);
 	}
 
-	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
 	}
 
 	/**
-	 * drive at full speed forward util is 5 inches from an object
+	 * drive at full speed forward until is 11 inches from an object
 	 */
 	@Override
 	protected void execute() {
 
 		if (ultraSonicSensor.getRangeInches() > 11) {
-			Robot.driveTrainSubsystem.drive(-0.5);
+			Robot.driveTrainSubsystem.drive(-0.8);
 		} else {
 			Robot.driveTrainSubsystem.stopAll();
 		}
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		return isTimedOut();
 	}
 
-	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 		Robot.driveTrainSubsystem.stopAll();
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 		end();
 	}

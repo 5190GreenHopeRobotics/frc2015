@@ -10,35 +10,37 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OpenForkliftCommand extends Command {
 
 	public OpenForkliftCommand() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
 		requires(Robot.forkLiftSubsystem);
 	}
 
-	// Called just before this Command runs the first time
+	/**
+	 * opens the grabber in forklift
+	 */
+	@Override
 	protected void initialize() {
 		Robot.forkLiftSubsystem.openGrabber();
 	}
 
-	// Called repeatedly when this Command is scheduled to run(every 0.2
-	// seconds)
+	/**
+	 * do nothing
+	 */
+	@Override
 	protected void execute() {
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		// Line below is for if we use an ultrasonic sensor
-		//return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
+		// return Robot.robotPawSubsystem.pawUltrasonic.getRangeInches() < 35;
 		return true;
 	}
 
-	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 		Robot.forkLiftSubsystem.stopGrabber();
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 		Robot.forkLiftSubsystem.stopGrabber();
 	}
