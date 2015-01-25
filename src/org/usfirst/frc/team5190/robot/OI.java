@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-import org.usfirst.frc.team5190.robot.commands.PneumaticsProofOfConcept;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -74,7 +73,7 @@ public class OI {
 		// extendArmButton.whileHeld(new ExtendArmCommand());
 		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
-		PneumaticButton.whileHeld(new PneumaticsProofOfConcept());
+		//PneumaticButton.whileHeld(new PneumaticsProofOfConcept());
 		killSwitch.whenPressed(new TerminateRobotCommand()); // kill robot
 
 		// =======
