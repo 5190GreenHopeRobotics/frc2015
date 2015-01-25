@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.getEncoderProofOfConcept;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 
 	// important for camera
 	boolean RobotIsEnabled = true;
-	private Command autonomousCommand = new getEncoderProofOfConcept();
+	private Command autonomousCommand = new DriveForwardCommand();
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
