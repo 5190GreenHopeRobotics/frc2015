@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
-	// important for camera
 	boolean RobotIsEnabled = true;
 	private Command autonomousCommand = new DriveForwardCommand();
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
@@ -111,7 +110,8 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		autonomousCommand.start();
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		// if (autonomousCommand != null)
-		// autonomousCommand.cancel();
+		if (autonomousCommand != null)
+			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 	}
