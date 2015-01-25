@@ -7,34 +7,33 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerforkliftCommand extends Command {
+public class RaiseElevatorCommand extends Command {
 
-	public LowerforkliftCommand() {
-		// needs fork lift
-		requires(Robot.forkLiftSubsystem);
+	public RaiseElevatorCommand() {
+		requires(Robot.elevatorSubsystem);
 	}
 
 	@Override
 	protected void initialize() {
-
 	}
 
 	@Override
 	protected void execute() {
+		Robot.elevatorSubsystem.raiseElevator();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
 	protected void end() {
-		Robot.forkLiftSubsystem.stopraiseGrabber();
+		Robot.elevatorSubsystem.stopElevator();
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.forkLiftSubsystem.lowerGrabber();
+		Robot.elevatorSubsystem.stopElevator();
 	}
 }

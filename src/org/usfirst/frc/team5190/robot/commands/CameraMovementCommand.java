@@ -5,36 +5,46 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * the servo which camera mounts on
  */
-public class LowerforkliftCommand extends Command {
+public class CameraMovementCommand extends Command {
 
-	public LowerforkliftCommand() {
-		// needs fork lift
-		requires(Robot.forkLiftSubsystem);
+	public CameraMovementCommand() {
+		// need servo
+		requires(Robot.cameraServoSubsystem);
+		Robot.cameraServoSubsystem.setZero();
 	}
 
+	/**
+	 * scan the field
+	 */
 	@Override
 	protected void initialize() {
 
+		Robot.cameraServoSubsystem.scanField();
+
 	}
 
+	/**
+	 * do nothing
+	 */
 	@Override
 	protected void execute() {
 	}
 
+	/**
+	 * run infinitly
+	 */
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
 	protected void end() {
-		Robot.forkLiftSubsystem.stopraiseGrabber();
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.forkLiftSubsystem.lowerGrabber();
 	}
 }

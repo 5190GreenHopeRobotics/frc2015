@@ -1,22 +1,18 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * stub
  */
-public class LowerforkliftCommand extends Command {
+public class LowerElevatorCommand extends Command {
 
-	public LowerforkliftCommand() {
-		// needs fork lift
-		requires(Robot.forkLiftSubsystem);
+	public LowerElevatorCommand() {
+
 	}
 
 	@Override
 	protected void initialize() {
-
 	}
 
 	@Override
@@ -25,16 +21,14 @@ public class LowerforkliftCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
 	protected void end() {
-		Robot.forkLiftSubsystem.stopraiseGrabber();
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.forkLiftSubsystem.lowerGrabber();
 	}
 }

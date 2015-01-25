@@ -9,48 +9,55 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RetractArmCommand extends Command {
 
-    public RetractArmCommand() {
-        requires(Robot.armSubsystem);
-        setTimeout(1.0);
-        
-    }
+	public RetractArmCommand() {
+		// needs the arm
+		requires(Robot.armSubsystem);
+		setTimeout(1.0);
 
-    /**
-     * This starts the command, and begins to retract the Arm.
-     */
-    protected void initialize() {
-    	Robot.armSubsystem.retractArm();
-    	
-    }
+	}
 
-    /**
-     * Called repeatedly when this Command is scheduled to run
-     */
-    protected void execute() {
-    	
-    }
+	/**
+	 * This starts the command, and begins to retract the Arm.
+	 */
+	@Override
+	protected void initialize() {
+		Robot.armSubsystem.retractArm();
 
-    /**
-     * This is the returned value after the time is finished.
-     */
-    protected boolean isFinished() {
-        return isTimedOut();
-        
-    }
+	}
 
-    /**
-     * This stops the arm when the time is "out"/ended, and it will start to rerun.
-     */
-    protected void end() {
-    	Robot.armSubsystem.stopArmLengthChange();
-    	
-    }
+	/**
+	 * Called repeatedly when this Command is scheduled to run
+	 */
+	@Override
+	protected void execute() {
 
-    /**
-     * This stops the arm from retracting when the code is interrupted.
-     */
-    protected void interrupted() {
-    	Robot.armSubsystem.stopArmLengthChange();
-    	
-    }
+	}
+
+	/**
+	 * This is the returned value after the time is finished.
+	 */
+	@Override
+	protected boolean isFinished() {
+		return isTimedOut();
+
+	}
+
+	/**
+	 * This stops the arm when the time is "out"/ended, and it will start to
+	 * rerun.
+	 */
+	@Override
+	protected void end() {
+		Robot.armSubsystem.stopArmLengthChange();
+
+	}
+
+	/**
+	 * This stops the arm from retracting when the code is interrupted.
+	 */
+	@Override
+	protected void interrupted() {
+		Robot.armSubsystem.stopArmLengthChange();
+
+	}
 }
