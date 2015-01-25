@@ -27,6 +27,8 @@ public class OI {
 	public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
+	public static final int ADD_SERVO = 7;
+	public static final int SUB_SERVO = 8;
 
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
@@ -64,6 +66,14 @@ public class OI {
 		enableSwitch.whenReleased(new LightsOn()); // undo kill after
 													// relea
 		testEncoder.whenPressed(new getEncoderProofOfConcept());
+		
+		
+		
+		
+		
+		
+		
+		
 		// NO HARDWARE
 		// raiseElevator.whenActive(new RaiseElevator());
 		// lowerElevator.whenActive(new LowerElevator());

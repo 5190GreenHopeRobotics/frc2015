@@ -12,6 +12,7 @@ public class CameraMovementCommand extends Command {
     public CameraMovementCommand() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.cameraServoSubsystem);
+        Robot.cameraServoSubsystem.setZero();
     }
 
     // Called just before this Command runs the first time

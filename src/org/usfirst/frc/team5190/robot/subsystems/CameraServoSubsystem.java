@@ -9,20 +9,39 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CameraServoSubsystem extends Subsystem {
     
     public Servo cameraServo = new Servo(9);
-
+    public int adder = 1;
+    public double minAngle = 0;
+    public double maxAngle = 359;
+    public double defaultAngle = 180;
+   
+    
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void setZero(){
+    	
+    	// Reset Camera For Teleoperated Mode
+    	cameraServo.setAngle(180);
+    	
     }
     
     public void scanField(){
     	
     	System.out.println("Called");
     	
-    	cameraServo.set(0.2);
-    	cameraServo.setAngle(180);
+    	
+    		for(defaultAngle = 180; defaultAngle < 360; defaultAngle++){
+    			
+    			cameraServo.setAngle(defaultAngle);
+    			
+    		}
+
     	
     }
+    
+    
     
     
 }
