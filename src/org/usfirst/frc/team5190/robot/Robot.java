@@ -7,6 +7,7 @@ import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
 
 import com.ni.vision.NIVision;
@@ -29,13 +30,31 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
-	boolean RobotIsEnabled = true;
+	// NO REMOVE
+	// NO REMOVE
+	// NO REMOVE
+	// NO REMOVE
 
+	/*
+	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
+	 */
+	boolean RobotIsEnabled = true;
+	/*
+	 * NO ONE REMOVE THE LINE OF CODE IN BETWEEN THESE COMMENTS
+	 */
+
+	// NO REMOVE
+	// NO REMOVE
+	// NO REMOVE
+	// NO REMOVE
 	private Command autonomousCommand = new DriveForwardCommand();
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
+
 	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
+
+	public static ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
 	protected class Camera {
 
@@ -90,16 +109,16 @@ public class Robot extends IterativeRobot {
 	}
 
 	public static OI oi;
-	static {
+
+	{
 		oi = new OI();
+		camera = new Camera();
+		// val = new robotValues();
 	}
 	// Command autonomousCommand;
-	{
-		camera = new Camera();
-	}
-	public Camera camera;
 
-	// public robotValues val;
+	public Camera camera;
+	public robotValues val;
 
 	/**
 	 * This function is run when the robot is first started up and should be

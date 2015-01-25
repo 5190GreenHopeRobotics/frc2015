@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TerminateRobotCommand extends Command {
 	@Override
 	protected void initialize() {
-		requires(Robot.driveTrainSubsystem);
+		// requires(Robot.driveTrainSubsystem);
 	}
 
 	@Override

@@ -23,17 +23,21 @@ public class getEncoderProofOfConcept extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		// @SuppressWarnings("unused")
-		// int test1 = testEncoder.get();
-		// boolean test2 = testEncoder.getDirection();
-		// double test3 = testEncoder.getDistance();
-		// double test4 = testEncoder.getRate();
-		// isFinished = true;
+		@SuppressWarnings("unused")
+		int test1 = testEncoder.get();
+		boolean test2 = testEncoder.getDirection();
+		double test3 = testEncoder.getDistance();
+		double test4 = testEncoder.getRate();
+		System.out.println("test1" + test1);
+		System.out.println("test2" + test2);
+		System.out.println("test3" + test3);
+		System.out.println("test4" + test4);
+		isFinished = true;
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return isFinished;
 	}
 
 	// Called once after isFinished returns true
