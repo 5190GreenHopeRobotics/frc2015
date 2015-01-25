@@ -18,7 +18,6 @@ public class DriveForwardCommand extends Command {
 		requires(Robot.driveTrainSubsystem);
 		ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 				RobotMap.ULTRASONIC_RECIEVE);
-		ultraSonicSensor.setAutomaticMode(true);
 		ultraSonicSensor.setEnabled(true);
 	}
 
@@ -29,9 +28,10 @@ public class DriveForwardCommand extends Command {
 	/**
 	 * drive at full speed forward util is 5 inches from an object
 	 */
+	@Override
 	protected void execute() {
 
-		if (ultraSonicSensor.getRangeInches() > 5) {
+		if (ultraSonicSensor.getRangeInches() > 11) {
 			Robot.driveTrainSubsystem.drive(-0.5);
 		} else {
 			Robot.driveTrainSubsystem.stopAll();

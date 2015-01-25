@@ -47,7 +47,7 @@ public class RaiseArmCommand extends Command {
 	 * later.
 	 */
 	protected void end() {
-		Robot.armSubsystem.stopArmAngleChange();
+		// Robot.armSubsystem.stopArmAngleChange();
 	}
 
 	/**

@@ -5,8 +5,8 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class EnableRobotCommand extends Command {
-	private final double FULL_SPEED = 1.0;
-	private final double FULL_STOP = 0.0;
+	// private final double FULL_SPEED = 1.0;
+	// private final double FULL_STOP = 0.0;
 
 	@Override
 	protected void initialize() {
@@ -21,7 +21,7 @@ public class EnableRobotCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	@Override
