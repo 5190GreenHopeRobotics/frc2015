@@ -16,14 +16,14 @@ public class ArmSubsystem extends Subsystem {
 	private TalonSRX armAngleTalon = new TalonSRX(
 			RobotMap.ARMANGLE_TALONSRX_PORT);
 	double motorSpeed = 0.5;
-	public Encoder armLengthEncoder = new Encoder(0, 1, false,
+	public Encoder armLengthEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
 	public double currentdegrees = 0;
 	public DigitalInput armLimitSwitch = new DigitalInput(
 			RobotMap.ARM_LIMIT_SWITCH_PORT);
 	public final double shaftcircumference = 0; // Give this a real value when
 												// we find the circumference of
-												// the wheel
+												// the shaft
 
 	public void initDefaultCommand() {
 
