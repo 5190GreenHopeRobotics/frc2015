@@ -10,7 +10,7 @@ public class EnableRobotCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		requires(Robot.driveTrainSubsystem);
+		// requires(Robot.driveTrainSubsystem);
 	}
 
 	@Override
