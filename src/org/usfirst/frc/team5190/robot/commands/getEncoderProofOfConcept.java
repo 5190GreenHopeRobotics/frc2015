@@ -28,6 +28,10 @@ public class getEncoderProofOfConcept extends Command {
 		boolean test2 = testEncoder.getDirection();
 		double test3 = testEncoder.getDistance();
 		double test4 = testEncoder.getRate();
+		System.out.println("test1" + test1);
+		System.out.println("test2" + test2);
+		System.out.println("test3" + test3);
+		System.out.println("test4" + test4);
 		isFinished = true;
 	}
 

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.LightsOn;
+import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 import org.usfirst.frc.team5190.robot.commands.getEncoderProofOfConcept;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	// test
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
@@ -35,8 +37,8 @@ public class OI {
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 
 	// Shoot stick button links to commands
-	private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
-	private Button lowerArmButton = new JoystickButton(shootStick, THUMB_BUTTON);
+	private Button raiseElevator = new JoystickButton(shootStick, TRIGGER);
+	private Button lowerElevator = new JoystickButton(shootStick, THUMB_BUTTON);
 	private Button openForkliftButton = new JoystickButton(shootStick,
 			OPENFORKLIFT_BUTTON);
 	private Button closeForkliftButton = new JoystickButton(shootStick,
@@ -45,6 +47,7 @@ public class OI {
 			EXTENDARM_BUTTON);
 	private Button retractArmButton = new JoystickButton(shootStick,
 			RETRACTARM_BUTTON);
+	private Button testEncoder = new JoystickButton(driveStick, 2);
 
 	// Operator interface constructor
 	public OI() {
@@ -56,13 +59,17 @@ public class OI {
 		// extendArmButton.whileHeld(new ExtendArmCommand());
 		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
-		// killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
+		killSwitch.whenReleased(new TerminateRobotCommand()); // kill robot
 		// after release
 		enableSwitch.whenReleased(new LightsOn()); // undo kill after
 													// relea
-		killSwitch.whenPressed(new getEncoderProofOfConcept()); // kill robot
-																// after
-																// release
+		testEncoder.whenPressed(new getEncoderProofOfConcept());
+		// NO HARDWARE
+		// raiseElevator.whenActive(new RaiseElevator());
+		// lowerElevator.whenActive(new LowerElevator());
+		// killSwitch.whenPressed(new getEncoderProofOfConcept()); // kill robot
+		// after
+		// release
 		// enableSwitch.whenPressed(new TerminateRobotCommand()); // undo kill
 		// after
 		// release

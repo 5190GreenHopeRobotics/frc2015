@@ -4,6 +4,7 @@ import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
 
 import com.ni.vision.NIVision;
@@ -47,6 +48,7 @@ public class Robot extends IterativeRobot {
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
+	public static ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
 	protected class Camera {
 
@@ -101,6 +103,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public static OI oi;
+
 	{
 		oi = new OI();
 		camera = new Camera();

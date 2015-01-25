@@ -12,6 +12,6 @@ public class RobotMap {
 	public static final int BACKRIGHT = 3;
 	public static final int GYRO_PORT = 0;
 	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 1;
-	public static final int ULTRASONIC_PING = 0;
-	public static final int ULTRASONIC_RECIEVE = 1;
+	public static final int ULTRASONIC_PING = 8;
+	public static final int ULTRASONIC_RECIEVE = 9;
 }
