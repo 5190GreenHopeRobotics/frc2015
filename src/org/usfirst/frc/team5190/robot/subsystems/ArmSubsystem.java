@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * We use
+ * the arm subsystem
  */
 public class ArmSubsystem extends Subsystem {
 	private TalonSRX armLengthTalon = new TalonSRX(
@@ -41,6 +41,9 @@ public class ArmSubsystem extends Subsystem {
 		armLengthEncoder.setSamplesToAverage(7);
 	}
 
+	/**
+	 * extends the arm
+	 */
 	public void extendArm() {
 		armLengthTalon.set(motorSpeed);
 	}
