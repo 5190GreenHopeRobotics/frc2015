@@ -17,8 +17,10 @@ public class CameraServoSubsystem extends Subsystem {
     
     public void scanField(){
     	
+    	System.out.println("Called");
+    	
     	cameraServo.set(0.2);
-    	cameraServo.setAngle(0.75);
+    	cameraServo.setAngle(180);
     	
     }
     

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class LightsOn extends Command {
 	public Relay relay1 = new Relay(0, Relay.Direction.kForward);
 	private Thread lightThread;
-	private Object lock;
+	//private Object lock;
 
 	public LightsOn() {
 		// Use requires() here to declare subsystem dependencies

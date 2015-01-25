@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// instantiate the command used for the autonomous period
 		
-		new CameraMovementCommand().start();
+		
 		
 	}
 
@@ -138,6 +138,9 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
+		
+		new CameraMovementCommand().start();
+		
 	}
 
 	/**
