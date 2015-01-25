@@ -27,12 +27,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
-
 	private Command autonomousCommand = new DriveForwardCommand();
-	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
+	// hardware not present
+	public static ArmSubsystem armSubsystem = null;
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	public static ForkliftSubsystem forkLiftSubsystem = null; // new
+	// hardware not present
+	public static ForkliftSubsystem forkLiftSubsystem = null;
 
+	/**
+	 * 
+	 * @author rd124p7 This class controls the camera, and output the video onto
+	 *         the driver station
+	 */
 	protected class Camera {
 
 		// Define Some Variables
@@ -48,6 +54,9 @@ public class Robot extends IterativeRobot {
 			server.startAutomaticCapture("cam0");
 		}
 
+		/**
+		 * Initialize the Camera
+		 */
 		public void cameraInit() {
 
 			cameraFrame = NIVision.imaqCreateImage(
@@ -85,11 +94,14 @@ public class Robot extends IterativeRobot {
 
 	}
 
+	/**
+	 * the userInterface
+	 */
 	public static OI oi;
 	static {
 		oi = new OI();
 	}
-	// Command autonomousCommand;
+
 	{
 		camera = new Camera();
 	}
@@ -120,6 +132,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+
 		Scheduler.getInstance().run();
 	}
 

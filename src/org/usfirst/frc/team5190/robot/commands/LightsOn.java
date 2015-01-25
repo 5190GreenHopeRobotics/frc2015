@@ -1,40 +1,22 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LightsOn extends Command {
 	public Relay relay1 = new Relay(0, Relay.Direction.kForward);
-	private Thread lightThread;
+	private ExecutorService lightThread;
 	private Object lock;
+	private boolean isOn = false;
 
 	public LightsOn() {
 		// Use requires() here to declare subsystem dependencies
-		// lock = new Object();
-		// lightThread = new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// // TODO Auto-generated method stub
-		// while (true) {
-		// synchronized (lock) {
-		// relay1.set(Relay.Value.kOn);
-		// try {
-		// TimeUnit.MILLISECONDS.sleep(500);
-		// } catch (InterruptedException e) {
-		// return;
-		// }
-		// relay1.set(Relay.Value.kOff);
-		// try {
-		// TimeUnit.MILLISECONDS.sleep(500);
-		// } catch (InterruptedException e) {
-		// return;
-		// }
-		// }
-		//
-		// }
-		// }
-		// });
+		lock = new Object();
+
 	}
 
 	// Called just before this Command runs the first time
@@ -42,7 +24,40 @@ public class LightsOn extends Command {
 	}
 
 	protected void execute() {
-		// lightThread.start();
+		System.out.println(isOn);
+		if (!isOn) {
+			lightThread = Executors.newCachedThreadPool();
+			lightThread.execute(new Runnable() {
+
+				@Override
+				public void run() {
+					while (true) {
+						synchronized (lock) {
+							relay1.set(Relay.Value.kOn);
+							try {
+								TimeUnit.MILLISECONDS.sleep(500);
+							} catch (InterruptedException e) {
+								return;
+							}
+							relay1.set(Relay.Value.kOff);
+							try {
+								TimeUnit.MILLISECONDS.sleep(500);
+							} catch (InterruptedException e) {
+								return;
+							}
+						}
+
+					}
+
+				}
+
+			});
+			isOn = true;
+		} else {
+			lightThread.shutdownNow();
+			relay1.set(Relay.Value.kOff);
+			isOn = false;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -52,7 +67,7 @@ public class LightsOn extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		lightThread.interrupt();
+		lightThread.shutdownNow();
 	}
 
 	// Called when another command which requires one or more of the same

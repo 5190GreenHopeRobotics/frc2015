@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * We use
+ * the arm subsystem
  */
 public class ArmSubsystem extends Subsystem {
 	private TalonSRX armLengthTalon = new TalonSRX(
