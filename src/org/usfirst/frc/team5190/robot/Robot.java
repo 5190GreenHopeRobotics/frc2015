@@ -1,8 +1,9 @@
 package org.usfirst.frc.team5190.robot;
 
+
 import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
+import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.getEncoderProofOfConcept;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
@@ -28,9 +29,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
-	// important for camera
 	boolean RobotIsEnabled = true;
-	private Command autonomousCommand = new getEncoderProofOfConcept();
+
+	private Command autonomousCommand = new DriveForwardCommand();
 	public static ArmSubsystem armSubsystem = null; // new ArmSubsystem();
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ForkliftSubsystem forkLiftSubsystem = null; // new
@@ -89,15 +90,16 @@ public class Robot extends IterativeRobot {
 	}
 
 	public static OI oi;
-	{
+	static {
 		oi = new OI();
-		camera = new Camera();
-		// val = new robotValues();
 	}
 	// Command autonomousCommand;
-
+	{
+		camera = new Camera();
+	}
 	public Camera camera;
-	public robotValues val;
+
+	// public robotValues val;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -116,7 +118,8 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		autonomousCommand.start();
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 	}
 
 	/**
@@ -131,8 +134,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		// if (autonomousCommand != null)
-		// autonomousCommand.cancel();
+		if (autonomousCommand != null)
+			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 	}
