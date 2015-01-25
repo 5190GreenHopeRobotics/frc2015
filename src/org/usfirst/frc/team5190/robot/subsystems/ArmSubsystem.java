@@ -25,6 +25,9 @@ public class ArmSubsystem extends Subsystem {
 												// we find the circumference of
 												// the shaft
 
+	/**
+	 * nothing needs to go here.
+	 */
 	public void initDefaultCommand() {
 
 	}
