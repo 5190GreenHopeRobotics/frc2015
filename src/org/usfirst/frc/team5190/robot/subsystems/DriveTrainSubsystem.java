@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.commands.EcoderTestCommand;
+import org.usfirst.frc.team5190.robot.commands.EncoderTestCommand;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +19,7 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private EcoderTestCommand encoderProof = new EcoderTestCommand();
+	private EncoderTestCommand encoderProof = new EncoderTestCommand();
 	DigitalInput mLimitSwitch;
 	RobotDrive mDrive;
 	boolean disable = false;

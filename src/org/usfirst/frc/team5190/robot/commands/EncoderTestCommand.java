@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * a encoder test
  */
-public class EcoderTestCommand extends Command {
+public class EncoderTestCommand extends Command {
 	private Encoder testEncoder;
 
-	public EcoderTestCommand() {
+	public EncoderTestCommand() {
 		testEncoder = new Encoder(3, 4);
 	}
 
