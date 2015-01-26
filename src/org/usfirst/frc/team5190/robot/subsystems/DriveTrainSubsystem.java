@@ -4,13 +4,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.commands.EncoderTestCommand;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * the drive train subsystem
@@ -19,7 +17,6 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private EncoderTestCommand encoderProof = new EncoderTestCommand();
 	DigitalInput mLimitSwitch;
 	RobotDrive mDrive;
 	boolean disable = false;
@@ -188,14 +185,4 @@ public class DriveTrainSubsystem extends Subsystem {
 		}
 	}
 
-	/**
-	 * put encoder data to smartdashboard
-	 */
-	public void putData() {
-
-		SmartDashboard.putNumber("Distance", encoderProof.getEncoder()
-
-		.getDistance());
-
-	}
 }

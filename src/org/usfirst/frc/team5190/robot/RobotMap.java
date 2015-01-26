@@ -18,6 +18,8 @@ public class RobotMap {
 	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 1;
 	public static final int ULTRASONIC_PING = 6;
 	public static final int ULTRASONIC_RECIEVE = 5;
+	public static final int ENCODER_CHANNEL_A = 3;
+	public static final int ENCODER_CHANNEL_B = 4;
 
 	public static final int SOLENOID_PORT = 0;
 }

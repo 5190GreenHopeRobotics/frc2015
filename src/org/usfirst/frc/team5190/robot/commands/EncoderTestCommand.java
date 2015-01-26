@@ -1,7 +1,11 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import org.usfirst.frc.team5190.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * a encoder test
@@ -10,7 +14,8 @@ public class EncoderTestCommand extends Command {
 	private Encoder testEncoder;
 
 	public EncoderTestCommand() {
-		testEncoder = new Encoder(3, 4);
+		testEncoder = new Encoder(RobotMap.ENCODER_CHANNEL_A,
+				RobotMap.ENCODER_CHANNEL_B, true, EncodingType.k4X);
 	}
 
 	/**
@@ -35,15 +40,15 @@ public class EncoderTestCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		@SuppressWarnings("unused")
+		SmartDashboard.putNumber("Distance", testEncoder.getDistance());
 		int test1 = testEncoder.get();
 		boolean test2 = testEncoder.getDirection();
 		double test3 = testEncoder.getDistance();
 		double test4 = testEncoder.getRate();
-		System.out.println("test1" + test1);
-		System.out.println("test2" + test2);
-		System.out.println("test3" + test3);
-		System.out.println("test4" + test4);
+		System.out.println("testEncoder.get():" + test1);
+		System.out.println("testEncoder.getDirection():" + test2);
+		System.out.println("testEncoder.getDistance():" + test3);
+		System.out.println("testEncoder.getRate():" + test4);
 	}
 
 	@Override
