@@ -7,22 +7,32 @@ import java.util.concurrent.TimeUnit;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LightsOn extends Command {
+/**
+ * turn on/off led
+ * 
+ * @author sdai
+ */
+public class LightsOnCommand extends Command {
 	public Relay relay1 = new Relay(0, Relay.Direction.kForward);
+	// thread pool for concurrency of led and robot
 	private ExecutorService lightThread;
+	// the lock
 	private Object lock;
 	private boolean isOn = false;
 
-	public LightsOn() {
-		// Use requires() here to declare subsystem dependencies
+	public LightsOnCommand() {
 		lock = new Object();
 
 	}
 
-	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
 	}
 
+	/**
+	 * turn on led if off, off if on
+	 */
+	@Override
 	protected void execute() {
 		System.out.println(isOn);
 		if (!isOn) {
@@ -60,18 +70,20 @@ public class LightsOn extends Command {
 		}
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		return true;
 	}
 
-	// Called once after isFinished returns true
+	/**
+	 * shutdown all thread
+	 */
+	@Override
 	protected void end() {
 		lightThread.shutdownNow();
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 		end();
 	}

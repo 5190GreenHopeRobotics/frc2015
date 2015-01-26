@@ -5,38 +5,46 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * the servo which camera mounts on
  */
 public class CameraMovementCommand extends Command {
 
-    public CameraMovementCommand() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.cameraServoSubsystem);
-        Robot.cameraServoSubsystem.setZero();
-    }
+	public CameraMovementCommand() {
+		// need servo
+		requires(Robot.cameraServoSubsystem);
+		Robot.cameraServoSubsystem.setZero();
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	
-    	Robot.cameraServoSubsystem.scanField();
-    	
-    }
+	/**
+	 * scan the field
+	 */
+	@Override
+	protected void initialize() {
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
+		Robot.cameraServoSubsystem.scanField();
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	/**
+	 * do nothing
+	 */
+	@Override
+	protected void execute() {
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	/**
+	 * run infinitly
+	 */
+	@Override
+	protected boolean isFinished() {
+		return false;
+	}
+
+	@Override
+	protected void end() {
+	}
+
+	@Override
+	protected void interrupted() {
+	}
 }

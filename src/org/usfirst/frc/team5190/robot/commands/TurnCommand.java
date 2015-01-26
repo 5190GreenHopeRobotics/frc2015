@@ -4,52 +4,61 @@ import org.usfirst.frc.team5190.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 /**
- *
+ * turn for 3 second
  */
 public class TurnCommand extends Command {
 
-	
 	private Direction mDir = Direction.LEFT;
-	
-    public TurnCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	setTimeout(3);
-    }
-    
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
 
-    public void setDirection(Direction dir) {
-    	mDir = dir;
-    }
-    
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if(mDir == Direction.LEFT) {
-    		Robot.driveTrainSubsystem.turn(-0.5);
-    	}
-    	else if(mDir == Direction.RIGHT) {
-    		Robot.driveTrainSubsystem.turn(0.5);
-    	}
-    }
+	public TurnCommand() {
+		setTimeout(3);
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return isTimedOut();
-    }
+	@Override
+	protected void initialize() {
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.driveTrainSubsystem.stopAll();
-    }
+	/**
+	 * set direction to turn, via Direction enum
+	 * 
+	 * @param dir
+	 *            the direction, RIGHT, LEFT
+	 */
+	public void setDirection(Direction dir) {
+		mDir = dir;
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	end();
-    }
+	/**
+	 * turn right/lift at rate of 0.5
+	 */
+	@Override
+	protected void execute() {
+		if (mDir == Direction.LEFT) {
+			Robot.driveTrainSubsystem.turn(-0.5);
+		} else if (mDir == Direction.RIGHT) {
+			Robot.driveTrainSubsystem.turn(0.5);
+		}
+	}
+
+	/**
+	 * Whether timed out
+	 */
+	@Override
+	protected boolean isFinished() {
+		return isTimedOut();
+	}
+
+	/**
+	 * stop the drive train
+	 */
+	@Override
+	protected void end() {
+		Robot.driveTrainSubsystem.stopAll();
+	}
+
+	@Override
+	protected void interrupted() {
+		end();
+	}
 }

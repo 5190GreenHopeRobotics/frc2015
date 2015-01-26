@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * the elevator subsystem
  */
 public class ElevatorSubsystem extends Subsystem {
 	// assumes victor is located in port 5
@@ -19,10 +19,16 @@ public class ElevatorSubsystem extends Subsystem {
 		elevatorControl.set(.5);
 	}
 
+	/**
+	 * lower the elevator at half speed
+	 */
 	public void lowerElevator() {
 		elevatorControl.set(-.5);
 	}
 
+	/**
+	 * set the elevator speed to 0
+	 */
 	public void stopElevator() {
 		elevatorControl.set(0);
 	}

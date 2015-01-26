@@ -4,11 +4,15 @@ import org.usfirst.frc.team5190.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-//Stop robot upon driver pressing kill switch (button 11 on joystick)
+/**
+ * disable the drive train
+ * 
+ * @author alex
+ *
+ */
 public class TerminateRobotCommand extends Command {
 	@Override
 	protected void initialize() {
-		// requires(Robot.driveTrainSubsystem);
 	}
 
 	@Override

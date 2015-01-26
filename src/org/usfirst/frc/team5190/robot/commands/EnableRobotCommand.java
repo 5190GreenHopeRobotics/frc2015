@@ -5,17 +5,16 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class EnableRobotCommand extends Command {
-	// private final double FULL_SPEED = 1.0;
-	// private final double FULL_STOP = 0.0;
 
 	@Override
 	protected void initialize() {
-		// requires(Robot.driveTrainSubsystem);
 	}
 
+	/**
+	 * disable the drive train
+	 */
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
 		Robot.driveTrainSubsystem.setDisable(false);
 	}
 

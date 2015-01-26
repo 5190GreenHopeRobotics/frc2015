@@ -41,6 +41,9 @@ public class ArmSubsystem extends Subsystem {
 		armLengthEncoder.setSamplesToAverage(7);
 	}
 
+	/**
+	 * extends the arm
+	 */
 	public void extendArm() {
 		armLengthTalon.set(motorSpeed);
 	}

@@ -4,28 +4,36 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * a encoder test
  */
-public class getEncoderProofOfConcept extends Command {
+public class EcoderTestCommand extends Command {
 	private Encoder testEncoder;
-	boolean isFinished = false;
 
-	public getEncoderProofOfConcept() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+	public EcoderTestCommand() {
 		testEncoder = new Encoder(3, 4);
 	}
 
+	/**
+	 * getter for encoder
+	 * 
+	 * @return the encoder
+	 */
 	public final Encoder getEncoder() {
 		return testEncoder;
 	}
 
-	// Called just before this Command runs the first time
+	/**
+	 * reset the encoder
+	 */
+	@Override
 	protected void initialize() {
 		testEncoder.reset();
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+	/**
+	 * get reading from encoder
+	 */
+	@Override
 	protected void execute() {
 		@SuppressWarnings("unused")
 		int test1 = testEncoder.get();
@@ -36,20 +44,18 @@ public class getEncoderProofOfConcept extends Command {
 		System.out.println("test2" + test2);
 		System.out.println("test3" + test3);
 		System.out.println("test4" + test4);
-		isFinished = true;
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
-		return isFinished;
+		return true;
 	}
 
-	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 	}
 }
