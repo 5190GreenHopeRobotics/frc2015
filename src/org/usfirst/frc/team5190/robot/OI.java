@@ -30,7 +30,6 @@ public class OI {
 	public static final int ENABLE_SWITCH = 12;
 	public static final int ADD_SERVO = 7;
 	public static final int SUB_SERVO = 8;
-
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
@@ -38,7 +37,6 @@ public class OI {
 	// Drive Stick button/peripheral initialization
 	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
-
 	// light button
 	private Button lightSwitch = new JoystickButton(driveStick, LIGHT_ON_BUTTON);
 

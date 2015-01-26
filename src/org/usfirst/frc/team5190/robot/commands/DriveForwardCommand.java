@@ -35,7 +35,7 @@ public class DriveForwardCommand extends Command {
 	protected void execute() {
 
 		if (ultraSonicSensor.getRangeInches() > 11) {
-			Robot.driveTrainSubsystem.drive(-0.5);
+			Robot.driveTrainSubsystem.drive(-0.8);
 		} else {
 			Robot.driveTrainSubsystem.stopAll();
 		}
