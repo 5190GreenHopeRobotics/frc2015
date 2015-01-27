@@ -1,9 +1,13 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.smartDashBoard.Displayable;
+import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * the drive train subsystem
  */
-public class DriveTrainSubsystem extends Subsystem {
+public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -183,6 +187,20 @@ public class DriveTrainSubsystem extends Subsystem {
 		if (!disable) {
 			mDrive.tankDrive(s1, s2);
 		}
+	}
+
+	@Override
+	public Collection<Pair<String, Boolean>> getBooleanValue() {
+		LinkedList<Pair<String, Boolean>> limitSwitch = new LinkedList<Pair<String, Boolean>>();
+		limitSwitch.add(new Pair<String, Boolean>("Limit Switch", mLimitSwitch
+				.get()));
+		return limitSwitch;
+	}
+
+	@Override
+	public Collection<Pair<String, Double>> getDecimalValues() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
