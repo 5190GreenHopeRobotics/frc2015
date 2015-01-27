@@ -1,25 +1,26 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.commands.EncoderTestCommand;
+import org.usfirst.frc.team5190.smartDashBoard.Displayable;
+import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * the drive train subsystem
  */
-public class DriveTrainSubsystem extends Subsystem {
+public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private EncoderTestCommand encoderProof = new EncoderTestCommand();
 	DigitalInput mLimitSwitch;
 	RobotDrive mDrive;
 	boolean disable = false;
@@ -188,14 +189,18 @@ public class DriveTrainSubsystem extends Subsystem {
 		}
 	}
 
-	/**
-	 * put encoder data to smartdashboard
-	 */
-	public void putData() {
-
-		SmartDashboard.putNumber("Distance", encoderProof.getEncoder()
-
-		.getDistance());
-
+	@Override
+	public Collection<Pair<String, Boolean>> getBooleanValue() {
+		LinkedList<Pair<String, Boolean>> limitSwitch = new LinkedList<Pair<String, Boolean>>();
+		limitSwitch.add(new Pair<String, Boolean>("Limit Switch", mLimitSwitch
+				.get()));
+		return limitSwitch;
 	}
+
+	@Override
+	public Collection<Pair<String, Double>> getDecimalValues() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

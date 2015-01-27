@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,8 +21,10 @@ public class DriveWithArcadeCommand extends Command {
 
 	@Override
 	protected void execute() {
+		SmartDashBoardDisplayer.getNewInstance().display(
+				Robot.driveTrainSubsystem);
 		Robot.driveTrainSubsystem.arcadeJoystickDrive(Robot.oi.getDriveStick());
-		Robot.driveTrainSubsystem.putData();
+		// Robot.driveTrainSubsystem.putData();
 	}
 
 	@Override
