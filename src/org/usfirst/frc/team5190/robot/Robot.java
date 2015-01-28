@@ -9,6 +9,8 @@ import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
+import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
@@ -44,6 +46,8 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// hardware not present
 	public static ForkliftSubsystem forkLiftSubsystem = null;
+	// Experiment, don't touch plz
+	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 
 	/**
 	 * 
@@ -115,6 +119,7 @@ public class Robot extends IterativeRobot {
 
 	{
 		camera = new Camera();
+		SmartDashBoardDisplayer.getInstance().display(driveTrainSubsystem);
 	}
 	public Camera camera;
 

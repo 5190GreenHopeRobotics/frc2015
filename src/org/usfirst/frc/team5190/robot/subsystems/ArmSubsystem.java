@@ -5,12 +5,12 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TalonSRX;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * the arm subsystem
  */
-public class ArmSubsystem extends PIDSubsystem {
+public class ArmSubsystem extends Subsystem {
 	private TalonSRX armLengthTalon = new TalonSRX(
 			RobotMap.ARMLENGTH_TALONSRX_PORT);
 	private TalonSRX armAngleTalon = new TalonSRX(
@@ -18,6 +18,7 @@ public class ArmSubsystem extends PIDSubsystem {
 	double motorSpeed = 0.5;
 	public Encoder armLengthEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
+	// Counterclockwise for getdirection() is true
 	public double currentdegrees = 0;
 	public DigitalInput armLimitSwitch = new DigitalInput(
 			RobotMap.ARM_LIMIT_SWITCH_PORT);
@@ -37,9 +38,6 @@ public class ArmSubsystem extends PIDSubsystem {
 	 */
 
 	public ArmSubsystem() {
-		super("Arm", 1.0, 0.0, 0.0);
-		setPercentTolerance(5.0);
-		getPIDController().setContinuous(false);
 		armLengthEncoder.setMaxPeriod(.1);
 		armLengthEncoder.setMinRate(10);
 		armLengthEncoder.setDistancePerPulse(5);
@@ -93,12 +91,4 @@ public class ArmSubsystem extends PIDSubsystem {
 
 	}
 
-	protected double returnPIDInput() {
-		return armAngleTalon.getSpeed();
-	}
-
-	protected void usePIDOutput(double output) {
-		armAngleTalon.pidWrite(output);
-
-	}
 }

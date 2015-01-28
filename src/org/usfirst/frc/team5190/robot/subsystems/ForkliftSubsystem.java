@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * the forklift subsystem
+ * 
+ * @deprecated
  */
 public class ForkliftSubsystem extends Subsystem {
 	private TalonSRX forkLiftTalon = new TalonSRX(

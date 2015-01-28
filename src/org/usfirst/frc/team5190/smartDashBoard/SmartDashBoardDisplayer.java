@@ -1,22 +1,25 @@
 package org.usfirst.frc.team5190.smartDashBoard;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SmartDashBoardDisplayer {
-	public static SmartDashBoardDisplayer getNewInstance() {
-		return new SmartDashBoardDisplayer();
+	private Thread worker;
+	private DisplayableIterator r;
+	private static SmartDashBoardDisplayer instance;
+
+	static {
+		instance = new SmartDashBoardDisplayer();
+	}
+
+	private SmartDashBoardDisplayer() {
+		r = new DisplayableIterator();
+		worker = new Thread(r);
+		worker.start();
+	}
+
+	public static SmartDashBoardDisplayer getInstance() {
+		return instance;
 	}
 
 	public void display(Displayable toDisplay) {
-		if (toDisplay.getDecimalValues() != null) {
-			for (Pair<String, Double> iter : toDisplay.getDecimalValues()) {
-				SmartDashboard.putNumber(iter.first(), iter.second());
-			}
-		}
-		if (toDisplay.getBooleanValue() != null) {
-			for (Pair<String, Boolean> iter : toDisplay.getBooleanValue()) {
-				SmartDashboard.putBoolean(iter.first(), iter.second());
-			}
-		}
+		r.submit(toDisplay);
 	}
 }
