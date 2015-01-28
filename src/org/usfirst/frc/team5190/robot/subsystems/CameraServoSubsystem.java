@@ -23,10 +23,8 @@ public class CameraServoSubsystem extends Subsystem {
 	 * reset the camera servo to 180 degree
 	 */
 	public void setZero() {
-
 		// Reset Camera For Teleoperated Mode
 		cameraServo.setAngle(180);
-
 	}
 
 	/**
@@ -42,6 +40,12 @@ public class CameraServoSubsystem extends Subsystem {
 
 		}
 
+	}
+
+	/**
+	 * TeleOperated period
+	 */
+	public void moveCamera() {
 	}
 
 }

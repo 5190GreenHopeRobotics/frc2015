@@ -45,6 +45,10 @@ public class EncoderTestCommand extends Command {
 		boolean test2 = testEncoder.getDirection();
 		double test3 = testEncoder.getDistance();
 		double test4 = testEncoder.getRate();
+		SmartDashboard.putNumber("Encoder Get:", test1);
+		SmartDashboard.putBoolean("Encoder Get Direction", test2);
+		SmartDashboard.putNumber("Encoder Distance:", test3);
+		SmartDashboard.putNumber("Encoder Rate", test4);
 		System.out.println("testEncoder.get():" + test1);
 		System.out.println("testEncoder.getDirection():" + test2);
 		System.out.println("testEncoder.getDistance():" + test3);
@@ -53,7 +57,7 @@ public class EncoderTestCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
