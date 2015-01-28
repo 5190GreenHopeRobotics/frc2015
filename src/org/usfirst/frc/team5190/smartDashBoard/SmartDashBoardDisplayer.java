@@ -8,11 +8,15 @@ public class SmartDashBoardDisplayer {
 	}
 
 	public void display(Displayable toDisplay) {
-		for (Pair<String, Double> iter : toDisplay.getDecimalValues()) {
-			SmartDashboard.putNumber(iter.first(), iter.second());
+		if (toDisplay.getDecimalValues() != null) {
+			for (Pair<String, Double> iter : toDisplay.getDecimalValues()) {
+				SmartDashboard.putNumber(iter.first(), iter.second());
+			}
 		}
-		for (Pair<String, Boolean> iter : toDisplay.getBooleanValue()) {
-			SmartDashboard.putBoolean(iter.first(), iter.second());
+		if (toDisplay.getBooleanValue() != null) {
+			for (Pair<String, Boolean> iter : toDisplay.getBooleanValue()) {
+				SmartDashboard.putBoolean(iter.first(), iter.second());
+			}
 		}
 	}
 }
