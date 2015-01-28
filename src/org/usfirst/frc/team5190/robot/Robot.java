@@ -8,6 +8,7 @@ import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
@@ -43,6 +44,8 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// hardware not present
 	public static ForkliftSubsystem forkLiftSubsystem = null;
+	// Experiment, don't touch plz
+	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 
 	/**
 	 * 

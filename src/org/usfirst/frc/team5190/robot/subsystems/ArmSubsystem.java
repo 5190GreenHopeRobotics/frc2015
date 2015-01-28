@@ -38,6 +38,7 @@ public class ArmSubsystem extends PIDSubsystem {
 
 	public ArmSubsystem() {
 		super("Arm", 1.0, 0.0, 0.0);
+		enable();
 		setPercentTolerance(5.0);
 		getPIDController().setContinuous(false);
 		armLengthEncoder.setMaxPeriod(.1);
@@ -94,11 +95,11 @@ public class ArmSubsystem extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		return armAngleTalon.getSpeed();
+		return armLengthEncoder.getDistance();
 	}
 
 	protected void usePIDOutput(double output) {
-		armAngleTalon.pidWrite(output);
+		armAngleTalon.set(output);
 
 	}
 }
