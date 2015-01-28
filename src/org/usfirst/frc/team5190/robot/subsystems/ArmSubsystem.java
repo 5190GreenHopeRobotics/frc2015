@@ -18,6 +18,7 @@ public class ArmSubsystem extends PIDSubsystem {
 	double motorSpeed = 0.5;
 	public Encoder armLengthEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
+	// Counterclockwise for getdirection() is true
 	public double currentdegrees = 0;
 	public DigitalInput armLimitSwitch = new DigitalInput(
 			RobotMap.ARM_LIMIT_SWITCH_PORT);
