@@ -18,6 +18,7 @@ public class ArmSubsystem extends PIDSubsystem {
 	double motorSpeed = 0.5;
 	public Encoder armLengthEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
+	// Counterclockwise for getdirection() is true
 	public double currentdegrees = 0;
 	public DigitalInput armLimitSwitch = new DigitalInput(
 			RobotMap.ARM_LIMIT_SWITCH_PORT);
@@ -38,6 +39,7 @@ public class ArmSubsystem extends PIDSubsystem {
 
 	public ArmSubsystem() {
 		super("Arm", 1.0, 0.0, 0.0);
+		enable();
 		setPercentTolerance(5.0);
 		getPIDController().setContinuous(false);
 		armLengthEncoder.setMaxPeriod(.1);
@@ -94,11 +96,11 @@ public class ArmSubsystem extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		return armAngleTalon.getSpeed();
+		return armLengthEncoder.getDistance();
 	}
 
 	protected void usePIDOutput(double output) {
-		armAngleTalon.pidWrite(output);
+		armAngleTalon.set(output);
 
 	}
 }
