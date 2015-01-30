@@ -46,7 +46,7 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return false;
 	}
 
 	@Override

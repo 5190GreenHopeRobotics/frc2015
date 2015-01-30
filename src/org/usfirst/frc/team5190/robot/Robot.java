@@ -4,6 +4,7 @@ import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.EncoderTestCommand;
+import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
@@ -38,7 +39,7 @@ public class Robot extends IterativeRobot {
 
 	// hardware not present
 	public static ElevatorSubsystem elevatorSubsystem = null;
-
+	public static IndependentSensors sensors = new IndependentSensors();
 	private Command autonomousCommand = new DriveForwardCommand();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
@@ -119,7 +120,8 @@ public class Robot extends IterativeRobot {
 
 	{
 		camera = new Camera();
-		SmartDashBoardDisplayer.getInstance().display(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
 	public Camera camera;
 
@@ -128,7 +130,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		// instantiate the command used for the autonomous period
 
 	}
 
@@ -140,6 +141,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		new PutSmartDashBoardCommand().start();
 	}
 
 	/**
@@ -159,7 +161,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
-
+		new PutSmartDashBoardCommand().start();
 		new EncoderTestCommand().start();
 		new CameraMovementCommand().start();
 

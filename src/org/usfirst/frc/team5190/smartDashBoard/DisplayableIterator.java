@@ -4,6 +4,10 @@ import java.util.LinkedList;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * @deprecated
+ * @author sdai Possible Thread Race Condition with subsystem
+ */
 public class DisplayableIterator implements Runnable {
 
 	private LinkedList<Displayable> queue;
