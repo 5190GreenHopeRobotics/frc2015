@@ -1,8 +1,11 @@
 package org.usfirst.frc.team5190.smartDashBoard;
 
+import java.util.LinkedList;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class SmartDashBoardDisplayer {
-	private Thread worker;
-	private DisplayableIterator r;
+	private LinkedList<Displayable> queue;
 	private static SmartDashBoardDisplayer instance;
 
 	static {
@@ -10,16 +13,38 @@ public class SmartDashBoardDisplayer {
 	}
 
 	private SmartDashBoardDisplayer() {
-		r = new DisplayableIterator();
-		worker = new Thread(r);
-		worker.start();
+		queue = new LinkedList<Displayable>();
 	}
 
 	public static SmartDashBoardDisplayer getInstance() {
 		return instance;
 	}
 
-	public void display(Displayable toDisplay) {
-		r.submit(toDisplay);
+	/**
+	 * adds a Displayable to be scheduled to be displayed
+	 * 
+	 * @param toAdd
+	 *            the Displayable to be added
+	 */
+	public void submit(Displayable toAdd) {
+		queue.add(toAdd);
+	}
+
+	/**
+	 * display all added Displayable
+	 */
+	public void display() {
+		for (Displayable iter : queue) {
+			if (iter.getDecimalValues() != null) {
+				for (Pair<String, Double> iter2 : iter.getDecimalValues()) {
+					SmartDashboard.putNumber(iter2.first(), iter2.second());
+				}
+			}
+			if (iter.getBooleanValue() != null) {
+				for (Pair<String, Boolean> iter2 : iter.getBooleanValue()) {
+					SmartDashboard.putBoolean(iter2.first(), iter2.second());
+				}
+			}
+		}
 	}
 }

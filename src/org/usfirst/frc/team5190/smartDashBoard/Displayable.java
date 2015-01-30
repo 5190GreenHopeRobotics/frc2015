@@ -10,7 +10,17 @@ import java.util.Collection;
  */
 public interface Displayable {
 
+	/**
+	 * get a list of all boolean value to be output to the smartDashBoard
+	 * 
+	 * @return the list
+	 */
 	public Collection<Pair<String, Boolean>> getBooleanValue();
 
+	/**
+	 * get a list of all double value to be output to the SmartDashBoard
+	 * 
+	 * @return the list
+	 */
 	public Collection<Pair<String, Double>> getDecimalValues();
 }
