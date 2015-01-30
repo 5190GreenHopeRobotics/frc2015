@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @deprecated
- * @author nagdij Possible Thread Race Condition with subsystem
+ * @author sdai Possible Thread Race Condition with subsystem
  */
 public class DisplayableIterator implements Runnable {
 

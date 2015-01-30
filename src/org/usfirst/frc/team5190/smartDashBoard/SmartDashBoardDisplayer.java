@@ -16,6 +16,11 @@ public class SmartDashBoardDisplayer {
 		queue = new LinkedList<Displayable>();
 	}
 
+	/**
+	 * singlinton design pattern, get one instance of this class
+	 * 
+	 * @return the instance
+	 */
 	public static SmartDashBoardDisplayer getInstance() {
 		return instance;
 	}
