@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * a collection of values that can be displayed on smart dashboard
  * 
- * @author sdai
+ * @author Shilong Dai
  *
  */
 public interface Displayable {

@@ -5,6 +5,7 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * drive forward until 11 inches from an object
@@ -34,8 +35,10 @@ public class DriveForwardCommand extends Command {
 	@Override
 	protected void execute() {
 
+		SmartDashboard.putNumber("Distance From Ultrasonic(Inches):",
+				ultraSonicSensor.getRangeInches());
 		if (ultraSonicSensor.getRangeInches() > 11) {
-			Robot.driveTrainSubsystem.drive(-0.8);
+			Robot.driveTrainSubsystem.drive(-0.0);
 		} else {
 			Robot.driveTrainSubsystem.stopAll();
 		}
