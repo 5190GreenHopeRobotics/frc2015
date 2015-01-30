@@ -130,7 +130,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		new PutSmartDashBoardCommand().start();
 
 	}
 
@@ -142,6 +141,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		new PutSmartDashBoardCommand().start();
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
-
+		new PutSmartDashBoardCommand().start();
 		new EncoderTestCommand().start();
 		new CameraMovementCommand().start();
 

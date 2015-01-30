@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class IndependentSensors implements Displayable {
-	static BuiltInAccelerometer accelerometer;
+	static private BuiltInAccelerometer accelerometer;
 
 	static {
 		accelerometer = new BuiltInAccelerometer();
