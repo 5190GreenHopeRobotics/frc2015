@@ -46,7 +46,7 @@ public class CameraServoSubsystem extends Subsystem {
 	 * TeleOperated period
 	 */
 	public void moveCamera(int angle) {
-		cameraServo.setAngle(angle)
+		cameraServo.setAngle(angle);
 	}
 
 }
