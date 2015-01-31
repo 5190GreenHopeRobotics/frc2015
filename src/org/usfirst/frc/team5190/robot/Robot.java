@@ -43,10 +43,9 @@ public class Robot extends IterativeRobot {
 	private Command autonomousCommand = new DriveForwardCommand();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
+	public static ForkliftSubsystem forkLiftSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	// hardware not present
-	public static ForkliftSubsystem forkLiftSubsystem = null;
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 

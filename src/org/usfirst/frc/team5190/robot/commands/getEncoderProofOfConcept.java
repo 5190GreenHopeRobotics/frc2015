@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * @deprecated
  */
 public class getEncoderProofOfConcept extends Command {
 	boolean isFinished = false;
