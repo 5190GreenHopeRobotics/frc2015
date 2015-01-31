@@ -5,7 +5,7 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * @deprecated
  */
 public class RaiseforkliftCommand extends Command {
 
