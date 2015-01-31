@@ -13,47 +13,50 @@ public class ExtendArmCommand extends Command {
 	 * second.
 	 */
 	public ExtendArmCommand() {
-		requires(Robot.armSubsystem);
-		setTimeout(1.0);
+		requires(Robot.PIDExample);
 	}
 
 	/**
 	 * This part starts the actual process of the extending of the arm.
 	 */
-	@Override
 	protected void initialize() {
-		Robot.armSubsystem.extendArm();
+		// If the direction changes, reset Encoder count. Need to check
+		// directions for true/false
+		if (Robot.PIDExample.armExtender.getEncoderdirection() == false) {
+			Robot.PIDExample.armExtender.resetEncoder();
+		}
+		// If the limit switches are not pressed down, extend a little
+		if (Robot.PIDExample.armExtender.limitswitchextended.get() != false
+				&& Robot.PIDExample.armExtender.limitswitchretracted.get() != false) {
+			Robot.PIDExample.armExtender
+					.setSetpoint(Robot.PIDExample.armExtender.getEncoderangle() + 100);
+		}
 	}
 
 	/**
 	 * Called repeatedly when this Command is scheduled to run
 	 */
-	@Override
 	protected void execute() {
 	}
 
 	/**
 	 * Returns it when the amount of time is finished.
 	 */
-	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return true;
 	}
 
 	/**
 	 * Stops the Arm when the Time is out
 	 */
-	@Override
 	protected void end() {
-		Robot.armSubsystem.stopArmLengthChange();
+		Robot.PIDExample.armExtender.stopExtension();
 	}
 
 	/**
 	 * Stops the Arm when the code is interrupted.
 	 */
-	@Override
 	protected void interrupted() {
-		Robot.armSubsystem.stopArmLengthChange();
-
+		Robot.PIDExample.armExtender.stopExtension();
 	}
 }

@@ -11,24 +11,30 @@ public class RetractArmCommand extends Command {
 
 	public RetractArmCommand() {
 		// needs the arm
-		requires(Robot.armSubsystem);
-		setTimeout(1.0);
+		requires(Robot.PIDExample);
 
 	}
 
 	/**
 	 * This starts the command, and begins to retract the Arm.
 	 */
-	@Override
 	protected void initialize() {
-		Robot.armSubsystem.retractArm();
-
+		// If the direction changes, reset Encoder count. Need to check
+		// directions for true/false
+		if (Robot.PIDExample.armExtender.getEncoderdirection() == true) {
+			Robot.PIDExample.armExtender.resetEncoder();
+		}
+		// If the limit switches are not pressed down, retract a little bit
+		if (Robot.PIDExample.armExtender.limitswitchextended.get() != false
+				&& Robot.PIDExample.armExtender.limitswitchretracted.get() != false) {
+			Robot.PIDExample.armExtender
+					.setSetpoint(Robot.PIDExample.armExtender.getEncoderangle() + 100);
+		}
 	}
 
 	/**
 	 * Called repeatedly when this Command is scheduled to run
 	 */
-	@Override
 	protected void execute() {
 
 	}
@@ -36,9 +42,8 @@ public class RetractArmCommand extends Command {
 	/**
 	 * This is the returned value after the time is finished.
 	 */
-	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return true;
 
 	}
 
@@ -46,18 +51,15 @@ public class RetractArmCommand extends Command {
 	 * This stops the arm when the time is "out"/ended, and it will start to
 	 * rerun.
 	 */
-	@Override
 	protected void end() {
-		Robot.armSubsystem.stopArmLengthChange();
-
+		Robot.PIDExample.armExtender.stopExtension();
 	}
 
 	/**
 	 * This stops the arm from retracting when the code is interrupted.
 	 */
-	@Override
 	protected void interrupted() {
-		Robot.armSubsystem.stopArmLengthChange();
+		Robot.PIDExample.armExtender.stopExtension();
 
 	}
 }

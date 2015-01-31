@@ -12,6 +12,7 @@ public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 	private TalonSRX armTalon = new TalonSRX(1);
 	private Encoder armAngleEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
+	public ArmextenderPIDSubsystem armExtender = new ArmextenderPIDSubsystem();
 
 	// Initialize your subsystem here
 	public PIDarmexperimentPIDSubsystem() {
@@ -35,14 +36,18 @@ public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 	}
 
 	public double getEncoderangle() {
-		return armAngleEncoder.get();
+		return Math.abs(armAngleEncoder.get());
+	}
+
+	public void stopExtension() {
+		setSetpoint(getEncoderangle());
 	}
 
 	protected double returnPIDInput() {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		return armAngleEncoder.get();
+		return Math.abs(armAngleEncoder.get());
 	}
 
 	protected void usePIDOutput(double output) {
@@ -50,4 +55,5 @@ public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 		// e.g. yourMotor.set(output);
 		armTalon.set(output);
 	}
+
 }
