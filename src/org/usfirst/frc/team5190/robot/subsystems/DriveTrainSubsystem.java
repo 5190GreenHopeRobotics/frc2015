@@ -10,6 +10,7 @@ import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,7 +26,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	RobotDrive mDrive;
 	boolean disable = false;
 
-	// Gyro gyro;
+	Gyro gyro;
 
 	/**
 	 * Init the drive train at default port, in RobotMap
@@ -39,7 +40,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-		// gyro = new Gyro(RobotMap.GYRO_PORT);
+		gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
 	/**
@@ -72,9 +73,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 
 	public void driveForward() {
-		// -gyro.getAngle()
 		if (!disable) {
-			mDrive.drive(1, 0);
+			mDrive.drive(1, -gyro.getAngle());
 		}
 	}
 
@@ -87,7 +87,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void drive(double speed) {
 		if (!disable) {
-			mDrive.arcadeDrive(speed, 0);
+			mDrive.arcadeDrive(speed, -gyro.getAngle());
 
 		}
 	}
