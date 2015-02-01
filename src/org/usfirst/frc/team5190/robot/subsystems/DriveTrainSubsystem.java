@@ -9,6 +9,7 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
@@ -49,10 +50,11 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 
 		right = new Encoder(RobotMap.ENCODER_RIGHT_CHANNEL_A,
-				RobotMap.ENCODER_RIGHT_CHANNEL_B);
+				RobotMap.ENCODER_RIGHT_CHANNEL_B, false, EncodingType.k4X);
+		right.setDistancePerPulse(0.068);
 		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
-				RobotMap.ENCODER_LEFT_CHANNEL_B);
-
+				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k4X);
+		left.setDistancePerPulse(0.068);
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
