@@ -15,14 +15,14 @@ public class RobotMap {
 	public static final int BACKRIGHT = 3;
 	// sensors
 	public static final int GYRO_PORT = 0;
-	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 1;
-	public static final int ULTRASONIC_PING = 6;
-	public static final int ULTRASONIC_RECIEVE = 5;
+	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 0;
+	public static final int ULTRASONIC_PING = 1;
+	public static final int ULTRASONIC_RECIEVE = 2;
 	// encoder
-	public static final int ENCODER_RIGHT_CHANNEL_A = 2;
-	public static final int ENCODER_RIGHT_CHANNEL_B = 3;
-	public static final int ENCODER_LEFT_CHANNEL_A = 0;
-	public static final int ENCODER_LEFT_CHANNEL_B = 1;
+	public static final int ENCODER_RIGHT_CHANNEL_A = 5;
+	public static final int ENCODER_RIGHT_CHANNEL_B = 6;
+	public static final int ENCODER_LEFT_CHANNEL_A = 3;
+	public static final int ENCODER_LEFT_CHANNEL_B = 4;
 
 	public static final int SOLENOID_PORT = 0;
 }

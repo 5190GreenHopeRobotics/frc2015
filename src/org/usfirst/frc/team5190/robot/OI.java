@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-import org.usfirst.frc.team5190.robot.commands.LightsOnCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -52,7 +51,7 @@ public class OI {
 		enableSwitch.whenPressed(new EnableRobotCommand());
 
 		// turn on the led
-		lightSwitch.whenPressed(new LightsOnCommand());
+		// lightSwitch.whenPressed(new LightsOnCommand());
 
 	}
 

@@ -11,30 +11,35 @@ import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
  * the drive train subsystem
  */
-public class DriveTrainSubsystem extends Subsystem implements Displayable {
+public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	DigitalInput mLimitSwitch;
-	RobotDrive mDrive;
+	private DigitalInput mLimitSwitch;
+	private RobotDrive mDrive;
 	boolean disable = false;
-	Encoder right, left;
-	Gyro gyro;
+	private Encoder right, left;
+	// private Gyro gyro;
+	Jaguar frontleft, backleft, frontright, backright;
 
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
-		mDrive = new RobotDrive(RobotMap.FRONTLEFT, RobotMap.BACKLEFT,
-				RobotMap.FRONTRIGHT, RobotMap.BACKRIGHT);
+		super("DriveTran", 1, 0, 0);
+		frontleft = new Jaguar(RobotMap.FRONTLEFT);
+		backleft = new Jaguar(RobotMap.BACKLEFT);
+		frontright = new Jaguar(RobotMap.FRONTRIGHT);
+		backright = new Jaguar(RobotMap.BACKRIGHT);
+		mDrive = new RobotDrive(frontleft, backleft, frontright, backright);
 		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 		mDrive.setSafetyEnabled(true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
@@ -46,7 +51,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 				RobotMap.ENCODER_RIGHT_CHANNEL_B);
 		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
 				RobotMap.ENCODER_LEFT_CHANNEL_B);
-		gyro = new Gyro(RobotMap.GYRO_PORT);
+		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
 	/**
@@ -80,7 +85,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void driveForward() {
 		if (!disable) {
-			mDrive.drive(1, -gyro.getAngle());
+			mDrive.drive(1, 0);
 		}
 	}
 
@@ -93,7 +98,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void drive(double speed) {
 		if (!disable) {
-			mDrive.arcadeDrive(speed, -gyro.getAngle());
+			mDrive.arcadeDrive(speed, 0);
 
 		}
 	}
@@ -220,5 +225,20 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
 				.getDistance()));
 		return encoder;
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		return (left.get() + right.get()) / 2;
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		frontleft.set(output);
+		frontright.set(output);
+		backleft.set(output);
+		backright.set(output);
+
 	}
 }

@@ -19,6 +19,7 @@ public class DriveForwardCommand extends Command {
 	public DriveForwardCommand() {
 		// needs drive train
 		requires(Robot.driveTrainSubsystem);
+		Robot.driveTrainSubsystem.setPower(0.1);
 		// ini the ultrasonics
 		ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 				RobotMap.ULTRASONIC_RECIEVE);
@@ -27,6 +28,7 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected void initialize() {
+		Robot.driveTrainSubsystem.setSetpoint(100);
 	}
 
 	/**
@@ -37,11 +39,11 @@ public class DriveForwardCommand extends Command {
 
 		SmartDashboard.putNumber("Distance From Ultrasonic(Inches):",
 				ultraSonicSensor.getRangeInches());
-		if (ultraSonicSensor.getRangeInches() > 11) {
-			Robot.driveTrainSubsystem.drive(-0.0);
-		} else {
-			Robot.driveTrainSubsystem.stopAll();
-		}
+		// if (ultraSonicSensor.getRangeInches() > 11) {
+		// Robot.driveTrainSubsystem.drive(-0.0);
+		// } else {
+		// Robot.driveTrainSubsystem.stopAll();
+		// }
 	}
 
 	@Override
