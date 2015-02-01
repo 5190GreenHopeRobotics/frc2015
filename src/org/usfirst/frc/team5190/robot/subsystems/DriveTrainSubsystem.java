@@ -214,7 +214,6 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 
 	@Override
 	public Collection<Pair<String, Double>> getDecimalValues() {
-		// TODO Auto-generated method stub
 		Double get = new Double(right.get());
 		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
 		encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
@@ -235,10 +234,7 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		frontleft.set(output);
-		frontright.set(output);
-		backleft.set(output);
-		backright.set(output);
+		drive(output);
 
 	}
 }

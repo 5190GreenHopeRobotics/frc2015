@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.commands;
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveForwardCommand extends Command {
 	private Ultrasonic ultraSonicSensor;
+	PIDController p;
 
 	/**
 	 * 
