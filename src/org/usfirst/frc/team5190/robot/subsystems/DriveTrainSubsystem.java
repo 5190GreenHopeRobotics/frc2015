@@ -218,8 +218,8 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		Double get = new Double(right.get());
 		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
 		encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
-		encoder.add(new Pair<String, Double>("Encoder Right Get Distance:",
-				right.getDistance()));
+		encoder.add(new Pair<String, Double>("Encoder Right Distance:", right
+				.getDistance()));
 		get = new Double(left.get());
 		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
 		encoder.add(new Pair<String, Double>("Encoder Left Distance", left

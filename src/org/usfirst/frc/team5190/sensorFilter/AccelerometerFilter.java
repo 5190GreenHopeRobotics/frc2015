@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class AccelerometerFilter {
 	protected Accelerometer sensor;
-	protected static double FilteringFactor = 0.1f;
+	protected static double FilteringFactor = 0.5;
 	protected double[] accel;
 
 	public static void setFilteringFactor(double factor) {
