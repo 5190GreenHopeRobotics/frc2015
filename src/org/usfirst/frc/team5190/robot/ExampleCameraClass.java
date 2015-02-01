@@ -27,7 +27,7 @@ public class ExampleCameraClass {
 		NIVision.IMAQdxGrab(session, frame, 1);
 		NIVision.imaqColorThreshold(frame, frame, 0, ColorMode.HSL, new Range(
 				0, 255), new Range(0, 255), new Range(128, 255));
-		server.getInstance().setImage(frame);
+		CameraServer.getInstance().setImage(frame);
 		NIVision.IMAQdxStopAcquisition(session);
 	}
 
