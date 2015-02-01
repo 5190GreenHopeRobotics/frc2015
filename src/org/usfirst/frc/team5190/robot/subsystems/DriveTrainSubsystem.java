@@ -50,11 +50,13 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 
 		right = new Encoder(RobotMap.ENCODER_RIGHT_CHANNEL_A,
-				RobotMap.ENCODER_RIGHT_CHANNEL_B, false, EncodingType.k4X);
-		right.setDistancePerPulse(0.068);
+				RobotMap.ENCODER_RIGHT_CHANNEL_B, false, EncodingType.k2X);
+		right.setDistancePerPulse(0.0763173126);
+		right.setSamplesToAverage(10);
 		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
-				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k4X);
-		left.setDistancePerPulse(0.068);
+				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k2X);
+		left.setDistancePerPulse(0.0744131602);
+		left.setSamplesToAverage(10);
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
