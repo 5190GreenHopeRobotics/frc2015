@@ -47,8 +47,9 @@ public class OI {
 	 */
 	public OI() {
 
-		// stops the drive train when pressed
 		resetEncoder.whenPressed(new ResetEncoderCommand());
+
+		// stops the drive train when pressed
 		killSwitch.whenPressed(new TerminateRobotCommand());
 
 		// undo kill
