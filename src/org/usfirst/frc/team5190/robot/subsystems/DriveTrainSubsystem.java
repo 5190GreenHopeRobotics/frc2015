@@ -14,13 +14,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * the drive train subsystem
  */
-public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
+public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -29,6 +30,10 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 	private boolean disable = false;
 	private double pidInput;
 	private Encoder right, left;
+	private PIDController pidFrontLeft;
+	private PIDController pidBackLeft;
+	private PIDController pidFrontRight;
+	private PIDController pidBackRight;
 	// private Gyro gyro;
 	Jaguar frontleft, backleft, frontright, backright;
 
@@ -36,7 +41,6 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
-		super("DriveTran", 1, 0, 0);
 		frontleft = new Jaguar(RobotMap.FRONTLEFT);
 		backleft = new Jaguar(RobotMap.BACKLEFT);
 		frontright = new Jaguar(RobotMap.FRONTRIGHT);
@@ -55,6 +59,11 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
 				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k4X);
 		left.setDistancePerPulse(0.068);
+
+		pidFrontLeft = new PIDController(0, 0, 0, left, backleft);
+		pidBackLeft = new PIDController(0, 0, 0, left, frontleft);
+		pidFrontRight = new PIDController(0, 0, 0, right, backright);
+		pidBackRight = new PIDController(0, 0, 0, right, frontright);
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
@@ -212,6 +221,13 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		}
 	}
 
+	public void driveToPoint(double point) {
+		pidFrontLeft.setSetpoint(point);
+		pidFrontRight.setSetpoint(point);
+		pidBackLeft.setSetpoint(point);
+		pidBackRight.setSetpoint(point);
+	}
+
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
 		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
@@ -239,16 +255,4 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		return encoder;
 	}
 
-	@Override
-	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return Math.abs((left.get() + right.get()) / 2);
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		pidInput = output;
-		drive(output);
-
-	}
 }

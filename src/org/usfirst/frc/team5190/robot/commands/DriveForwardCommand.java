@@ -28,7 +28,7 @@ public class DriveForwardCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		// if(IndependentSensors.getUltraSonic().getRangeInches() > )
+		Robot.driveTrainSubsystem.driveToPoint(10);
 	}
 
 	@Override
