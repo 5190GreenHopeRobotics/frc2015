@@ -10,6 +10,7 @@ import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -25,7 +26,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	DigitalInput mLimitSwitch;
 	RobotDrive mDrive;
 	boolean disable = false;
-
+	Encoder right, left;
 	Gyro gyro;
 
 	/**
@@ -40,6 +41,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+
+		right = new Encoder(RobotMap.ENCODER_RIGHT_CHANNEL_A,
+				RobotMap.ENCODER_RIGHT_CHANNEL_B);
+		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
+				RobotMap.ENCODER_LEFT_CHANNEL_B);
 		gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
@@ -191,16 +197,28 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		LinkedList<Pair<String, Boolean>> limitSwitch = new LinkedList<Pair<String, Boolean>>();
-		limitSwitch.add(new Pair<String, Boolean>("Limit Switch", mLimitSwitch
-				.get()));
-		return limitSwitch;
+		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
+		booleanValues.add(new Pair<String, Boolean>("Limit Switch",
+				mLimitSwitch.get()));
+		booleanValues.add(new Pair<String, Boolean>("Encoder Right Direction",
+				right.getDirection()));
+		booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",
+				left.getDirection()));
+		return booleanValues;
 	}
 
 	@Override
 	public Collection<Pair<String, Double>> getDecimalValues() {
 		// TODO Auto-generated method stub
-		return null;
+		Double get = new Double(right.get());
+		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
+		encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
+		encoder.add(new Pair<String, Double>("Encoder Right Get Distance:",
+				right.getDistance()));
+		get = new Double(left.get());
+		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
+		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
+				.getDistance()));
+		return encoder;
 	}
-
 }

@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.EncoderTestCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
@@ -161,7 +160,6 @@ public class Robot extends IterativeRobot {
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 		new PutSmartDashBoardCommand().start();
-		new EncoderTestCommand().start();
 		new CameraMovementCommand().start();
 
 	}

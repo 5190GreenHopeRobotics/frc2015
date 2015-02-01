@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * close the fork lift
+ * 
+ * @deprecated
  */
 public class CloseForkliftCommand extends Command {
 
