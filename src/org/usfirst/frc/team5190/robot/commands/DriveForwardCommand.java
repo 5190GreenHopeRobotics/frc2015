@@ -15,12 +15,13 @@ public class DriveForwardCommand extends Command {
 	public DriveForwardCommand() {
 		// needs drive train
 		requires(Robot.driveTrainSubsystem);
-		Robot.driveTrainSubsystem.setPower(0.7);
+		Robot.driveTrainSubsystem.setPower(0.1);
 		// ini the ultrasonics
 	}
 
 	@Override
 	protected void initialize() {
+		Robot.driveTrainSubsystem.driveToPoint(20);
 	}
 
 	/**
@@ -28,7 +29,6 @@ public class DriveForwardCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.driveToPoint(0.5);
 	}
 
 	@Override

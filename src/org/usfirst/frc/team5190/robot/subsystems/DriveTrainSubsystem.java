@@ -64,6 +64,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		pidBackLeft = new PIDController(1, 0, 0, left, backleft);
 		pidFrontRight = new PIDController(1, 0, 0, right, frontright);
 		pidBackRight = new PIDController(1, 0, 0, right, backright);
+
+		pidFrontLeft.enable();
+		pidBackLeft.enable();
+		pidFrontRight.enable();
+		pidFrontLeft.enable();
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
