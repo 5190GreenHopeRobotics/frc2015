@@ -21,7 +21,8 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.driveTrainSubsystem.driveToPoint(20);
+		Robot.driveTrainSubsystem.resetEncoder();
+		Robot.driveTrainSubsystem.driveToPoint(100);
 	}
 
 	/**
