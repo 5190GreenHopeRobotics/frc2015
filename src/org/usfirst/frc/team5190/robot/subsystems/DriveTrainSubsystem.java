@@ -52,6 +52,7 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 				RobotMap.ENCODER_RIGHT_CHANNEL_B);
 		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
 				RobotMap.ENCODER_LEFT_CHANNEL_B);
+
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
