@@ -1,19 +1,13 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
-import org.usfirst.frc.team5190.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * drive forward until 11 inches from an object
  */
 public class DriveForwardCommand extends Command {
-	private Ultrasonic ultraSonicSensor;
-	PIDController p;
 
 	/**
 	 * 
@@ -23,13 +17,11 @@ public class DriveForwardCommand extends Command {
 		requires(Robot.driveTrainSubsystem);
 		Robot.driveTrainSubsystem.setPower(0.1);
 		// ini the ultrasonics
-		ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
-				RobotMap.ULTRASONIC_RECIEVE);
-		ultraSonicSensor.setEnabled(true);
 	}
 
 	@Override
 	protected void initialize() {
+		Robot.driveTrainSubsystem.driveToPoint(20);
 	}
 
 	/**
@@ -37,15 +29,6 @@ public class DriveForwardCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-
-		SmartDashboard.putNumber("Distance From Ultrasonic(Inches):",
-				ultraSonicSensor.getRangeInches());
-		Robot.driveTrainSubsystem.setSetpoint(1000000000);
-		// if (ultraSonicSensor.getRangeInches() > 11) {
-		// Robot.driveTrainSubsystem.drive(-0.0);
-		// } else {
-		// Robot.driveTrainSubsystem.stopAll();
-		// }
 	}
 
 	@Override
