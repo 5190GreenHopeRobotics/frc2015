@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
+import org.usfirst.frc.team5190.robot.commands.ResetEncoderCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,6 +30,7 @@ public class OI {
 	public static final int ENABLE_SWITCH = 12;
 	public static final int ADD_SERVO = 7;
 	public static final int SUB_SERVO = 8;
+	public static final int RESET_ENCODER = 10;
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
@@ -38,6 +40,7 @@ public class OI {
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 	// light button
 	private Button lightSwitch = new JoystickButton(driveStick, LIGHT_ON_BUTTON);
+	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
 
 	/**
 	 * init the commands for the buttons
@@ -45,6 +48,7 @@ public class OI {
 	public OI() {
 
 		// stops the drive train when pressed
+		resetEncoder.whenPressed(new ResetEncoderCommand());
 		killSwitch.whenPressed(new TerminateRobotCommand());
 
 		// undo kill

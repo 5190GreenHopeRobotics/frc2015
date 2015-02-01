@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
- * Experimental subsystem using pid to control the raising and lowering of the
- * arm
+ *
  */
 public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 
@@ -15,10 +14,6 @@ public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 			Encoder.EncodingType.k4X);
 	public ArmextenderPIDSubsystem armExtender = new ArmextenderPIDSubsystem();
 
-	/**
-	 * Create the pid subsystem, configures the encoder, enables the default pid
-	 * controller
-	 */
 	// Initialize your subsystem here
 	public PIDarmexperimentPIDSubsystem() {
 		// Use these to get going:
@@ -40,26 +35,13 @@ public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	/**
-	 * Returns the count of the encoder
-	 * 
-	 * @return
-	 */
 	public double getEncoderangle() {
 		return Math.abs(armAngleEncoder.get());
 	}
 
-	/**
-	 * Sets the set point to the current angle, therefore stopping movement
-	 */
-
 	public void stopExtension() {
 		setSetpoint(getEncoderangle());
 	}
-
-	/**
-	 * Gives an input to the pid loop from the encoder
-	 */
 
 	protected double returnPIDInput() {
 		// Return your input value for the PID loop
@@ -67,10 +49,6 @@ public class PIDarmexperimentPIDSubsystem extends PIDSubsystem {
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
 		return Math.abs(armAngleEncoder.get());
 	}
-
-	/**
-	 * Uses output from the pidloop to control the motor
-	 */
 
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
