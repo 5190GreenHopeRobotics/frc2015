@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.usfirst.frc.team5190.sensorFilter.AccelerometerFilter;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
@@ -11,9 +12,10 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class IndependentSensors implements Displayable {
 	static private BuiltInAccelerometer accelerometer;
-
+	static private AccelerometerFilter accel;
 	static {
 		accelerometer = new BuiltInAccelerometer();
+		accel = new AccelerometerFilter(accelerometer);
 	}
 
 	public Accelerometer getAccelerometer() {
@@ -29,12 +31,9 @@ public class IndependentSensors implements Displayable {
 	@Override
 	public Collection<Pair<String, Double>> getDecimalValues() {
 		LinkedList<Pair<String, Double>> result = new LinkedList<Pair<String, Double>>();
-		result.add(new Pair<String, Double>("Accelerometer X", accelerometer
-				.getX()));
-		result.add(new Pair<String, Double>("Accelerometer Y", accelerometer
-				.getY()));
-		result.add(new Pair<String, Double>("Accelerometer Z", accelerometer
-				.getZ()));
+		result.add(new Pair<String, Double>("Accelerometer X", accel.getX()));
+		result.add(new Pair<String, Double>("Accelerometer Y", accel.getY()));
+		result.add(new Pair<String, Double>("Accelerometer Z", accel.getZ()));
 		return result;
 	}
 }
