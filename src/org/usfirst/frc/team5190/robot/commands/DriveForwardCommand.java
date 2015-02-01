@@ -30,7 +30,6 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.driveTrainSubsystem.setSetpoint(100);
 	}
 
 	/**
@@ -41,6 +40,7 @@ public class DriveForwardCommand extends Command {
 
 		SmartDashboard.putNumber("Distance From Ultrasonic(Inches):",
 				ultraSonicSensor.getRangeInches());
+		Robot.driveTrainSubsystem.setSetpoint(1000000000);
 		// if (ultraSonicSensor.getRangeInches() > 11) {
 		// Robot.driveTrainSubsystem.drive(-0.0);
 		// } else {

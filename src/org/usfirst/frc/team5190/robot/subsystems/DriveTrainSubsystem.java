@@ -66,6 +66,14 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 	}
 
 	/**
+	 * reset all the encoder
+	 */
+	public void resetEncoder() {
+		right.reset();
+		left.reset();
+	}
+
+	/**
 	 * disable or enable the drive train
 	 * 
 	 * @param flag
