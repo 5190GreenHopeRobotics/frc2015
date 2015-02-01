@@ -230,7 +230,7 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
-		return (left.get() + right.get()) / 2;
+		return Math.abs((left.get() + right.get()) / 2);
 	}
 
 	@Override
