@@ -60,10 +60,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k4X);
 		left.setDistancePerPulse(0.068);
 
-		pidFrontLeft = new PIDController(0, 0, 0, left, backleft);
-		pidBackLeft = new PIDController(0, 0, 0, left, frontleft);
-		pidFrontRight = new PIDController(0, 0, 0, right, backright);
-		pidBackRight = new PIDController(0, 0, 0, right, frontright);
+		pidFrontLeft = new PIDController(1, 0, 0, left, frontleft);
+		pidBackLeft = new PIDController(1, 0, 0, left, backleft);
+		pidFrontRight = new PIDController(1, 0, 0, right, frontright);
+		pidBackRight = new PIDController(1, 0, 0, right, backright);
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
