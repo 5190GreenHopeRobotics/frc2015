@@ -25,7 +25,8 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 	// here. Call these from Commands.
 	private DigitalInput mLimitSwitch;
 	private RobotDrive mDrive;
-	boolean disable = false;
+	private boolean disable = false;
+	private double pidInput;
 	private Encoder right, left;
 	// private Gyro gyro;
 	Jaguar frontleft, backleft, frontright, backright;
@@ -223,6 +224,7 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
 		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
 				.getDistance()));
+		encoder.add(new Pair<String, Double>("PID Input", pidInput));
 		return encoder;
 	}
 
@@ -234,6 +236,7 @@ public class DriveTrainSubsystem extends PIDSubsystem implements Displayable {
 
 	@Override
 	protected void usePIDOutput(double output) {
+		pidInput = output;
 		drive(output);
 
 	}
