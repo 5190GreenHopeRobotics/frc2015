@@ -9,7 +9,6 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
@@ -26,16 +25,14 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private DigitalInput mLimitSwitch;
-	private RobotDrive mDrive;
+	private PIDRobotDrive mDrive;
 	private boolean disable = false;
 	private double pidInput;
 	private Encoder right, left;
-	private PIDController pidFrontLeft;
-	private PIDController pidBackLeft;
-	private PIDController pidFrontRight;
-	private PIDController pidBackRight;
+	private PIDController pid;
+	private PIDEncoderDriveTrain enc;
 	// private Gyro gyro;
-	Jaguar frontleft, backleft, frontright, backright;
+	private Jaguar frontleft, backleft, frontright, backright;
 
 	/**
 	 * Init the drive train at default port, in RobotMap
@@ -45,7 +42,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backleft = new Jaguar(RobotMap.BACKLEFT);
 		frontright = new Jaguar(RobotMap.FRONTRIGHT);
 		backright = new Jaguar(RobotMap.BACKRIGHT);
-		mDrive = new RobotDrive(frontleft, backleft, frontright, backright);
+		mDrive = new PIDRobotDrive(frontleft, backleft, frontright, backright);
 		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 		mDrive.setSafetyEnabled(true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
@@ -53,22 +50,14 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 
-		right = new Encoder(RobotMap.ENCODER_RIGHT_CHANNEL_A,
-				RobotMap.ENCODER_RIGHT_CHANNEL_B, false, EncodingType.k4X);
-		right.setDistancePerPulse(0.068);
-		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
-				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k4X);
-		left.setDistancePerPulse(0.068);
+		enc = new PIDEncoderDriveTrain();
 
-		pidFrontLeft = new PIDController(1, 0, 0, left, frontleft);
-		pidBackLeft = new PIDController(1, 0, 0, left, backleft);
-		pidFrontRight = new PIDController(1, 0, 0, right, frontright);
-		pidBackRight = new PIDController(1, 0, 0, right, backright);
+		right = enc.getRight();
+		left = enc.getLeft();
 
-		pidFrontLeft.enable();
-		pidBackLeft.enable();
-		pidFrontRight.enable();
-		pidFrontLeft.enable();
+		pid = new PIDController(0.5, 0, 0.03, enc, mDrive);
+
+		pid.enable();
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
@@ -227,10 +216,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void driveToPoint(double point) {
-		pidFrontLeft.setSetpoint(point);
-		pidFrontRight.setSetpoint(point);
-		pidBackLeft.setSetpoint(point);
-		pidBackRight.setSetpoint(point);
+		pid.setSetpoint(point);
 	}
 
 	@Override
