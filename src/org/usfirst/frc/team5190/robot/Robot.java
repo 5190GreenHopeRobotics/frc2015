@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	{
-		// camera = new Camera();
+		camera = new Camera();
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
