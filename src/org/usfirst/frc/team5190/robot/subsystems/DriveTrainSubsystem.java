@@ -29,7 +29,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private boolean disable = false;
 	private double pidInput;
 	private Encoder right, left;
-	private PIDController pid;
+	private PIDController leftPid, rightPid;
+	private PIDStore leftStore, rightStore;
 	private PIDEncoderDriveTrain enc;
 	// private Gyro gyro;
 	private Jaguar frontleft, backleft, frontright, backright;
@@ -55,9 +56,13 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		right = enc.getRight();
 		left = enc.getLeft();
 
-		pid = new PIDController(0.5, 0, 0.03, enc, mDrive);
+		leftStore = new PIDStore(true, mDrive);
+		rightStore = new PIDStore(false, mDrive);
+		leftStore.setOther(rightStore);
+		rightStore.setOther(leftStore);
 
-		pid.enable();
+		leftPid = new PIDController(0.5, 0, 0.1, left, leftStore);
+		rightPid = new PIDController(0.5, 0, 0.1, right, rightStore);
 		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
@@ -216,7 +221,18 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void driveToPoint(double point) {
-		pid.setSetpoint(point);
+		leftPid.setSetpoint(point);
+		rightPid.setSetpoint(point);
+	}
+
+	public void PIDEnable(boolean e) {
+		if (e) {
+			leftPid.enable();
+			rightPid.enable();
+		} else {
+			leftPid.disable();
+			rightPid.disable();
+		}
 	}
 
 	@Override
