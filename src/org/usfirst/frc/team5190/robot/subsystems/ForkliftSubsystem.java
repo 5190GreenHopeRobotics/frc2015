@@ -16,7 +16,7 @@ public class ForkliftSubsystem extends Subsystem {
 			RobotMap.FORKLIFT_TALONSRX_PORT);
 	private TalonSRX forkLiftRaiseTalon = new TalonSRX(
 			RobotMap.FORKLIFT_TALONSRX_PORT);
-	public Ultrasonic forkLiftUltrasonic = new Ultrasonic(1, 1);
+	public Ultrasonic forkLiftUltrasonic = new Ultrasonic(1, 2);
 
 	public void initDefaultCommand() {
 

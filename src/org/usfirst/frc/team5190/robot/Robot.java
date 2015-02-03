@@ -1,14 +1,12 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
-import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
@@ -19,7 +17,6 @@ import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -37,12 +34,10 @@ public class Robot extends IterativeRobot {
 	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
 
 	// hardware not present
-	public static ElevatorSubsystem elevatorSubsystem = null;
 	public static IndependentSensors sensors = new IndependentSensors();
-	private Command autonomousCommand = new DriveForwardCommand();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
-	public static ForkliftSubsystem forkLiftSubsystem = null;
+	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Experiment, don't touch plz
@@ -140,8 +135,8 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		// if (autonomousCommand != null)
+		// autonomousCommand.start();
 		new PutSmartDashBoardCommand().start();
 	}
 
@@ -158,8 +153,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		// if (autonomousCommand != null)
+		// autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 		new PutSmartDashBoardCommand().start();
