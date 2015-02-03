@@ -16,7 +16,7 @@ public class PIDStore implements PIDOutput {
 		this.drive = drive;
 	}
 
-	public double getPidValue() {
+	public synchronized double getPidValue() {
 		return pidValue;
 	}
 
@@ -25,14 +25,13 @@ public class PIDStore implements PIDOutput {
 	}
 
 	@Override
-	public synchronized void pidWrite(double output) {
+	public void pidWrite(double output) {
 		pidValue = output;
 		if (left) {
 			drive.tankDrive(output, other.getPidValue());
 		} else {
 			drive.tankDrive(other.getPidValue(), pidValue);
 		}
-
 	}
 
 }
