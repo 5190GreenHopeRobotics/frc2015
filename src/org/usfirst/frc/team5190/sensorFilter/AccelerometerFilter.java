@@ -18,19 +18,22 @@ public class AccelerometerFilter {
 
 	public double getX() {
 		double x;
-		x = filter(sensor.getX(), accel[0]);
+		x = sensor.getX();
+		x = filter(x, accel[0]);
 		return x;
 	}
 
 	public double getY() {
 		double y;
-		y = filter(sensor.getY(), accel[1]);
+		y = sensor.getY();
+		y = filter(y, accel[1]);
 		return y;
 	}
 
 	public double getZ() {
 		double z;
-		z = filter(sensor.getZ(), accel[2]);
+		z = sensor.getZ();
+		z = filter(z, accel[2]);
 		return z;
 	}
 

@@ -23,7 +23,7 @@ public class DriveForwardCommand extends Command {
 	protected void initialize() {
 		Robot.driveTrainSubsystem.resetEncoder();
 		Robot.driveTrainSubsystem.PIDEnable(true);
-		Robot.driveTrainSubsystem.driveToPoint(252);
+		Robot.driveTrainSubsystem.driveToPoint(20);
 	}
 
 	/**
