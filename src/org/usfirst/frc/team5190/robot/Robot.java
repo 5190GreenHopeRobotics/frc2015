@@ -139,6 +139,7 @@ public class Robot extends IterativeRobot {
 		cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		cameraSession = NIVision.IMAQdxOpenCamera("cam0",
 				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		NIVision.IMAQdxConfigureGrab(cameraSession);
 	}
 
 	public void disabledPeriodic() {
