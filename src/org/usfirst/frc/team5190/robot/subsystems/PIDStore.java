@@ -25,7 +25,7 @@ public class PIDStore implements PIDOutput {
 	}
 
 	@Override
-	public void pidWrite(double output) {
+	public synchronized void pidWrite(double output) {
 		pidValue = output;
 		if (left) {
 			drive.tankDrive(output, other.getPidValue());
