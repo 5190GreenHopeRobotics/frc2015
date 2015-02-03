@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
@@ -19,6 +18,7 @@ import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -47,6 +47,10 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
+	// Camera test
+	public int cameraSession;
+	public Image cameraFrame;
+	public CameraServer server;
 
 	/**
 	 * 
@@ -55,59 +59,59 @@ public class Robot extends IterativeRobot {
 	 */
 	protected class Camera {
 
-		// Define Some Variables
-		int cameraSession;
-		Image cameraFrame;
-		CameraServer server;
-
-		Camera() {
-			server = CameraServer.getInstance();
-			server.setQuality(50);
-			// the camera name (ex "cam0") can be found through the roborio
-			// web
-			// // interface
-			server.startAutomaticCapture("cam0");
-			cameraInit();
-			cameraControl();
-		}
-
-		/**
-		 * Initialize the Camera
-		 */
-		public void cameraInit() {
-
-			cameraFrame = NIVision.imaqCreateImage(
-					NIVision.ImageType.IMAGE_RGB, 0);
-
-			cameraSession = NIVision
-					.IMAQdxOpenCamera(
-							"cam0",
-							NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-
-			NIVision.IMAQdxConfigureGrab(cameraSession);
-
-		}
-
-		public void cameraControl() {
-
-			NIVision.IMAQdxStartAcquisition(cameraSession);
-
-			NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-
-			while (RobotIsEnabled) {
-
-				NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
-
-				NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
-						DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
-				CameraServer.getInstance().setImage(cameraFrame);
-
-			}
-
-			NIVision.IMAQdxStopAcquisition(cameraSession);
-
-		}
+		// // Define Some Variables
+		// public int cameraSession;
+		// public Image cameraFrame;
+		// public CameraServer server;
+		//
+		// Camera() {
+		// server = CameraServer.getInstance();
+		// server.setQuality(50);
+		// // the camera name (ex "cam0") can be found through the roborio
+		// // web
+		// // // interface
+		// server.startAutomaticCapture("cam0");
+		// cameraInit();
+		// cameraControl();
+		// }
+		//
+		// /**
+		// * Initialize the Camera
+		// */
+		// public void cameraInit() {
+		//
+		// cameraFrame = NIVision.imaqCreateImage(
+		// NIVision.ImageType.IMAGE_RGB, 0);
+		//
+		// cameraSession = NIVision
+		// .IMAQdxOpenCamera(
+		// "cam0",
+		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		//
+		// NIVision.IMAQdxConfigureGrab(cameraSession);
+		//
+		// }
+		//
+		// public void cameraControl() {
+		//
+		// NIVision.IMAQdxStartAcquisition(cameraSession);
+		//
+		// NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+		//
+		// while (RobotIsEnabled) {
+		//
+		// NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
+		//
+		// NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
+		// DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+		//
+		// CameraServer.getInstance().setImage(cameraFrame);
+		//
+		// }
+		//
+		// NIVision.IMAQdxStopAcquisition(cameraSession);
+		//
+		// }
 
 	}
 
@@ -120,18 +124,21 @@ public class Robot extends IterativeRobot {
 	}
 
 	{
-		camera = new Camera();
+		// camera = new Camera();
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
-	public Camera camera;
+
+	// public Camera camera;
 
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-
+		cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		cameraSession = NIVision.IMAQdxOpenCamera("cam0",
+				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 	}
 
 	public void disabledPeriodic() {
@@ -163,7 +170,7 @@ public class Robot extends IterativeRobot {
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 		new PutSmartDashBoardCommand().start();
-		new CameraMovementCommand().start();
+		// new CameraMovementCommand().start();
 
 	}
 
@@ -179,7 +186,28 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+		NIVision.IMAQdxStartAcquisition(cameraSession);
+
+		/**
+		 * grab an image, draw the circle, and provide it for the camera server
+		 * which will in turn send it to the dashboard.
+		 */
+
+		NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
+		NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
+				DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+		// ======
+		// NIVision.imaqColorThreshold(frame, frame, 50, ColorMode.HSV, hue,
+		// saturation, value);
+		// ======
+		CameraServer.getInstance().setImage(cameraFrame);
+
+		/** robot code here! **/
+		Timer.delay(0.005);
+		NIVision.IMAQdxStopAcquisition(cameraSession);
 		Scheduler.getInstance().run();
+
 	}
 
 	/**
