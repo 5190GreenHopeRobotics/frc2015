@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  */
 public class AccelerometerFilter {
 	protected Accelerometer sensor;
-	protected static double FilteringFactor = 0;
+	protected static double FilteringFactor = 0.1;
 	protected double[] accel;
 
 	/**
@@ -66,7 +66,7 @@ public class AccelerometerFilter {
 	}
 
 	/**
-	 * the filtering algorthm
+	 * the filtering algorithm
 	 * 
 	 * @param raw
 	 *            the raw value from accelerometer

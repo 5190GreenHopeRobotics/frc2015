@@ -29,6 +29,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private boolean disable = false;
 	private double pidInput;
 	private Encoder right, left;
+	private Thread pidThread;
 	// private PIDController leftPid, rightPid;
 	// private PIDStore leftStore, rightStore;
 	private PIDController pid;
@@ -57,7 +58,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		right = enc.getRight();
 		left = enc.getLeft();
 
-		pid = new PIDController(0.5, 0, 0.1, enc, mDrive);
+		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
 		// leftStore = new PIDStore(true, mDrive);
 		// rightStore = new PIDStore(false, mDrive);
 		// leftStore.setOther(rightStore);
@@ -227,7 +228,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void PIDEnable(boolean e) {
-		pid.enable();
+		if (e) {
+			pid.enable();
+		} else {
+			pid.disable();
+		}
 	}
 
 	@Override
