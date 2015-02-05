@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot {
 	public static IndependentSensors sensors = new IndependentSensors();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
+	private DriveForwardCommand autonomousCommand = new DriveForwardCommand();
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
@@ -127,8 +129,8 @@ public class Robot extends IterativeRobot {
 	// public Camera camera;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * Init the Camera
+	 * 
 	 */
 	public void robotInit() {
 		cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -143,8 +145,8 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		// if (autonomousCommand != null)
-		// autonomousCommand.start();
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 		new PutSmartDashBoardCommand().start();
 	}
 
@@ -157,12 +159,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		// if (autonomousCommand != null)
-		// autonomousCommand.cancel();
+		if (autonomousCommand != null)
+			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
 		new PutSmartDashBoardCommand().start();

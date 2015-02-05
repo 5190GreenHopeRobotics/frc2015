@@ -3,7 +3,8 @@ package org.usfirst.frc.team5190.sensorFilter;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /**
- * a filter class that will make the accelerometer less sensitive
+ * a filter class that will make the accelerometer less sensitive, according to
+ * apple sdk
  * 
  * @author sdai
  *

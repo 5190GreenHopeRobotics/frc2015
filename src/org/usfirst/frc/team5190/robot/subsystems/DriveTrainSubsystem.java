@@ -22,51 +22,43 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
 	private DigitalInput mLimitSwitch;
 	private PIDRobotDrive mDrive;
 	private boolean disable = false;
 	private double pidInput;
 	private Encoder right, left;
-	private Thread pidThread;
-	// private PIDController leftPid, rightPid;
-	// private PIDStore leftStore, rightStore;
 	private PIDController pid;
 	private PIDEncoderDriveTrain enc;
-	// private Gyro gyro;
 	private Jaguar frontleft, backleft, frontright, backright;
 
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
+		// init the motors
 		frontleft = new Jaguar(RobotMap.FRONTLEFT);
 		backleft = new Jaguar(RobotMap.BACKLEFT);
 		frontright = new Jaguar(RobotMap.FRONTRIGHT);
 		backright = new Jaguar(RobotMap.BACKRIGHT);
+		// init drive
 		mDrive = new PIDRobotDrive(frontleft, backleft, frontright, backright);
-		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 		mDrive.setSafetyEnabled(true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+		// init the limit switch
+		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 
+		// init the encoder
 		enc = new PIDEncoderDriveTrain();
 
+		// get the encoders
 		right = enc.getRight();
 		left = enc.getLeft();
 
+		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
-		// leftStore = new PIDStore(true, mDrive);
-		// rightStore = new PIDStore(false, mDrive);
-		// leftStore.setOther(rightStore);
-		// rightStore.setOther(leftStore);
-		//
-		// leftPid = new PIDController(0.5, 0, 0.1, left, leftStore);
-		// rightPid = new PIDController(0.5, 0, 0.1, right, rightStore);
-		// gyro = new Gyro(RobotMap.GYRO_PORT);
 	}
 
 	/**
@@ -97,9 +89,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		disable = flag;
 	}
 
+	/**
+	 * dummy
+	 */
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
 	}
 
 	/**
@@ -162,7 +155,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		if (!disable) {
 			mDrive.tankDrive(0, 0.1);
 		}
-		// gyro.reset();
 	}
 
 	/**
@@ -173,7 +165,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		if (!disable) {
 			mDrive.tankDrive(0.1, 0);
 		}
-		// gyro.reset();
 	}
 
 	/**
@@ -187,7 +178,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		if (!disable) {
 			mDrive.arcadeDrive(0, amount, false);
 		}
-		// gyro.reset();
 	}
 
 	/**
@@ -223,10 +213,22 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	/**
+	 * drive a specific distance
+	 * 
+	 * @param distance
+	 *            in inches to drive to
+	 */
 	public void driveToPoint(double point) {
 		pid.setSetpoint(point);
 	}
 
+	/**
+	 * enable or disable the pid
+	 * 
+	 * @param e
+	 *            true for enable, false for disable
+	 */
 	public void PIDEnable(boolean e) {
 		if (e) {
 			pid.enable();
