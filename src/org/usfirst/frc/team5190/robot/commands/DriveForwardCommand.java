@@ -40,8 +40,7 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.stopAll();
-		Robot.driveTrainSubsystem.PIDEnable(false);
+		Robot.driveTrainSubsystem.drive(0);
 
 	}
 

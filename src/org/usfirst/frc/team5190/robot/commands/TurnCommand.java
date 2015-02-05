@@ -54,7 +54,7 @@ public class TurnCommand extends Command {
 	 */
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.stopAll();
+		Robot.driveTrainSubsystem.drive(0);
 	}
 
 	@Override

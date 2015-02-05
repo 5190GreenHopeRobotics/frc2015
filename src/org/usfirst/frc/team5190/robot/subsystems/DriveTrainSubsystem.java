@@ -2,7 +2,6 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
@@ -120,31 +119,21 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	/**
-	 * drive the robot at speed for time second
-	 * 
-	 * @param speed
-	 *            the speed(-1 -1), which the robot will go at
-	 * @param time
-	 *            the number of second it will run
+	 * stop the robot with PID
 	 */
-	@Deprecated
-	public void drive(double speed, long time) {
-		mDrive.tankDrive(speed, speed);
-		try {
-			TimeUnit.SECONDS.sleep(time);
-		} catch (InterruptedException e) {
 
-		} finally {
-			this.stopAll();
-		}
+	public void halt() {
+		this.PIDEnable(true);
+		this.driveToPoint(0);
+		this.setDisable(true);
 	}
 
 	/**
-	 * stop the robot
+	 * resume the robot with PID
 	 */
-
-	public void stopAll() {
-		mDrive.tankDrive(0, 0);
+	public void resume() {
+		this.PIDEnable(false);
+		this.setDisable(false);
 	}
 
 	/**
@@ -190,7 +179,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void arcadeJoystickDrive(Joystick stick) {
 		if (!disable) {
 			if (!mLimitSwitch.get()) {
-				stopAll();
+				halt();
 				return;
 			}
 			setPower(Robot.oi.getSpeed());
