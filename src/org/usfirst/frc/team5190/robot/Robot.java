@@ -8,6 +8,7 @@ import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import com.ni.vision.NIVision;
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
+	public static VisionSubsystem visioin = null;
 	// Camera test
 	public int cameraSession;
 	public Image cameraFrame;
@@ -180,8 +182,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 		NIVision.IMAQdxStartAcquisition(cameraSession);
+		NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 
 		/**
 		 * grab an image, draw the circle, and provide it for the camera server
