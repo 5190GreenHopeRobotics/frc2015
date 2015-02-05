@@ -5,7 +5,7 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * drive forward until 11 inches from an object
+ * drive forward 100 inches
  */
 public class DriveForwardCommand extends Command {
 

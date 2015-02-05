@@ -5,7 +5,7 @@ import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * put datas on the smart dashboard
  */
 public class PutSmartDashBoardCommand extends Command {
 
