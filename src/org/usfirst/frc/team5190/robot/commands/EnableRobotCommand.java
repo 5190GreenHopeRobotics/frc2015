@@ -4,6 +4,12 @@ import org.usfirst.frc.team5190.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * enable the drive train
+ * 
+ * @author sdai
+ *
+ */
 public class EnableRobotCommand extends Command {
 
 	@Override

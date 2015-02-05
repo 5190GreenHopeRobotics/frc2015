@@ -11,6 +11,13 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+/**
+ * This class contains all the sensors that needed to be shared between
+ * subsystems
+ * 
+ * @author sdai
+ *
+ */
 public class IndependentSensors implements Displayable {
 	static private BuiltInAccelerometer accelerometer;
 	static private AccelerometerFilter accel;
@@ -23,14 +30,29 @@ public class IndependentSensors implements Displayable {
 		ultraSonicSensor.setEnabled(true);
 	}
 
+	/**
+	 * get the accelerometer stored in this class
+	 * 
+	 * @return
+	 */
 	public static Accelerometer getAccelerometer() {
 		return accelerometer;
 	}
 
+	/**
+	 * get the accelerometer filter
+	 * 
+	 * @return
+	 */
 	public static AccelerometerFilter getAccelFilter() {
 		return accel;
 	}
 
+	/**
+	 * get the ultrasonic sensors stored
+	 * 
+	 * @return
+	 */
 	public static Ultrasonic getUltraSonic() {
 		return ultraSonicSensor;
 	}

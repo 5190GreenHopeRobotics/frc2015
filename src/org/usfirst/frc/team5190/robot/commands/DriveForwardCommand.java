@@ -5,7 +5,7 @@ import org.usfirst.frc.team5190.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * drive forward until 11 inches from an object
+ * drive forward 100 inches
  */
 public class DriveForwardCommand extends Command {
 
@@ -15,7 +15,7 @@ public class DriveForwardCommand extends Command {
 	public DriveForwardCommand() {
 		// needs drive train
 		requires(Robot.driveTrainSubsystem);
-		Robot.driveTrainSubsystem.setPower(0.2);
+		Robot.driveTrainSubsystem.setPower(0.1);
 		// ini the ultrasonics
 	}
 
@@ -23,7 +23,7 @@ public class DriveForwardCommand extends Command {
 	protected void initialize() {
 		Robot.driveTrainSubsystem.resetEncoder();
 		Robot.driveTrainSubsystem.PIDEnable(true);
-		Robot.driveTrainSubsystem.driveToPoint(20);
+		Robot.driveTrainSubsystem.driveToPoint(100);
 	}
 
 	/**

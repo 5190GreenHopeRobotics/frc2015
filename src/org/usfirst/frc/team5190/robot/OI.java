@@ -47,6 +47,7 @@ public class OI {
 	 */
 	public OI() {
 
+		// resets the encoders
 		resetEncoder.whenPressed(new ResetEncoderCommand());
 
 		// stops the drive train when pressed
@@ -54,9 +55,6 @@ public class OI {
 
 		// undo kill
 		enableSwitch.whenPressed(new EnableRobotCommand());
-
-		// turn on the led
-		// lightSwitch.whenPressed(new LightsOnCommand());
 
 	}
 
