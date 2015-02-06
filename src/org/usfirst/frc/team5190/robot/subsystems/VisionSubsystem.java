@@ -43,7 +43,7 @@ public class VisionSubsystem extends Subsystem {
 		// DrawMode.DRAW_VALUE,
 		// ShapeMode.SHAPE_OVAL, 0.0f);
 		NIVision.imaqColorThreshold(frame, frame, 1, NIVision.ColorMode.RGB,
-				new Range(50, 90), new Range(0, 255), new Range(150, 255));
+				new Range(0, 255), new Range(0, 255), new Range(128, 255));
 		NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE,
 				ShapeMode.SHAPE_RECT, 0.0f);
 		// ======

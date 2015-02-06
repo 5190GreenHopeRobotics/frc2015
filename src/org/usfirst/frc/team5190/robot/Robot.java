@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
-	public static VisionSubsystem vision = new VisionSubsystem();
+	public static VisionSubsystem vision;
 
 	/**
 	 * 
@@ -134,6 +134,7 @@ public class Robot extends IterativeRobot {
 		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
 		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		// NIVision.IMAQdxConfigureGrab(cameraSession);
+		vision = new VisionSubsystem();
 	}
 
 	public void disabledPeriodic() {
