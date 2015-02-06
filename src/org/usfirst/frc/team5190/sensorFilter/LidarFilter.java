@@ -13,7 +13,7 @@ public class LidarFilter implements PIDSource, Displayable {
 
 	protected Lidar lidar;
 	protected List<Double> buffer;
-	protected int windowSize = 10;
+	protected int windowSize = 50;
 
 	/**
 	 * set the source for the filter
