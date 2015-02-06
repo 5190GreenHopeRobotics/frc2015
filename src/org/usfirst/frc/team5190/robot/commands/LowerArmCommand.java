@@ -18,9 +18,6 @@ public class LowerArmCommand extends Command {
 	 * degrees is > 0.
 	 */
 	protected void initialize() {
-		if (Robot.armSubsystem.getencoderdirection() == true) {
-			Robot.armSubsystem.changeencoderdirection();
-		}
 		if (Robot.armSubsystem.getencoderangle() > 0
 				&& Robot.armSubsystem.getlowerarmlimitswitch() == true) {
 			Robot.armSubsystem.lowerArm();
