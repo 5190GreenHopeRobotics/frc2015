@@ -13,9 +13,6 @@ import org.usfirst.frc.team5190.sensorFilter.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
-import com.ni.vision.NIVision.Image;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -45,11 +42,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
-	public static VisionSubsystem visioin = null;
-	// Camera test
-	public int cameraSession;
-	public Image cameraFrame;
-	public CameraServer server;
+	public static VisionSubsystem vision;
 
 	/**
 	 * 
@@ -141,6 +134,7 @@ public class Robot extends IterativeRobot {
 		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
 		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		// NIVision.IMAQdxConfigureGrab(cameraSession);
+		vision = new VisionSubsystem();
 	}
 
 	public void disabledPeriodic() {
@@ -189,26 +183,8 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-		// NIVision.IMAQdxStartAcquisition(cameraSession);
-		// NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-		//
-		// /**
-		// * grab an image, draw the circle, and provide it for the camera
-		// server
-		// * which will in turn send it to the dashboard.
-		// */
-		//
-		// NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
-		// NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
-		// DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-		// // ======
-		// // NIVision.imaqColorThreshold(frame, frame, 50, ColorMode.HSV, hue,
-		// // saturation, value);
-		// // ======
-		// CameraServer.getInstance().setImage(cameraFrame);
-		//
-		// /** robot code here! **/
-		// NIVision.IMAQdxStopAcquisition(cameraSession);
+
+		vision.run();
 		Scheduler.getInstance().run();
 
 	}

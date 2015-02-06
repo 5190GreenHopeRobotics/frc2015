@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 public class LidarFilter implements PIDSource, Displayable {
 
 	protected Lidar lidar;
-	protected List<Double> buffer;
+	protected LinkedList<Double> buffer;
 	protected int windowSize = 50;
 
 	/**
@@ -52,7 +52,7 @@ public class LidarFilter implements PIDSource, Displayable {
 
 	public void update() {
 		if (buffer.size() > windowSize) {
-			buffer.clear();
+			buffer.pop();
 		}
 		int distance = lidar.getDistance();
 		buffer.add(new Double(distance));
