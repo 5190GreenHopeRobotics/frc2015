@@ -11,15 +11,32 @@ public class LidarFilter implements PIDSource {
 	protected List<Integer> buffer;
 	protected int windowSize;
 
+	/**
+	 * set the source for the filter
+	 * 
+	 * @param source
+	 *            the lidar
+	 */
 	public LidarFilter(Lidar source) {
 		lidar = source;
 		buffer = new LinkedList<Integer>();
 	}
 
+	/**
+	 * set the size for averaging
+	 * 
+	 * @param size
+	 *            the size of the window
+	 */
 	public void setWindow(int size) {
 		windowSize = size;
 	}
 
+	/**
+	 * get current average
+	 * 
+	 * @return the average
+	 */
 	public int getValue() {
 		int sum = 0;
 		for (Integer i : buffer) {

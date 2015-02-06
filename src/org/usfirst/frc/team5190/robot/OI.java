@@ -22,7 +22,6 @@ public class OI {
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
 	public static final int OPENFORKLIFT_BUTTON = 3;
-	public static final int LIGHT_ON_BUTTON = 9;
 	public static final int CLOSEFORKLIFT_BUTTON = 5;
 	public static final int EXTENDARM_BUTTON = 4;
 	public static final int RETRACTARM_BUTTON = 6;
@@ -38,8 +37,6 @@ public class OI {
 	// Drive Stick button/peripheral initialization
 	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
-	// light button
-	private Button lightSwitch = new JoystickButton(driveStick, LIGHT_ON_BUTTON);
 	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
 
 	/**
