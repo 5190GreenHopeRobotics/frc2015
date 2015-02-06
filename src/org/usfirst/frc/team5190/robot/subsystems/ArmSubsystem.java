@@ -28,6 +28,7 @@ public class ArmSubsystem extends Subsystem {
 													// we find the circumference
 													// of
 													// the shaft
+	public Armextender Extender = new Armextender();
 
 	/**
 	 * nothing needs to go here.
@@ -116,8 +117,4 @@ public class ArmSubsystem extends Subsystem {
 		armLengthEncoder.reset();
 	}
 
-	public void changeencoderdirection() {
-		currentdegrees = 80 - currentdegrees;
-		resetencoder();
-	}
 }

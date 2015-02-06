@@ -11,7 +11,7 @@ public class RetractArmCommand extends Command {
 
 	public RetractArmCommand() {
 		// needs the arm
-		requires(Robot.PIDExample);
+		requires(Robot.armSubsystem.Extender);
 
 	}
 
@@ -19,16 +19,10 @@ public class RetractArmCommand extends Command {
 	 * This starts the command, and begins to retract the Arm.
 	 */
 	protected void initialize() {
-		// If the direction changes, reset Encoder count. Need to check
-		// directions for true/false
-		if (Robot.PIDExample.armExtender.getEncoderdirection() == true) {
-			Robot.PIDExample.armExtender.resetEncoder();
-		}
-		// If the limit switches are not pressed down, retract a little bit
-		if (Robot.PIDExample.armExtender.limitswitchextended.get() != false
-				&& Robot.PIDExample.armExtender.limitswitchretracted.get() != false) {
-			Robot.PIDExample.armExtender
-					.setSetpoint(Robot.PIDExample.armExtender.getEncoderangle() + 100);
+		// Change the minimum extension when you get a real value
+		if (Robot.armSubsystem.Extender.getencoderdistance() > 2
+				&& Robot.armSubsystem.Extender.getretractlimitswitch() == true) {
+			Robot.armSubsystem.Extender.retractarm();
 		}
 	}
 

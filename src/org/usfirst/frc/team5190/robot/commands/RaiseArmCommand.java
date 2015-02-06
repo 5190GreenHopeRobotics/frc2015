@@ -20,10 +20,6 @@ public class RaiseArmCommand extends Command {
 	 * is less than 80. The encoder will reset if the direction has just changed
 	 */
 	protected void initialize() {
-		if (Robot.armSubsystem.getencoderdirection() == false) {
-			Robot.armSubsystem.changeencoderdirection();
-		}
-
 		if (Robot.armSubsystem.getencoderangle() < 80
 				&& Robot.armSubsystem.getraisearmlimitswitch() == true) {
 			Robot.armSubsystem.raiseArm();

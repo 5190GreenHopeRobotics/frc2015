@@ -13,15 +13,19 @@ public class ExtendArmCommand extends Command {
 	 * second.
 	 */
 	public ExtendArmCommand() {
-		requires(Robot.armSubsystem);
+		requires(Robot.armSubsystem.Extender);
+
 	}
 
 	/**
 	 * This part starts the actual process of the extending of the arm.
 	 */
 	protected void initialize() {
-		// If the direction changes, reset Encoder count. Need to check
-		// directions for true/false
+		if (Robot.armSubsystem.Extender.getencoderdistance() < Robot.armSubsystem.Extender.maxextension
+				&& Robot.armSubsystem.Extender.getextendlimitswitch() == true) {
+			Robot.armSubsystem.Extender.extendarm();
+		}
+
 	}
 
 	/**
