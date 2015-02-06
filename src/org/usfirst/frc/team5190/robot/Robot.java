@@ -136,7 +136,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		cameraSession = NIVision.IMAQdxOpenCamera("cam0",
+		cameraSession = NIVision.IMAQdxOpenCamera("cam1",
 				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		NIVision.IMAQdxConfigureGrab(cameraSession);
 	}
@@ -180,16 +180,15 @@ public class Robot extends IterativeRobot {
 
 	/**
 	 * This function is called periodically during operator control
+	 *
+	 *
+	 * grab an image, draw the circle, and provide it for the camera server
+	 * which will in turn send it to the dashboard.
 	 */
+
 	public void teleopPeriodic() {
 		NIVision.IMAQdxStartAcquisition(cameraSession);
 		NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-
-		/**
-		 * grab an image, draw the circle, and provide it for the camera server
-		 * which will in turn send it to the dashboard.
-		 */
-
 		NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
 		NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
 				DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);

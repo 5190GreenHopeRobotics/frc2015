@@ -13,7 +13,7 @@ public class ExtendArmCommand extends Command {
 	 * second.
 	 */
 	public ExtendArmCommand() {
-		requires(Robot.PIDExample);
+		requires(Robot.armSubsystem);
 	}
 
 	/**
@@ -22,15 +22,6 @@ public class ExtendArmCommand extends Command {
 	protected void initialize() {
 		// If the direction changes, reset Encoder count. Need to check
 		// directions for true/false
-		if (Robot.PIDExample.armExtender.getEncoderdirection() == false) {
-			Robot.PIDExample.armExtender.resetEncoder();
-		}
-		// If the limit switches are not pressed down, extend a little
-		if (Robot.PIDExample.armExtender.limitswitchextended.get() != false
-				&& Robot.PIDExample.armExtender.limitswitchretracted.get() != false) {
-			Robot.PIDExample.armExtender
-					.setSetpoint(Robot.PIDExample.armExtender.getEncoderangle() + 100);
-		}
 	}
 
 	/**
