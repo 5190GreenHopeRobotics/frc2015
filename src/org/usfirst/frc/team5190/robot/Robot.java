@@ -13,15 +13,8 @@ import org.usfirst.frc.team5190.sensorFilter.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ShapeMode;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -49,11 +42,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
-	public static VisionSubsystem visioin = null;
-	// Camera test
-	public int cameraSession;
-	public Image cameraFrame;
-	public CameraServer server;
+	public static VisionSubsystem vision;
 
 	/**
 	 * 
@@ -140,10 +129,12 @@ public class Robot extends IterativeRobot {
 	 * 
 	 */
 	public void robotInit() {
-		cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		cameraSession = NIVision.IMAQdxOpenCamera("cam1",
-				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		NIVision.IMAQdxConfigureGrab(cameraSession);
+		// cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB,
+		// 0);
+		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
+		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		// NIVision.IMAQdxConfigureGrab(cameraSession);
+		vision = new VisionSubsystem();
 	}
 
 	public void disabledPeriodic() {
@@ -192,20 +183,8 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-		NIVision.IMAQdxStartAcquisition(cameraSession);
-		NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-		NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
-		NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
-				DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-		// ======
-		// NIVision.imaqColorThreshold(frame, frame, 50, ColorMode.HSV, hue,
-		// saturation, value);
-		// ======
-		CameraServer.getInstance().setImage(cameraFrame);
 
-		/** robot code here! **/
-		Timer.delay(0.005);
-		NIVision.IMAQdxStopAcquisition(cameraSession);
+		vision.run();
 		Scheduler.getInstance().run();
 
 	}
