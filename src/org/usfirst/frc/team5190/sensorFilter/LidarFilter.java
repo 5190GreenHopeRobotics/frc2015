@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 public class LidarFilter implements PIDSource, Displayable {
 
 	protected Lidar lidar;
-	protected List<Integer> buffer;
+	protected List<Double> buffer;
 	protected int windowSize;
 
 	/**
@@ -23,7 +23,8 @@ public class LidarFilter implements PIDSource, Displayable {
 	 */
 	public LidarFilter(Lidar source) {
 		lidar = source;
-		buffer = new LinkedList<Integer>();
+		lidar.start();
+		buffer = new LinkedList<Double>();
 	}
 
 	/**
@@ -41,9 +42,9 @@ public class LidarFilter implements PIDSource, Displayable {
 	 * 
 	 * @return the average
 	 */
-	public int getValue() {
-		int sum = 0;
-		for (Integer i : buffer) {
+	public double getValue() {
+		double sum = 0;
+		for (Double i : buffer) {
 			sum += i;
 		}
 		return sum / buffer.size();
@@ -54,14 +55,14 @@ public class LidarFilter implements PIDSource, Displayable {
 			buffer.clear();
 		}
 		int distance = lidar.getDistance();
-		buffer.add(new Integer(distance));
+		buffer.add(new Double(distance));
 	}
 
 	@Override
 	public double pidGet() {
 		update();
-		int sum = 0;
-		for (Integer i : buffer) {
+		double sum = 0;
+		for (Double i : buffer) {
 			sum += i;
 		}
 		return sum / buffer.size();
