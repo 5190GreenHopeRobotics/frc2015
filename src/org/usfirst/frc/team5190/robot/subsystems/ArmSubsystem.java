@@ -15,16 +15,19 @@ public class ArmSubsystem extends Subsystem {
 			RobotMap.ARMLENGTH_TALONSRX_PORT);
 	private TalonSRX armAngleTalon = new TalonSRX(
 			RobotMap.ARMANGLE_TALONSRX_PORT);
-	double motorSpeed = 0.5;
-	public Encoder armLengthEncoder = new Encoder(3, 4, false,
+	private double motorSpeed = 0.5;
+	private Encoder armLengthEncoder = new Encoder(3, 4, false,
 			Encoder.EncodingType.k4X);
 	// Counterclockwise for getdirection() is true
-	public double currentdegrees = 0;
-	public DigitalInput armLimitSwitch = new DigitalInput(
-			RobotMap.ARM_LIMIT_SWITCH_PORT);
-	public final double shaftcircumference = 0; // Give this a real value when
-												// we find the circumference of
-												// the shaft
+	private double currentdegrees = 0;
+	private DigitalInput armraiseLimitSwitch = new DigitalInput(
+			RobotMap.ARM_RAISE_LIMIT_SWITCH_PORT);
+	private DigitalInput armlowerLimitSwitch = new DigitalInput(
+			RobotMap.ARM_LOWER_LIMIT_SWITCH_PORT);
+	private final double shaftcircumference = 0; // Give this a real value when
+													// we find the circumference
+													// of
+													// the shaft
 
 	/**
 	 * nothing needs to go here.
@@ -40,7 +43,7 @@ public class ArmSubsystem extends Subsystem {
 	public ArmSubsystem() {
 		armLengthEncoder.setMaxPeriod(.1);
 		armLengthEncoder.setMinRate(10);
-		armLengthEncoder.setDistancePerPulse(5);
+		armLengthEncoder.setDistancePerPulse(0.075);
 		armLengthEncoder.setReverseDirection(true);
 		armLengthEncoder.setSamplesToAverage(7);
 	}
@@ -91,4 +94,30 @@ public class ArmSubsystem extends Subsystem {
 
 	}
 
+	public boolean getlowerarmlimitswitch() {
+		return armlowerLimitSwitch.get();
+	}
+
+	public boolean getraisearmlimitswitch() {
+		return armraiseLimitSwitch.get();
+	}
+
+	public boolean getencoderdirection() {
+		return armLengthEncoder.getDirection();
+	}
+
+	public double getencoderangle() {
+		currentdegrees = armLengthEncoder.getDistance() / shaftcircumference
+				* 360;
+		return currentdegrees;
+	}
+
+	public void resetencoder() {
+		armLengthEncoder.reset();
+	}
+
+	public void changeencoderdirection() {
+		currentdegrees = 80 - currentdegrees;
+		resetencoder();
+	}
 }

@@ -4,7 +4,8 @@ public class RobotMap {
 	// arm
 	public static final int ARMLENGTH_TALONSRX_PORT = 2;
 	public static final int ARMANGLE_TALONSRX_PORT = 3;
-	public static final int ARM_LIMIT_SWITCH_PORT = 6;
+	public static final int ARM_RAISE_LIMIT_SWITCH_PORT = 6;
+	public static final int ARM_LOWER_LIMIT_SWITCH_PORT = 7;
 	// forklift
 	public static final int FORKLIFT_TALONSRX_PORT = 4;
 	public static final int FORKLIFTRAISE_VICTOR_PORT = 5;

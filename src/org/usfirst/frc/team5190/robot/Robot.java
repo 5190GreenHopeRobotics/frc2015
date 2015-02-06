@@ -182,7 +182,12 @@ public class Robot extends IterativeRobot {
 
 	/**
 	 * This function is called periodically during operator control
+	 *
+	 *
+	 * grab an image, draw the circle, and provide it for the camera server
+	 * which will in turn send it to the dashboard.
 	 */
+
 	public void teleopPeriodic() {
 		// NIVision.IMAQdxStartAcquisition(cameraSession);
 		// NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
