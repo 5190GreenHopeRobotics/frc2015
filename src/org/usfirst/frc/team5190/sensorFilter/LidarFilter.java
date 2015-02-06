@@ -1,15 +1,19 @@
 package org.usfirst.frc.team5190.sensorFilter;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.usfirst.frc.team5190.smartDashBoard.Displayable;
+import org.usfirst.frc.team5190.smartDashBoard.Pair;
+
 import edu.wpi.first.wpilibj.PIDSource;
 
-public class LidarFilter implements PIDSource {
+public class LidarFilter implements PIDSource, Displayable {
 
 	protected Lidar lidar;
-	protected List<Integer> buffer;
-	protected int windowSize;
+	protected List<Double> buffer;
+	protected int windowSize = 10;
 
 	/**
 	 * set the source for the filter
@@ -19,7 +23,8 @@ public class LidarFilter implements PIDSource {
 	 */
 	public LidarFilter(Lidar source) {
 		lidar = source;
-		buffer = new LinkedList<Integer>();
+		lidar.start();
+		buffer = new LinkedList<Double>();
 	}
 
 	/**
@@ -37,26 +42,44 @@ public class LidarFilter implements PIDSource {
 	 * 
 	 * @return the average
 	 */
-	public int getValue() {
-		int sum = 0;
-		for (Integer i : buffer) {
+	public double getValue() {
+		double sum = 0;
+		for (Double i : buffer) {
+			sum += i;
+		}
+		return sum / buffer.size();
+	}
+
+	public void update() {
+		if (buffer.size() > windowSize) {
+			buffer.clear();
+		}
+		int distance = lidar.getDistance();
+		buffer.add(new Double(distance));
+	}
+
+	@Override
+	public double pidGet() {
+		update();
+		double sum = 0;
+		for (Double i : buffer) {
 			sum += i;
 		}
 		return sum / buffer.size();
 	}
 
 	@Override
-	public double pidGet() {
-		if (buffer.size() > windowSize) {
-			buffer.clear();
-		}
-		int distance = lidar.getDistance();
-		int sum = 0;
-		buffer.add(new Integer(distance));
-		for (Integer i : buffer) {
-			sum += i;
-		}
-		return sum / buffer.size();
+	public Collection<Pair<String, Boolean>> getBooleanValue() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public Collection<Pair<String, Double>> getDecimalValues() {
+		List<Pair<String, Double>> result = new LinkedList<Pair<String, Double>>();
+		result.add(new Pair<String, Double>("Filtered Lidar", pidGet()));
+		result.add(new Pair<String, Double>("Unfiltered Lidar", new Double(
+				lidar.getDistance())));
+		return result;
+	}
 }
