@@ -9,6 +9,8 @@ import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
+import org.usfirst.frc.team5190.sensorFilter.Lidar;
+import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import com.ni.vision.NIVision;
@@ -17,6 +19,7 @@ import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -40,6 +43,7 @@ public class Robot extends IterativeRobot {
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
 	private DriveForwardCommand autonomousCommand = new DriveForwardCommand();
+	private LidarFilter lidar = new LidarFilter(new Lidar(Port.kMXP));
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
@@ -126,6 +130,7 @@ public class Robot extends IterativeRobot {
 		// camera = new Camera();
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
+		SmartDashBoardDisplayer.getInstance().submit(lidar);
 	}
 
 	// public Camera camera;
