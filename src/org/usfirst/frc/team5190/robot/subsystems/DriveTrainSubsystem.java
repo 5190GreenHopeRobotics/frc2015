@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
@@ -10,6 +11,7 @@ import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
@@ -20,7 +22,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
-
+	public static final double kP = 0.03;
 	private DigitalInput mLimitSwitch;
 	private PIDRobotDrive mDrive;
 	private boolean disable = false;
@@ -28,6 +30,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private Encoder right, left;
 	private PIDController pid;
 	private PIDEncoderDriveTrain enc;
+	private Gyro gyro;
 	private Jaguar frontleft, backleft, frontright, backright;
 
 	/**
@@ -58,6 +61,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
+		// pid.disable();
+		// get gyro
+		gyro = IndependentSensors.getGyro();
+		mDrive.setGyro(gyro);
+		gyro.reset();
 	}
 
 	/**
@@ -113,7 +121,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void drive(double speed) {
 		if (!disable) {
-			mDrive.arcadeDrive(speed, 0);
+			mDrive.arcadeDrive(speed, -gyro.getAngle() * kP);
 
 		}
 	}
