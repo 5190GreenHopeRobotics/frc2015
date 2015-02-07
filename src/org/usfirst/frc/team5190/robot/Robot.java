@@ -4,10 +4,8 @@ import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
 import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team5190.sensorFilter.Lidar;
@@ -29,8 +27,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
-	// camera
-	public static CameraServoSubsystem cameraServoSubsystem;
 
 	// hardware not present
 	public static IndependentSensors sensors;
@@ -41,74 +37,9 @@ public class Robot extends IterativeRobot {
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem;
-	// Experiment, don't touch plz
-	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 	public static VisionSubsystem vision;
 	// Prototype arm
-	public static Prototypearm prototypearm = new Prototypearm();
-
-	/**
-	 * 
-	 * @author rd124p7 This class controls the camera, and output the video onto
-	 *         the driver station
-	 */
-	protected class Camera {
-
-		// // Define Some Variables
-		// public int cameraSession;
-		// public Image cameraFrame;
-		// public CameraServer server;
-		//
-		// Camera() {
-		// server = CameraServer.getInstance();
-		// server.setQuality(50);
-		// // the camera name (ex "cam0") can be found through the roborio
-		// // web
-		// // // interface
-		// server.startAutomaticCapture("cam0");
-		// cameraInit();
-		// cameraControl();
-		// }
-		//
-		// /**
-		// * Initialize the Camera
-		// */
-		// public void cameraInit() {
-		//
-		// cameraFrame = NIVision.imaqCreateImage(
-		// NIVision.ImageType.IMAGE_RGB, 0);
-		//
-		// cameraSession = NIVision
-		// .IMAQdxOpenCamera(
-		// "cam0",
-		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		//
-		// NIVision.IMAQdxConfigureGrab(cameraSession);
-		//
-		// }
-		//
-		// public void cameraControl() {
-		//
-		// NIVision.IMAQdxStartAcquisition(cameraSession);
-		//
-		// NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-		//
-		// while (RobotIsEnabled) {
-		//
-		// NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
-		//
-		// NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
-		// DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-		//
-		// CameraServer.getInstance().setImage(cameraFrame);
-		//
-		// }
-		//
-		// NIVision.IMAQdxStopAcquisition(cameraSession);
-		//
-		// }
-
-	}
+	public static Prototypearm prototype = new Prototypearm();
 
 	/**
 	 * the userInterface
@@ -118,15 +49,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 	}
 
-	// public Camera camera;
-
-	/**
-	 * Init the Camera
-	 * 
-	 */
-
 	public Robot() {
-		cameraServoSubsystem = new CameraServoSubsystem();
 		sensors = new IndependentSensors();
 		driveTrainSubsystem = new DriveTrainSubsystem();
 		lidar = new LidarFilter(new Lidar(Port.kMXP));
