@@ -11,9 +11,12 @@ public class Prototypearm extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private Victor armvictor = new Victor(10);
-	private DigitalInput limitswitch = null;
+	private Victor armvictor = new Victor(8);
+	private DigitalInput limitswitch = new DigitalInput(1);
 	private final double motorspeed = 0.5;
+	public boolean maximized = false;
+	public boolean minimized = false;
+	public boolean started = true;
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
