@@ -6,15 +6,14 @@ import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
 import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
-import org.usfirst.frc.team5190.sensorFilter.Lidar;
-import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -33,14 +32,14 @@ public class Robot extends IterativeRobot {
 	public static IndependentSensors sensors;
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
-	private DriveForwardCommand autonomousCommand;
-	private LidarFilter lidar;
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem;
 	public static VisionSubsystem vision;
 	// Prototype arm
 	public static Prototypearm prototype = new Prototypearm();
+
+	private Command autonomousCommand;
 
 	/**
 	 * the userInterface
@@ -53,11 +52,10 @@ public class Robot extends IterativeRobot {
 	public Robot() {
 		sensors = new IndependentSensors();
 		driveTrainSubsystem = new DriveTrainSubsystem();
-		lidar = new LidarFilter(new Lidar(Port.kMXP));
 		autonomousCommand = new DriveForwardCommand();
+
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
-		SmartDashBoardDisplayer.getInstance().submit(lidar);
 	}
 
 	public void robotInit() {
@@ -69,6 +67,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		LifecycleSubsystemManager.getInstance().autonomousInit();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -84,6 +83,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		LifecycleSubsystemManager.getInstance().teleopInit();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot {
 	 * to reset subsystems before shutting down.
 	 */
 	public void disabledInit() {
-
+		LifecycleSubsystemManager.getInstance().disable();
 	}
 
 	/**
