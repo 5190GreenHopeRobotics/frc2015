@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -11,7 +13,7 @@ public class Prototypearm extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private Victor armvictor = new Victor(8);
+	private Jaguar armvictor = new Jaguar(8);
 	private DigitalInput limitswitch = new DigitalInput(1);
 	private final double motorspeed = 0.5;
 	public boolean maximized = false;
@@ -35,6 +37,13 @@ public class Prototypearm extends Subsystem {
 		armvictor.set(-motorspeed);
 	}
 
+	public void joystickControl(Joystick stick) {
+		if(stick.getY() > 0 && !limitswitch.get()) {
+			return;
+		}
+		armvictor.set(stick.getY());
+	}
+	
 	public void stoparm() {
 		armvictor.set(0);
 	}
