@@ -190,7 +190,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 				halt();
 				return;
 			}
-			setPower(Robot.oi.getSpeed());
+			setPower(Robot.oi)
 			mDrive.arcadeDrive(stick);
 		}
 	}
