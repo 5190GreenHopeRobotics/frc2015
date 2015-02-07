@@ -28,7 +28,8 @@ public class ArmSubsystem extends Subsystem {
 													// we find the circumference
 													// of
 	private DigitalInput armReachedLimitStop = new DigitalInput(1);
-													// the shaft
+
+	// the shaft
 	/**
 	 * nothing needs to go here.
 	 */
@@ -111,11 +112,9 @@ public class ArmSubsystem extends Subsystem {
 				* 360;
 		return currentdegrees;
 	}
-	
+
 	public void resetencoder() {
 		armLengthEncoder.reset();
 	}
-	public boolean getLimitSwitchArmStop(DigitalInpu){
-		
-	}
+
 }

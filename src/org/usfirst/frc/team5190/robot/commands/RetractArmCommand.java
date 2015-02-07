@@ -11,7 +11,7 @@ public class RetractArmCommand extends Command {
 
 	public RetractArmCommand() {
 		// needs the arm
-		requires(Robot.armSubsystem.Extender);
+		// requires(Robot.armSubsystem.Extender);
 
 	}
 
@@ -20,10 +20,10 @@ public class RetractArmCommand extends Command {
 	 */
 	protected void initialize() {
 		// Change the minimum extension when you get a real value
-		if (Robot.armSubsystem.Extender.getencoderdistance() > 2
-				&& Robot.armSubsystem.Extender.getretractlimitswitch() == true) {
-			Robot.armSubsystem.Extender.retractarm();
-		}
+		// if (Robot.armSubsystem.Extender.getencoderdistance() > 2
+		// && Robot.armSubsystem.Extender.getretractlimitswitch() == true) {
+		// Robot.armSubsystem.Extender.retractarm();
+		// }
 	}
 
 	/**

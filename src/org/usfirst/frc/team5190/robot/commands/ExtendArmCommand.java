@@ -13,7 +13,7 @@ public class ExtendArmCommand extends Command {
 	 * second.
 	 */
 	public ExtendArmCommand() {
-		requires(Robot.armSubsystem.Extender);
+		requires(Robot.armSubsystem);
 
 	}
 
@@ -21,10 +21,11 @@ public class ExtendArmCommand extends Command {
 	 * This part starts the actual process of the extending of the arm.
 	 */
 	protected void initialize() {
-		if (Robot.armSubsystem.Extender.getencoderdistance() < Robot.armSubsystem.Extender.maxextension
-				&& Robot.armSubsystem.Extender.getextendlimitswitch() == true) {
-			Robot.armSubsystem.Extender.extendarm();
-		}
+		// if (Robot.armSubsystem.Extender.getencoderdistance() <
+		// Robot.armSubsystem.Extender.maxextension
+		// && Robot.armSubsystem.Extender.getextendlimitswitch() == true) {
+		// Robot.armSubsystem.Extender.extendarm();
+		// }
 
 	}
 
