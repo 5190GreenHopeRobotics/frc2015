@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 	public static VisionSubsystem vision;
 	// Prototype arm
-	public static Prototypearm prototypearm = new Prototypearm();
+	public static Prototypearm prototype = new Prototypearm();
 
 	/**
 	 * 

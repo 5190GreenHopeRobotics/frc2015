@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,7 +13,7 @@ public class PrototypeArmRaise extends Command {
 	public PrototypeArmRaise() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.prototypearm);
+		requires(Robot.prototype);
 	}
 
 	// Called just before this Command runs the first time
@@ -26,7 +27,8 @@ public class PrototypeArmRaise extends Command {
 		// Robot.prototypearm.started = false;
 		// Robot.prototypearm.minimized = false;
 		// }
-		Robot.prototypearm.raisearm();
+		Robot.prototype.raisearm();
+		Timer.delay(0.5);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -35,17 +37,17 @@ public class PrototypeArmRaise extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.prototypearm.stoparm();
+		Robot.prototype.stoparm();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.prototypearm.stoparm();
+		Robot.prototype.stoparm();
 	}
 }
