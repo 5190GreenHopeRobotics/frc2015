@@ -30,6 +30,7 @@ public class IndependentSensors implements Displayable {
 		gyro = new Gyro(RobotMap.GYRO_PORT);
 		gyro.initGyro();
 		
+		
 		// ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 		// RobotMap.ULTRASONIC_RECIEVE);
 		// ultraSonicSensor.setEnabled(true);
@@ -55,7 +56,7 @@ public class IndependentSensors implements Displayable {
 
 	/**
 	 * get the ultrasonic sensors stored
-	 * 
+	 * @deprecated
 	 * @return
 	 */
 	public static Ultrasonic getUltraSonic() {
@@ -68,8 +69,7 @@ public class IndependentSensors implements Displayable {
 
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		LinkedList<Pair<String, Boolean>> result = new LinkedList<Pair<String, Boolean>>();
-		return result;
+		return null;
 	}
 
 	@Override
@@ -78,8 +78,6 @@ public class IndependentSensors implements Displayable {
 		result.add(new Pair<String, Double>("Accelerometer X", accel.getX()));
 		result.add(new Pair<String, Double>("Accelerometer Y", accel.getY()));
 		result.add(new Pair<String, Double>("Accelerometer Z", accel.getZ()));
-		// result.add(new Pair<String, Double>("Ultrasonic Distance Inches:",
-		// ultraSonicSensor.getRangeInches()));
 		result.add(new Pair<String, Double>("Gyro:", gyro.getAngle()));
 		return result;
 	}
