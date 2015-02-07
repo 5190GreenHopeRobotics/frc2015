@@ -26,7 +26,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private DigitalInput mLimitSwitch;
 	private PIDRobotDrive mDrive;
 	private boolean disable = false;
-	private double pidInput;
 	private Encoder right, left;
 	private PIDController pid;
 	private PIDEncoderDriveTrain enc;
@@ -44,7 +43,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backright = new Jaguar(RobotMap.BACKRIGHT);
 		// init drive
 		mDrive = new PIDRobotDrive(frontleft, backleft, frontright, backright);
-		mDrive.setSafetyEnabled(true);
+		mDrive.setSafetyEnabled(false);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
@@ -64,7 +63,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
-		//mDrive.setGyro(gyro);
+		// mDrive.setGyro(gyro);
 	}
 
 	/**
