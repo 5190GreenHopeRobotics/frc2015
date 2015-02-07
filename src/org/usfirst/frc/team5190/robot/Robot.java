@@ -8,6 +8,7 @@ import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
 import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team5190.sensorFilter.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
@@ -43,6 +44,8 @@ public class Robot extends IterativeRobot {
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 	public static VisionSubsystem vision;
+	// Prototype arm
+	public static Prototypearm prototypearm = new Prototypearm();
 
 	/**
 	 * 
@@ -134,12 +137,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void robotInit() {
-		// cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB,
-		// 0);
-		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
-		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		// NIVision.IMAQdxConfigureGrab(cameraSession);
-		// vision = new VisionSubsystem();
+
 	}
 
 	public void disabledPeriodic() {
