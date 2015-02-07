@@ -18,9 +18,11 @@ public class PrototypeArmRaise extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (Robot.prototypearm.getlimitswitch() == false) {
-			Robot.prototypearm.lowerarm();
+			Robot.prototypearm.maximized = true;
 		}
-		Robot.prototypearm.raisearm();
+		if (Robot.prototypearm.maximized == false) {
+			Robot.prototypearm.raisearm();
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run

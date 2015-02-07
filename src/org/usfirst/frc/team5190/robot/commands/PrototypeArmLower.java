@@ -18,9 +18,11 @@ public class PrototypeArmLower extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (Robot.prototypearm.getlimitswitch() == false) {
+			Robot.prototypearm.minimized = true;
+		}
+		if (Robot.prototypearm.minimized == false) {
 			Robot.prototypearm.raisearm();
 		}
-		Robot.prototypearm.lowerarm();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
