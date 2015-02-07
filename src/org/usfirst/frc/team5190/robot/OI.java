@@ -48,10 +48,8 @@ public class OI {
 
 	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
 	// Arm prototype
-	private Button raisearm = new JoystickButton(driveStick,
-			OPENFORKLIFT_BUTTON);
-	private Button lowerarm = new JoystickButton(driveStick,
-			CLOSEFORKLIFT_BUTTON);
+	private Button raisearm = new JoystickButton(driveStick, TRIGGER);
+	private Button lowerarm = new JoystickButton(driveStick, THUMB_BUTTON);
 
 
 
