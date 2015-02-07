@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-import org.usfirst.frc.team5190.robot.commands.ResetEncoderCommand;
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -45,7 +44,7 @@ public class OI {
 	public OI() {
 
 		// resets the encoders
-		resetEncoder.whenPressed(new ResetEncoderCommand());
+		// resetEncoder.whenPressed(new ResetEncoderCommand());
 
 		// stops the drive train when pressed
 		killSwitch.whenPressed(new TerminateRobotCommand());

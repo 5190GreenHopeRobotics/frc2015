@@ -30,17 +30,17 @@ public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
 	// camera
-	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
+	public static CameraServoSubsystem cameraServoSubsystem;
 
 	// hardware not present
-	public static IndependentSensors sensors = new IndependentSensors();
+	public static IndependentSensors sensors;
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
-	private DriveForwardCommand autonomousCommand = new DriveForwardCommand();
-	private LidarFilter lidar = new LidarFilter(new Lidar(Port.kMXP));
+	private DriveForwardCommand autonomousCommand;
+	private LidarFilter lidar;
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
-	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+	public static DriveTrainSubsystem driveTrainSubsystem;
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 	public static VisionSubsystem vision;
@@ -118,19 +118,24 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 	}
 
-	{
-		// camera = new Camera();
-		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
-		SmartDashBoardDisplayer.getInstance().submit(sensors);
-		SmartDashBoardDisplayer.getInstance().submit(lidar);
-	}
-
 	// public Camera camera;
 
 	/**
 	 * Init the Camera
 	 * 
 	 */
+
+	public Robot() {
+		cameraServoSubsystem = new CameraServoSubsystem();
+		sensors = new IndependentSensors();
+		driveTrainSubsystem = new DriveTrainSubsystem();
+		lidar = new LidarFilter(new Lidar(Port.kMXP));
+		autonomousCommand = new DriveForwardCommand();
+		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(sensors);
+		SmartDashBoardDisplayer.getInstance().submit(lidar);
+	}
+
 	public void robotInit() {
 
 	}
