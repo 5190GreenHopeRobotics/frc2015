@@ -129,11 +129,6 @@ public class Robot extends IterativeRobot {
 	 * 
 	 */
 	public void robotInit() {
-		// cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB,
-		// 0);
-		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
-		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		// NIVision.IMAQdxConfigureGrab(cameraSession);
 		vision = new VisionSubsystem();
 	}
 
