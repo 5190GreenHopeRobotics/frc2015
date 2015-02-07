@@ -134,7 +134,7 @@ public class Robot extends IterativeRobot {
 		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
 		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		// NIVision.IMAQdxConfigureGrab(cameraSession);
-		vision = new VisionSubsystem();
+		// vision = new VisionSubsystem();
 	}
 
 	public void disabledPeriodic() {
@@ -184,7 +184,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 
-		vision.run();
+		// vision.run();
 		Scheduler.getInstance().run();
 
 	}
