@@ -27,9 +27,8 @@ public class ArmSubsystem extends Subsystem {
 	private final double shaftcircumference = 0; // Give this a real value when
 													// we find the circumference
 													// of
+	private DigitalInput armReachedLimitStop = new DigitalInput(1);
 													// the shaft
-	public Armextender Extender = new Armextender();
-
 	/**
 	 * nothing needs to go here.
 	 */
@@ -112,9 +111,11 @@ public class ArmSubsystem extends Subsystem {
 				* 360;
 		return currentdegrees;
 	}
-
+	
 	public void resetencoder() {
 		armLengthEncoder.reset();
 	}
-
+	public boolean getLimitSwitchArmStop(DigitalInpu){
+		
+	}
 }
