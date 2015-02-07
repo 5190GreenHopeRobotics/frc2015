@@ -1,10 +1,13 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class PIDRobotDrive extends RobotDrive implements PIDOutput {
+
+	protected Gyro gyro;
 
 	public PIDRobotDrive(SpeedController frontLeftMotor,
 			SpeedController rearLeftMotor, SpeedController frontRightMotor,
@@ -16,7 +19,11 @@ public class PIDRobotDrive extends RobotDrive implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
-		this.drive(output, 0);
+		this.drive(output, -gyro.getAngle() * DriveTrainSubsystem.kP);
+	}
+
+	public void setGyro(Gyro toSet) {
+		gyro = toSet;
 	}
 
 }

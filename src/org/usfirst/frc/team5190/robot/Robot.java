@@ -129,7 +129,7 @@ public class Robot extends IterativeRobot {
 	 * 
 	 */
 	public void robotInit() {
-		vision = new VisionSubsystem();
+
 	}
 
 	public void disabledPeriodic() {
@@ -178,7 +178,8 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-		vision.run();
+
+		// vision.run();
 		Scheduler.getInstance().run();
 
 	}
