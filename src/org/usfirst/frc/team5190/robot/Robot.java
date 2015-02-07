@@ -8,6 +8,7 @@ import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
 import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team5190.sensorFilter.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
@@ -29,20 +30,22 @@ public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
 	// camera
-	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
+	public static CameraServoSubsystem cameraServoSubsystem;
 
 	// hardware not present
-	public static IndependentSensors sensors = new IndependentSensors();
+	public static IndependentSensors sensors;
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
-	private DriveForwardCommand autonomousCommand = new DriveForwardCommand();
-	private LidarFilter lidar = new LidarFilter(new Lidar(Port.kMXP));
+	private DriveForwardCommand autonomousCommand;
+	private LidarFilter lidar;
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
-	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+	public static DriveTrainSubsystem driveTrainSubsystem;
 	// Experiment, don't touch plz
 	public static PIDarmexperimentPIDSubsystem PIDExample = null;
 	public static VisionSubsystem vision;
+	// Prototype arm
+	public static Prototypearm prototypearm = new Prototypearm();
 
 	/**
 	 * 
@@ -115,26 +118,26 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 	}
 
-	{
-		// camera = new Camera();
-		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
-		SmartDashBoardDisplayer.getInstance().submit(sensors);
-		SmartDashBoardDisplayer.getInstance().submit(lidar);
-	}
-
 	// public Camera camera;
 
 	/**
 	 * Init the Camera
 	 * 
 	 */
+
+	public Robot() {
+		cameraServoSubsystem = new CameraServoSubsystem();
+		sensors = new IndependentSensors();
+		driveTrainSubsystem = new DriveTrainSubsystem();
+		lidar = new LidarFilter(new Lidar(Port.kMXP));
+		autonomousCommand = new DriveForwardCommand();
+		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(sensors);
+		SmartDashBoardDisplayer.getInstance().submit(lidar);
+	}
+
 	public void robotInit() {
-		// cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB,
-		// 0);
-		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
-		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		// NIVision.IMAQdxConfigureGrab(cameraSession);
-		vision = new VisionSubsystem();
+
 	}
 
 	public void disabledPeriodic() {
@@ -184,7 +187,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 
-		vision.run();
+		// vision.run();
 		Scheduler.getInstance().run();
 
 	}

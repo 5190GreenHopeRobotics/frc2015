@@ -50,6 +50,9 @@ public class LidarFilter implements PIDSource, Displayable {
 		return sum / buffer.size();
 	}
 
+	/**
+	 * update the window
+	 */
 	public void update() {
 		if (buffer.size() > windowSize) {
 			buffer.pop();
