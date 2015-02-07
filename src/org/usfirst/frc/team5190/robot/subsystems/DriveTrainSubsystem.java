@@ -64,8 +64,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
-		mDrive.setGyro(gyro);
-		gyro.reset();
+		//mDrive.setGyro(gyro);
 	}
 
 	/**
@@ -257,7 +256,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
 		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
 				.getDistance()));
-		encoder.add(new Pair<String, Double>("PID Input", pidInput));
 		return encoder;
 	}
 
