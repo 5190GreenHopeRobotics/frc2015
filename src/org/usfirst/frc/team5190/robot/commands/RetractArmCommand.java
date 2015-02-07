@@ -11,24 +11,24 @@ public class RetractArmCommand extends Command {
 
 	public RetractArmCommand() {
 		// needs the arm
-		requires(Robot.armSubsystem);
-		setTimeout(1.0);
+		requires(Robot.armSubsystem.Extender);
 
 	}
 
 	/**
 	 * This starts the command, and begins to retract the Arm.
 	 */
-	@Override
 	protected void initialize() {
-		Robot.armSubsystem.retractArm();
-
+		// Change the minimum extension when you get a real value
+		if (Robot.armSubsystem.Extender.getencoderdistance() > 2
+				&& Robot.armSubsystem.Extender.getretractlimitswitch() == true) {
+			Robot.armSubsystem.Extender.retractarm();
+		}
 	}
 
 	/**
 	 * Called repeatedly when this Command is scheduled to run
 	 */
-	@Override
 	protected void execute() {
 
 	}
@@ -36,9 +36,8 @@ public class RetractArmCommand extends Command {
 	/**
 	 * This is the returned value after the time is finished.
 	 */
-	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return true;
 
 	}
 
@@ -46,18 +45,15 @@ public class RetractArmCommand extends Command {
 	 * This stops the arm when the time is "out"/ended, and it will start to
 	 * rerun.
 	 */
-	@Override
 	protected void end() {
-		Robot.armSubsystem.stopArmLengthChange();
-
+		Robot.PIDExample.armExtender.stopExtension();
 	}
 
 	/**
 	 * This stops the arm from retracting when the code is interrupted.
 	 */
-	@Override
 	protected void interrupted() {
-		Robot.armSubsystem.stopArmLengthChange();
+		Robot.PIDExample.armExtender.stopExtension();
 
 	}
 }

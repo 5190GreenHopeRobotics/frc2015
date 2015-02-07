@@ -17,7 +17,7 @@ public class TerminateRobotCommand extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.setDisable(true);
+		Robot.driveTrainSubsystem.halt();
 	}
 
 	@Override
@@ -27,12 +27,11 @@ public class TerminateRobotCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.setDisable(true);
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.driveTrainSubsystem.setDisable(true);
+		Robot.driveTrainSubsystem.resume();
 
 	}
 

@@ -13,47 +13,45 @@ public class ExtendArmCommand extends Command {
 	 * second.
 	 */
 	public ExtendArmCommand() {
-		requires(Robot.armSubsystem);
-		setTimeout(1.0);
+		requires(Robot.armSubsystem.Extender);
+
 	}
 
 	/**
 	 * This part starts the actual process of the extending of the arm.
 	 */
-	@Override
 	protected void initialize() {
-		Robot.armSubsystem.extendArm();
+		if (Robot.armSubsystem.Extender.getencoderdistance() < Robot.armSubsystem.Extender.maxextension
+				&& Robot.armSubsystem.Extender.getextendlimitswitch() == true) {
+			Robot.armSubsystem.Extender.extendarm();
+		}
+
 	}
 
 	/**
 	 * Called repeatedly when this Command is scheduled to run
 	 */
-	@Override
 	protected void execute() {
 	}
 
 	/**
 	 * Returns it when the amount of time is finished.
 	 */
-	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return true;
 	}
 
 	/**
 	 * Stops the Arm when the Time is out
 	 */
-	@Override
 	protected void end() {
-		Robot.armSubsystem.stopArmLengthChange();
+		Robot.PIDExample.armExtender.stopExtension();
 	}
 
 	/**
 	 * Stops the Arm when the code is interrupted.
 	 */
-	@Override
 	protected void interrupted() {
-		Robot.armSubsystem.stopArmLengthChange();
-
+		Robot.PIDExample.armExtender.stopExtension();
 	}
 }

@@ -4,6 +4,12 @@ import org.usfirst.frc.team5190.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * enable the drive train
+ * 
+ * @author sdai
+ *
+ */
 public class EnableRobotCommand extends Command {
 
 	@Override
@@ -15,7 +21,7 @@ public class EnableRobotCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.setDisable(false);
+		Robot.driveTrainSubsystem.resume();
 	}
 
 	@Override
@@ -25,12 +31,11 @@ public class EnableRobotCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.setDisable(false);
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.driveTrainSubsystem.setDisable(true);
+		Robot.driveTrainSubsystem.halt();
 	}
 
 }

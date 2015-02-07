@@ -1,7 +1,11 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
+<<<<<<< HEAD
 //import org.usfirst.frc.team5190.robot.commands.PneumaticsProofOfConcept;
+=======
+import org.usfirst.frc.team5190.robot.commands.ResetEncoderCommand;
+>>>>>>> branch 'master' of https://github.com/5190GreenHopeRobotics/frc2015.git
 import org.usfirst.frc.team5190.robot.commands.TerminateRobotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,8 +30,14 @@ public class OI {
 	public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
+<<<<<<< HEAD
 	public static final int PNEUMATICS_TEST = 7;
 
+=======
+	public static final int ADD_SERVO = 7;
+	public static final int SUB_SERVO = 8;
+	public static final int RESET_ENCODER = 10;
+>>>>>>> branch 'master' of https://github.com/5190GreenHopeRobotics/frc2015.git
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
@@ -35,6 +45,10 @@ public class OI {
 	// Drive Stick button/peripheral initialization
 	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
+<<<<<<< HEAD
+=======
+	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
+>>>>>>> branch 'master' of https://github.com/5190GreenHopeRobotics/frc2015.git
 
 	// Just a test for Pneumatics
 	private Button PneumaticButton = new JoystickButton(driveStick,
@@ -59,11 +73,20 @@ public class OI {
 		// raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
 		// lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
 
+<<<<<<< HEAD
 		// openForkliftButton.whileHeld(new OpenForkliftCommand()); // open
 		// Forklift/grabber
 		// closeForkliftButton.whileHeld(new CloseForkliftCommand()); // close
 		// Forklift/grabber
+=======
+		// resets the encoders
+		resetEncoder.whenPressed(new ResetEncoderCommand());
 
+		// stops the drive train when pressed
+		killSwitch.whenPressed(new TerminateRobotCommand());
+>>>>>>> branch 'master' of https://github.com/5190GreenHopeRobotics/frc2015.git
+
+<<<<<<< HEAD
 		// extendArmButton.whileHeld(new ExtendArmCommand()); // extends the arm
 		// retractArmButton.whileHeld(new RetractArmCommand()); // retracts the
 		// arm
@@ -91,6 +114,11 @@ public class OI {
 		enableSwitch.whenPressed(new EnableRobotCommand()); // undo kill
 		// after
 		// release
+=======
+		// undo kill
+		enableSwitch.whenPressed(new EnableRobotCommand());
+
+>>>>>>> branch 'master' of https://github.com/5190GreenHopeRobotics/frc2015.git
 	}
 
 	/**

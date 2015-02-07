@@ -1,22 +1,20 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.CameraMovementCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.ElevatorSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.ForkliftSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
+import org.usfirst.frc.team5190.sensorFilter.Lidar;
+import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
+import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ShapeMode;
-
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -34,15 +32,17 @@ public class Robot extends IterativeRobot {
 	public static CameraServoSubsystem cameraServoSubsystem = new CameraServoSubsystem();
 
 	// hardware not present
-	public static ElevatorSubsystem elevatorSubsystem = null;
-
-	private Command autonomousCommand = new DriveForwardCommand();
+	public static IndependentSensors sensors = new IndependentSensors();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
+	private DriveForwardCommand autonomousCommand = new DriveForwardCommand();
+	private LidarFilter lidar = new LidarFilter(new Lidar(Port.kMXP));
+	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	// hardware not present
-	public static ForkliftSubsystem forkLiftSubsystem = null;
+	// Experiment, don't touch plz
+	public static PIDarmexperimentPIDSubsystem PIDExample = null;
+	public static VisionSubsystem vision;
 
 	/**
 	 * 
@@ -51,56 +51,59 @@ public class Robot extends IterativeRobot {
 	 */
 	protected class Camera {
 
-		// Define Some Variables
-		int cameraSession;
-		Image cameraFrame;
-		CameraServer server;
-
-		Camera() {
-			server = CameraServer.getInstance();
-			server.setQuality(50);
-			// the camera name (ex "cam0") can be found through the roborio web
-			// interface
-			server.startAutomaticCapture("cam0");
-		}
-
-		/**
-		 * Initialize the Camera
-		 */
-		public void cameraInit() {
-
-			cameraFrame = NIVision.imaqCreateImage(
-					NIVision.ImageType.IMAGE_RGB, 0);
-
-			cameraSession = NIVision
-					.IMAQdxOpenCamera(
-							"cam0",
-							NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-
-			NIVision.IMAQdxConfigureGrab(cameraSession);
-
-		}
-
-		public void cameraControl() {
-
-			NIVision.IMAQdxStartAcquisition(cameraSession);
-
-			NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-
-			while (RobotIsEnabled) {
-
-				NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
-
-				NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
-						DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
-				CameraServer.getInstance().setImage(cameraFrame);
-
-			}
-
-			NIVision.IMAQdxStopAcquisition(cameraSession);
-
-		}
+		// // Define Some Variables
+		// public int cameraSession;
+		// public Image cameraFrame;
+		// public CameraServer server;
+		//
+		// Camera() {
+		// server = CameraServer.getInstance();
+		// server.setQuality(50);
+		// // the camera name (ex "cam0") can be found through the roborio
+		// // web
+		// // // interface
+		// server.startAutomaticCapture("cam0");
+		// cameraInit();
+		// cameraControl();
+		// }
+		//
+		// /**
+		// * Initialize the Camera
+		// */
+		// public void cameraInit() {
+		//
+		// cameraFrame = NIVision.imaqCreateImage(
+		// NIVision.ImageType.IMAGE_RGB, 0);
+		//
+		// cameraSession = NIVision
+		// .IMAQdxOpenCamera(
+		// "cam0",
+		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		//
+		// NIVision.IMAQdxConfigureGrab(cameraSession);
+		//
+		// }
+		//
+		// public void cameraControl() {
+		//
+		// NIVision.IMAQdxStartAcquisition(cameraSession);
+		//
+		// NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+		//
+		// while (RobotIsEnabled) {
+		//
+		// NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
+		//
+		// NIVision.imaqDrawShapeOnImage(cameraFrame, cameraFrame, rect,
+		// DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+		//
+		// CameraServer.getInstance().setImage(cameraFrame);
+		//
+		// }
+		//
+		// NIVision.IMAQdxStopAcquisition(cameraSession);
+		//
+		// }
 
 	}
 
@@ -113,17 +116,25 @@ public class Robot extends IterativeRobot {
 	}
 
 	{
-		camera = new Camera();
+		// camera = new Camera();
+		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(sensors);
+		SmartDashBoardDisplayer.getInstance().submit(lidar);
 	}
-	public Camera camera;
+
+	// public Camera camera;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * Init the Camera
+	 * 
 	 */
 	public void robotInit() {
-		// instantiate the command used for the autonomous period
-
+		// cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB,
+		// 0);
+		// cameraSession = NIVision.IMAQdxOpenCamera("cam0",
+		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		// NIVision.IMAQdxConfigureGrab(cameraSession);
+		vision = new VisionSubsystem();
 	}
 
 	public void disabledPeriodic() {
@@ -134,6 +145,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		new PutSmartDashBoardCommand().start();
 	}
 
 	/**
@@ -145,16 +157,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
-
-		new CameraMovementCommand().start();
+		new PutSmartDashBoardCommand().start();
+		// new CameraMovementCommand().start();
 
 	}
 
@@ -168,9 +176,17 @@ public class Robot extends IterativeRobot {
 
 	/**
 	 * This function is called periodically during operator control
+	 *
+	 *
+	 * grab an image, draw the circle, and provide it for the camera server
+	 * which will in turn send it to the dashboard.
 	 */
+
 	public void teleopPeriodic() {
+
+		vision.run();
 		Scheduler.getInstance().run();
+
 	}
 
 	/**

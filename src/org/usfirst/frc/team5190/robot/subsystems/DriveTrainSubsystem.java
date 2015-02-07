@@ -1,44 +1,63 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.commands.EncoderTestCommand;
+import org.usfirst.frc.team5190.smartDashBoard.Displayable;
+import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * the drive train subsystem
  */
-public class DriveTrainSubsystem extends Subsystem {
+public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-	private EncoderTestCommand encoderProof = new EncoderTestCommand();
-	DigitalInput mLimitSwitch;
-	RobotDrive mDrive;
-	boolean disable = false;
-
-	// Gyro gyro;
+	private DigitalInput mLimitSwitch;
+	private PIDRobotDrive mDrive;
+	private boolean disable = false;
+	private double pidInput;
+	private Encoder right, left;
+	private PIDController pid;
+	private PIDEncoderDriveTrain enc;
+	private Jaguar frontleft, backleft, frontright, backright;
 
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
 	public DriveTrainSubsystem() {
-		mDrive = new RobotDrive(RobotMap.FRONTLEFT, RobotMap.BACKLEFT,
-				RobotMap.FRONTRIGHT, RobotMap.BACKRIGHT);
-		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
+		// init the motors
+		frontleft = new Jaguar(RobotMap.FRONTLEFT);
+		backleft = new Jaguar(RobotMap.BACKLEFT);
+		frontright = new Jaguar(RobotMap.FRONTRIGHT);
+		backright = new Jaguar(RobotMap.BACKRIGHT);
+		// init drive
+		mDrive = new PIDRobotDrive(frontleft, backleft, frontright, backright);
 		mDrive.setSafetyEnabled(true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-		// gyro = new Gyro(RobotMap.GYRO_PORT);
+		// init the limit switch
+		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
+
+		// init the encoder
+		enc = new PIDEncoderDriveTrain();
+
+		// get the encoders
+		right = enc.getRight();
+		left = enc.getLeft();
+
+		// init pid
+		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
 	}
 
 	/**
@@ -52,6 +71,14 @@ public class DriveTrainSubsystem extends Subsystem {
 	}
 
 	/**
+	 * reset all the encoder
+	 */
+	public void resetEncoder() {
+		right.reset();
+		left.reset();
+	}
+
+	/**
 	 * disable or enable the drive train
 	 * 
 	 * @param flag
@@ -61,9 +88,10 @@ public class DriveTrainSubsystem extends Subsystem {
 		disable = flag;
 	}
 
+	/**
+	 * dummy
+	 */
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
 	}
 
 	/**
@@ -71,7 +99,6 @@ public class DriveTrainSubsystem extends Subsystem {
 	 */
 
 	public void driveForward() {
-		// -gyro.getAngle()
 		if (!disable) {
 			mDrive.drive(1, 0);
 		}
@@ -92,31 +119,21 @@ public class DriveTrainSubsystem extends Subsystem {
 	}
 
 	/**
-	 * drive the robot at speed for time second
-	 * 
-	 * @param speed
-	 *            the speed(-1 -1), which the robot will go at
-	 * @param time
-	 *            the number of second it will run
+	 * stop the robot with PID
 	 */
-	@Deprecated
-	public void drive(double speed, long time) {
-		mDrive.tankDrive(speed, speed);
-		try {
-			TimeUnit.SECONDS.sleep(time);
-		} catch (InterruptedException e) {
 
-		} finally {
-			this.stopAll();
-		}
+	public void halt() {
+		this.PIDEnable(true);
+		this.driveToPoint(0);
+		this.setDisable(true);
 	}
 
 	/**
-	 * stop the robot
+	 * resume the robot with PID
 	 */
-
-	public void stopAll() {
-		mDrive.tankDrive(0, 0);
+	public void resume() {
+		this.PIDEnable(false);
+		this.setDisable(false);
 	}
 
 	/**
@@ -127,7 +144,6 @@ public class DriveTrainSubsystem extends Subsystem {
 		if (!disable) {
 			mDrive.tankDrive(0, 0.1);
 		}
-		// gyro.reset();
 	}
 
 	/**
@@ -138,7 +154,6 @@ public class DriveTrainSubsystem extends Subsystem {
 		if (!disable) {
 			mDrive.tankDrive(0.1, 0);
 		}
-		// gyro.reset();
 	}
 
 	/**
@@ -152,7 +167,6 @@ public class DriveTrainSubsystem extends Subsystem {
 		if (!disable) {
 			mDrive.arcadeDrive(0, amount, false);
 		}
-		// gyro.reset();
 	}
 
 	/**
@@ -165,7 +179,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	public void arcadeJoystickDrive(Joystick stick) {
 		if (!disable) {
 			if (!mLimitSwitch.get()) {
-				stopAll();
+				halt();
 				return;
 			}
 			setPower(Robot.oi.getSpeed());
@@ -189,13 +203,54 @@ public class DriveTrainSubsystem extends Subsystem {
 	}
 
 	/**
-	 * put encoder data to smartdashboard
+	 * drive a specific distance
+	 * 
+	 * @param distance
+	 *            in inches to drive to
 	 */
-	public void putData() {
-
-		SmartDashboard.putNumber("Distance", encoderProof.getEncoder()
-
-		.getDistance());
-
+	public void driveToPoint(double point) {
+		pid.setSetpoint(point);
 	}
+
+	/**
+	 * enable or disable the pid
+	 * 
+	 * @param e
+	 *            true for enable, false for disable
+	 */
+	public void PIDEnable(boolean e) {
+		if (e) {
+			pid.enable();
+		} else {
+			pid.disable();
+		}
+	}
+
+	@Override
+	public Collection<Pair<String, Boolean>> getBooleanValue() {
+		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
+		booleanValues.add(new Pair<String, Boolean>("Limit Switch",
+				mLimitSwitch.get()));
+		booleanValues.add(new Pair<String, Boolean>("Encoder Right Direction",
+				right.getDirection()));
+		booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",
+				left.getDirection()));
+		return booleanValues;
+	}
+
+	@Override
+	public Collection<Pair<String, Double>> getDecimalValues() {
+		Double get = new Double(right.get());
+		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
+		encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
+		encoder.add(new Pair<String, Double>("Encoder Right Distance:", right
+				.getDistance()));
+		get = new Double(left.get());
+		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
+		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
+				.getDistance()));
+		encoder.add(new Pair<String, Double>("PID Input", pidInput));
+		return encoder;
+	}
+
 }
