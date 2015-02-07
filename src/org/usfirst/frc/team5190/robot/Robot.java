@@ -2,10 +2,12 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.commands.DriveWithLidarCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CameraServoSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PIDarmexperimentPIDSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
@@ -46,6 +48,7 @@ public class Robot extends IterativeRobot {
 	public static VisionSubsystem vision;
 	// Prototype arm
 	public static Prototypearm prototypearm = new Prototypearm();
+	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
 
 	/**
 	 * 
@@ -127,6 +130,7 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		cameraServoSubsystem = new CameraServoSubsystem();
+		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 		sensors = new IndependentSensors();
 		driveTrainSubsystem = new DriveTrainSubsystem();
 		lidar = new LidarFilter(new Lidar(Port.kMXP));
@@ -148,6 +152,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		new DriveWithLidarCommand().start();
 		new PutSmartDashBoardCommand().start();
 	}
 
