@@ -22,6 +22,7 @@ public class PrototypeArmLower extends Command {
 		}
 		if (Robot.prototypearm.minimized == false) {
 			Robot.prototypearm.raisearm();
+			Robot.prototypearm.maximized = false;
 		}
 	}
 

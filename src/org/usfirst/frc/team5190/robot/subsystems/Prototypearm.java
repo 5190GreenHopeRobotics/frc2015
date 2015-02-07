@@ -16,6 +16,7 @@ public class Prototypearm extends Subsystem {
 	private final double motorspeed = 0.5;
 	public boolean maximized = false;
 	public boolean minimized = false;
+	public boolean started = true;
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

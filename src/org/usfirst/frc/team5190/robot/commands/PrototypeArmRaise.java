@@ -17,11 +17,14 @@ public class PrototypeArmRaise extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (Robot.prototypearm.getlimitswitch() == false) {
+		if (Robot.prototypearm.getlimitswitch() == false
+				&& Robot.prototypearm.started == false) {
 			Robot.prototypearm.maximized = true;
 		}
 		if (Robot.prototypearm.maximized == false) {
 			Robot.prototypearm.raisearm();
+			Robot.prototypearm.started = false;
+			Robot.prototypearm.minimized = false;
 		}
 	}
 
