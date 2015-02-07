@@ -28,9 +28,9 @@ public class IndependentSensors implements Displayable {
 		accelerometer = new BuiltInAccelerometer();
 		accel = new AccelerometerFilter(accelerometer);
 		gyro = new Gyro(RobotMap.GYRO_PORT);
-		ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
-				RobotMap.ULTRASONIC_RECIEVE);
-		ultraSonicSensor.setEnabled(true);
+		// ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
+		// RobotMap.ULTRASONIC_RECIEVE);
+		// ultraSonicSensor.setEnabled(true);
 	}
 
 	/**
@@ -76,8 +76,8 @@ public class IndependentSensors implements Displayable {
 		result.add(new Pair<String, Double>("Accelerometer X", accel.getX()));
 		result.add(new Pair<String, Double>("Accelerometer Y", accel.getY()));
 		result.add(new Pair<String, Double>("Accelerometer Z", accel.getZ()));
-		result.add(new Pair<String, Double>("Ultrasonic Distance Inches:",
-				ultraSonicSensor.getRangeInches()));
+		// result.add(new Pair<String, Double>("Ultrasonic Distance Inches:",
+		// ultraSonicSensor.getRangeInches()));
 		result.add(new Pair<String, Double>("Gyro:", gyro.getAngle()));
 		return result;
 	}

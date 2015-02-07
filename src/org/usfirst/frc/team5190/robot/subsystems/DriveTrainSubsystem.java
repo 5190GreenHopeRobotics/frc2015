@@ -61,7 +61,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
-		pid.disable();
+		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
 		mDrive.setGyro(gyro);
