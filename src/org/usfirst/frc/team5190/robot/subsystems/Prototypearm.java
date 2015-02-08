@@ -15,6 +15,7 @@ public class Prototypearm extends Subsystem {
 	// here. Call these from Commands.
 	private Jaguar armvictor = new Jaguar(8);
 	private DigitalInput limitswitch = new DigitalInput(1);
+	private DigitalInput topLimitSwitch = new DigitalInput(2);
 	private final double motorspeed = 0.5;
 	public boolean maximized = false;
 	public boolean minimized = false;
@@ -39,9 +40,15 @@ public class Prototypearm extends Subsystem {
 
 	public void joystickControl(Joystick stick) {
 		if(stick.getY() > 0 && !limitswitch.get()) {
-			return;
+			stoparm();
 		}
-		armvictor.set(stick.getY());
+		else if(stick.getY() < 0 && !topLimitSwitch.get())
+		{
+			stoparm();
+		}
+		else {
+			armvictor.set(stick.getY());
+		}
 	}
 	
 	public void stoparm() {
