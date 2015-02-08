@@ -23,10 +23,10 @@ public class OI {
 	// Button numbers on joystick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
-	public static final int OPENFORKLIFT_BUTTON = 6;
+	public static final int OPENFORKLIFT_BUTTON = 3;
 	public static final int CLOSEFORKLIFT_BUTTON = 5;
-	// public static final int EXTENDARM_BUTTON = 4;
-	// public static final int RETRACTARM_BUTTON = 6;
+	public static final int EXTENDARM_BUTTON = 4;
+	public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 11;
 	public static final int ENABLE_SWITCH = 12;
 	public static final int ADD_SERVO = 7;
