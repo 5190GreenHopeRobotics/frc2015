@@ -28,6 +28,7 @@ public class Lidar implements PIDSource {
 	public int getDistance() {
 		return (Byte.toUnsignedInt(distance[0]) << 8)
 				+ Byte.toUnsignedInt(distance[1]);
+//		return (distance[0] << 8) + distance[1];
 	}
 
 	public double pidGet() {
