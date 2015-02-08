@@ -2,10 +2,12 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.commands.DriveWithLidarCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
@@ -38,6 +40,7 @@ public class Robot extends IterativeRobot {
 	public static VisionSubsystem vision;
 	// Prototype arm
 	public static Prototypearm prototype = new Prototypearm();
+	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
 
 	private Command autonomousCommand;
 
@@ -50,6 +53,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public Robot() {
+		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 		sensors = new IndependentSensors();
 		driveTrainSubsystem = new DriveTrainSubsystem();
 		autonomousCommand = new DriveForwardCommand();
@@ -71,6 +75,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		new DriveWithLidarCommand().start();
 		new PutSmartDashBoardCommand().start();
 	}
 

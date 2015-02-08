@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	int test = 0;
 	// test
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
