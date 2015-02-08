@@ -23,6 +23,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public static final double kP = 0.03;
+	/**
+	 * The range +/- that is acceptable for driving a set distance.
+	 * 
+	 * @see #startDriveSetDistance(double)
+	 */
+	public static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
+
 	private DigitalInput mLimitSwitch;
 	private PIDRobotDrive mDrive;
 	private boolean disable = false;
@@ -60,6 +67,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// get lidar
 		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
+		pid.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+
 		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
@@ -217,6 +226,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 	public void startDriveSetDistance(double distance) {
 		pid.setSetpoint(enc.getDistance() + distance);
+		pid.enable();
 
 	}
 

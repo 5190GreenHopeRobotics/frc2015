@@ -1,8 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
+import org.usfirst.frc.team5190.robot.commands.DriveSetDistanceCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.DriveWithLidarCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
@@ -58,7 +57,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public Robot() {
-		autonomousCommand = new DriveForwardCommand();
+		autonomousCommand = new DriveSetDistanceCommand();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
@@ -77,7 +76,6 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
-		new DriveWithLidarCommand().start();
 		new PutSmartDashBoardCommand().start();
 	}
 
