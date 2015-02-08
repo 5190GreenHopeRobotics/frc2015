@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.DriveSetDistanceCommand;
 import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmLower;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmRaise;
@@ -32,6 +33,7 @@ public class OI {
 	public static final int ADD_SERVO = 7;
 	public static final int SUB_SERVO = 8;
 	public static final int RESET_ENCODER = 10;
+	public static final int TEST_SET_DISTANCE = 9;
 	// Initialize joysticks
 	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
@@ -40,6 +42,8 @@ public class OI {
 	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
+	private Button testSetDistance = new JoystickButton(shootStick,
+			TEST_SET_DISTANCE);
 	// Arm prototype
 	private Button raisearm = new JoystickButton(driveStick, TRIGGER);
 	private Button lowerarm = new JoystickButton(driveStick, THUMB_BUTTON);
@@ -51,6 +55,10 @@ public class OI {
 
 		// resets the encoders
 		// resetEncoder.whenPressed(new ResetEncoderCommand());
+
+		// Button 9 will activate the Drive to a distance command... this is
+		// only for testing purpose.
+		testSetDistance.whenPressed(new DriveSetDistanceCommand());
 
 		// stops the drive train when pressed
 		killSwitch.whenPressed(new TerminateRobotCommand());
