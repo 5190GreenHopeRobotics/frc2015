@@ -49,13 +49,15 @@ public class Robot extends IterativeRobot {
 	 */
 	public static OI oi;
 	static {
+		// subsystems must be initialized before operator interface
+		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
+		sensors = new IndependentSensors();
+		driveTrainSubsystem = new DriveTrainSubsystem();
+
 		oi = new OI();
 	}
 
 	public Robot() {
-		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
-		sensors = new IndependentSensors();
-		driveTrainSubsystem = new DriveTrainSubsystem();
 		autonomousCommand = new DriveForwardCommand();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
