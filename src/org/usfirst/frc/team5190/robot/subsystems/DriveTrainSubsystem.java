@@ -26,7 +26,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private DigitalInput mLimitSwitch;
 	private PIDRobotDrive mDrive;
 	private boolean disable = false;
-	private double pidInput;
 	private Encoder right, left;
 	private PIDController pid;
 	private PIDEncoderDriveTrain enc;
@@ -44,7 +43,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backright = new Jaguar(RobotMap.BACKRIGHT);
 		// init drive
 		mDrive = new PIDRobotDrive(frontleft, backleft, frontright, backright);
-		mDrive.setSafetyEnabled(true);
+		mDrive.setSafetyEnabled(false);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
@@ -58,14 +57,13 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// get the encoders
 		right = enc.getRight();
 		left = enc.getLeft();
-
+		// get lidar
 		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
 		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
-		mDrive.setGyro(gyro);
-		gyro.reset();
+		// mDrive.setGyro(gyro);
 	}
 
 	/**
@@ -257,7 +255,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
 		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
 				.getDistance()));
-		encoder.add(new Pair<String, Double>("PID Input", pidInput));
 		return encoder;
 	}
 

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
+import edu.wpi.first.wpilibj.I2C.Port;
+
 public class RobotMap {
 	// arm
 	public static final int ARMLENGTH_TALONSRX_PORT = 2;
@@ -30,4 +32,6 @@ public class RobotMap {
 	public static final int ENCODER_LEFT_CHANNEL_B = 4;
 
 	public static final int SOLENOID_PORT = 0;
+	// I2c
+	public static final Port LIDAR_PORT = Port.kMXP;
 }

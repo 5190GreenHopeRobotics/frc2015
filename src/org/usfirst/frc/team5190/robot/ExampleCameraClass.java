@@ -12,6 +12,7 @@ public class ExampleCameraClass {
 	CameraServer server;
 	int session;
 	Image frame;
+	int nothing;
 
 	public void cameraInit() {
 		// server

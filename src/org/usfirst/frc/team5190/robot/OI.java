@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	int test = 0;
 	// test
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
@@ -39,7 +38,6 @@ public class OI {
 	// Drive Stick button/peripheral initialization
 	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
-	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
 	// Arm prototype
 	private Button raisearm = new JoystickButton(driveStick, TRIGGER);
 	private Button lowerarm = new JoystickButton(driveStick, THUMB_BUTTON);
