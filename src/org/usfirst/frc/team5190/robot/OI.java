@@ -16,21 +16,20 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-	int test = 0;
 	// test
 	// ports on laptop of Joysticks
 	public static final int DRIVESTICK_PORT = 0;
 	public static final int SHOOTSTICK_PORT = 1;
 
 	// Button numbers on joystick
-	public static final int TRIGGER = 1;
+	public static final int TRIGGER = 11;
 	public static final int THUMB_BUTTON = 2;
 	public static final int OPENFORKLIFT_BUTTON = 6;
 	public static final int CLOSEFORKLIFT_BUTTON = 5;
 	// public static final int EXTENDARM_BUTTON = 4;
 	// public static final int RETRACTARM_BUTTON = 6;
-	public static final int KILL_SWITCH = 11;
-	public static final int ENABLE_SWITCH = 12;
+	public static final int KILL_SWITCH = 1;
+	public static final int ENABLE_SWITCH = 5;
 
 	public static final int PNEUMATICS_TEST = 7;
 
@@ -43,14 +42,10 @@ public class OI {
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
 
 	// Drive Stick button/peripheral initialization
-	private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
+	//private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
 
-	private Button resetEncoder = new JoystickButton(driveStick, RESET_ENCODER);
 	// Arm prototype
-	private Button raisearm = new JoystickButton(driveStick, TRIGGER);
-	private Button lowerarm = new JoystickButton(driveStick, THUMB_BUTTON);
-
 
 
 	// Just a test for Pneumatics
@@ -80,7 +75,7 @@ public class OI {
 		// resetEncoder.whenPressed(new ResetEncoderCommand());
 
 		// stops the drive train when pressed
-		killSwitch.whenPressed(new TerminateRobotCommand());
+		//killSwitch.whenPressed(new TerminateRobotCommand());
 
 		// extendArmButton.whileHeld(new ExtendArmCommand()); // extends the arm
 		// retractArmButton.whileHeld(new RetractArmCommand()); // retracts the
@@ -93,7 +88,7 @@ public class OI {
 		// retractArmButton.whileHeld(new RetractArmCommand());
 		// buttons to link up to commands (Drivestick)
 		//PneumaticButton.whileHeld(new PneumaticsProofOfConcept());
-		killSwitch.whenPressed(new TerminateRobotCommand()); // kill robot
+		//killSwitch.whenPressed(new TerminateRobotCommand()); // kill robot
 
 
 		// =======
@@ -109,13 +104,6 @@ public class OI {
 		// // release
 		enableSwitch.whenPressed(new EnableRobotCommand()); // undo kill
 		// after
-		// release
-
-		// Raise Prototype Arm
-		raisearm.whileHeld(new PrototypeArmRaise());
-
-		// Lower Prototype Arm
-		lowerarm.whileHeld(new PrototypeArmLower());
 
 	}
 

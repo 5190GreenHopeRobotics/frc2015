@@ -35,7 +35,7 @@ public class EnableRobotCommand extends Command {
 
 	@Override
 	protected void interrupted() {
-		Robot.driveTrainSubsystem.halt();
+		//Robot.driveTrainSubsystem.halt();
 	}
 
 }

@@ -7,30 +7,29 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PIDarmexperimentCommand extends Command {
+public class DriveWithLidarCommand extends Command {
 
-	public PIDarmexperimentCommand() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		requires(Robot.PIDExample);
+	public DriveWithLidarCommand() {
+		requires(Robot.driveWithLidarSubsystem);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		// Move the arm up a little, call this command with a held down button
-		if (Robot.PIDExample.getEncoderangle() < 80) {
-			Robot.PIDExample
-					.setSetpoint(Robot.PIDExample.getEncoderangle() + 1);
-		}
+		Robot.driveWithLidarSubsystem.initializeDriveTrain();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+
+		Robot.driveWithLidarSubsystem.runDriveTrain();
+		if (Robot.driveWithLidarSubsystem.getDistanceFromLidar() <= 9) {
+
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	// Called once after isFinished returns true
