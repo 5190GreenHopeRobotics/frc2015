@@ -1,8 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.DriveWithLidarCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
@@ -66,7 +64,8 @@ public class Robot extends IterativeRobot {
 		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 		sensors = new IndependentSensors();
 		driveTrainSubsystem = new DriveTrainSubsystem();
-		autonomousCommand = new DriveForwardCommand();
+
+		autonomousCommand = null; // new DriveForwardCommand();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
@@ -81,12 +80,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		LifecycleSubsystemManager.getInstance().autonomousInit();
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
-		new DriveWithLidarCommand().start();
-		new PutSmartDashBoardCommand().start();
+		// LifecycleSubsystemManager.getInstance().autonomousInit();
+		// // schedule the autonomous command (example)
+		// if (autonomousCommand != null)
+		// autonomousCommand.start();
+		// // new DriveWithLidarCommand().start();
+		// new PutSmartDashBoardCommand().start();
 	}
 
 	/**
@@ -103,6 +102,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
+
 		new PutSmartDashBoardCommand().start();
 		new PrototypeArmTeleopCommand().start();
 		// new CameraMovementCommand().start();

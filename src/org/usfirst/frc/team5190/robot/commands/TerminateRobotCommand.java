@@ -17,7 +17,7 @@ public class TerminateRobotCommand extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.halt();
+		//Robot.driveTrainSubsystem.halt();
 	}
 
 	@Override
