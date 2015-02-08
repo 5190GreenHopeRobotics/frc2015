@@ -132,7 +132,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void halt() {
 		this.PIDEnable(true);
-		this.driveToPoint(0);
+		this.startDriveSetDistance(0);
 		this.setDisable(true);
 	}
 
@@ -214,10 +214,23 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * drive a specific distance
 	 * 
 	 * @param distance
-	 *            in inches to drive to
+	 *            in inches to drive to It is the Encoder preset distance added
+	 *            to the actual distance you want to go.
 	 */
-	public void driveToPoint(double point) {
-		pid.setSetpoint(point);
+	public void startDriveSetDistance(double distance) {
+		pid.setSetpoint(enc.getDistance() + distance);
+
+	}
+
+	// Stops Driving the Robot to the Distance (Whether not there or reached the
+	// distance)
+	public void endDriveSetDistance() {
+		pid.disable();
+	}
+
+	// This asks to see if it has gotten to the distance.
+	public boolean drivenDistance() {
+		return pid.onTarget();
 	}
 
 	/**
