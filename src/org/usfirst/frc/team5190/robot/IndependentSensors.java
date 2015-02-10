@@ -29,7 +29,7 @@ public class IndependentSensors implements Displayable {
 		accel = new AccelerometerFilter(accelerometer);
 		gyro = new Gyro(RobotMap.GYRO_PORT);
 		gyro.initGyro();
-		
+		gyro.reset();
 		
 		// ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 		// RobotMap.ULTRASONIC_RECIEVE);

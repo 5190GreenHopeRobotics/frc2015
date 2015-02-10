@@ -21,7 +21,7 @@ public class RobotMap {
 	public static final int FRONTRIGHT = 2;
 	public static final int BACKRIGHT = 3;
 	// sensors
-	public static final int GYRO_PORT = 0;
+	public static final int GYRO_PORT = 1;
 	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 0;
 	public static final int ULTRASONIC_PING = 2;
 	public static final int ULTRASONIC_RECIEVE = 1;

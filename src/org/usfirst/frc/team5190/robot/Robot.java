@@ -75,7 +75,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
-		new DriveWithLidarCommand().start();
+		new DriveForwardCommand().start();
 		new PutSmartDashBoardCommand().start();
 	}
 
