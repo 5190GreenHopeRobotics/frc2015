@@ -9,7 +9,6 @@ import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
-import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -35,11 +34,10 @@ public class Robot extends IterativeRobot {
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem;
-	public static VisionSubsystem vision;
 	// Prototype arm
 	public static Prototypearm prototype = new Prototypearm();
 	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
-
+	public static Vision USBcamera;
 	private Command autonomousCommand;
 
 	/**
@@ -66,13 +64,14 @@ public class Robot extends IterativeRobot {
 		driveTrainSubsystem = new DriveTrainSubsystem();
 
 		autonomousCommand = null; // new DriveForwardCommand();
+		USBcamera = new Vision();
+		USBcamera.visionInit();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
 
 	public void robotInit() {
-
 	}
 
 	public void disabledPeriodic() {
@@ -126,8 +125,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-
-		// vision.run();
+		USBcamera.visionTeleop();
 		Scheduler.getInstance().run();
 
 	}
