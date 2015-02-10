@@ -63,7 +63,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
-		// mDrive.setGyro(gyro);
+		mDrive.setGyro(gyro);
 	}
 
 	/**

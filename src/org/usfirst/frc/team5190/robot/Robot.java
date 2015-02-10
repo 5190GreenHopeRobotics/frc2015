@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
@@ -79,12 +80,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		// LifecycleSubsystemManager.getInstance().autonomousInit();
-		// // schedule the autonomous command (example)
-		// if (autonomousCommand != null)
-		// autonomousCommand.start();
-		// // new DriveWithLidarCommand().start();
-		// new PutSmartDashBoardCommand().start();
+		LifecycleSubsystemManager.getInstance().autonomousInit();
+		// schedule the autonomous command (example)
+		if (autonomousCommand != null)
+			autonomousCommand.start();
+		new DriveForwardCommand().start();
+		new PutSmartDashBoardCommand().start();
 	}
 
 	/**

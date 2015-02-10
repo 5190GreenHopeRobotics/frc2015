@@ -34,7 +34,7 @@ public class DriveForwardCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.drive(0.3);
+		Robot.driveTrainSubsystem.drive(0.5);
 	}
 
 	@Override
@@ -45,7 +45,6 @@ public class DriveForwardCommand extends Command {
 	@Override
 	protected void end() {
 		Robot.driveTrainSubsystem.drive(0);
-		Robot.driveTrainSubsystem.PIDEnable(false);
 
 	}
 
