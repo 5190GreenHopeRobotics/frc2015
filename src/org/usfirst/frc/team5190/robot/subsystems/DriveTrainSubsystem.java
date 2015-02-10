@@ -128,11 +128,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * stop the robot with PID
 	 */
 
-	public void halt() {
-		this.PIDEnable(true);
-		this.driveToPoint(0);
-		this.setDisable(true);
-	}
+//	public void halt() {
+//		this.PIDEnable(true);
+//		this.driveToPoint(0);
+//		this.setDisable(true);
+//	}
 
 	/**
 	 * resume the robot with PID
@@ -184,12 +184,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void arcadeJoystickDrive(Joystick stick) {
 		if (!disable) {
-			if (!mLimitSwitch.get()) {
-				halt();
-				return;
-			}
-			setPower(Robot.oi.getSpeed());
-			mDrive.arcadeDrive(stick);
+			mDrive.setMaxOutput(0.4);
+			mDrive.arcadeDrive(-stick.getY(), stick.getRawAxis(4));
 		}
 	}
 
