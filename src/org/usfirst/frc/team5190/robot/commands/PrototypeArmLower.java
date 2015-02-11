@@ -14,7 +14,6 @@ public class PrototypeArmLower extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.prototype);
-		Timer.delay(0.5);
 	}
 
 	// Called just before this Command runs the first time
@@ -26,7 +25,7 @@ public class PrototypeArmLower extends Command {
 		// Robot.prototypearm.raisearm();
 		// Robot.prototypearm.maximized = false;
 		// }
-		// Robot.prototypearm.lowerarm();
+		Robot.prototype.lowerarm();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -35,7 +34,8 @@ public class PrototypeArmLower extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut();
+		//return isTimedOut();
+		return true;
 	}
 
 	// Called once after isFinished returns true

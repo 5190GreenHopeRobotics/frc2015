@@ -2,7 +2,6 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.DriveWithLidarCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
@@ -11,7 +10,6 @@ import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
-import org.usfirst.frc.team5190.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -37,11 +35,10 @@ public class Robot extends IterativeRobot {
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem;
-	public static VisionSubsystem vision;
 	// Prototype arm
 	public static Prototypearm prototype = new Prototypearm();
 	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
-
+	public static Vision USBcamera;
 	private Command autonomousCommand;
 
 	/**
@@ -57,15 +54,31 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 	}
 
+	// public Camera camera;
+
+	/**
+	 * Init the Camera
+	 * 
+	 */
+
+	// /// LEFT trigger moves the right side
+	// /// Right stick moves the left side
+
 	public Robot() {
 		autonomousCommand = new DriveForwardCommand();
+		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
+		sensors = new IndependentSensors();
+		driveTrainSubsystem = new DriveTrainSubsystem();
+
+		autonomousCommand = null; // new DriveForwardCommand();
+		USBcamera = new Vision();
+		USBcamera.visionInit();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
 
 	public void robotInit() {
-
 	}
 
 	public void disabledPeriodic() {
@@ -77,7 +90,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
-		new DriveWithLidarCommand().start();
+		new DriveForwardCommand().start();
 		new PutSmartDashBoardCommand().start();
 	}
 
@@ -95,6 +108,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
 		controledDrive.start();
+
 		new PutSmartDashBoardCommand().start();
 		new PrototypeArmTeleopCommand().start();
 		// new CameraMovementCommand().start();
@@ -118,8 +132,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void teleopPeriodic() {
-
-		// vision.run();
+		USBcamera.visionTeleop();
 		Scheduler.getInstance().run();
 
 	}
