@@ -68,6 +68,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
 		pid.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+		pid.setOutputRange(-0.5, 0.5);
 
 		// pid.disable();
 		// get gyro
