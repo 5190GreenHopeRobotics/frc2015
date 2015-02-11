@@ -22,6 +22,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public static final double kP = 0.03;
+	/**
+	 * The range +/- that is acceptable for driving a set distance.
+	 * 
+	 * @see #startDriveSetDistance(double)
+	 */
+	public static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
+
 	private DigitalInput mLimitSwitch;
 	private PIDRobotDrive mDrive;
 	private boolean disable = false;
@@ -59,6 +66,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// get lidar
 		// init pid
 		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
+		pid.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+		pid.setOutputRange(-0.5, 0.5);
+
 		// pid.disable();
 		// get gyro
 		gyro = IndependentSensors.getGyro();
@@ -127,12 +137,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	/**
 	 * stop the robot with PID
 	 */
-
-	// public void halt() {
-	// this.PIDEnable(true);
-	// this.driveToPoint(0);
-	// this.setDisable(true);
-	// }
+	public void halt() {
+		this.startDriveSetDistance(0);
+		pid.disable();
+	}
 
 	/**
 	 * resume the robot with PID
@@ -207,10 +215,24 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * drive a specific distance
 	 * 
 	 * @param distance
-	 *            in inches to drive to
+	 *            in inches to drive to It is the Encoder preset distance added
+	 *            to the actual distance you want to go.
 	 */
-	public void driveToPoint(double point) {
-		pid.setSetpoint(point);
+	public void startDriveSetDistance(double distance) {
+		pid.setSetpoint(enc.getDistance() + distance);
+		pid.enable();
+
+	}
+
+	// Stops Driving the Robot to the Distance (Whether not there or reached the
+	// distance)
+	public void endDriveSetDistance() {
+		pid.disable();
+	}
+
+	// This asks to see if it has gotten to the distance.
+	public boolean drivenDistance() {
+		return pid.onTarget();
 	}
 
 	/**

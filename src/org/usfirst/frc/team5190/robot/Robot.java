@@ -28,15 +28,15 @@ public class Robot extends IterativeRobot {
 	boolean RobotIsEnabled = true;
 
 	// hardware not present
-	public static IndependentSensors sensors;
+	public static IndependentSensors sensors = new IndependentSensors();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
 	public static NavigationSubsystem navigationSubsystem = null;
 	// working code
-	public static DriveTrainSubsystem driveTrainSubsystem;
+	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Prototype arm
 	public static Prototypearm prototype = new Prototypearm();
-	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
+	public static DriveWithLidarSubsystem driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 	public static Vision USBcamera;
 	private Command autonomousCommand;
 
@@ -45,11 +45,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public static OI oi;
 	static {
-		// subsystems must be initialized before operator interface
-		// driveWithLidarSubsystem = new DriveWithLidarSubsystem();
-		sensors = new IndependentSensors();
-		// driveTrainSubsystem = new DriveTrainSubsystem();
-
+		// subsystems must be instantiated/initialized before operator interface
 		oi = new OI();
 	}
 
@@ -64,9 +60,7 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
-		driveTrainSubsystem = new DriveTrainSubsystem();
 		autonomousCommand = new DriveForwardCommand();
-		// driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 		sensors = new IndependentSensors();
 
 		// USBcamera = new Vision();
@@ -91,7 +85,6 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
-		new DriveForwardCommand().start();
 		new PutSmartDashBoardCommand().start();
 	}
 

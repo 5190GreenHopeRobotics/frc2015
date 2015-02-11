@@ -17,8 +17,8 @@ public class PIDRobotDrive extends RobotDrive implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		// TODO Auto-generated method stub
-		this.drive(output, -gyro.getAngle() * DriveTrainSubsystem.kP);
+		this.drive(output, 0.0);
+		// this.drive(output, -gyro.getAngle() * DriveTrainSubsystem.kP);
 	}
 
 	public void setGyro(Gyro toSet) {
