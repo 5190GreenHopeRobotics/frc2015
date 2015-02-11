@@ -21,7 +21,7 @@ public class DriveWithArcadeCommand extends Command {
 	@Override
 	protected void execute() {
 		Robot.driveTrainSubsystem.arcadeJoystickDrive(Robot.oi.getDriveStick());
-		// Robot.driveTrainSubsystem.putData();
+		Robot.driveTrainSubsystem.setPower(Robot.oi.getSpeed());
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
-import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -47,9 +46,9 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	static {
 		// subsystems must be initialized before operator interface
-		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
+		// driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 		sensors = new IndependentSensors();
-		driveTrainSubsystem = new DriveTrainSubsystem();
+		// driveTrainSubsystem = new DriveTrainSubsystem();
 
 		oi = new OI();
 	}
@@ -65,26 +64,28 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
-		autonomousCommand = new DriveForwardCommand();
-		driveWithLidarSubsystem = new DriveWithLidarSubsystem();
-		sensors = new IndependentSensors();
 		driveTrainSubsystem = new DriveTrainSubsystem();
+		autonomousCommand = new DriveForwardCommand();
+		// driveWithLidarSubsystem = new DriveWithLidarSubsystem();
+		sensors = new IndependentSensors();
 
-		autonomousCommand = null; // new DriveForwardCommand();
-		USBcamera = new Vision();
-		USBcamera.visionInit();
+		// USBcamera = new Vision();
+		// USBcamera.visionInit();
 
-		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
-		SmartDashBoardDisplayer.getInstance().submit(sensors);
+		// SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		// SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
 
+	@Override
 	public void robotInit() {
 	}
 
+	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
+	@Override
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
 		// schedule the autonomous command (example)
@@ -97,11 +98,13 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during autonomous
 	 */
+	@Override
 	public void autonomousPeriodic() {
 
 		Scheduler.getInstance().run();
 	}
 
+	@Override
 	public void teleopInit() {
 		LifecycleSubsystemManager.getInstance().teleopInit();
 		if (autonomousCommand != null)
@@ -119,6 +122,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
 	 */
+	@Override
 	public void disabledInit() {
 		LifecycleSubsystemManager.getInstance().disable();
 	}
@@ -131,8 +135,9 @@ public class Robot extends IterativeRobot {
 	 * which will in turn send it to the dashboard.
 	 */
 
+	@Override
 	public void teleopPeriodic() {
-		USBcamera.visionTeleop();
+		// USBcamera.visionTeleop();
 		Scheduler.getInstance().run();
 
 	}
@@ -140,6 +145,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
+	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
 	}

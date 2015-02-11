@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.usfirst.frc.team5190.robot.IndependentSensors;
-import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
@@ -49,7 +48,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		// init the limit switch
-		mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
+		// mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 
 		// init the encoder
 		enc = new PIDEncoderDriveTrain();
@@ -97,6 +96,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	/**
 	 * dummy
 	 */
+	@Override
 	public void initDefaultCommand() {
 	}
 
@@ -128,11 +128,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * stop the robot with PID
 	 */
 
-//	public void halt() {
-//		this.PIDEnable(true);
-//		this.driveToPoint(0);
-//		this.setDisable(true);
-//	}
+	// public void halt() {
+	// this.PIDEnable(true);
+	// this.driveToPoint(0);
+	// this.setDisable(true);
+	// }
 
 	/**
 	 * resume the robot with PID
@@ -184,8 +184,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void arcadeJoystickDrive(Joystick stick) {
 		if (!disable) {
-			mDrive.setMaxOutput(0.4);
-			mDrive.arcadeDrive(-stick.getY(), stick.getRawAxis(4));
+			mDrive.arcadeDrive(stick);
 		}
 	}
 
