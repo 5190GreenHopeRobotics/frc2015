@@ -22,6 +22,7 @@ public class DriveSetDistanceCommand extends Command {
 	// Drives to the set distance, which is added to the value the encoder is
 	// already there.
 	protected void initialize() {
+		Robot.driveTrainSubsystem.setPower(0.4);
 		driveSetDistance = Robot.driveTrainSubsystem.driveSetDistance();
 		driveSetDistance.start(distance);
 	}

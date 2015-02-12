@@ -18,7 +18,7 @@ public class DriveStraightRobotDrive implements PIDOutput {
 
 	public void drive(double outputMagnitude) {
 		double angle = gyro.getAngle(); // get current heading
-		robotDrive.drive(-1.0, -angle * Kp); // drive towards heading 0
+		robotDrive.drive(outputMagnitude, -angle * Kp); // drive towards heading
 	}
 
 	@Override

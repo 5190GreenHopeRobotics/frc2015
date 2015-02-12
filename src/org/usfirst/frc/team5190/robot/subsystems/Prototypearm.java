@@ -31,7 +31,7 @@ public class Prototypearm extends Subsystem {
 	}
 
 	public void raisearm() {
-		armvictor.set(motorspeed);
+		armvictor.set(0.5);
 	}
 
 	public void lowerarm() {
@@ -39,12 +39,17 @@ public class Prototypearm extends Subsystem {
 	}
 
 	public void joystickControl(Joystick stick) {
-		if (stick.getY() < 0 && !limitswitch.get()) {
-			stoparm();
-		} else if (stick.getY() > 0 && !topLimitSwitch.get()) {
-			stoparm();
-		} else {
-			armvictor.set(stick.getY());
+
+		if (stick.getY() > 0 && !limitswitch.get()) {
+
+			if (stick.getY() < 0 && !limitswitch.get()) {
+				stoparm();
+			} else if (stick.getY() < 0 && !topLimitSwitch.get()) {
+			} else if (stick.getY() > 0 && !topLimitSwitch.get()) {
+				stoparm();
+			} else {
+				armvictor.set(stick.getY());
+			}
 		}
 	}
 

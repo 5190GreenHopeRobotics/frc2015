@@ -21,20 +21,10 @@ public class TurnCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.driveTrainSubsystem.setPower(0.3);
+		// Robot.driveTrainSubsystem.setPower(0.3);
 		turn = Robot.driveTrainSubsystem.turn();
 		turn.setDirection(mDir);
 		turn.start(degree);
-	}
-
-	/**
-	 * set direction to turn, via Direction enum
-	 * 
-	 * @param dir
-	 *            the direction, RIGHT, LEFT
-	 */
-	public void setDirection(Direction dir) {
-		mDir = dir;
 	}
 
 	@Override

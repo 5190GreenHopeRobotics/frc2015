@@ -9,7 +9,6 @@ import org.usfirst.frc.team5190.robot.commands.Direction;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,11 +40,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	/**
 	 * The maximum power for driving under PID control for turning the robot
 	 */
-	public static final double[] TURN_OUTPUT_RANGE = { -0.5, 0.5 };
+	public static final double[] TURN_OUTPUT_RANGE = { -0.3, 0.3 };
 
 	public static final double kP = 0.03;
 
-	private DigitalInput mLimitSwitch;
 	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
@@ -144,8 +142,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
-		// init the limit switch
-		// mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 
 		// init the encoder
 		enc = new PIDEncoderDriveTrain();
@@ -272,8 +268,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
 		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
-		booleanValues.add(new Pair<String, Boolean>("Limit Switch",
-				mLimitSwitch.get()));
 		booleanValues.add(new Pair<String, Boolean>("Encoder Right Direction",
 				right.getDirection()));
 		booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",

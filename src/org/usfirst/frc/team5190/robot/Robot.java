@@ -3,13 +3,14 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
-import org.usfirst.frc.team5190.robot.commands.TurnCommand;
+import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
+import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -60,14 +61,13 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
-		autonomousCommand = new TurnCommand(90);
-		sensors = new IndependentSensors();
+		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 
 		// USBcamera = new Vision();
 		// USBcamera.visionInit();
 
-		// SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
-		// SmartDashBoardDisplayer.getInstance().submit(sensors);
+		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
 
 	@Override
@@ -83,8 +83,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 		new PutSmartDashBoardCommand().start();
 	}
 

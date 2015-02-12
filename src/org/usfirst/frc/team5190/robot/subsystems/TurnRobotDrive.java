@@ -11,7 +11,7 @@ public class TurnRobotDrive implements PIDOutput {
 	}
 
 	public void turn(double rotateMagnitude) {
-		robotDrive.arcadeDrive(0, rotateMagnitude);
+		robotDrive.arcadeDrive(0, -rotateMagnitude, false);
 	}
 
 	@Override

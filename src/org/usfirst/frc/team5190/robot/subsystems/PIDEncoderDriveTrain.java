@@ -18,11 +18,13 @@ public class PIDEncoderDriveTrain implements PIDSource {
 
 	PIDEncoderDriveTrain() {
 		right = new Encoder(RobotMap.ENCODER_RIGHT_CHANNEL_A,
-				RobotMap.ENCODER_RIGHT_CHANNEL_B, false, EncodingType.k4X);
+				RobotMap.ENCODER_RIGHT_CHANNEL_B, false, EncodingType.k2X);
 		right.setDistancePerPulse(0.0735190);
+		right.setSamplesToAverage(7);
 		left = new Encoder(RobotMap.ENCODER_LEFT_CHANNEL_A,
-				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k4X);
+				RobotMap.ENCODER_LEFT_CHANNEL_B, true, EncodingType.k2X);
 		left.setDistancePerPulse(0.0735190);
+		left.setSamplesToAverage(7);
 	}
 
 	public Encoder getRight() {
