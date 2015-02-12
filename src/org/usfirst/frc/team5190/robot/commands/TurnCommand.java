@@ -1,7 +1,10 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.Robot;
 
+import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,13 +13,30 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnCommand extends Command {
 
 	private Direction mDir = Direction.LEFT;
+	private Gyro gyro;
+	private PIDController pid;
 
 	public TurnCommand() {
-		setTimeout(3);
+
+	}
+
+	public void enable() {
+		pid.enable();
+	}
+
+	public void disable() {
+		pid.disable();
 	}
 
 	@Override
 	protected void initialize() {
+		Robot.driveTrainSubsystem.setPower(0.3);
+		gyro = IndependentSensors.getGyro();
+		pid = new PIDController(0.3, 0, 0.1, gyro, Robot.driveTrainSubsystem);
+	}
+
+	public void setDegree(double degree) {
+		pid.setSetpoint(degree);
 	}
 
 	/**
@@ -34,11 +54,7 @@ public class TurnCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		if (mDir == Direction.LEFT) {
-			Robot.driveTrainSubsystem.turn(-0.5);
-		} else if (mDir == Direction.RIGHT) {
-			Robot.driveTrainSubsystem.turn(0.5);
-		}
+
 	}
 
 	/**
@@ -46,7 +62,7 @@ public class TurnCommand extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return false;
 	}
 
 	/**
@@ -54,7 +70,7 @@ public class TurnCommand extends Command {
 	 */
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.drive(0);
+		pid.disable();
 	}
 
 	@Override

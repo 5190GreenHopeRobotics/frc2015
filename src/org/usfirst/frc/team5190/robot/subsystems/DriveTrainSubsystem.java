@@ -14,13 +14,15 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * the drive train subsystem
  */
-public class DriveTrainSubsystem extends Subsystem implements Displayable {
+public class DriveTrainSubsystem extends Subsystem implements Displayable,
+		PIDOutput {
 	public static final double kP = 0.03;
 	/**
 	 * The range +/- that is acceptable for driving a set distance.
@@ -273,6 +275,12 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
 				.getDistance()));
 		return encoder;
+	}
+
+	@Override
+	public void pidWrite(double output) {
+		mDrive.arcadeDrive(0, output);
+
 	}
 
 }
