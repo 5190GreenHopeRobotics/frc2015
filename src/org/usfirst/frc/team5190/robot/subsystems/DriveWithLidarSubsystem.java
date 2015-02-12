@@ -5,6 +5,7 @@ import org.usfirst.frc.team5190.sensorFilter.Lidar;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -27,11 +28,11 @@ public class DriveWithLidarSubsystem extends Subsystem {
 	}
 
 	public void initializeDriveTrain() {
-		PIDRobotDrive chassis = new PIDRobotDrive(frontLeft, frontRight,
-				backLeft, backRight);
+		RobotDrive chassis = new RobotDrive(frontLeft, frontRight, backLeft,
+				backRight);
 		Lidar lidar = new Lidar(Port.kMXP);
 		distance = lidar.getDistance();
-		pid = new PIDController(0.5, 0, 0.4, lidar, chassis);
+		// pid = new PIDController(0.5, 0, 0.4, lidar, chassis);
 	}
 
 	public void runDriveTrain() {

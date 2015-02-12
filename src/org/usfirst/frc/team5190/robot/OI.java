@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.EnableRobotCommand;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -95,9 +93,6 @@ public class OI {
 		// >>>>>>> branch 'master' of
 		// https://github.com/5190GreenHopeRobotics/frc2015.git
 		// // after
-		// // release
-		enableSwitch.whenPressed(new EnableRobotCommand()); // undo kill
-		// after
 
 	}
 

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,15 +10,20 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveSetDistanceCommand extends Command {
 
+	private double distance;
+	private DriveSetDistance driveSetDistance;
+
 	// requires the drive train Subsystem .
-	public DriveSetDistanceCommand() {
+	public DriveSetDistanceCommand(double distance) {
+		this.distance = distance;
 		requires(Robot.driveTrainSubsystem);
 	}
 
 	// Drives to the set distance, which is added to the value the encoder is
 	// already there.
 	protected void initialize() {
-		Robot.driveTrainSubsystem.startDriveSetDistance(36);
+		driveSetDistance = Robot.driveTrainSubsystem.driveSetDistance();
+		driveSetDistance.start(distance);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -26,19 +32,18 @@ public class DriveSetDistanceCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.driveTrainSubsystem.drivenDistance();
+		return driveSetDistance.drivenDistance();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.driveTrainSubsystem.endDriveSetDistance();
+		driveSetDistance.end();
 
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.driveTrainSubsystem.halt();
-
+		driveSetDistance.end();
 	}
 }

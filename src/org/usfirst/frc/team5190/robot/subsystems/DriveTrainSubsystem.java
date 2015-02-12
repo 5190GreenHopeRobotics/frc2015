@@ -3,14 +3,12 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
@@ -21,22 +19,60 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
-	public static final double kP = 0.03;
 	/**
 	 * The range +/- that is acceptable for driving a set distance.
-	 * 
-	 * @see #startDriveSetDistance(double)
 	 */
 	public static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
 
+	/**
+	 * The maximum power for driving under PID control for going a specific
+	 * distance;
+	 */
+	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -0.5, 0.5 };
+
+	public static final double kP = 0.03;
+
 	private DigitalInput mLimitSwitch;
-	private PIDRobotDrive mDrive;
+	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
-	private PIDController pid;
 	private PIDEncoderDriveTrain enc;
-	private Gyro gyro;
 	private Jaguar frontleft, backleft, frontright, backright;
+	private DriveStraightRobotDrive driveStraightRobotDrive;
+
+	public class DriveSetDistance {
+		PIDController pidController;
+
+		private DriveSetDistance() {
+			pidController = new PIDController(0.5, 0, 0.4, enc,
+					driveStraightRobotDrive);
+			pidController.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
+					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
+		}
+
+		/**
+		 * Drive a specific distance
+		 * 
+		 * @param distance
+		 *            in inches to drive to It is the Encoder preset distance
+		 *            added to the actual distance you want to go.
+		 */
+		public void start(double distance) {
+			pidController.setSetpoint(enc.getDistance() + distance);
+			pidController.enable();
+
+		}
+
+		public void end() {
+			pidController.disable();
+		}
+
+		// This asks to see if it has gotten to the distance.
+		public boolean drivenDistance() {
+			return pidController.onTarget();
+		}
+	}
 
 	/**
 	 * Init the drive train at default port, in RobotMap
@@ -48,7 +84,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontright = new Jaguar(RobotMap.FRONTRIGHT);
 		backright = new Jaguar(RobotMap.BACKRIGHT);
 		// init drive
-		mDrive = new PIDRobotDrive(frontleft, backleft, frontright, backright);
+		mDrive = new RobotDrive(frontleft, backleft, frontright, backright);
 		mDrive.setSafetyEnabled(false);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
@@ -63,16 +99,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// get the encoders
 		right = enc.getRight();
 		left = enc.getLeft();
-		// get lidar
-		// init pid
-		pid = new PIDController(0.5, 0, 0.4, enc, mDrive);
-		pid.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
-		pid.setOutputRange(-0.5, 0.5);
-
-		// pid.disable();
-		// get gyro
-		gyro = IndependentSensors.getGyro();
-		mDrive.setGyro(gyro);
 	}
 
 	/**
@@ -110,6 +136,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void initDefaultCommand() {
 	}
 
+	public DriveSetDistance driveSetDistance() {
+		return new DriveSetDistance();
+	}
+
 	/**
 	 * drive forward at the full speed
 	 */
@@ -129,25 +159,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void drive(double speed) {
 		if (!disable) {
-			mDrive.arcadeDrive(speed, -gyro.getAngle() * kP);
-
+			driveStraightRobotDrive.drive(speed);
 		}
-	}
-
-	/**
-	 * stop the robot with PID
-	 */
-	public void halt() {
-		this.startDriveSetDistance(0);
-		pid.disable();
-	}
-
-	/**
-	 * resume the robot with PID
-	 */
-	public void resume() {
-		this.PIDEnable(false);
-		this.setDisable(false);
 	}
 
 	/**
@@ -208,44 +221,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void tankJoystickDrive(Joystick s1, Joystick s2) {
 		if (!disable) {
 			mDrive.tankDrive(s1, s2);
-		}
-	}
-
-	/**
-	 * drive a specific distance
-	 * 
-	 * @param distance
-	 *            in inches to drive to It is the Encoder preset distance added
-	 *            to the actual distance you want to go.
-	 */
-	public void startDriveSetDistance(double distance) {
-		pid.setSetpoint(enc.getDistance() + distance);
-		pid.enable();
-
-	}
-
-	// Stops Driving the Robot to the Distance (Whether not there or reached the
-	// distance)
-	public void endDriveSetDistance() {
-		pid.disable();
-	}
-
-	// This asks to see if it has gotten to the distance.
-	public boolean drivenDistance() {
-		return pid.onTarget();
-	}
-
-	/**
-	 * enable or disable the pid
-	 * 
-	 * @param e
-	 *            true for enable, false for disable
-	 */
-	public void PIDEnable(boolean e) {
-		if (e) {
-			pid.enable();
-		} else {
-			pid.disable();
 		}
 	}
 

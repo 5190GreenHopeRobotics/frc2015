@@ -20,17 +20,18 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  *
  */
 public class IndependentSensors implements Displayable {
-	static private BuiltInAccelerometer accelerometer;
-	static private AccelerometerFilter accel;
-	static private Ultrasonic ultraSonicSensor;
-	static private Gyro gyro;
+	private static BuiltInAccelerometer accelerometer;
+	private static AccelerometerFilter accel;
+	private static Ultrasonic ultraSonicSensor;
+	private static Gyro gyro;
+
 	static {
 		accelerometer = new BuiltInAccelerometer();
 		accel = new AccelerometerFilter(accelerometer);
 		gyro = new Gyro(RobotMap.GYRO_PORT);
 		gyro.initGyro();
 		gyro.reset();
-		
+
 		// ultraSonicSensor = new Ultrasonic(RobotMap.ULTRASONIC_PING,
 		// RobotMap.ULTRASONIC_RECIEVE);
 		// ultraSonicSensor.setEnabled(true);
@@ -56,6 +57,7 @@ public class IndependentSensors implements Displayable {
 
 	/**
 	 * get the ultrasonic sensors stored
+	 * 
 	 * @deprecated
 	 * @return
 	 */
