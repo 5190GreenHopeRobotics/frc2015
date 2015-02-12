@@ -20,6 +20,7 @@ public class Prototypearm extends Subsystem {
 	public boolean minimized = false;
 	public boolean started = true;
 
+	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -38,12 +39,17 @@ public class Prototypearm extends Subsystem {
 	}
 
 	public void joystickControl(Joystick stick) {
+
 		if (stick.getY() > 0 && !limitswitch.get()) {
-			stoparm();
-		} else if (stick.getY() < 0 && !topLimitSwitch.get()) {
-			stoparm();
-		} else {
-			armvictor.set(stick.getY());
+
+			if (stick.getY() < 0 && !limitswitch.get()) {
+				stoparm();
+			} else if (stick.getY() < 0 && !topLimitSwitch.get()) {
+			} else if (stick.getY() > 0 && !topLimitSwitch.get()) {
+				stoparm();
+			} else {
+				armvictor.set(stick.getY());
+			}
 		}
 	}
 
