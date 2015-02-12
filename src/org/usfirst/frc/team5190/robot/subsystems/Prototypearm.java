@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -31,7 +30,7 @@ public class Prototypearm extends Subsystem {
 	}
 
 	public void raisearm() {
-		armvictor.set(motorspeed);
+		armvictor.set(0.5);
 	}
 
 	public void lowerarm() {
@@ -39,18 +38,15 @@ public class Prototypearm extends Subsystem {
 	}
 
 	public void joystickControl(Joystick stick) {
-		if(stick.getY() > 0 && !limitswitch.get()) {
+		if (stick.getY() > 0 && !limitswitch.get()) {
 			stoparm();
-		}
-		else if(stick.getY() < 0 && !topLimitSwitch.get())
-		{
+		} else if (stick.getY() < 0 && !topLimitSwitch.get()) {
 			stoparm();
-		}
-		else {
+		} else {
 			armvictor.set(stick.getY());
 		}
 	}
-	
+
 	public void stoparm() {
 		armvictor.set(0);
 	}

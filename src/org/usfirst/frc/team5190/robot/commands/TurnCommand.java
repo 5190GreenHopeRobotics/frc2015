@@ -30,9 +30,12 @@ public class TurnCommand extends Command {
 
 	@Override
 	protected void initialize() {
+		// requires(Robot.driveTrainSubsystem);
 		Robot.driveTrainSubsystem.setPower(0.3);
 		gyro = IndependentSensors.getGyro();
 		pid = new PIDController(0.3, 0, 0.1, gyro, Robot.driveTrainSubsystem);
+		pid.enable();
+		pid.setSetpoint(180);
 	}
 
 	public void setDegree(double degree) {

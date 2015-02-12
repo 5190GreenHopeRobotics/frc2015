@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.commands.ProtoAutonomousArmCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.TurnCommand;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
 	public static DriveWithLidarSubsystem driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 	public static Vision USBcamera;
 	private Command autonomousCommand;
+	private TurnCommand autonomousCommand2;
 
 	/**
 	 * the userInterface
@@ -60,8 +62,10 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
-		autonomousCommand = new TurnCommand();
 		sensors = new IndependentSensors();
+		autonomousCommand = new ProtoAutonomousArmCommand();
+		autonomousCommand2 = new TurnCommand();
+		// autonomousCommand2.setDegree(75);
 
 		// USBcamera = new Vision();
 		// USBcamera.visionInit();
@@ -83,8 +87,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+			autonomousCommand2.start();
+		}
 		new PutSmartDashBoardCommand().start();
 	}
 
