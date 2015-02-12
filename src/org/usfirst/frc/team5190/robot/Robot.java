@@ -1,9 +1,9 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.DriveForwardCommand;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
+import org.usfirst.frc.team5190.robot.commands.TurnCommand;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
-		autonomousCommand = new DriveForwardCommand();
+		autonomousCommand = new TurnCommand(90);
 		sensors = new IndependentSensors();
 
 		// USBcamera = new Vision();

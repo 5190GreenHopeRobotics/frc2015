@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.Turn;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,14 +10,21 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnCommand extends Command {
 
+	private double degree;
+	private Turn turn;
 	private Direction mDir = Direction.LEFT;
 
-	public TurnCommand() {
-		setTimeout(3);
+	public TurnCommand(double degree) {
+		this.degree = degree;
+		requires(Robot.driveTrainSubsystem);
 	}
 
 	@Override
 	protected void initialize() {
+		Robot.driveTrainSubsystem.setPower(0.3);
+		turn = Robot.driveTrainSubsystem.turn();
+		turn.setDirection(mDir);
+		turn.start(degree);
 	}
 
 	/**
@@ -29,32 +37,22 @@ public class TurnCommand extends Command {
 		mDir = dir;
 	}
 
-	/**
-	 * turn right/lift at rate of 0.5
-	 */
 	@Override
 	protected void execute() {
-		if (mDir == Direction.LEFT) {
-			Robot.driveTrainSubsystem.turn(-0.5);
-		} else if (mDir == Direction.RIGHT) {
-			Robot.driveTrainSubsystem.turn(0.5);
-		}
+
 	}
 
-	/**
-	 * Whether timed out
-	 */
 	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		return turn.finishedTurn();
 	}
 
 	/**
-	 * stop the drive train
+	 * stop the turn
 	 */
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.drive(0);
+		turn.end();
 	}
 
 	@Override

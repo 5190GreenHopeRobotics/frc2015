@@ -60,39 +60,6 @@ public class OI {
 
 	// Operator interface constructor
 	public OI() {
-		// buttons to link up to commands. (Shootstick)
-		// raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
-		// lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-
-		// resets the encoders
-		// resetEncoder.whenPressed(new ResetEncoderCommand());
-
-		// stops the drive train when pressed
-		// killSwitch.whenPressed(new TerminateRobotCommand());
-
-		// extendArmButton.whileHeld(new ExtendArmCommand()); // extends the arm
-		// retractArmButton.whileHeld(new RetractArmCommand()); // retracts the
-		// arm
-		// raiseArmButton.whenPressed(new RaiseArmCommand()); // raise/open arm
-		// lowerArmButton.whenPressed(new LowerArmCommand()); // lower/close arm
-		// openForkliftButton.whileHeld(new OpenForkliftCommand());
-		// closeForkliftButton.whileHeld(new CloseForkliftCommand());
-		// extendArmButton.whileHeld(new ExtendArmCommand());
-		// retractArmButton.whileHeld(new RetractArmCommand());
-		// buttons to link up to commands (Drivestick)
-		// PneumaticButton.whileHeld(new PneumaticsProofOfConcept());
-		// killSwitch.whenPressed(new TerminateRobotCommand()); // kill robot
-
-		// =======
-		// // killSwitch.whenReleased(new TerminateRobotCommand()); // kill
-		// robot
-		// // after release
-		// enableSwitch.whenReleased(new LightsOn()); // undo kill after
-		// // relea
-		// killSwitch.whenPressed(new getEncoderProofOfConcept()); // kill robot
-		// >>>>>>> branch 'master' of
-		// https://github.com/5190GreenHopeRobotics/frc2015.git
-		// // after
 
 	}
 

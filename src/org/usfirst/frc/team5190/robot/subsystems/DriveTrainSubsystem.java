@@ -3,7 +3,9 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.robot.commands.Direction;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
@@ -26,9 +28,20 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	/**
 	 * The maximum power for driving under PID control for going a specific
-	 * distance;
+	 * distance
 	 */
 	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -0.5, 0.5 };
+
+	/**
+	 * The range of degrees +/- that is acceptable for turning a requested
+	 * amount.
+	 */
+	public static final double TURN_TOLERANCE = 2.0;
+
+	/**
+	 * The maximum power for driving under PID control for turning the robot
+	 */
+	public static final double[] TURN_OUTPUT_RANGE = { -0.5, 0.5 };
 
 	public static final double kP = 0.03;
 
@@ -39,6 +52,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private PIDEncoderDriveTrain enc;
 	private Jaguar frontleft, backleft, frontright, backright;
 	private DriveStraightRobotDrive driveStraightRobotDrive;
+	private TurnRobotDrive turnRobotDrive;
 
 	public class DriveSetDistance {
 		PIDController pidController;
@@ -74,6 +88,44 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	public class Turn {
+		private Direction mDir = Direction.LEFT;
+		PIDController pidController;
+
+		private Turn() {
+			pidController = new PIDController(0.3, 0, 0.1,
+					IndependentSensors.getGyro(), turnRobotDrive);
+			pidController.setAbsoluteTolerance(TURN_TOLERANCE);
+			pidController.setOutputRange(TURN_OUTPUT_RANGE[0],
+					TURN_OUTPUT_RANGE[1]);
+		}
+
+		/**
+		 * set direction to turn, via Direction enum
+		 * 
+		 * @param dir
+		 *            the direction, RIGHT, LEFT
+		 */
+		public void setDirection(Direction dir) {
+			mDir = dir;
+		}
+
+		public void start(double turnDegree) {
+			pidController.setSetpoint(turnDegree);
+			pidController.enable();
+
+		}
+
+		public void end() {
+			pidController.disable();
+		}
+
+		// This asks to see if it has gotten to the distance.
+		public boolean finishedTurn() {
+			return pidController.onTarget();
+		}
+	}
+
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
@@ -90,6 +142,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
+		turnRobotDrive = new TurnRobotDrive(mDrive);
 		// init the limit switch
 		// mLimitSwitch = new DigitalInput(RobotMap.DRIVE_TRAIN_LIMIT_SWITCH);
 
@@ -140,6 +194,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		return new DriveSetDistance();
 	}
 
+	public Turn turn() {
+		return new Turn();
+	}
+
 	/**
 	 * drive forward at the full speed
 	 */
@@ -180,19 +238,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void turnLeft() {
 		if (!disable) {
 			mDrive.tankDrive(0.1, 0);
-		}
-	}
-
-	/**
-	 * turn at rate of amount
-	 * 
-	 * @param amount
-	 *            the rate of turn, from -1 - 1
-	 */
-
-	public void turn(double amount) {
-		if (!disable) {
-			mDrive.arcadeDrive(0, amount, false);
 		}
 	}
 
