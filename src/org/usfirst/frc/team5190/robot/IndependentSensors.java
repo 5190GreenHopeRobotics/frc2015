@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.usfirst.frc.team5190.sensorFilter.AccelerometerFilter;
+import org.usfirst.frc.team5190.sensorFilter.Lidar;
+import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /**
@@ -23,12 +26,16 @@ public class IndependentSensors implements Displayable {
 	static private BuiltInAccelerometer accelerometer;
 	static private AccelerometerFilter accel;
 	static private Gyro gyro;
+	static private Lidar rawLidar;
+	static private LidarFilter filteredLidar;
 	static {
 		accelerometer = new BuiltInAccelerometer();
 		accel = new AccelerometerFilter(accelerometer);
 		gyro = new Gyro(RobotMap.GYRO_PORT);
 		gyro.initGyro();
 		gyro.reset();
+		rawLidar = new Lidar(Port.kMXP);
+		filteredLidar = new LidarFilter(rawLidar);
 	}
 
 	/**
@@ -53,6 +60,10 @@ public class IndependentSensors implements Displayable {
 		return gyro;
 	}
 
+	public static LidarFilter getLidar() {
+		return filteredLidar;
+	}
+
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
 		return null;
@@ -65,6 +76,7 @@ public class IndependentSensors implements Displayable {
 		result.add(new Pair<String, Double>("Accelerometer Y", accel.getY()));
 		result.add(new Pair<String, Double>("Accelerometer Z", accel.getZ()));
 		result.add(new Pair<String, Double>("Gyro:", gyro.getAngle()));
+		result.addAll(filteredLidar.getDecimalValues());
 		return result;
 	}
 }
