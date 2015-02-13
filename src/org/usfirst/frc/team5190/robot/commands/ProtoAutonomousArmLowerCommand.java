@@ -7,17 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ProtoAutonomousArmCommand extends Command {
+public class ProtoAutonomousArmLowerCommand extends Command {
 
-	public ProtoAutonomousArmCommand() {
+	public ProtoAutonomousArmLowerCommand() {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
 		requires(Robot.prototype);
 		setTimeout(5);
-
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.prototype.raisearm();
+		Robot.prototype.lowerarm();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

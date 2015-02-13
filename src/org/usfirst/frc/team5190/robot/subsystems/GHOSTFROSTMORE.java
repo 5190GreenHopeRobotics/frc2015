@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class Prototypearm extends Subsystem {
+public class GHOSTFROSTMORE extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private Jaguar armvictor = new Jaguar(8);
+	private Jaguar armJaguar = new Jaguar(8);
 	private DigitalInput limitswitch = new DigitalInput(1);
 	private DigitalInput topLimitSwitch = new DigitalInput(2);
 	private final double motorspeed = 0.5;
@@ -31,11 +31,11 @@ public class Prototypearm extends Subsystem {
 	}
 
 	public void raisearm() {
-		armvictor.set(0.5);
+		armJaguar.set(0.5);
 	}
 
 	public void lowerarm() {
-		armvictor.set(-motorspeed);
+		armJaguar.set(-motorspeed);
 	}
 
 	public void joystickControl(Joystick stick) {
@@ -48,12 +48,12 @@ public class Prototypearm extends Subsystem {
 			} else if (stick.getY() > 0 && !topLimitSwitch.get()) {
 				stoparm();
 			} else {
-				armvictor.set(stick.getY());
+				armJaguar.set(stick.getY());
 			}
 		}
 	}
 
 	public void stoparm() {
-		armvictor.set(0);
+		armJaguar.set(0);
 	}
 }

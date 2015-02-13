@@ -9,7 +9,7 @@ import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.Prototypearm;
+import org.usfirst.frc.team5190.robot.subsystems.GHOSTFROSTMORE;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	// Prototype arm
-	public static Prototypearm prototype = new Prototypearm();
+	public static GHOSTFROSTMORE prototype = new GHOSTFROSTMORE();
 	public static DriveWithLidarSubsystem driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 	public static Vision USBcamera;
 	private Command autonomousCommand;

@@ -4,8 +4,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 	public StackedTotesAutonomousCommandGroup() {
-		addParallel(new ProtoAutonomousArmCommand());
-		addSequential(new TurnCommand(45));
+		// addSequential(new ProtoAutonomousArmRaiseCommand());
+		addSequential(new ProtoAutonomousArmLowerCommand());
+		// addSequential(new TurnCommand(45));
 		// addSequential(new DriveSetDistanceCommand(10));
 	}
 }
