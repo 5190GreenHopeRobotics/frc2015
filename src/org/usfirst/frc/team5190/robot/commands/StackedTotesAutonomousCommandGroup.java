@@ -6,12 +6,14 @@ public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 	public int max = 0;
 
 	public StackedTotesAutonomousCommandGroup() {
-		// while(max<100)
-		// {
-		// addSequential(new ProtoAutonomousArmRaiseCommand());
-		// addSequential(new TurnCommand(90));
+		while (max < 100) {
+			addSequential(new ProtoAutonomousArmRaiseCommand());
+			addSequential(new TurnCommand(90));
+			addSequential(new ProtoAutonomousArmLowerCommand());
+			max = max + 1;
+		}
 		// addSequential(new ProtoAutonomousArmLowerCommand());
-		// max = max + 1;
-		// }
+		// addSequential(new DriveToObjectCommand());
+		// addSequential(new ProtoAutonomousArmRaiseCommand());
 	}
 }

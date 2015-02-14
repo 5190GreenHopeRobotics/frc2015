@@ -17,12 +17,15 @@ public class DriveToObjectCommand extends Command {
 	public DriveToObjectCommand() {
 		requires(Robot.driveTrainSubsystem);
 		d = Robot.driveTrainSubsystem.driveSetDistance();
+		IndependentSensors.getGyro().reset();
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.driveTrainSubsystem.setPower(0.5);
 		distanceBuffer = IndependentSensors.getLidar().getValue();
+		distanceBuffer = 6 * 12;
 		d.start(distanceBuffer);
 
 	}
@@ -41,6 +44,7 @@ public class DriveToObjectCommand extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		IndependentSensors.getGyro().reset();
 		d.end();
 	}
 
