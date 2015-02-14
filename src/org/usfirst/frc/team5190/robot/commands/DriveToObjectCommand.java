@@ -24,8 +24,7 @@ public class DriveToObjectCommand extends Command {
 	@Override
 	protected void initialize() {
 		Robot.driveTrainSubsystem.setPower(0.5);
-		distanceBuffer = IndependentSensors.getLidar().getValue();
-		distanceBuffer = 6 * 12;
+		distanceBuffer = IndependentSensors.getLidar().getValue() - 2;
 		d.start(distanceBuffer);
 
 	}
