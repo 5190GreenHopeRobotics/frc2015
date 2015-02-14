@@ -12,7 +12,7 @@ public class TurnCommand extends Command {
 
 	private double degree;
 	private Turn turn;
-	private Direction mDir = Direction.LEFT;
+	private Direction robotDirection = Direction.LEFT;
 
 	public TurnCommand(double degree) {
 		this.degree = degree;
@@ -23,7 +23,7 @@ public class TurnCommand extends Command {
 	protected void initialize() {
 		// Robot.driveTrainSubsystem.setPower(0.3);
 		turn = Robot.driveTrainSubsystem.turn();
-		turn.setDirection(mDir);
+		turn.setDirection(robotDirection);
 		turn.start(degree);
 	}
 
