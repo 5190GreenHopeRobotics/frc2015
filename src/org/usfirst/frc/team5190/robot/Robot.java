@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.grid.Grid;
 import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot {
 	public static DriveWithLidarSubsystem driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 	public static Vision USBcamera;
 	private Command autonomousCommand;
+	private Grid g;
 
 	/**
 	 * the userInterface
@@ -61,6 +63,7 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
+		g = new Grid(0.0, 0.0);
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 
 		// USBcamera = new Vision();
@@ -68,6 +71,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
+		SmartDashBoardDisplayer.getInstance().submit(g);
 	}
 
 	@Override
