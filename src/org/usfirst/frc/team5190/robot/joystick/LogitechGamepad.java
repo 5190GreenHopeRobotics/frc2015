@@ -54,7 +54,6 @@ public class LogitechGamepad {
 
 	public double getRightJoystick() {
 		return -gamepad.getRawAxis(4);
-		return gamepad.
 	}
 
 	public Joystick getJoystick() {
