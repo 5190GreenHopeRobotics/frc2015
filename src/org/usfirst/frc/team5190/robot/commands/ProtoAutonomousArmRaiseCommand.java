@@ -11,7 +11,7 @@ public class ProtoAutonomousArmRaiseCommand extends Command {
 
 	public ProtoAutonomousArmRaiseCommand() {
 		requires(Robot.prototype);
-		setTimeout(5);
+		setTimeout(2.7);
 
 	}
 

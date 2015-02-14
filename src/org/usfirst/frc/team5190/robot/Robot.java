@@ -7,9 +7,9 @@ import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGrou
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.GHOSTFROSTMORE;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.GHOSTFROSTMORE;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -79,6 +79,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
+	// 2.63
+
 	@Override
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
@@ -94,7 +96,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-
 		Scheduler.getInstance().run();
 	}
 

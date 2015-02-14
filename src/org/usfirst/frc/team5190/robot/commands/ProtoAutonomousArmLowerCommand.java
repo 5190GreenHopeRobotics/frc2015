@@ -13,7 +13,7 @@ public class ProtoAutonomousArmLowerCommand extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.prototype);
-		setTimeout(5);
+		setTimeout(2.7);
 	}
 
 	// Called just before this Command runs the first time

@@ -32,18 +32,20 @@ public class OI {
 	public static final int RESET_ENCODER = 10;
 
 	// Initialize joysticks
-	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
+	// private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
+	private GamepadWizard mygamepad = new GamepadWizard(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
 
 	// Drive Stick button/peripheral initialization
 	// private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
-	private Button enableSwitch = new JoystickButton(driveStick, ENABLE_SWITCH);
+	private Button enableSwitch = new JoystickButton(mygamepad.getjoystick(),
+			ENABLE_SWITCH);
 
 	// Arm prototype
 
 	// Just a test for Pneumatics
-	private Button PneumaticButton = new JoystickButton(driveStick,
-			PNEUMATICS_TEST);
+	private Button PneumaticButton = new JoystickButton(
+			mygamepad.getjoystick(), PNEUMATICS_TEST);
 
 	// Shoot stick button links to commands
 	// private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
@@ -67,7 +69,7 @@ public class OI {
 	 * @return returns driveStick instance
 	 */
 	public Joystick getDriveStick() {
-		return driveStick;
+		return mygamepad.getjoystick();
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class OI {
 	}
 
 	public double getSpeed() {
-		double originalValue = driveStick.getThrottle();
+		double originalValue = mygamepad.getjoystick().getThrottle();
 		originalValue -= 1;
 		return -1 * (originalValue / 2);
 	}

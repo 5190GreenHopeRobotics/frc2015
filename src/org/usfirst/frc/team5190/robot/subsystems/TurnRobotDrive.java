@@ -11,6 +11,8 @@ public class TurnRobotDrive implements PIDOutput {
 	}
 
 	public void turn(double rotateMagnitude) {
+		// Just checking
+		robotDrive.setMaxOutput(0.7);
 		robotDrive.arcadeDrive(0, -rotateMagnitude, false);
 	}
 
