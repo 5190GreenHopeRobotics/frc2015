@@ -16,10 +16,10 @@ public class RobotMap {
 	public static final int FORKLIFT_TALONSRX_PORT = 4;
 	public static final int FORKLIFTRAISE_VICTOR_PORT = 5;
 	// drive train
-	public static final int FRONTLEFT = 0;
-	public static final int BACKLEFT = 1;
-	public static final int FRONTRIGHT = 2;
-	public static final int BACKRIGHT = 3;
+	public static final int FRONTLEFT = 1;
+	public static final int BACKLEFT = 2;
+	public static final int FRONTRIGHT = 3;
+	public static final int BACKRIGHT = 0;
 	// sensors
 	public static final int GYRO_PORT = 1;
 	public static final int DRIVE_TRAIN_LIMIT_SWITCH = 0;
