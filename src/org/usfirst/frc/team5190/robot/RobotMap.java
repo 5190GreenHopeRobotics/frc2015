@@ -26,10 +26,10 @@ public class RobotMap {
 	public static final int ULTRASONIC_PING = 2;
 	public static final int ULTRASONIC_RECIEVE = 1;
 	// encoder
-	public static final int ENCODER_RIGHT_CHANNEL_A = 5;
-	public static final int ENCODER_RIGHT_CHANNEL_B = 6;
-	public static final int ENCODER_LEFT_CHANNEL_A = 3;
-	public static final int ENCODER_LEFT_CHANNEL_B = 4;
+	public static final int ENCODER_RIGHT_CHANNEL_A = 2;
+	public static final int ENCODER_RIGHT_CHANNEL_B = 3;
+	public static final int ENCODER_LEFT_CHANNEL_A = 4;
+	public static final int ENCODER_LEFT_CHANNEL_B = 5;
 
 	public static final int SOLENOID_PORT = 0;
 	// I2c

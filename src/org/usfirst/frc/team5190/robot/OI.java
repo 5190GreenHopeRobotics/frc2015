@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -33,7 +35,7 @@ public class OI {
 
 	// Initialize joysticks
 	// private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
-	private GamepadWizard mygamepad = new GamepadWizard(DRIVESTICK_PORT);
+	private LogitechGamepad mygamepad = new LogitechGamepad(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
 
 	// Drive Stick button/peripheral initialization

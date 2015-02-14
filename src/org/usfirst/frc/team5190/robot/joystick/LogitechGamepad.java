@@ -1,8 +1,8 @@
-package org.usfirst.frc.team5190.robot;
+package org.usfirst.frc.team5190.robot.joystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class GamepadWizard {
+public class LogitechGamepad {
 	// gamepad.getZ() = left trigger backwards
 	// gamepad.getX() = left joystick x
 	// gamepad.getY() = left joystick y
@@ -28,7 +28,7 @@ public class GamepadWizard {
 
 	private Joystick gamepad;
 
-	public GamepadWizard(int joystickport) {
+	public LogitechGamepad(int joystickport) {
 		gamepad = new Joystick(joystickport);
 	}
 
@@ -40,20 +40,21 @@ public class GamepadWizard {
 		return -gamepad.getRawAxis(3);
 	}
 
-	public double getleftjoystickY() {
+	public double getLeftJoystickY() {
 		return gamepad.getRawAxis(1);
 	}
 
-	public double getleftjoystickX() {
+	public double getLeftJoystickX() {
 		return gamepad.getX();
 	}
 
-	public double getrightjoystickY() {
+	public double getRightJoystickY() {
 		return gamepad.getRawAxis(5);
 	}
 
 	public double getRightJoystick() {
 		return -gamepad.getRawAxis(4);
+		return gamepad.
 	}
 
 	public Joystick getJoystick() {
