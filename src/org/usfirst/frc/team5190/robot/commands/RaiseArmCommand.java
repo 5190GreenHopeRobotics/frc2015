@@ -20,8 +20,8 @@ public class RaiseArmCommand extends Command {
 	 * is less than 80. The encoder will reset if the direction has just changed
 	 */
 	protected void initialize() {
-		if (Robot.armSubsystem.getencoderangle() < 80
-				&& Robot.armSubsystem.getraisearmlimitswitch() == true) {
+		if (Robot.armSubsystem.getangle() < 80
+				&& Robot.armSubsystem.getArmMaxLimitSwitch() == false) {
 			Robot.armSubsystem.raiseArm();
 		}
 	}
@@ -44,14 +44,14 @@ public class RaiseArmCommand extends Command {
 	 * later.
 	 */
 	protected void end() {
-		Robot.armSubsystem.stopArmAngleChange();
+		Robot.armSubsystem.stopArm();
 	}
 
 	/**
 	 * This stops the arm from rising when the code is interrupted.
 	 */
 	protected void interrupted() {
-		Robot.armSubsystem.stopArmAngleChange();
+		Robot.armSubsystem.stopArm();
 
 	}
 }

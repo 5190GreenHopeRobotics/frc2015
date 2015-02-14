@@ -18,8 +18,8 @@ public class LowerArmCommand extends Command {
 	 * degrees is > 0.
 	 */
 	protected void initialize() {
-		if (Robot.armSubsystem.getencoderangle() > 0
-				&& Robot.armSubsystem.getlowerarmlimitswitch() == true) {
+		if (Robot.armSubsystem.getangle() > 0
+				&& Robot.armSubsystem.getArmMinLimitSwitch() == false) {
 			Robot.armSubsystem.lowerArm();
 		}
 	}
@@ -34,7 +34,7 @@ public class LowerArmCommand extends Command {
 	 * This returns when the time is finished.
 	 */
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class LowerArmCommand extends Command {
 	 * and resets the encoder.
 	 */
 	protected void end() {
-		Robot.armSubsystem.stopArmAngleChange();
+		Robot.armSubsystem.stopArm();
 	}
 
 	/**
@@ -50,6 +50,6 @@ public class LowerArmCommand extends Command {
 	 * also cause the encoder to reset and stop.
 	 */
 	protected void interrupted() {
-		Robot.armSubsystem.stopArmAngleChange();
+		Robot.armSubsystem.stopArm();
 	}
 }
