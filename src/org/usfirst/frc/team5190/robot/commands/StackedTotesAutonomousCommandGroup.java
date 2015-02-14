@@ -11,5 +11,10 @@ public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 		addSequential(new DriveToObjectCommand());
 		addSequential(new ProtoAutonomousArmLowerCommand());
 		addSequential(new ProtoAutonomousArmRaiseCommand());
+		addSequential(new DriveToObjectCommand());
+		addSequential(new ProtoAutonomousArmLowerCommand());
+		addSequential(new ProtoAutonomousArmRaiseCommand());
+		addSequential(new TurnCommand(90));
+		addSequential(new DriveSetDistanceCommand(12 * 3));
 	}
 }
