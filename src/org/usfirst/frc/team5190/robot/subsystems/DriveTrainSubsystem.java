@@ -88,7 +88,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	public class Turn {
-		private Direction mDir = Direction.LEFT;
+
+		private Direction motorDirection = Direction.LEFT;
 		PIDController pidController;
 
 		private Turn() {
@@ -106,7 +107,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 *            the direction, RIGHT, LEFT
 		 */
 		public void setDirection(Direction dir) {
-			mDir = dir;
+			motorDirection = dir;
 		}
 
 		public void start(double turnDegree) {

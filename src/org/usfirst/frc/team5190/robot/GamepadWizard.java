@@ -52,11 +52,11 @@ public class GamepadWizard {
 		return gamepad.getRawAxis(5);
 	}
 
-	public double getrightjoystickX() {
+	public double getRightJoystick() {
 		return -gamepad.getRawAxis(4);
 	}
 
-	public Joystick getjoystick() {
+	public Joystick getJoystick() {
 		return gamepad;
 	}
 }

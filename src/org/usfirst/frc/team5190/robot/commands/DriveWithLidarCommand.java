@@ -20,7 +20,7 @@ public class DriveWithLidarCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
+		// TODO Fix Lidar
 		Robot.driveWithLidarSubsystem.runDriveTrain();
 		if (Robot.driveWithLidarSubsystem.getDistanceFromLidar() <= 9) {
 

@@ -17,15 +17,17 @@ public class DriveToObjectCommand extends Command {
 	public DriveToObjectCommand() {
 		requires(Robot.driveTrainSubsystem);
 		d = Robot.driveTrainSubsystem.driveSetDistance();
-		IndependentSensors.getGyro().reset();
+		// IndependentSensors.getGyro().reset(); //Temporary comment for testing
+		// purposes
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
 		Robot.driveTrainSubsystem.setPower(0.5);
+		// lidar inoperable at the moment
 		distanceBuffer = IndependentSensors.getLidar().getValue();
-		distanceBuffer = 6 * 12;
+		distanceBuffer *= 2.54; // cm to inches
 		d.start(distanceBuffer);
 
 	}

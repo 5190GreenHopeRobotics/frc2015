@@ -38,14 +38,14 @@ public class OI {
 
 	// Drive Stick button/peripheral initialization
 	// private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
-	private Button enableSwitch = new JoystickButton(mygamepad.getjoystick(),
+	private Button enableSwitch = new JoystickButton(mygamepad.getJoystick(),
 			ENABLE_SWITCH);
 
 	// Arm prototype
 
 	// Just a test for Pneumatics
 	private Button PneumaticButton = new JoystickButton(
-			mygamepad.getjoystick(), PNEUMATICS_TEST);
+			mygamepad.getJoystick(), PNEUMATICS_TEST);
 
 	// Shoot stick button links to commands
 	// private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
@@ -69,7 +69,7 @@ public class OI {
 	 * @return returns driveStick instance
 	 */
 	public Joystick getDriveStick() {
-		return mygamepad.getjoystick();
+		return mygamepad.getJoystick();
 	}
 
 	/**
@@ -79,37 +79,13 @@ public class OI {
 		return shootStick;
 	}
 
+	/**
+	 * @deprecated
+	 * @return Backward compatible with legacy Joystick
+	 */
 	public double getSpeed() {
-		double originalValue = mygamepad.getjoystick().getThrottle();
+		double originalValue = mygamepad.getJoystick().getThrottle();
 		originalValue -= 1;
 		return -1 * (originalValue / 2);
 	}
-	//
-	// // CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
-
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
-
-	// // TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
 }

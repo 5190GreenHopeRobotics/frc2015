@@ -104,8 +104,8 @@ public class Robot extends IterativeRobot {
 		LifecycleSubsystemManager.getInstance().teleopInit();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		DriveWithArcadeCommand controledDrive = new DriveWithArcadeCommand();
-		controledDrive.start();
+		DriveWithArcadeCommand controlledDrive = new DriveWithArcadeCommand();
+		controlledDrive.start();
 
 		new PutSmartDashBoardCommand().start();
 		new PrototypeArmTeleopCommand().start();

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * @deprecated
  */
 public class PrototypeArmRaise extends Command {
 
@@ -27,7 +27,7 @@ public class PrototypeArmRaise extends Command {
 		// Robot.prototypearm.started = false;
 		// Robot.prototypearm.minimized = false;
 		// }
-		Robot.prototype.raisearm();
+		Robot.prototype.raiseArm();
 		Timer.delay(0.5);
 	}
 
@@ -37,18 +37,18 @@ public class PrototypeArmRaise extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		//return isTimedOut();
+		// return isTimedOut();
 		return true;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.prototype.stoparm();
+		Robot.prototype.stopArm();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.prototype.stoparm();
+		Robot.prototype.stopArm();
 	}
 }

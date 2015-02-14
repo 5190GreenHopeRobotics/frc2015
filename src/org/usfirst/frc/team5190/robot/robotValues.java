@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * 
  * @author dan Not Used
+ * @deprecated
  */
 public class robotValues {
 

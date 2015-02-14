@@ -10,7 +10,7 @@ public class DriveStraightRobotDrive implements PIDOutput {
 	private Gyro gyro = IndependentSensors.getGyro();
 	private RobotDrive robotDrive;
 
-	private static final double Kp = 0;
+	private static final double Kp = .03;
 
 	DriveStraightRobotDrive(RobotDrive robotDrive) {
 		this.robotDrive = robotDrive;

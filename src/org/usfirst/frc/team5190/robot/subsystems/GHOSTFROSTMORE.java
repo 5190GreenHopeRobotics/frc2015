@@ -30,26 +30,26 @@ public class GHOSTFROSTMORE extends Subsystem {
 		return limitswitch.get();
 	}
 
-	public void raisearm() {
+	public void raiseArm() {
 		armJaguar.set(0.5);
 	}
 
-	public void lowerarm() {
+	public void lowerArm() {
 		armJaguar.set(-motorspeed);
 	}
 
 	public void joystickControl(Joystick stick) {
 
 		if (stick.getY() < 0 && !limitswitch.get()) {
-			stoparm();
+			stopArm();
 		} else if (stick.getY() > 0 && !topLimitSwitch.get()) {
-			stoparm();
+			stopArm();
 		} else {
 			armJaguar.set(stick.getY());
 		}
 	}
 
-	public void stoparm() {
+	public void stopArm() {
 		armJaguar.set(0);
 	}
 }

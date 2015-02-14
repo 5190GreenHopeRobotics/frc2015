@@ -2,11 +2,10 @@ package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * @deprecated
  */
 public class PrototypeArmLower extends Command {
 
@@ -25,7 +24,7 @@ public class PrototypeArmLower extends Command {
 		// Robot.prototypearm.raisearm();
 		// Robot.prototypearm.maximized = false;
 		// }
-		Robot.prototype.lowerarm();
+		Robot.prototype.lowerArm();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -34,18 +33,18 @@ public class PrototypeArmLower extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		//return isTimedOut();
+		// return isTimedOut();
 		return true;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.prototype.stoparm();
+		Robot.prototype.stopArm();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.prototype.stoparm();
+		Robot.prototype.stopArm();
 	}
 }
