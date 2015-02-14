@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * @deprecated No pneumatics used on robot.
  */
 public class PneumaticsProofOfConcept extends Command {
 	Solenoid ExampleSolenoid;
