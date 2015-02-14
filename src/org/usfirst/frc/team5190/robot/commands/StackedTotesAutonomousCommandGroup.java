@@ -5,9 +5,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 
 	public StackedTotesAutonomousCommandGroup() {
-		// PIck up one tote
-		addSequential(new ProtoAutonomousArmLowerCommand());
+		// stack two totes in theory
 		addSequential(new DriveToObjectCommand());
+		addSequential(new ProtoAutonomousArmRaiseCommand());
+		addSequential(new DriveToObjectCommand());
+		addSequential(new ProtoAutonomousArmLowerCommand());
 		addSequential(new ProtoAutonomousArmRaiseCommand());
 	}
 }
