@@ -28,7 +28,8 @@ public class DriveToObjectCommand extends Command {
 		// lidar inoperable at the moment
 		distanceBuffer = IndependentSensors.getLidar().getValue();
 		distanceBuffer *= 2.54; // cm to inches
-		distanceBuffer -= 2;
+		distanceBuffer -= 2; // estimated buffer distance so the edge doesn't
+								// hit the object
 		d.start(distanceBuffer);
 
 	}
