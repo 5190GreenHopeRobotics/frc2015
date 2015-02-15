@@ -9,16 +9,13 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class CherryPickerOperateCommand extends Command {
-	private boolean needToRetract;
-	private boolean needToStop;
 	private Joystick shootStick;
+	private Joystick gamepad;
 
 	public CherryPickerOperateCommand() {
 		shootStick = Robot.oi.getShootStick();
+		gamepad = Robot.oi.getGamepad();
 		requires(Robot.cherryPickerSubsystem);
-		requires(Robot.armSubsystem);
-		needToRetract = false;
-		needToStop = false;
 	}
 
 	// Called just before this Command runs the first time
@@ -28,7 +25,7 @@ public class CherryPickerOperateCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (shootStick.getRawButton(1)) { // when trigger toggled
-			Robot.cherryPickerSubsystem.operateWithJoystick(shootStick);
+			Robot.cherryPickerSubsystem.operateWithGamepad(gamepad);
 		}
 	}
 
