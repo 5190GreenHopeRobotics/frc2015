@@ -6,15 +6,16 @@ import java.util.LinkedList;
 import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.Direction;
+import org.usfirst.frc.team5190.robot.motor.CanTalonSRXSpeedController;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 
 /**
  * the drive train subsystem
@@ -49,7 +50,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private boolean disable = false;
 	private Encoder right, left;
 	private PIDEncoderDriveTrain enc;
-	private Jaguar frontleft, backleft, frontright, backright;
+	private CanTalonSRXSpeedController frontleft, backleft, frontright,
+			backright;
 	private DriveStraightRobotDrive driveStraightRobotDrive;
 	private TurnRobotDrive turnRobotDrive;
 
@@ -133,10 +135,14 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 	public DriveTrainSubsystem() {
 		// init the motors
-		frontleft = new Jaguar(RobotMap.FRONTLEFT);
-		backleft = new Jaguar(RobotMap.BACKLEFT);
-		frontright = new Jaguar(RobotMap.FRONTRIGHT);
-		backright = new Jaguar(RobotMap.BACKRIGHT);
+		frontleft = new CanTalonSRXSpeedController(new CanTalonSRX(
+				RobotMap.FRONTLEFT));
+		backleft = new CanTalonSRXSpeedController(new CanTalonSRX(
+				RobotMap.BACKLEFT));
+		frontright = new CanTalonSRXSpeedController(new CanTalonSRX(
+				RobotMap.FRONTRIGHT));
+		backright = new CanTalonSRXSpeedController(new CanTalonSRX(
+				RobotMap.BACKRIGHT));
 		// init drive
 		mDrive = new RobotDrive(frontleft, backleft, frontright, backright);
 		mDrive.setSafetyEnabled(false);
@@ -251,7 +257,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void arcadeJoystickDrive(Joystick stick) {
 		if (!disable) {
 			// KEEEEEEPPPPPPP THIIIISSSS
-			mDrive.arcadeDrive(-stick.getY(), stick.getRawAxis(4));
+			mDrive.arcadeDrive(stick);
 		}
 	}
 
