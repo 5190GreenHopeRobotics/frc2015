@@ -16,8 +16,8 @@ public class CherryPickerSubsystem extends Subsystem {
 
 	public CherryPickerSubsystem() {
 		cherryPickerController = new Talon(1);
-		minLimitSwitch = new DigitalInput(2);
-		maxLimitSwitch = new DigitalInput(3);
+		minLimitSwitch = new DigitalInput(6);
+		maxLimitSwitch = new DigitalInput(7);
 	}
 
 	public void initDefaultCommand() {
