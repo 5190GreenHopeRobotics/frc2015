@@ -4,10 +4,9 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
@@ -15,27 +14,24 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  * the arm subsystem
  */
 public class ArmSubsystem extends Subsystem {
+	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
+
 	private Potentiometer armPot = new AnalogPotentiometer(1, 40, 0);
-	private TalonSRX armLengthTalon = new TalonSRX(
-			RobotMap.ARMLENGTH_TALONSRX_PORT);
 	private Jaguar armJaguar1 = new Jaguar(RobotMap.ARM_JAGUAR1_PORT);
 	private Jaguar armJaguar2 = new Jaguar(RobotMap.ARM_JAGUAR2_PORT);
-	private double motorSpeed = 0.5;
-	private Encoder armLengthEncoder = new Encoder(3, 4, false,
-			Encoder.EncodingType.k4X);
+	private double motorSpeed = 0.1;
 	private DigitalInput armMax = new DigitalInput(
 			RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
 	private DigitalInput armMin = new DigitalInput(
 			RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
-	private DigitalInput armReachedLimitStop = new DigitalInput(1);
-	ArmPIDOutput armPIDOut = new ArmPIDOutput(armJaguar1, armJaguar2);
-	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
+
+	ArmDrive armDrive = new ArmDrive(armJaguar1, armJaguar2);
 
 	public class SetArmAngle {
 		private PIDController armPID;
 
 		private SetArmAngle() {
-			armPID = new PIDController(0.3, 0, 0.1, armPot, armPIDOut);
+			armPID = new PIDController(0.3, 0, 0.1, armPot, armDrive);
 			armPID.setAbsoluteTolerance(1);
 			armPID.setOutputRange(ARM_POWER_RANGE[0], ARM_POWER_RANGE[1]);
 		}
@@ -65,45 +61,10 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	/**
-	 * Turns the arm on, and extends it with a positive speed.
-	 */
-
-	public ArmSubsystem() {
-		armLengthEncoder.setMaxPeriod(.1);
-		armLengthEncoder.setMinRate(10);
-		armLengthEncoder.setDistancePerPulse(0.075);
-		armLengthEncoder.setReverseDirection(true);
-		armLengthEncoder.setSamplesToAverage(7);
-	}
-
-	/**
-	 * extends the arm
-	 */
-	public void extendArm() {
-		armLengthTalon.set(motorSpeed);
-	}
-
-	/**
-	 * Turns the arm off, by putting the motor to a stop with a speed of 0.
-	 */
-	public void stopArmLengthChange() {
-		armLengthTalon.set(0);
-	}
-
-	/**
-	 * This sets the speed as negative, retracting the arm.
-	 */
-	public void retractArm() {
-		armLengthTalon.set(-motorSpeed);
-
-	}
-
-	/**
 	 * This raises the arm by using motorSpeed (positive value).
 	 */
 	public void raiseArm() {
-		armJaguar1.set(motorSpeed);
-		armJaguar2.set(motorSpeed);
+		armDrive.set(motorSpeed);
 
 	}
 
@@ -116,13 +77,22 @@ public class ArmSubsystem extends Subsystem {
 		armJaguar2.set(0);
 	}
 
+	public void joystickControl(Joystick stick) {
+		armDrive.set(stick.getY());
+		// if (stick.getY() < 0 && !armMin.get()) {
+		// stopArm();
+		// } else if (stick.getY() > 0 && !armMax.get()) {
+		// stopArm();
+		// } else {
+		// armDrive.set(stick.getY());
+		// }
+	}
+
 	/**
 	 * This sets the motorSpeed to negative, lowering the arm.
 	 */
 	public void lowerArm() {
-		armJaguar1.set(-motorSpeed);
-		armJaguar2.set(-motorSpeed);
-
+		armDrive.set(-motorSpeed);
 	}
 
 	public boolean getArmMinLimitSwitch() {
@@ -133,16 +103,8 @@ public class ArmSubsystem extends Subsystem {
 		return armMax.get();
 	}
 
-	public boolean getencoderdirection() {
-		return armLengthEncoder.getDirection();
-	}
-
-	public double getangle() {
+	public double getAngle() {
 		return armPot.get();
-	}
-
-	public void resetencoder() {
-		armLengthEncoder.reset();
 	}
 
 	public SetArmAngle setArmAngle() {
