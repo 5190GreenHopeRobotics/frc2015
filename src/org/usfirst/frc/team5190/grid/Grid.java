@@ -14,6 +14,7 @@ public class Grid implements Displayable {
 	protected double currentVel;
 	protected int updateInterval;
 	protected Thread updater;
+	protected double distanceTraveled;
 
 	public Grid(Double initX, Double initY) {
 		currentX = initX.doubleValue();
@@ -42,19 +43,19 @@ public class Grid implements Displayable {
 	}
 
 	protected synchronized void update() {
-		double bufferX;
 		double angleRadian = (Math.PI * IndependentSensors.getGyro().getAngle() / 180);
 		try {
 			TimeUnit.MILLISECONDS.sleep(updateInterval);
 		} catch (InterruptedException e) {
 			return;
 		}
-		bufferX = getDistance(currentVel, IndependentSensors.getAccelerometer()
-				.getX() * 32.174 * 3, updateInterval / 1000);
+		distanceTraveled = getDistance(currentVel, IndependentSensors
+				.getAccelerometer().getX() * 32.174 * 3, updateInterval / 1000)
+				+ distanceTraveled;
 		currentVel = getVelocity(currentVel, IndependentSensors
 				.getAccelerometer().getX() * 32.174 * 3, updateInterval / 1000);
-		currentX = Math.cos(angleRadian) * bufferX;
-		currentY = Math.sin(angleRadian) * bufferX;
+		currentX = Math.cos(angleRadian) * distanceTraveled;
+		currentY = Math.sin(angleRadian) * distanceTraveled;
 
 	}
 
