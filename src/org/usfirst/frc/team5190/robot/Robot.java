@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
 
-	// hardware not present
+	public static Grid robotCoordinate;
 	public static IndependentSensors sensors = new IndependentSensors();
 	// hardware not present
 	public static ArmSubsystem armSubsystem = null;
@@ -41,7 +41,6 @@ public class Robot extends IterativeRobot {
 	public static DriveWithLidarSubsystem driveWithLidarSubsystem = new DriveWithLidarSubsystem();
 	public static Vision USBcamera;
 	private Command autonomousCommand;
-	private Grid g;
 
 	/**
 	 * the userInterface
@@ -50,6 +49,7 @@ public class Robot extends IterativeRobot {
 	static {
 		// subsystems must be instantiated/initialized before operator interface
 		oi = new OI();
+		robotCoordinate = new Grid(0.0, 0.0);
 	}
 
 	// public Camera camera;
@@ -63,7 +63,6 @@ public class Robot extends IterativeRobot {
 	// /// Right stick moves the left side
 
 	public Robot() {
-		g = new Grid(0.0, 0.0);
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 
 		// USBcamera = new Vision();
@@ -71,7 +70,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(sensors);
-		SmartDashBoardDisplayer.getInstance().submit(g);
+		SmartDashBoardDisplayer.getInstance().submit(robotCoordinate);
 	}
 
 	@Override
