@@ -115,7 +115,6 @@ public class ArmSubsystem extends Subsystem {
 	// Level 1 = 23.6 inches high, 6.9 inches below arm
 	// Level 2 = 35.7 inches high
 	public void setLevel(int level) {
-		double leveldifference = 0;
 
 		if (level < 0) {
 			level = 0;
@@ -123,20 +122,6 @@ public class ArmSubsystem extends Subsystem {
 		if (level > 4) {
 			level = 4;
 		}
-
-		// if (getAngle() != level0 && getAngle() != level1
-		// && getAngle() != level2 && getAngle() != level3
-		// && getAngle() != level4) {
-		// if (getAngle() < level1) {
-		// leveldifference = level1 - getAngle();
-		// } else if (getAngle() < level2) {
-		// leveldifference = level2 - getAngle();
-		// } else if (getAngle() < level3) {
-		// leveldifference = level3 - getAngle();
-		// } else if (getAngle() < level4) {
-		// leveldifference = level4 - getAngle();
-		// }
-		// }
 
 		switch (level) {
 		case 0:
