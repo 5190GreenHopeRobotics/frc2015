@@ -11,15 +11,15 @@ public class RobotMap {
 	public static final int ARM_MAX_LIMIT_SWITCH_PORT = 1; // Get a real value
 
 	// drive train
-	public static final int FRONTLEFT = 0;
-	public static final int BACKLEFT = 1;
-	public static final int FRONTRIGHT = 2;
-	public static final int BACKRIGHT = 3;
+	public static final int FRONTLEFT = 1;
+	public static final int BACKLEFT = 2;
+	public static final int FRONTRIGHT = 3;
+	public static final int BACKRIGHT = 0;
 
-	public static final int ENCODER_RIGHT_CHANNEL_A = 5;
-	public static final int ENCODER_RIGHT_CHANNEL_B = 6;
-	public static final int ENCODER_LEFT_CHANNEL_A = 3;
-	public static final int ENCODER_LEFT_CHANNEL_B = 4;
+	public static final int ENCODER_RIGHT_CHANNEL_A = 2;
+	public static final int ENCODER_RIGHT_CHANNEL_B = 3;
+	public static final int ENCODER_LEFT_CHANNEL_A = 4;
+	public static final int ENCODER_LEFT_CHANNEL_B = 5;
 
 	// sensors
 	public static final int GYRO_PORT = 1;
