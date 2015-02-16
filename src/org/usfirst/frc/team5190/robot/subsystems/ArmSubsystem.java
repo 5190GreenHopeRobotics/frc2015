@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -13,6 +14,14 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  * the arm subsystem
  */
 public class ArmSubsystem extends Subsystem {
+	// Levels for arm corresponding with totes, current values are placeholders,
+	// need to acquire more math to find real values
+	public static final double level0 = 0;
+	public static final double level1 = 15;
+	public static final double level2 = 30;
+	public static final double level3 = 45;
+	public static final double level4 = 60;
+
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
 
 	private Potentiometer armPot = new AnalogPotentiometer(
@@ -97,5 +106,87 @@ public class ArmSubsystem extends Subsystem {
 
 	public SetArmAngle setArmAngle() {
 		return new SetArmAngle();
+	}
+
+	// Set a level for quick tote stacking
+	// arm is 31 inches long
+	// arm is 30.5 inches off the ground
+	// Tote is 12.1 inches tall(11.5 to hold)
+	// Level 1 = 23.6 inches high, 6.9 inches below arm
+	// Level 2 = 35.7 inches high
+	public void setLevel(int level) {
+		double leveldifference = 0;
+
+		if (level < 0) {
+			level = 0;
+		}
+		if (level > 4) {
+			level = 4;
+		}
+
+		// if (getAngle() != level0 && getAngle() != level1
+		// && getAngle() != level2 && getAngle() != level3
+		// && getAngle() != level4) {
+		// if (getAngle() < level1) {
+		// leveldifference = level1 - getAngle();
+		// } else if (getAngle() < level2) {
+		// leveldifference = level2 - getAngle();
+		// } else if (getAngle() < level3) {
+		// leveldifference = level3 - getAngle();
+		// } else if (getAngle() < level4) {
+		// leveldifference = level4 - getAngle();
+		// }
+		// }
+
+		switch (level) {
+		case 0:
+			Robot.armSubsystem.setArmAngle().start(level0);
+			break;
+		case 1:
+			Robot.armSubsystem.setArmAngle().start(level1);
+			break;
+		case 2:
+			Robot.armSubsystem.setArmAngle().start(level2);
+			break;
+		case 3:
+			Robot.armSubsystem.setArmAngle().start(level3);
+			break;
+		case 4:
+			Robot.armSubsystem.setArmAngle().start(level4);
+		}
+	}
+
+	public void levelup() {
+		double nextlevel = 0;
+
+		if (getAngle() < level1) {
+			nextlevel = level1;
+		} else if (getAngle() < level2) {
+			nextlevel = level2;
+		} else if (getAngle() < level3) {
+			nextlevel = level3;
+		} else {
+			nextlevel = level4;
+		}
+
+		Robot.armSubsystem.setArmAngle().start(nextlevel);
+
+	}
+
+	public void leveldown() {
+		double previouslevel = 0;
+
+		if (getAngle() > level3) {
+			previouslevel = level3;
+		} else if (getAngle() > level2) {
+			previouslevel = level2;
+		} else if (getAngle() > level1) {
+			previouslevel = level1;
+		} else {
+			previouslevel = 0;
+		}
+
+		Robot.armSubsystem.setArmAngle().start(previouslevel);
+
 	}
 }
