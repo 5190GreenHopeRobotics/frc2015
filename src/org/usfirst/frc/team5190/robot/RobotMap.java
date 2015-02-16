@@ -4,10 +4,16 @@ import edu.wpi.first.wpilibj.I2C.Port;
 
 public class RobotMap {
 	// arm
+	public static final int ARM_POTENTIOMETER_PORT = 1;
 	public static final int ARM_JAGUAR1_PORT = 0;
 	public static final int ARM_JAGUAR2_PORT = 1;
 	public static final int ARM_MIN_LIMIT_SWITCH_PORT = 0; // Get a real value
 	public static final int ARM_MAX_LIMIT_SWITCH_PORT = 1; // Get a real value
+
+	// cherry picker
+	public static final int CHERRY_PICKER_TALON_PORT = 2;
+	public static final int CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT = 7;
+	public static final int CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT = 6;
 
 	// drive train
 	public static final int FRONTLEFT = 1;

@@ -16,16 +16,11 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 public class ArmSubsystem extends Subsystem {
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
 
-	private Potentiometer armPot = new AnalogPotentiometer(1, 40, 0);
-	private Jaguar armJaguar1 = new Jaguar(RobotMap.ARM_JAGUAR1_PORT);
-	private Jaguar armJaguar2 = new Jaguar(RobotMap.ARM_JAGUAR2_PORT);
+	private Potentiometer armPot = new AnalogPotentiometer(
+			RobotMap.ARM_POTENTIOMETER_PORT, 40, 0);
 	private double motorSpeed = 0.1;
-	private DigitalInput armMax = new DigitalInput(
-			RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
-	private DigitalInput armMin = new DigitalInput(
-			RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
 
-	ArmDrive armDrive = new ArmDrive(armJaguar1, armJaguar2);
+	private ArmDrive armDrive;
 
 	public class SetArmAngle {
 		private PIDController armPID;
@@ -52,6 +47,16 @@ public class ArmSubsystem extends Subsystem {
 		}
 	}
 
+	public ArmSubsystem() {
+		Jaguar armJaguar1 = new Jaguar(RobotMap.ARM_JAGUAR1_PORT);
+		Jaguar armJaguar2 = new Jaguar(RobotMap.ARM_JAGUAR2_PORT);
+		DigitalInput armMax = new DigitalInput(
+				RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
+		DigitalInput armMin = new DigitalInput(
+				RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
+		armDrive = new ArmDrive(armJaguar1, armJaguar2, armMax, armMin);
+	}
+
 	// the shaft
 	/**
 	 * nothing needs to go here.
@@ -73,19 +78,11 @@ public class ArmSubsystem extends Subsystem {
 	 * 0.
 	 */
 	public void stopArm() {
-		armJaguar1.set(0);
-		armJaguar2.set(0);
+		armDrive.stopArm();
 	}
 
 	public void joystickControl(Joystick stick) {
 		armDrive.set(stick.getY());
-		// if (stick.getY() < 0 && !armMin.get()) {
-		// stopArm();
-		// } else if (stick.getY() > 0 && !armMax.get()) {
-		// stopArm();
-		// } else {
-		// armDrive.set(stick.getY());
-		// }
 	}
 
 	/**
@@ -93,14 +90,6 @@ public class ArmSubsystem extends Subsystem {
 	 */
 	public void lowerArm() {
 		armDrive.set(-motorSpeed);
-	}
-
-	public boolean getArmMinLimitSwitch() {
-		return armMin.get();
-	}
-
-	public boolean getArmMaxLimitSwitch() {
-		return armMax.get();
 	}
 
 	public double getAngle() {
