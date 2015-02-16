@@ -27,9 +27,11 @@ public class JoystickTester extends Command {
 			axisValues.append('\n');
 		}
 		SmartDashboard.putString("Axis Values", axisValues.toString());
+		SmartDashboard.putNumber("Axis Count", joystick.getAxisCount());
 
 		StringBuilder buttonValues = new StringBuilder();
-		for (int i = 0; i < joystick.getButtonCount(); i++) {
+		buttonValues.append("Pressed Buttons\n");
+		for (int i = 1; i <= joystick.getButtonCount(); i++) {
 			if (joystick.getRawButton(i)) {
 				buttonValues.append("Button ");
 				buttonValues.append(i);
@@ -37,6 +39,7 @@ public class JoystickTester extends Command {
 			}
 		}
 		SmartDashboard.putString("Button Values", buttonValues.toString());
+		SmartDashboard.putNumber("Button Count", joystick.getButtonCount());
 	}
 
 	@Override

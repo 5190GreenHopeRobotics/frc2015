@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import org.usfirst.frc.team5190.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -28,8 +27,7 @@ public class CherryPickerSubsystem extends Subsystem {
 
 	}
 
-	public void operateWithGamepad(Joystick gamepad) {
-		double speed = gamepad.getY();
+	public void operate(double speed) {
 		if (speed < 0 && this.reachedMinLimit()) {
 			stopCherryPicker();
 		} else if (speed > 0 && this.reachedMaxLimit()) {

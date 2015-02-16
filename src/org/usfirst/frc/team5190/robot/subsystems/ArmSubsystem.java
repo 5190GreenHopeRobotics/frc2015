@@ -5,7 +5,6 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -81,8 +80,8 @@ public class ArmSubsystem extends Subsystem {
 		armDrive.stopArm();
 	}
 
-	public void joystickControl(Joystick stick) {
-		armDrive.set(stick.getY());
+	public void moveArm(double power) {
+		armDrive.set(power);
 	}
 
 	/**

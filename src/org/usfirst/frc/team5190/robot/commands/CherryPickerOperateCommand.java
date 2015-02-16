@@ -27,8 +27,14 @@ public class CherryPickerOperateCommand extends Command {
 		// if (shootStick.getRawButton(1)) { // when trigger toggled
 		// Robot.cherryPickerSubsystem.operateWithGamepad(gamepad);
 		// }
-		Robot.cherryPickerSubsystem
-				.operateWithGamepad(Robot.oi.getDriveStick());
+		Joystick joystick = Robot.oi.getDriveStick();
+		double retractValue = joystick.getRawAxis(3);
+		double extendValue = joystick.getRawAxis(2);
+		if (retractValue > 0.0) {
+			Robot.cherryPickerSubsystem.operate(-retractValue);
+		} else {
+			Robot.cherryPickerSubsystem.operate(extendValue);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

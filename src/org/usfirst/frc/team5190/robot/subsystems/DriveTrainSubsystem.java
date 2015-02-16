@@ -146,10 +146,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init drive
 		mDrive = new RobotDrive(frontleft, backleft, frontright, backright);
 		mDrive.setSafetyEnabled(false);
-		// mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
-		// mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-		// mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-		// mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
 
@@ -254,10 +254,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 *            the one joystick
 	 */
 
-	public void arcadeJoystickDrive(Joystick stick) {
+	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
 		if (!disable) {
 			// KEEEEEEPPPPPPP THIIIISSSS
-			mDrive.arcadeDrive(stick);
+			mDrive.arcadeDrive(moveValue, rotateValue);
 		}
 	}
 
