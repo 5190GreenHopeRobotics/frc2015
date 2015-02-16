@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import org.usfirst.frc.team5190.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -15,9 +17,11 @@ public class CherryPickerSubsystem extends Subsystem {
 	private DigitalInput maxLimitSwitch;
 
 	public CherryPickerSubsystem() {
-		cherryPickerController = new Talon(1);
-		minLimitSwitch = new DigitalInput(6);
-		maxLimitSwitch = new DigitalInput(7);
+		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
+		minLimitSwitch = new DigitalInput(
+				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT);
+		maxLimitSwitch = new DigitalInput(
+				RobotMap.CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT);
 	}
 
 	public void initDefaultCommand() {
@@ -25,15 +29,13 @@ public class CherryPickerSubsystem extends Subsystem {
 	}
 
 	public void operateWithGamepad(Joystick gamepad) {
-		double speed = -1.0 * (gamepad.getY());
-		if (!this.reachedMaxLimit()) {
-			if (speed < 0) {
-				this.cherryPickerController.set(speed);
-			}
-		} else if (!this.reachedMinLimit()) {
-			if (speed > 0) {
-				this.cherryPickerController.set(speed);
-			}
+		double speed = gamepad.getY();
+		if (speed < 0 && this.reachedMinLimit()) {
+			stopCherryPicker();
+		} else if (speed > 0 && this.reachedMaxLimit()) {
+			stopCherryPicker();
+		} else {
+			this.cherryPickerController.set(speed);
 		}
 	}
 
@@ -42,7 +44,7 @@ public class CherryPickerSubsystem extends Subsystem {
 	 *         Extend Limit (boolean)
 	 */
 	public boolean reachedMaxLimit() {
-		return maxLimitSwitch.get();
+		return !maxLimitSwitch.get();
 	}
 
 	/**
@@ -50,7 +52,11 @@ public class CherryPickerSubsystem extends Subsystem {
 	 *         Retract Limit (Boolean)
 	 */
 	public boolean reachedMinLimit() {
-		return minLimitSwitch.get();
+		return !minLimitSwitch.get();
+	}
+
+	public void stopCherryPicker() {
+		this.cherryPickerController.set(0);
 	}
 
 }

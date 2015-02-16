@@ -1,8 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -25,28 +23,20 @@ public class OI {
 	public static final int KILL_SWITCH = 1;
 	public static final int ENABLE_SWITCH = 5;
 
-	public static final int PNEUMATICS_TEST = 7;
-
 	public static final int ADD_SERVO = 7;
 	public static final int SUB_SERVO = 8;
 	public static final int RESET_ENCODER = 10;
 
 	// Initialize joysticks
-	// private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
+	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
 	private GamepadWizard mygamepad = new GamepadWizard(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
 	private Joystick gamepad = new Joystick(10); // temporary port
 
 	// Drive Stick button/peripheral initialization
 	// private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
-	private Button enableSwitch = new JoystickButton(mygamepad.getJoystick(),
-			ENABLE_SWITCH);
 
 	// Arm prototype
-
-	// Just a test for Pneumatics
-	private Button PneumaticButton = new JoystickButton(
-			mygamepad.getJoystick(), PNEUMATICS_TEST);
 
 	// Shoot stick button links to commands
 	// private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);

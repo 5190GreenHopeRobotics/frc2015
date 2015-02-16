@@ -2,32 +2,60 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
  * the arm subsystem
  */
 public class ArmSubsystem extends Subsystem {
-	private TalonSRX armLengthTalon = new TalonSRX(
-			RobotMap.ARMLENGTH_TALONSRX_PORT);
-	private TalonSRX armAngleTalon = new TalonSRX(
-			RobotMap.ARMANGLE_TALONSRX_PORT);
-	private double motorSpeed = 0.5;
-	private Encoder armLengthEncoder = new Encoder(3, 4, false,
-			Encoder.EncodingType.k4X);
-	// Counterclockwise for getdirection() is true
-	private double currentdegrees = 0;
-	private DigitalInput armraiseLimitSwitch = new DigitalInput(
-			RobotMap.ARM_RAISE_LIMIT_SWITCH_PORT);
-	private DigitalInput armlowerLimitSwitch = new DigitalInput(
-			RobotMap.ARM_LOWER_LIMIT_SWITCH_PORT);
-	private final double shaftcircumference = 0; // Give this a real value when
-													// we find the circumference
-													// of
-	private DigitalInput armReachedLimitStop = new DigitalInput(1);
+	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
+
+	private Potentiometer armPot = new AnalogPotentiometer(
+			RobotMap.ARM_POTENTIOMETER_PORT, 40, 0);
+	private double motorSpeed = 0.1;
+
+	private ArmDrive armDrive;
+
+	public class SetArmAngle {
+		private PIDController armPID;
+
+		private SetArmAngle() {
+			armPID = new PIDController(0.3, 0, 0.1, armPot, armDrive);
+			armPID.setAbsoluteTolerance(1);
+			armPID.setOutputRange(ARM_POWER_RANGE[0], ARM_POWER_RANGE[1]);
+		}
+
+		public void start(double angle) {
+			armPID.setSetpoint(angle);
+			armPID.enable();
+
+		}
+
+		public void end() {
+			armPID.disable();
+		}
+
+		// This asks to see if it has gotten to the distance.
+		public boolean reachedAngle() {
+			return armPID.onTarget();
+		}
+	}
+
+	public ArmSubsystem() {
+		Jaguar armJaguar1 = new Jaguar(RobotMap.ARM_JAGUAR1_PORT);
+		Jaguar armJaguar2 = new Jaguar(RobotMap.ARM_JAGUAR2_PORT);
+		DigitalInput armMax = new DigitalInput(
+				RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
+		DigitalInput armMin = new DigitalInput(
+				RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
+		armDrive = new ArmDrive(armJaguar1, armJaguar2, armMax, armMin);
+	}
 
 	// the shaft
 	/**
@@ -38,44 +66,10 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	/**
-	 * Turns the arm on, and extends it with a positive speed.
-	 */
-
-	public ArmSubsystem() {
-		armLengthEncoder.setMaxPeriod(.1);
-		armLengthEncoder.setMinRate(10);
-		armLengthEncoder.setDistancePerPulse(0.075);
-		armLengthEncoder.setReverseDirection(true);
-		armLengthEncoder.setSamplesToAverage(7);
-	}
-
-	/**
-	 * extends the arm
-	 */
-	public void extendArm() {
-		armLengthTalon.set(motorSpeed);
-	}
-
-	/**
-	 * Turns the arm off, by putting the motor to a stop with a speed of 0.
-	 */
-	public void stopArmLengthChange() {
-		armLengthTalon.set(0);
-	}
-
-	/**
-	 * This sets the speed as negative, retracting the arm.
-	 */
-	public void retractArm() {
-		armLengthTalon.set(-motorSpeed);
-
-	}
-
-	/**
 	 * This raises the arm by using motorSpeed (positive value).
 	 */
 	public void raiseArm() {
-		armAngleTalon.set(motorSpeed);
+		armDrive.set(motorSpeed);
 
 	}
 
@@ -83,38 +77,26 @@ public class ArmSubsystem extends Subsystem {
 	 * This stops the arm angle from changing (No rise or lowering) = speed is
 	 * 0.
 	 */
-	public void stopArmAngleChange() {
-		armAngleTalon.set(0);
+	public void stopArm() {
+		armDrive.stopArm();
+	}
+
+	public void joystickControl(Joystick stick) {
+		armDrive.set(stick.getY());
 	}
 
 	/**
 	 * This sets the motorSpeed to negative, lowering the arm.
 	 */
 	public void lowerArm() {
-		armAngleTalon.set(-motorSpeed);
-
+		armDrive.set(-motorSpeed);
 	}
 
-	public boolean getlowerarmlimitswitch() {
-		return armlowerLimitSwitch.get();
+	public double getAngle() {
+		return armPot.get();
 	}
 
-	public boolean getraisearmlimitswitch() {
-		return armraiseLimitSwitch.get();
+	public SetArmAngle setArmAngle() {
+		return new SetArmAngle();
 	}
-
-	public boolean getencoderdirection() {
-		return armLengthEncoder.getDirection();
-	}
-
-	public double getencoderangle() {
-		currentdegrees = armLengthEncoder.getDistance() / shaftcircumference
-				* 360;
-		return currentdegrees;
-	}
-
-	public void resetencoder() {
-		armLengthEncoder.reset();
-	}
-
 }
