@@ -100,6 +100,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 			pidController.setAbsoluteTolerance(TURN_TOLERANCE);
 			pidController.setOutputRange(TURN_OUTPUT_RANGE[0],
 					TURN_OUTPUT_RANGE[1]);
+			pidController.setSetpoint(45);
+			pidController.enable();
 		}
 
 		/**
@@ -252,10 +254,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 *            the one joystick
 	 */
 
-	public void arcadeJoystickDrive(Joystick stick) {
+	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
 		if (!disable) {
 			// KEEEEEEPPPPPPP THIIIISSSS
-			mDrive.arcadeDrive(stick);
+			mDrive.arcadeDrive(moveValue, rotateValue);
 		}
 	}
 

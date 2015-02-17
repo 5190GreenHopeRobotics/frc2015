@@ -1,13 +1,12 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.robot.commands.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.commands.PrototypeArmTeleopCommand;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.GHOSTFROSTMORE;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
@@ -25,40 +24,19 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-	boolean RobotIsEnabled = true;
-
-	// hardware not present
-	public static IndependentSensors sensors = new IndependentSensors();
-	// hardware not present
-	public static ArmSubsystem armSubsystem = null;
-	public static NavigationSubsystem navigationSubsystem = null;
-	// working code
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	// Prototype arm
-	public static GHOSTFROSTMORE prototype = new GHOSTFROSTMORE();
-	public static DriveWithLidarSubsystem driveWithLidarSubsystem = new DriveWithLidarSubsystem();
+	public static ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static CherryPickerSubsystem cherryPickerSubsystem = new CherryPickerSubsystem();
+
+	public static IndependentSensors sensors = null;
+	public static NavigationSubsystem navigationSubsystem = null;
+	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
+
 	public static Vision USBcamera;
+
+	public static OI oi = new OI();
+
 	private Command autonomousCommand;
-
-	/**
-	 * the userInterface
-	 */
-	public static OI oi;
-	static {
-		// subsystems must be instantiated/initialized before operator interface
-		oi = new OI();
-	}
-
-	// public Camera camera;
-
-	/**
-	 * Init the Camera
-	 * 
-	 */
-
-	// /// LEFT trigger moves the right side
-	// /// Right stick moves the left side
 
 	public Robot() {
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
@@ -67,7 +45,6 @@ public class Robot extends IterativeRobot {
 		// USBcamera.visionInit();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
-		SmartDashBoardDisplayer.getInstance().submit(sensors);
 	}
 
 	@Override
@@ -78,8 +55,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
-	// 2.63
 
 	@Override
 	public void autonomousInit() {
@@ -104,13 +79,9 @@ public class Robot extends IterativeRobot {
 		LifecycleSubsystemManager.getInstance().teleopInit();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		DriveWithArcadeCommand controlledDrive = new DriveWithArcadeCommand();
-		controlledDrive.start();
 
+		new TeleopCommandGroup().start();
 		new PutSmartDashBoardCommand().start();
-		new PrototypeArmTeleopCommand().start();
-		// new CameraMovementCommand().start();
-
 	}
 
 	/**

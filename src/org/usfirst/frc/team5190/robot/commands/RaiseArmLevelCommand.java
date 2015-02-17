@@ -1,27 +1,23 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import org.usfirst.frc.team5190.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * @deprecated No pneumatics used on robot.
+ *
  */
-public class PneumaticsProofOfConcept extends Command {
-	Solenoid ExampleSolenoid;
+public class RaiseArmLevelCommand extends Command {
 
-	// Compressor ExampleCompressor;
+	private ArmSetAngleCommand armSetAngleCommand;
 
-	public PneumaticsProofOfConcept() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		ExampleSolenoid = new Solenoid(0);
-		// ExampleCompressor = new Compressor(1);
+	public RaiseArmLevelCommand() {
+		requires(Robot.armSubsystem);
+
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		ExampleSolenoid.set(true);
-		// ExampleCompressor.start();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
