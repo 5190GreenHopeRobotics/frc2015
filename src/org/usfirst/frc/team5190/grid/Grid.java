@@ -50,12 +50,11 @@ public class Grid implements Displayable {
 			return;
 		}
 		distanceTraveled = getDistance(currentVel, IndependentSensors
-				.getAccelerometer().getX() * 32.174 * 3, updateInterval / 1000)
-				+ distanceTraveled;
+				.getAccelerometer().getX() * 32.174 * 3, updateInterval / 1000);
 		currentVel = getVelocity(currentVel, IndependentSensors
 				.getAccelerometer().getX() * 32.174 * 3, updateInterval / 1000);
-		currentX = Math.cos(angleRadian) * distanceTraveled;
-		currentY = Math.sin(angleRadian) * distanceTraveled;
+		currentX = Math.cos(angleRadian) * distanceTraveled + currentX;
+		currentY = Math.sin(angleRadian) * distanceTraveled + currentY;
 
 	}
 
