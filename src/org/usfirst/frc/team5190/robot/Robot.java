@@ -43,6 +43,7 @@ public class Robot extends IterativeRobot {
 		// USBcamera.visionInit();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(armSubsystem);
 	}
 
 	@Override

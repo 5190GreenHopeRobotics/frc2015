@@ -1,6 +1,11 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.smartDashBoard.Displayable;
+import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -13,7 +18,7 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 /**
  * the arm subsystem
  */
-public class ArmSubsystem extends Subsystem {
+public class ArmSubsystem extends Subsystem implements Displayable {
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
 
 	private Potentiometer armPot = new AnalogPotentiometer(1, 40, 0);
@@ -109,5 +114,18 @@ public class ArmSubsystem extends Subsystem {
 
 	public SetArmAngle setArmAngle() {
 		return new SetArmAngle();
+	}
+
+	@Override
+	public Collection<Pair<String, Boolean>> getBooleanValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Pair<String, Double>> getDecimalValues() {
+		LinkedList<Pair<String, Double>> result = new LinkedList<Pair<String, Double>>();
+		result.add(new Pair<String, Double>("Arm Angle is:", getAngle()));
+		return result;
 	}
 }
