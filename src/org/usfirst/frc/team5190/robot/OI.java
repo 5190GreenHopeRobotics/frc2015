@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
+import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -34,9 +35,10 @@ public class OI {
 	public static final int RESET_ENCODER = 10;
 
 	// Initialize joysticks
-	private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
-	private GamepadWizard mygamepad = new GamepadWizard(DRIVESTICK_PORT);
+	// private Joystick driveStick = new Joystick(DRIVESTICK_PORT);
+	private LogitechGamepad mygamepad = new LogitechGamepad(DRIVESTICK_PORT);
 	private Joystick shootStick = new Joystick(SHOOTSTICK_PORT);
+	private Joystick gamepad = new Joystick(10); // temporary port
 
 	// Drive Stick button/peripheral initialization
 	// private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
@@ -79,6 +81,10 @@ public class OI {
 	 */
 	public Joystick getShootStick() {
 		return shootStick;
+	}
+
+	public Joystick getGamepad() {
+		return gamepad;
 	}
 
 	/**

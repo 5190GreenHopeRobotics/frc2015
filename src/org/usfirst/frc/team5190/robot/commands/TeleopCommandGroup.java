@@ -7,5 +7,6 @@ public class TeleopCommandGroup extends CommandGroup {
 	public TeleopCommandGroup() {
 		addParallel(new DriveWithArcadeCommand());
 		addParallel(new ArmTeleopCommand());
+		addParallel(new CherryPickerOperateCommand());
 	}
 }

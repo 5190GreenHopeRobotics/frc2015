@@ -254,10 +254,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 *            the one joystick
 	 */
 
-	public void arcadeJoystickDrive(Joystick stick) {
+	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
 		if (!disable) {
 			// KEEEEEEPPPPPPP THIIIISSSS
-			mDrive.arcadeDrive(stick);
+			mDrive.arcadeDrive(moveValue, rotateValue);
 		}
 	}
 
