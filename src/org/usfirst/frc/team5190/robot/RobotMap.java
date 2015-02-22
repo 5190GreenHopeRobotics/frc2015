@@ -19,7 +19,7 @@ public class RobotMap {
 	public static final int FRONTLEFT = 1;
 	public static final int BACKLEFT = 2;
 	public static final int FRONTRIGHT = 3;
-	public static final int BACKRIGHT = 0;
+	public static final int BACKRIGHT = 4;
 
 	public static final int ENCODER_RIGHT_CHANNEL_A = 2;
 	public static final int ENCODER_RIGHT_CHANNEL_B = 3;
