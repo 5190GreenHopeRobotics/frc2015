@@ -6,16 +6,17 @@ import java.util.LinkedList;
 import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.Direction;
-import org.usfirst.frc.team5190.robot.motor.CanTalonSRXSpeedController;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 
 /**
  * the drive train subsystem
@@ -44,14 +45,15 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 	public static final double[] TURN_OUTPUT_RANGE = { -0.3, 0.3 };
 
+	public static final double TALON_RAMP_SPEED = 3.0;
+
 	public static final double kP = 0.03;
 
 	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
 	private PIDEncoderDriveTrain enc;
-	private CanTalonSRXSpeedController frontleft, backleft, frontright,
-			backright;
+	private CANTalon frontLeft, backLeft, frontRight, backRight;
 	private DriveStraightRobotDrive driveStraightRobotDrive;
 	private TurnRobotDrive turnRobotDrive;
 
@@ -135,16 +137,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 	public DriveTrainSubsystem() {
 		// init the motors
-		frontleft = new CanTalonSRXSpeedController(new CanTalonSRX(
-				RobotMap.FRONTLEFT));
-		backleft = new CanTalonSRXSpeedController(new CanTalonSRX(
-				RobotMap.BACKLEFT));
-		frontright = new CanTalonSRXSpeedController(new CanTalonSRX(
-				RobotMap.FRONTRIGHT));
-		backright = new CanTalonSRXSpeedController(new CanTalonSRX(
-				RobotMap.BACKRIGHT));
 		// init drive
-		mDrive = new RobotDrive(frontleft, backleft, frontright, backright);
+		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 		mDrive.setSafetyEnabled(false);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
@@ -159,6 +153,30 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// get the encoders
 		right = enc.getRight();
 		left = enc.getLeft();
+	}
+
+	private void initializeMotors() {
+		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
+		backLeft = new CANTalon(RobotMap.BACKLEFT);
+		frontRight = new CANTalon(RobotMap.FRONTRIGHT);
+		backRight = new CANTalon(RobotMap.BACKRIGHT);
+		frontLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
+		backRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
+		frontRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
+		backLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
+
+		frontLeft.changeControlMode(ControlMode.Speed);
+		backLeft.changeControlMode(ControlMode.Follower);
+		// since back motors are followers/slaves, set() method sets their
+		// master (should be the master's CAN Id)
+		backLeft.set(frontLeft.getDeviceID());
+		backRight.set(frontRight.getDeviceID());
+		frontRight.changeControlMode(ControlMode.Speed);
+		backRight.changeControlMode(ControlMode.Follower);
+		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 	}
 
 	/**
