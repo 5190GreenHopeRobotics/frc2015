@@ -9,8 +9,8 @@ import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -23,10 +23,10 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	// placeholders,
 	// need to acquire more math to find real values
 	public static final double level0 = 0;
-	public static final double level1 = 15;
-	public static final double level2 = 30;
-	public static final double level3 = 45;
-	public static final double level4 = 60;
+	public static final double level1 = 12.5;
+	public static final double level2 = 32.1;
+	public static final double level3 = 51.7;
+	public static final double level4 = 71.3;
 
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
 
@@ -62,13 +62,13 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	}
 
 	public ArmSubsystem() {
-		Jaguar armJaguar1 = new Jaguar(RobotMap.ARM_JAGUAR1_PORT);
-		Jaguar armJaguar2 = new Jaguar(RobotMap.ARM_JAGUAR2_PORT);
+		CANTalon armCANTalon1 = new CANTalon(RobotMap.ARM_CANTALON1_PORT);
+		CANTalon armCANTalon2 = new CANTalon(RobotMap.ARM_CANTALON2_PORT);
 		DigitalInput armMax = new DigitalInput(
 				RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
 		DigitalInput armMin = new DigitalInput(
 				RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
-		armDrive = new ArmDrive(armJaguar1, armJaguar2, armMax, armMin);
+		armDrive = new ArmDrive(armCANTalon1, armCANTalon2, armMax, armMin);
 	}
 
 	// the shaft
