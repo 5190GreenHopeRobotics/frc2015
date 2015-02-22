@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.grid.Grid;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
@@ -24,6 +25,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
+
+	boolean RobotIsEnabled = true;
+
+	public static Grid robotCoordinate;
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ArmSubsystem armSubsystem = new ArmSubsystem();
 	public static CherryPickerSubsystem cherryPickerSubsystem = new CherryPickerSubsystem();
@@ -34,9 +39,27 @@ public class Robot extends IterativeRobot {
 
 	public static Vision USBcamera;
 
-	public static OI oi = new OI();
-
 	private Command autonomousCommand;
+
+	/**
+	 * the userInterface
+	 */
+	public static OI oi;
+	static {
+		// subsystems must be instantiated/initialized before operator interface
+		oi = new OI();
+		robotCoordinate = new Grid(0.0, 0.0);
+	}
+
+	// public Camera camera;
+
+	/**
+	 * Init the Camera
+	 * 
+	 */
+
+	// /// LEFT trigger moves the right side
+	// /// Right stick moves the left side
 
 	public Robot() {
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
@@ -46,6 +69,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		SmartDashBoardDisplayer.getInstance().submit(armSubsystem);
+		SmartDashBoardDisplayer.getInstance().submit(robotCoordinate);
 	}
 
 	@Override
