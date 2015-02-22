@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.I2C.Port;
 public class RobotMap {
 	// arm
 	public static final int ARM_POTENTIOMETER_PORT = 1;
-	public static final int ARM_CANTALON1_PORT = 11;
-	public static final int ARM_CANTALON2_PORT = 12;
+	public static final int ARM_CANTALONLEFT_PORT = 11;
+	public static final int ARM_CANTALONRIGHT_PORT = 12;
 	public static final int ARM_MIN_LIMIT_SWITCH_PORT = 0; // Get a real value
 	public static final int ARM_MAX_LIMIT_SWITCH_PORT = 1; // Get a real value
 

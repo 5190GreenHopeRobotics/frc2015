@@ -10,6 +10,7 @@ import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,6 +23,8 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	// Levels for arm corresponding with totes, current values are
 	// placeholders,
 	// need to acquire more math to find real values
+	private CANTalon armCANTalonLeft;
+	private CANTalon armCANTalonRight;
 	public static final double level0 = 0;
 	public static final double level1 = 12.5;
 	public static final double level2 = 32.1;
@@ -29,18 +32,18 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	public static final double level4 = 71.3;
 
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
+	private DigitalInput armMaxLimitSwitch;
+	private DigitalInput armMinLimitSwitch;
 
 	private Potentiometer armPot = new AnalogPotentiometer(
 			RobotMap.ARM_POTENTIOMETER_PORT, 40, 0);
 	private double motorSpeed = 0.1;
 
-	private ArmDrive armDrive;
-
 	public class SetArmAngle {
 		private PIDController armPID;
 
 		private SetArmAngle() {
-			armPID = new PIDController(0.3, 0, 0.1, armPot, armDrive);
+			armPID = new PIDController(0.3, 0, 0.1, armPot, armCANTalonLeft);
 			armPID.setAbsoluteTolerance(1);
 			armPID.setOutputRange(ARM_POWER_RANGE[0], ARM_POWER_RANGE[1]);
 		}
@@ -62,13 +65,17 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	}
 
 	public ArmSubsystem() {
-		CANTalon armCANTalon1 = new CANTalon(RobotMap.ARM_CANTALON1_PORT);
-		CANTalon armCANTalon2 = new CANTalon(RobotMap.ARM_CANTALON2_PORT);
-		DigitalInput armMax = new DigitalInput(
-				RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
-		DigitalInput armMin = new DigitalInput(
-				RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
-		armDrive = new ArmDrive(armCANTalon1, armCANTalon2, armMax, armMin);
+		armCANTalonLeft = new CANTalon(RobotMap.ARM_CANTALONLEFT_PORT);
+		armCANTalonRight = new CANTalon(RobotMap.ARM_CANTALONRIGHT_PORT);
+		armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);
+		armCANTalonLeft.set(0);
+		armCANTalonRight.changeControlMode(ControlMode.Follower);
+		armCANTalonRight.set(RobotMap.ARM_CANTALONLEFT_PORT);
+		armCANTalonRight.reverseOutput(true);
+		armCANTalonLeft.setVoltageRampRate(3.0);
+		armMaxLimitSwitch = new DigitalInput(RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
+		armMinLimitSwitch = new DigitalInput(RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
+
 	}
 
 	// the shaft
@@ -79,11 +86,22 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 	}
 
+	public void set(double power) {
+		if (power < 0 && !armMinLimitSwitch.get()) {
+			stopArm();
+		} else if (power > 0 && !armMaxLimitSwitch.get()) {
+			stopArm();
+		} else {
+			armCANTalonLeft.set(power);
+
+		}
+	}
+
 	/**
 	 * This raises the arm by using motorSpeed (positive value).
 	 */
 	public void raiseArm() {
-		armDrive.set(motorSpeed);
+		set(motorSpeed);
 
 	}
 
@@ -92,18 +110,18 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	 * 0.
 	 */
 	public void stopArm() {
-		armDrive.stopArm();
+		armCANTalonLeft.set(0);
 	}
 
 	public void moveArm(double power) {
-		armDrive.set(power);
+		set(power);
 	}
 
 	/**
 	 * This sets the motorSpeed to negative, lowering the arm.
 	 */
 	public void lowerArm() {
-		armDrive.set(-motorSpeed);
+		set(-motorSpeed);
 	}
 
 	public double getAngle() {
@@ -116,7 +134,6 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
