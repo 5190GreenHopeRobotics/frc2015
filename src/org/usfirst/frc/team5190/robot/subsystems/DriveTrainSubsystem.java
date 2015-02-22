@@ -298,7 +298,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
-	public void pidDrive(double ticks) {
+	public void pidDrive(double inches) {
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -316,9 +316,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight.changeControlMode(ControlMode.Follower);
 		frontRight.set(backRight.getDeviceID());
 		backLeft.changeControlMode(ControlMode.Position);
-		backLeft.set(ticks);
+		backLeft.set(inches / 0.0735190);
 		backRight.changeControlMode(ControlMode.Position);
-		backRight.set(-ticks);
+		backRight.set(-inches / 0.0735190);
 	}
 
 	@Override
