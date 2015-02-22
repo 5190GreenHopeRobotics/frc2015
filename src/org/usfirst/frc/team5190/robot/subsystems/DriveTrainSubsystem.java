@@ -316,9 +316,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight.changeControlMode(ControlMode.Follower);
 		frontRight.set(backRight.getDeviceID());
 		backLeft.changeControlMode(ControlMode.Position);
-		backLeft.set(inches / 0.0735190);
+		backLeft.set(inches);
 		backRight.changeControlMode(ControlMode.Position);
-		backRight.set(-inches / 0.0735190);
+		backRight.set(-inches);
 	}
 
 	@Override
