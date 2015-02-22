@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -138,7 +139,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public DriveTrainSubsystem() {
 		// init the motors
 		// init drive
-		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+		// mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+		mDrive = new RobotDrive(new Jaguar(RobotMap.FRONTLEFT), new Jaguar(
+				RobotMap.BACKLEFT), new Jaguar(RobotMap.FRONTRIGHT),
+				new Jaguar(RobotMap.BACKRIGHT));
 		mDrive.setSafetyEnabled(false);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
@@ -292,6 +296,29 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		if (!disable) {
 			mDrive.tankDrive(s1, s2);
 		}
+	}
+
+	public void pidDrive(double ticks) {
+		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontLeft.setPID(0.5, 0, 0.4);
+		backLeft.setPID(0.5, 0, 0.4);
+		frontRight.setPID(0.5, 0, 0.4);
+		backRight.setPID(0.5, 0, 0.4);
+		frontLeft.setPosition(0);
+		backLeft.setPosition(0);
+		frontRight.setPosition(0);
+		backRight.setPosition(0);
+		frontLeft.changeControlMode(ControlMode.Follower);
+		frontLeft.set(backLeft.getDeviceID());
+		frontRight.changeControlMode(ControlMode.Follower);
+		frontRight.set(backRight.getDeviceID());
+		backLeft.changeControlMode(ControlMode.Position);
+		backLeft.set(ticks);
+		backRight.changeControlMode(ControlMode.Position);
+		backRight.set(-ticks);
 	}
 
 	@Override
