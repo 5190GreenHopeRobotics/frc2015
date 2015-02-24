@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.FRC2015Factory;
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
@@ -12,12 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveWithArcadeCommand extends Command {
 
-	private DriveTrainSubsystem driveTrainSubsystem;
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
 
 	public DriveWithArcadeCommand() {
-		driveTrainSubsystem = FRC2015Factory.getDriveTrain();
 		// needs drive train
-		requires(Robot.driveTrainSubsystem);
+		requires(driveTrainSubsystem);
 	}
 
 	@Override

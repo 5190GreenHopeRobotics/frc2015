@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.FRC2015Factory;
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 
@@ -13,12 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CherryPickerOperateCommand extends Command {
 	private Joystick shootStick;
 	private Joystick gamepad;
-	private CherryPickerSubsystem cherryPickerSubsystem;
+	private CherryPickerSubsystem cherryPickerSubsystem = CherryPickerSubsystem
+			.getInstance();
 
 	public CherryPickerOperateCommand() {
 		shootStick = Robot.oi.getShootStick();
 		gamepad = Robot.oi.getGamepad();
-		cherryPickerSubsystem = FRC2015Factory.getCherry();
 		requires(cherryPickerSubsystem);
 	}
 
