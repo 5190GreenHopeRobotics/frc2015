@@ -70,6 +70,8 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		armCANTalonRight.set(RobotMap.ARM_CANTALONLEFT_PORT);
 		armCANTalonRight.reverseOutput(true);
 		armCANTalonLeft.setVoltageRampRate(3.0);
+		armCANTalonLeft.enableBrakeMode(true);
+		armCANTalonRight.enableBrakeMode(true);
 
 	}
 
