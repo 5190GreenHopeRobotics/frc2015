@@ -49,7 +49,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public static final double TALON_RAMP_SPEED = 3.0;
 
 	public static final double kP = 0.03;
-
+	private double tempDriveDistance;
 	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
@@ -298,7 +298,17 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	public boolean isOnTarget() {
+		if (backRight.get() == -tempDriveDistance
+				&& backLeft.get() == tempDriveDistance) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void pidDrive(double inches) {
+		tempDriveDistance = inches;
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
