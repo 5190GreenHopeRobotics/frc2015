@@ -86,7 +86,7 @@ public class IndependentSensors implements Displayable {
 			throws UnsupportedSensorException {
 		currentAngleControl = sensors.get(name);
 		if (currentAngleControl == null) {
-			currentAngleControl = gyro;
+			// currentAngleControl = gyro;
 			throw new UnsupportedSensorException(name + " is not supported");
 		}
 	}
