@@ -1,16 +1,9 @@
 package org.usfirst.frc.team5190.robot;
 
-import org.usfirst.frc.team5190.grid.Grid;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
-import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
-import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
-import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,17 +18,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-	boolean RobotIsEnabled = true;
-	public static Grid robotCoordinate;
-	public static DriveTrainSubsystem driveTrainSubsystem = null;
-	public static ArmSubsystem armSubsystem = null;
-	public static CherryPickerSubsystem cherryPickerSubsystem = null;
-
-	public static IndependentSensors sensors = null;
-	public static NavigationSubsystem navigationSubsystem = null;
-	public static DriveWithLidarSubsystem driveWithLidarSubsystem = null;
-
 	public static Vision USBcamera;
 
 	private Command autonomousCommand;
@@ -47,7 +29,6 @@ public class Robot extends IterativeRobot {
 	static {
 		// subsystems must be instantiated/initialized before operator interface
 		oi = new OI();
-		robotCoordinate = new Grid(0.0, 0.0);
 	}
 
 	// public Camera camera;
@@ -66,7 +47,7 @@ public class Robot extends IterativeRobot {
 		// USBcamera = new Vision();
 		// USBcamera.visionInit();
 
-		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
+		// SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
 		// SmartDashBoardDisplayer.getInstance().submit(armSubsystem);
 		// SmartDashBoardDisplayer.getInstance().submit(robotCoordinate);
 	}

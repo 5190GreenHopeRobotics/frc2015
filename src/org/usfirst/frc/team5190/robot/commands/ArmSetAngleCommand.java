@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.FRC2015Factory;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem.SetArmAngle;
 
@@ -15,7 +14,6 @@ public class ArmSetAngleCommand extends Command {
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	public ArmSetAngleCommand(double angle) {
-		armSubsystem = FRC2015Factory.getArm();
 		requires(armSubsystem);
 		this.angle = angle;
 	}

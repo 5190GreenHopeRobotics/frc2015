@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.FRC2015Factory;
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
@@ -12,10 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmTeleopCommand extends Command {
 
-	private ArmSubsystem armSubsystem;
+	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	public ArmTeleopCommand() {
-		armSubsystem = FRC2015Factory.getArm();
 		requires(armSubsystem);
 	}
 
