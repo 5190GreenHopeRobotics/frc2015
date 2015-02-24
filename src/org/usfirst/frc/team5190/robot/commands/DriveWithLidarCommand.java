@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveWithLidarSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,21 +8,23 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class DriveWithLidarCommand extends Command {
+	private DriveWithLidarSubsystem driveWithLidarSubsystem = DriveWithLidarSubsystem
+			.getInstance();
 
 	public DriveWithLidarCommand() {
-		requires(Robot.driveWithLidarSubsystem);
+		requires(driveWithLidarSubsystem);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.driveWithLidarSubsystem.initializeDriveTrain();
+		driveWithLidarSubsystem.initializeDriveTrain();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// TODO Fix Lidar
-		Robot.driveWithLidarSubsystem.runDriveTrain();
-		if (Robot.driveWithLidarSubsystem.getDistanceFromLidar() <= 9) {
+		driveWithLidarSubsystem.runDriveTrain();
+		if (driveWithLidarSubsystem.getDistanceFromLidar() <= 9) {
 
 		}
 	}

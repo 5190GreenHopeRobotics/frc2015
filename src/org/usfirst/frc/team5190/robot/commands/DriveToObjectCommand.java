@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.IndependentSensors;
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,10 +13,12 @@ public class DriveToObjectCommand extends Command {
 
 	private DriveSetDistance d;
 	private double distanceBuffer;
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
 
 	public DriveToObjectCommand() {
-		requires(Robot.driveTrainSubsystem);
-		d = Robot.driveTrainSubsystem.driveSetDistance();
+		requires(driveTrainSubsystem);
+		d = driveTrainSubsystem.driveSetDistance();
 		// IndependentSensors.getGyro().reset(); //Temporary comment for testing
 		// purposes
 	}
@@ -24,7 +26,7 @@ public class DriveToObjectCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.driveTrainSubsystem.setPower(0.5);
+		driveTrainSubsystem.setPower(0.5);
 		// lidar inoperable at the moment
 		distanceBuffer = IndependentSensors.getLidar().getValue();
 		distanceBuffer *= 2.54; // cm to inches
