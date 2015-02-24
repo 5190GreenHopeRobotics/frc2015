@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RaiseArmLevelCommand extends Command {
 
-	private ArmSetAngleCommand armSetAngleCommand;
+	// private ArmSetAngleCommand armSetAngleCommand;
+	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	public RaiseArmLevelCommand() {
-		requires(Robot.armSubsystem);
+		requires(armSubsystem);
 
 	}
 

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TimedRaiseLowerArmCommand extends Command {
 
 	private boolean raise;
+	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	public TimedRaiseLowerArmCommand(double time, boolean raise) {
-		requires(Robot.armSubsystem);
+		requires(armSubsystem);
 		setTimeout(time);
 		this.raise = raise;
 	}
@@ -20,9 +21,9 @@ public class TimedRaiseLowerArmCommand extends Command {
 	@Override
 	protected void initialize() {
 		if (raise) {
-			Robot.armSubsystem.raiseArm();
+			armSubsystem.raiseArm();
 		} else {
-			Robot.armSubsystem.lowerArm();
+			armSubsystem.lowerArm();
 		}
 	}
 
@@ -37,11 +38,11 @@ public class TimedRaiseLowerArmCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.armSubsystem.stopArm();
+		armSubsystem.stopArm();
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.armSubsystem.stopArm();
+		armSubsystem.stopArm();
 	}
 }

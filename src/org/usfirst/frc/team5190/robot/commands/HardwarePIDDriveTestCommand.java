@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,14 +9,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class HardwarePIDDriveTestCommand extends Command {
 
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
+
 	public HardwarePIDDriveTestCommand() {
-		requires(Robot.driveTrainSubsystem);
+		requires(driveTrainSubsystem);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.driveTrainSubsystem.pidDrive(10);
+		driveTrainSubsystem.pidDrive(10);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -27,7 +30,7 @@ public class HardwarePIDDriveTestCommand extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Robot.driveTrainSubsystem.isOnTarget();
+		return driveTrainSubsystem.isOnTarget();
 	}
 
 	// Called once after isFinished returns true

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,8 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ResetEncoderCommand extends Command {
 
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
+
 	public ResetEncoderCommand() {
-		requires(Robot.driveTrainSubsystem);
+		requires(driveTrainSubsystem);
 	}
 
 	// Called just before this Command runs the first time
@@ -19,7 +22,7 @@ public class ResetEncoderCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.driveTrainSubsystem.resetEncoder();
+		driveTrainSubsystem.resetEncoder();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
