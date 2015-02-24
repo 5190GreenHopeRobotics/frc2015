@@ -1,8 +1,11 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -20,6 +23,8 @@ public class OI {
 	public static final int THUMB_BUTTON = 2;
 	public static final int OPENFORKLIFT_BUTTON = 3;
 	public static final int CLOSEFORKLIFT_BUTTON = 5;
+	public static final int ARM_ANGLE1_BUTTON = 4;
+	public static final int ARM_ANGLE2_BUTTON = 6;
 	// public static final int EXTENDARM_BUTTON = 4;
 	// public static final int RETRACTARM_BUTTON = 6;
 	public static final int KILL_SWITCH = 1;
@@ -39,6 +44,10 @@ public class OI {
 	// private Button killSwitch = new JoystickButton(driveStick, KILL_SWITCH);
 
 	// Arm prototype
+	private Button setArmAngle1Button = new JoystickButton(shootStick,
+			ARM_ANGLE1_BUTTON);
+	private Button setArmAngle2Button = new JoystickButton(shootStick,
+			ARM_ANGLE2_BUTTON);
 
 	// Shoot stick button links to commands
 	// private Button raiseArmButton = new JoystickButton(shootStick, TRIGGER);
@@ -55,6 +64,8 @@ public class OI {
 
 	// Operator interface constructor
 	public OI() {
+		setArmAngle1Button.whenPressed(new ArmSetAngleCommand(45));
+		setArmAngle2Button.whenPressed(new ArmSetAngleCommand(10));
 
 	}
 

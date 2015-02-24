@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,7 +21,7 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		IndependentSensors.getGyro().reset();
+		// IndependentSensors.getGyro().reset();
 		Robot.driveTrainSubsystem.resetEncoder();
 		// Robot.driveTrainSubsystem.PIDEnable(true);
 		// Robot.driveTrainSubsystem.driveToPoint(100);
