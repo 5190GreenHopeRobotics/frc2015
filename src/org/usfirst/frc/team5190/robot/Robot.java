@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
-
 	public static Grid robotCoordinate;
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 	public static ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -68,7 +67,8 @@ public class Robot extends IterativeRobot {
 		// USBcamera.visionInit();
 
 		SmartDashBoardDisplayer.getInstance().submit(driveTrainSubsystem);
-		SmartDashBoardDisplayer.getInstance().submit(robotCoordinate);
+		// SmartDashBoardDisplayer.getInstance().submit(armSubsystem);
+		// SmartDashBoardDisplayer.getInstance().submit(robotCoordinate);
 	}
 
 	@Override

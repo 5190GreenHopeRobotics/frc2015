@@ -43,7 +43,9 @@ public class Grid implements Displayable {
 	}
 
 	protected synchronized void update() {
-		double angleRadian = (Math.PI * IndependentSensors.getGyro().getAngle() / 180);
+		double angleRadian = 0.0;
+		// double angleRadian = (Math.PI *
+		// IndependentSensors.getGyro().getAngle() / 180);
 		try {
 			TimeUnit.MILLISECONDS.sleep(updateInterval);
 		} catch (InterruptedException e) {

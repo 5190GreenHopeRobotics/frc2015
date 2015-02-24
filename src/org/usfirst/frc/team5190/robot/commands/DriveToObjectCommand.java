@@ -48,7 +48,7 @@ public class DriveToObjectCommand extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		IndependentSensors.getGyro().reset();
+		// IndependentSensors.getGyro().reset();
 		d.end();
 	}
 
