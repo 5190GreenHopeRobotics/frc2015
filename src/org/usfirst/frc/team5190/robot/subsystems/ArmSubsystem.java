@@ -7,12 +7,10 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
  * the arm subsystem
@@ -33,15 +31,15 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
 
-	private Potentiometer armPot = new AnalogPotentiometer(
-			RobotMap.ARM_CANTALONLEFT_PORT, 40, 0);
+	// private Potentiometer armPot = new AnalogPotentiometer(
+	// RobotMap.ARM_CANTALONLEFT_PORT, 40, 0);
 	private double motorSpeed = 0.1;
 
 	public class SetArmAngle {
 		private PIDController armPID;
 
 		private SetArmAngle() {
-			armPID = new PIDController(0.3, 0, 0.1, armPot, armCANTalonLeft);
+			armPID = new PIDController(0.3, 0, 0.1, null, armCANTalonLeft);
 			armPID.setAbsoluteTolerance(1);
 			armPID.setOutputRange(ARM_POWER_RANGE[0], ARM_POWER_RANGE[1]);
 		}
@@ -124,7 +122,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	}
 
 	public double getAngle() {
-		return armPot.get();
+		return 0;
 	}
 
 	public SetArmAngle setArmAngle() {
