@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -46,7 +47,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public static final double TALON_RAMP_SPEED = 3.0;
 
 	public static final double kP = 0.03;
-
+	private double tempDriveDistance;
 	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
@@ -124,7 +125,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init the motors
 		initializeMotors();
 		// init drive
-		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+		// mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+		mDrive = new RobotDrive(new Jaguar(RobotMap.FRONTLEFT), new Jaguar(
+				RobotMap.BACKLEFT), new Jaguar(RobotMap.FRONTRIGHT),
+				new Jaguar(RobotMap.BACKRIGHT));
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
@@ -273,6 +277,39 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		if (!disable) {
 			mDrive.tankDrive(s1, s2);
 		}
+	}
+
+	public boolean isOnTarget() {
+		if (backRight.get() == -tempDriveDistance
+				&& backLeft.get() == tempDriveDistance) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void pidDrive(double inches) {
+		tempDriveDistance = inches;
+		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontLeft.setPID(0.5, 0, 0.4);
+		backLeft.setPID(0.5, 0, 0.4);
+		frontRight.setPID(0.5, 0, 0.4);
+		backRight.setPID(0.5, 0, 0.4);
+		frontLeft.setPosition(0);
+		backLeft.setPosition(0);
+		frontRight.setPosition(0);
+		backRight.setPosition(0);
+		frontLeft.changeControlMode(ControlMode.Follower);
+		frontLeft.set(backLeft.getDeviceID());
+		frontRight.changeControlMode(ControlMode.Follower);
+		frontRight.set(backRight.getDeviceID());
+		backLeft.changeControlMode(ControlMode.Position);
+		backLeft.set(inches);
+		backRight.changeControlMode(ControlMode.Position);
+		backRight.set(-inches);
 	}
 
 	@Override

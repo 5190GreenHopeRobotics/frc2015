@@ -77,6 +77,7 @@ public class IndependentSensors implements Displayable {
 			throws UnsupportedSensorException {
 		currentSpeedControl = sensors.get(name);
 		if (currentSpeedControl == null) {
+			currentSpeedControl = rawLidar;
 			throw new UnsupportedSensorException(name + " is not supported");
 		}
 	}
@@ -85,6 +86,7 @@ public class IndependentSensors implements Displayable {
 			throws UnsupportedSensorException {
 		currentAngleControl = sensors.get(name);
 		if (currentAngleControl == null) {
+			// currentAngleControl = gyro;
 			throw new UnsupportedSensorException(name + " is not supported");
 		}
 	}
