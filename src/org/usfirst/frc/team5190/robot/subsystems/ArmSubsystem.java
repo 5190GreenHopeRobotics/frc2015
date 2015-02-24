@@ -11,7 +11,6 @@ import org.usfirst.frc.team5190.smartDashBoard.Pair;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -32,11 +31,9 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	public static final double level4 = 71.3;
 
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
-	private DigitalInput armMaxLimitSwitch;
-	private DigitalInput armMinLimitSwitch;
 
 	private Potentiometer armPot = new AnalogPotentiometer(
-			RobotMap.ARM_POTENTIOMETER_PORT, 40, 0);
+			RobotMap.ARM_CANTALONLEFT_PORT, 40, 0);
 	private double motorSpeed = 0.1;
 
 	public class SetArmAngle {
@@ -73,8 +70,6 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		armCANTalonRight.set(RobotMap.ARM_CANTALONLEFT_PORT);
 		armCANTalonRight.reverseOutput(true);
 		armCANTalonLeft.setVoltageRampRate(3.0);
-		armMaxLimitSwitch = new DigitalInput(RobotMap.ARM_MAX_LIMIT_SWITCH_PORT);
-		armMinLimitSwitch = new DigitalInput(RobotMap.ARM_MIN_LIMIT_SWITCH_PORT);
 
 	}
 
@@ -86,22 +81,11 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 	}
 
-	public void set(double power) {
-		if (power < 0 && !armMinLimitSwitch.get()) {
-			stopArm();
-		} else if (power > 0 && !armMaxLimitSwitch.get()) {
-			stopArm();
-		} else {
-			armCANTalonLeft.set(power);
-
-		}
-	}
-
 	/**
 	 * This raises the arm by using motorSpeed (positive value).
 	 */
 	public void raiseArm() {
-		set(motorSpeed);
+		armCANTalonLeft.set(motorSpeed);
 
 	}
 
@@ -114,14 +98,14 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void moveArm(double power) {
-		set(power);
+		armCANTalonLeft.set(motorSpeed);
 	}
 
 	/**
 	 * This sets the motorSpeed to negative, lowering the arm.
 	 */
 	public void lowerArm() {
-		set(-motorSpeed);
+		armCANTalonLeft.set(motorSpeed);
 	}
 
 	public double getAngle() {

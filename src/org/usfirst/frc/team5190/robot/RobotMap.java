@@ -7,8 +7,6 @@ public class RobotMap {
 	public static final int ARM_POTENTIOMETER_PORT = 1;
 	public static final int ARM_CANTALONLEFT_PORT = 11;
 	public static final int ARM_CANTALONRIGHT_PORT = 12;
-	public static final int ARM_MIN_LIMIT_SWITCH_PORT = 0; // Get a real value
-	public static final int ARM_MAX_LIMIT_SWITCH_PORT = 1; // Get a real value
 
 	// cherry picker
 	public static final int CHERRY_PICKER_TALON_PORT = 2;
