@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
@@ -161,19 +160,19 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 		switch (level) {
 		case 0:
-			Robot.armSubsystem.setArmAngle().start(level0);
+			setArmAngle().start(level0);
 			break;
 		case 1:
-			Robot.armSubsystem.setArmAngle().start(level1);
+			setArmAngle().start(level1);
 			break;
 		case 2:
-			Robot.armSubsystem.setArmAngle().start(level2);
+			setArmAngle().start(level2);
 			break;
 		case 3:
-			Robot.armSubsystem.setArmAngle().start(level3);
+			setArmAngle().start(level3);
 			break;
 		case 4:
-			Robot.armSubsystem.setArmAngle().start(level4);
+			setArmAngle().start(level4);
 		}
 	}
 
@@ -190,7 +189,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 			nextlevel = level4;
 		}
 
-		Robot.armSubsystem.setArmAngle().start(nextlevel);
+		setArmAngle().start(nextlevel);
 
 	}
 
@@ -207,7 +206,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 			previouslevel = 0;
 		}
 
-		Robot.armSubsystem.setArmAngle().start(previouslevel);
+		setArmAngle().start(previouslevel);
 
 	}
 }
