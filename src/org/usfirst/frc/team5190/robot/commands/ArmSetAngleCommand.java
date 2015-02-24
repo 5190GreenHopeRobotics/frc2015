@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.FRC2015Factory;
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem.SetArmAngle;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,14 +12,16 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmSetAngleCommand extends Command {
 	private double angle;
 	private SetArmAngle setArmAngle;
+	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	public ArmSetAngleCommand(double angle) {
-		requires(Robot.armSubsystem);
+		armSubsystem = FRC2015Factory.getArm();
+		requires(armSubsystem);
 		this.angle = angle;
 	}
 
 	protected void initialize() {
-		setArmAngle = Robot.armSubsystem.setArmAngle();
+		setArmAngle = armSubsystem.setArmAngle();
 		setArmAngle.start(angle);
 	}
 
@@ -30,7 +33,7 @@ public class ArmSetAngleCommand extends Command {
 	}
 
 	protected void end() {
-		Robot.armSubsystem.stopArm();
+		armSubsystem.stopArm();
 	}
 
 	protected void interrupted() {

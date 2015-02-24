@@ -28,9 +28,9 @@ public class Robot extends IterativeRobot {
 
 	boolean RobotIsEnabled = true;
 	public static Grid robotCoordinate;
-	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-	public static ArmSubsystem armSubsystem = new ArmSubsystem();
-	public static CherryPickerSubsystem cherryPickerSubsystem = new CherryPickerSubsystem();
+	public static DriveTrainSubsystem driveTrainSubsystem = null;
+	public static ArmSubsystem armSubsystem = null;
+	public static CherryPickerSubsystem cherryPickerSubsystem = null;
 
 	public static IndependentSensors sensors = null;
 	public static NavigationSubsystem navigationSubsystem = null;

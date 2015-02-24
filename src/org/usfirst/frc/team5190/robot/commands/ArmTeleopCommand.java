@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import org.usfirst.frc.team5190.robot.FRC2015Factory;
 import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,8 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmTeleopCommand extends Command {
 
+	private ArmSubsystem armSubsystem;
+
 	public ArmTeleopCommand() {
-		requires(Robot.armSubsystem);
+		armSubsystem = FRC2015Factory.getArm();
+		requires(armSubsystem);
 	}
 
 	protected void initialize() {
@@ -28,7 +33,7 @@ public class ArmTeleopCommand extends Command {
 		} else {
 			power = -(power * power);
 		}
-		Robot.armSubsystem.moveArm(power);
+		armSubsystem.moveArm(power);
 	}
 
 	protected boolean isFinished() {

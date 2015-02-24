@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
+	private static DriveTrainSubsystem instance;
 
 	/**
 	 * The range +/- that is acceptable for driving a set distance.
@@ -121,7 +122,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
-	public DriveTrainSubsystem() {
+	private DriveTrainSubsystem() {
 		// init the motors
 		initializeMotors();
 		// init drive
@@ -132,6 +133,18 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
+	}
+
+	public static DriveTrainSubsystem getInstance() {
+		if (instance == null) {
+			try {
+				instance = new DriveTrainSubsystem();
+			} catch (Throwable t) {
+				t.printStackTrace();
+				throw t;
+			}
+		}
+		return instance;
 	}
 
 	private void initializeMotors() {

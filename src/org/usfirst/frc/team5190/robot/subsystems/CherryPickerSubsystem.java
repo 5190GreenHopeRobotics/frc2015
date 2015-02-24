@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class CherryPickerSubsystem extends Subsystem {
+	private static CherryPickerSubsystem instance;
+
 	// DIO ports temporary in this class.
 	private Talon cherryPickerController;
 	private DigitalInput minLimitSwitch;
@@ -21,6 +23,18 @@ public class CherryPickerSubsystem extends Subsystem {
 				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT);
 		maxLimitSwitch = new DigitalInput(
 				RobotMap.CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT);
+	}
+
+	public static CherryPickerSubsystem getInstance() {
+		if (instance == null) {
+			try {
+				instance = new CherryPickerSubsystem();
+			} catch (Throwable t) {
+				t.printStackTrace();
+				throw t;
+			}
+		}
+		return instance;
 	}
 
 	public void initDefaultCommand() {

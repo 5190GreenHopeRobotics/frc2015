@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  * the arm subsystem
  */
 public class ArmSubsystem extends Subsystem implements Displayable {
+	private static ArmSubsystem instance;
+
 	// Levels for arm corresponding with totes, current values are
 	// placeholders,
 	// need to acquire more math to find real values
@@ -61,7 +63,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
-	public ArmSubsystem() {
+	private ArmSubsystem() {
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_CANTALONLEFT_PORT);
 		armCANTalonRight = new CANTalon(RobotMap.ARM_CANTALONRIGHT_PORT);
 		armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);
@@ -73,6 +75,18 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		armCANTalonLeft.enableBrakeMode(true);
 		armCANTalonRight.enableBrakeMode(true);
 
+	}
+
+	public static ArmSubsystem getInstance() {
+		if (instance == null) {
+			try {
+				instance = new ArmSubsystem();
+			} catch (Throwable t) {
+				t.printStackTrace();
+				throw t;
+			}
+		}
+		return instance;
 	}
 
 	// the shaft
