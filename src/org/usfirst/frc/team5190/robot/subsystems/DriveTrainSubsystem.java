@@ -3,9 +3,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.commands.Direction;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
@@ -61,11 +59,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		PIDController pidController;
 
 		private DriveSetDistance() {
-			pidController = new PIDController(0.5, 0, 0.4, enc,
-					driveStraightRobotDrive);
-			pidController.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
-			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
-					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
+			// pidController = new PIDController(0.5, 0, 0.4, enc,
+			// driveStraightRobotDrive);
+			// pidController.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+			// pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
+			// DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
 		}
 
 		/**
@@ -92,28 +90,15 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	public class Turn {
-
-		private Direction motorDirection = Direction.LEFT;
 		PIDController pidController;
 
 		private Turn() {
-			pidController = new PIDController(0.3, 0, 0.1,
-					IndependentSensors.getGyro(), turnRobotDrive);
+			pidController = new PIDController(0.3, 0, 0.1, null, turnRobotDrive);
 			pidController.setAbsoluteTolerance(TURN_TOLERANCE);
 			pidController.setOutputRange(TURN_OUTPUT_RANGE[0],
 					TURN_OUTPUT_RANGE[1]);
 			pidController.setSetpoint(45);
 			pidController.enable();
-		}
-
-		/**
-		 * set direction to turn, via Direction enum
-		 * 
-		 * @param dir
-		 *            the direction, RIGHT, LEFT
-		 */
-		public void setDirection(Direction dir) {
-			motorDirection = dir;
 		}
 
 		public void start(double turnDegree) {
@@ -137,22 +122,12 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 	public DriveTrainSubsystem() {
 		// init the motors
+		initializeMotors();
 		// init drive
 		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 		mDrive.setSafetyEnabled(false);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-		mDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
-
-		// init the encoder
-		enc = new PIDEncoderDriveTrain();
-
-		// get the encoders
-		right = enc.getRight();
-		left = enc.getLeft();
 	}
 
 	private void initializeMotors() {
@@ -165,14 +140,20 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		backLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
 
-		frontLeft.changeControlMode(ControlMode.Speed);
+		frontLeft.reverseOutput(true);
+		frontLeft.changeControlMode(ControlMode.PercentVbus);
+		frontLeft.set(0);
+		backLeft.reverseOutput(false);
 		backLeft.changeControlMode(ControlMode.Follower);
 		// since back motors are followers/slaves, set() method sets their
 		// master (should be the master's CAN Id)
 		backLeft.set(frontLeft.getDeviceID());
-		backRight.set(frontRight.getDeviceID());
-		frontRight.changeControlMode(ControlMode.Speed);
+		frontRight.reverseOutput(true);
+		frontRight.changeControlMode(ControlMode.PercentVbus);
+		frontRight.set(0);
+		backRight.reverseOutput(true);
 		backRight.changeControlMode(ControlMode.Follower);
+		backRight.set(frontRight.getDeviceID());
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -297,24 +278,25 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	@Override
 	public Collection<Pair<String, Boolean>> getBooleanValue() {
 		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
-		booleanValues.add(new Pair<String, Boolean>("Encoder Right Direction",
-				right.getDirection()));
-		booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",
-				left.getDirection()));
+		// booleanValues.add(new Pair<String,
+		// Boolean>("Encoder Right Direction",
+		// right.getDirection()));
+		// booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",
+		// left.getDirection()));
 		return booleanValues;
 	}
 
 	@Override
 	public Collection<Pair<String, Double>> getDecimalValues() {
-		Double get = new Double(right.get());
+		// Double get = new Double(right.get());
 		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
-		encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
-		encoder.add(new Pair<String, Double>("Encoder Right Distance:", right
-				.getDistance()));
-		get = new Double(left.get());
-		encoder.add(new Pair<String, Double>("Encoder Left Get", get));
-		encoder.add(new Pair<String, Double>("Encoder Left Distance", left
-				.getDistance()));
+		// encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
+		// encoder.add(new Pair<String, Double>("Encoder Right Distance:", right
+		// .getDistance()));
+		// get = new Double(left.get());
+		// encoder.add(new Pair<String, Double>("Encoder Left Get", get));
+		// encoder.add(new Pair<String, Double>("Encoder Left Distance", left
+		// .getDistance()));
 		return encoder;
 	}
 

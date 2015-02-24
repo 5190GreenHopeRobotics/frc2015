@@ -15,7 +15,6 @@ import org.usfirst.frc.team5190.smartDashBoard.Pair;
 import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -33,7 +32,6 @@ public class IndependentSensors implements Displayable {
 	static private Map<String, PIDSource> sensors;
 	static private BuiltInAccelerometer accelerometer;
 	static private AccelerometerFilter accel;
-	static private Gyro gyro;
 	static private Lidar rawLidar;
 	static private SerialPort serial;
 	static private LidarFilter filteredLidar;
@@ -45,14 +43,11 @@ public class IndependentSensors implements Displayable {
 		sensors = new HashMap<String, PIDSource>();
 		accelerometer = new BuiltInAccelerometer();
 		accel = new AccelerometerFilter(accelerometer);
-		gyro = new Gyro(RobotMap.GYRO_PORT);
-		gyro.initGyro();
-		gyro.reset();
 		rawLidar = new Lidar(Port.kMXP);
 		filteredLidar = new LidarFilter(rawLidar);
 		navXSensor = new AHRS(serial);
 		currentSpeedControl = rawLidar;
-		currentAngleControl = gyro;
+		// currentAngleControl = gyro;
 		loadSensor();
 	}
 
@@ -72,10 +67,6 @@ public class IndependentSensors implements Displayable {
 	 */
 	public static AccelerometerFilter getAccelFilter() {
 		return accel;
-	}
-
-	public static Gyro getGyro() {
-		return gyro;
 	}
 
 	public static AHRS getAHRS() {
@@ -129,14 +120,11 @@ public class IndependentSensors implements Displayable {
 		result.add(new Pair<String, Double>("Accelerometer X", accel.getX()));
 		result.add(new Pair<String, Double>("Accelerometer Y", accel.getY()));
 		result.add(new Pair<String, Double>("Accelerometer Z", accel.getZ()));
-		result.add(new Pair<String, Double>("Gyro:", gyro.getAngle()));
 		result.addAll(filteredLidar.getDecimalValues());
 		return result;
 	}
 
 	protected static void loadSensor() {
-		sensors.put("accelerometer", (PIDSource) accelerometer);
-		sensors.put("gyro", gyro);
 		sensors.put("lidar", rawLidar);
 		sensors.put("navX", navXSensor);
 	}
