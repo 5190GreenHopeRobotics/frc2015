@@ -80,6 +80,9 @@ public class DefaultSubsystemFactory implements SubsystemFactory {
 
 	@Override
 	public <T extends Subsystem> void create(Class<T> type) {
+		if (nonGenericSystem.containsKey(type)) {
+			return;
+		}
 		try {
 			Subsystem toAdd = type.newInstance();
 			nonGenericSystem.put(type, toAdd);
