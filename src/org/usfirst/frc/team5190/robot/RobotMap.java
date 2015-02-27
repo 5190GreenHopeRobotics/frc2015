@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.I2C.Port;
 public class RobotMap {
 	// arm
 	public static final int ARM_POTENTIOMETER_PORT = 1;
-	public static final int ARM_CANTALONLEFT_PORT = 11;
-	public static final int ARM_CANTALONRIGHT_PORT = 12;
+	public static final int ARM_TALONSRX_LEFT_CAN_ID = 11;
+	public static final int ARM_TALONSRX_RIGHT_CAN_ID = 12;
 
 	// cherry picker
 	public static final int CHERRY_PICKER_TALON_PORT = 2;
@@ -19,12 +19,6 @@ public class RobotMap {
 	public static final int FRONTRIGHT = 3;
 	public static final int BACKRIGHT = 4;
 
-	public static final int ENCODER_RIGHT_CHANNEL_A = 2;
-	public static final int ENCODER_RIGHT_CHANNEL_B = 3;
-	public static final int ENCODER_LEFT_CHANNEL_A = 4;
-	public static final int ENCODER_LEFT_CHANNEL_B = 5;
-
-	// sensors
-	public static final int GYRO_PORT = 1;
+	// navigation
 	public static final Port LIDAR_PORT = Port.kMXP;
 }

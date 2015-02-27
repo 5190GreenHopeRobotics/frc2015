@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -52,7 +51,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
-	private PIDEncoderDriveTrain enc;
 	private CANTalon frontLeft, backLeft, frontRight, backRight;
 	private DriveStraightRobotDrive driveStraightRobotDrive;
 	private TurnRobotDrive turnRobotDrive;
@@ -76,7 +74,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 *            added to the actual distance you want to go.
 		 */
 		public void start(double distance) {
-			pidController.setSetpoint(enc.getDistance() + distance);
+			// pidController.setSetpoint(enc.getDistance() + distance);
 			pidController.enable();
 
 		}
@@ -126,10 +124,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init the motors
 		initializeMotors();
 		// init drive
-		// mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
-		mDrive = new RobotDrive(new Jaguar(RobotMap.FRONTLEFT), new Jaguar(
-				RobotMap.BACKLEFT), new Jaguar(RobotMap.FRONTRIGHT),
-				new Jaguar(RobotMap.BACKRIGHT));
+		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
