@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.Turn;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,16 +12,18 @@ public class TurnCommand extends Command {
 
 	private double degree;
 	private Turn turn;
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
 
 	public TurnCommand(double degree) {
 		this.degree = degree;
-		requires(Robot.driveTrainSubsystem);
+		requires(driveTrainSubsystem);
 	}
 
 	@Override
 	protected void initialize() {
 		// Robot.driveTrainSubsystem.setPower(0.3);
-		turn = Robot.driveTrainSubsystem.turn();
+		turn = driveTrainSubsystem.turn();
 		turn.start(degree);
 	}
 

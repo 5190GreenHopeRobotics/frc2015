@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -21,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
+	private static DriveTrainSubsystem instance;
 
 	/**
 	 * The range +/- that is acceptable for driving a set distance.
@@ -51,7 +51,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private RobotDrive mDrive;
 	private boolean disable = false;
 	private Encoder right, left;
-	private PIDEncoderDriveTrain enc;
 	private CANTalon frontLeft, backLeft, frontRight, backRight;
 	private DriveStraightRobotDrive driveStraightRobotDrive;
 	private TurnRobotDrive turnRobotDrive;
@@ -75,7 +74,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 *            added to the actual distance you want to go.
 		 */
 		public void start(double distance) {
-			pidController.setSetpoint(enc.getDistance() + distance);
+			// pidController.setSetpoint(enc.getDistance() + distance);
 			pidController.enable();
 
 		}
@@ -121,17 +120,26 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	/**
 	 * Init the drive train at default port, in RobotMap
 	 */
-	public DriveTrainSubsystem() {
+	private DriveTrainSubsystem() {
 		// init the motors
 		initializeMotors();
 		// init drive
-		// mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
-		mDrive = new RobotDrive(new Jaguar(RobotMap.FRONTLEFT), new Jaguar(
-				RobotMap.BACKLEFT), new Jaguar(RobotMap.FRONTRIGHT),
-				new Jaguar(RobotMap.BACKRIGHT));
+		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
+	}
+
+	public static DriveTrainSubsystem getInstance() {
+		if (instance == null) {
+			try {
+				instance = new DriveTrainSubsystem();
+			} catch (Throwable t) {
+				t.printStackTrace();
+				throw t;
+			}
+		}
+		return instance;
 	}
 
 	private void initializeMotors() {

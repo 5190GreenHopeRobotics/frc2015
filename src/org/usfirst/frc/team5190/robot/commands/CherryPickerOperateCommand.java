@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,11 +12,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CherryPickerOperateCommand extends Command {
 	private Joystick shootStick;
 	private Joystick gamepad;
+	private CherryPickerSubsystem cherryPickerSubsystem = CherryPickerSubsystem
+			.getInstance();
 
 	public CherryPickerOperateCommand() {
 		shootStick = Robot.oi.getShootStick();
 		gamepad = Robot.oi.getGamepad();
-		requires(Robot.cherryPickerSubsystem);
+		requires(cherryPickerSubsystem);
 	}
 
 	// Called just before this Command runs the first time
@@ -31,9 +34,9 @@ public class CherryPickerOperateCommand extends Command {
 		double retractValue = joystick.getRawAxis(3);
 		double extendValue = joystick.getRawAxis(2);
 		if (retractValue > 0.0) {
-			Robot.cherryPickerSubsystem.operate(-retractValue);
+			cherryPickerSubsystem.operate(-retractValue);
 		} else {
-			Robot.cherryPickerSubsystem.operate(extendValue);
+			cherryPickerSubsystem.operate(extendValue);
 		}
 	}
 

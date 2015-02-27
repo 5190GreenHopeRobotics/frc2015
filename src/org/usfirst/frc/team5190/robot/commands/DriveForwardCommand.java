@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,20 +9,23 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveForwardCommand extends Command {
 
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
+
 	/**
 	 * 
 	 */
 	public DriveForwardCommand() {
 		// needs drive train
-		requires(Robot.driveTrainSubsystem);
-		Robot.driveTrainSubsystem.setPower(0.1);
+		requires(driveTrainSubsystem);
+		driveTrainSubsystem.setPower(0.1);
 		// ini the ultrasonics
 	}
 
 	@Override
 	protected void initialize() {
 		// IndependentSensors.getGyro().reset();
-		Robot.driveTrainSubsystem.resetEncoder();
+		driveTrainSubsystem.resetEncoder();
 		// Robot.driveTrainSubsystem.PIDEnable(true);
 		// Robot.driveTrainSubsystem.driveToPoint(100);
 
@@ -33,7 +36,7 @@ public class DriveForwardCommand extends Command {
 	 */
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.drive(0.5);
+		driveTrainSubsystem.drive(0.5);
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class DriveForwardCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.drive(0);
+		driveTrainSubsystem.drive(0);
 
 	}
 

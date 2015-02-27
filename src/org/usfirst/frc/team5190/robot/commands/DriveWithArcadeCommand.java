@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.Robot;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,9 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveWithArcadeCommand extends Command {
 
+	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
+			.getInstance();
+
 	public DriveWithArcadeCommand() {
 		// needs drive train
-		requires(Robot.driveTrainSubsystem);
+		requires(driveTrainSubsystem);
 	}
 
 	@Override
@@ -36,7 +40,7 @@ public class DriveWithArcadeCommand extends Command {
 		} else {
 			rotateValue = -(rotateValue * rotateValue);
 		}
-		Robot.driveTrainSubsystem.arcadeJoystickDrive(moveValue, rotateValue);
+		driveTrainSubsystem.arcadeJoystickDrive(moveValue, rotateValue);
 		// Robot.driveTrainSubsystem.setPower(Robot.oi.getSpeed());
 	}
 

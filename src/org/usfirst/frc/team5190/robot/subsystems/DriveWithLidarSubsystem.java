@@ -12,12 +12,30 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveWithLidarSubsystem extends Subsystem {
+
+	private static DriveWithLidarSubsystem instance;
+
 	private PIDController pid;
 	private double distance;
 	private Jaguar frontLeft;
 	private Jaguar frontRight;
 	private Jaguar backLeft;
 	private Jaguar backRight;
+
+	private DriveWithLidarSubsystem() {
+	}
+
+	public static DriveWithLidarSubsystem getInstance() {
+		if (instance == null) {
+			try {
+				instance = new DriveWithLidarSubsystem();
+			} catch (Throwable t) {
+				t.printStackTrace();
+				throw t;
+			}
+		}
+		return instance;
+	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
