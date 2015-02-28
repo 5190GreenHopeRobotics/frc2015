@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
 		if (autonomousCommand != null) {
-			autonomousCommand.start();
+//			autonomousCommand.start();
 		}
 		new PutSmartDashBoardCommand().start();
 		

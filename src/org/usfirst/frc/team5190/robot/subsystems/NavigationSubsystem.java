@@ -15,6 +15,7 @@ public class NavigationSubsystem extends Subsystem {
 
 	private NavigationSubsystem() {
 		rangeFinder = new RangeFinder(Port.kMXP);
+		rangeFinder.start();
 	}
 
 	public static NavigationSubsystem getInstance() {
