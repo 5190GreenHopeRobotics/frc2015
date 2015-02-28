@@ -205,7 +205,13 @@ public class SmartSpeedController implements SpeedController {
 	}
 
 	public double getPosition() {
-		return 0;
+		if (controlMode == ControlMode.Distance) {
+			return encoder.getDistance();
+		} else if (controlMode == ControlMode.Angle) {
+			return potentiometer.get();
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
@@ -221,14 +227,13 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-				if (pidController == null) {
-					pidController = new PIDController(p, i, d, potentiometer,
-							speedController);
-				}
-			} else if (controlMode == ControlMode.Distance
-					|| controlMode == ControlMode.Speed) {
-				if (pidController == null) {
-				}
+				createDistancePid();
+				pidController.setSetpoint(value);
+			} else if (controlMode == ControlMode.Distance) {
+				createAnglePid();
+				pidController.setSetpoint(value);
+			} else if (controlMode == ControlMode.Speed) {
+				speedController.set(value);
 			}
 
 		}
@@ -252,6 +257,15 @@ public class SmartSpeedController implements SpeedController {
 			return reverseLimitSwitchNormallyOpen ^ reverseLimitSwitch.get();
 		}
 		return false;
+	}
+
+	protected void createDistancePid() {
+		pidController = new PIDController(p, i, d, encoder, speedController);
+	}
+
+	protected void createAnglePid() {
+		pidController = new PIDController(p, i, d, potentiometer,
+				speedController);
 	}
 
 	@Override
