@@ -4,7 +4,6 @@ import java.util.TimerTask;
 
 import org.usfirst.frc.team5190.protocol.I2CPlus;
 
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
@@ -56,9 +55,9 @@ public class RangeFinder implements PIDSource{
 	public void update() {
 		boolean devicePresent = i2c.addressOnly();
 		
-		i2c.write(VL6180X_SYSRANGE_START, 0x01); // Initiate measurement
+		i2c.write16bitRegister(VL6180X_SYSRANGE_START, 0x01); // Initiate measurement
 		Timer.delay(0.10); // Delay for measurement to be taken
-		i2c.read(VL6180X_RESULT_RANGE_VAL, 1, distance); // Read in
+		i2c.read16bitRegister(VL6180X_RESULT_RANGE_VAL, 1, distance); // Read in
 	}
 	
 
