@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.joystick;
 
 public class LogitechExtreme3D {
+	private static LogitechExtreme3D map = new LogitechExtreme3D();
 	// Upper buttons on Logitech Flight Stick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
@@ -15,4 +16,13 @@ public class LogitechExtreme3D {
 	public static final int BOTTOM_BUTTON_CENTER_RIGHT = 10;
 	public static final int BOTTOM_BUTTON_BOTTOM_LEFT = 11;
 	public static final int BOTTOM_BUTTON_BOTTOM_RIGHT = 12;
+	// Axis
+	public static final int X_AXIS = 0;
+	public static final int Y_AXIS = 1;
+	public static final int Z_ROTATE = 2;
+	public static final int SLIDER = 3;
+
+	public static LogitechExtreme3D getInstance() {
+		return map;
+	}
 }
