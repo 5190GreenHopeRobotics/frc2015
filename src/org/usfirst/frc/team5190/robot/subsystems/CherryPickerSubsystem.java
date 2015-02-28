@@ -17,7 +17,7 @@ public class CherryPickerSubsystem extends Subsystem {
 	private DigitalInput minLimitSwitch;
 	private DigitalInput maxLimitSwitch;
 
-	public CherryPickerSubsystem() {
+	private CherryPickerSubsystem() {
 		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
 		minLimitSwitch = new DigitalInput(
 				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT);

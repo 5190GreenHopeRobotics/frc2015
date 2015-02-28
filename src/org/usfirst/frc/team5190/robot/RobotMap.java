@@ -9,7 +9,7 @@ public class RobotMap {
 	public static final int ARM_CANTALONRIGHT_PORT = 12;
 
 	// cherry picker
-	public static final int CHERRY_PICKER_TALON_PORT = 2;
+	public static final int CHERRY_PICKER_TALON_PORT = 8;
 	public static final int CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT = 3;
 	public static final int CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT = 2;
 
@@ -19,10 +19,10 @@ public class RobotMap {
 	public static final int FRONTRIGHT = 3;
 	public static final int BACKRIGHT = 4;
 
-	public static final int ENCODER_RIGHT_CHANNEL_A = 2;
-	public static final int ENCODER_RIGHT_CHANNEL_B = 3;
-	public static final int ENCODER_LEFT_CHANNEL_A = 4;
-	public static final int ENCODER_LEFT_CHANNEL_B = 5;
+	// public static final int ENCODER_RIGHT_CHANNEL_A = 2;
+	// public static final int ENCODER_RIGHT_CHANNEL_B = 3;
+	// public static final int ENCODER_LEFT_CHANNEL_A = 4;
+	// public static final int ENCODER_LEFT_CHANNEL_B = 5;
 
 	// sensors
 	public static final int GYRO_PORT = 1;
