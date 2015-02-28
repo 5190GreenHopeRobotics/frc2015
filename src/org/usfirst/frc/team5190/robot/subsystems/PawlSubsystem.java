@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.robot.motor.SmartSpeedController;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
@@ -14,12 +15,12 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 public class PawlSubsystem extends Subsystem implements Displayable {
 	private static PawlSubsystem instance;
-
+	private SmartSpeedController smartController;
 	private Jaguar jaguar;
 	private Potentiometer potentiometer;
 
 	private PawlSubsystem() {
-		jaguar = new Jaguar(RobotMap.PAWL_JAGUAR_PORT);
+		smartController = new SmartSpeedController(new Jaguar(RobotMap.PAWL_JAGUAR_PORT));
 		potentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 40, 0);
 	}
@@ -45,11 +46,11 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void movePawl(double speed) {
-		jaguar.set(speed);
+		smartController.set(speed);
 	}
 
 	public void stopPawl() {
-		jaguar.set(0);
+		smartController.set(0);
 	}
 
 	@Override

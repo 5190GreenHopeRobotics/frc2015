@@ -40,6 +40,7 @@ public class SmartSpeedController implements SpeedController {
 	private double p;
 	private double i;
 	private double d;
+	 
 
 	/**
 	 * init the smart controller with a regular controller
