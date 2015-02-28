@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * the drive train subsystem
+ * @author sdai the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private static DriveTrainSubsystem instance;
@@ -295,6 +295,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param inches
+	 */
 	public void pidDrive(double inches) {
 		tempDriveDistance = inches;
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
