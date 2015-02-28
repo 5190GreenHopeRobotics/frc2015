@@ -6,6 +6,7 @@ import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
+import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
@@ -35,7 +36,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi = new ScaleInputsOI(0.4, new GamepadOI());
 
 	static {
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.4, new GamepadOI());
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.4,
+				new TwoGamepadOI());
 		scaledInputsOI.setCherryPickerScalingValue(0.7);
 		scaledInputsOI.setPawlScalingValue(0.2);
 		oi = scaledInputsOI;
