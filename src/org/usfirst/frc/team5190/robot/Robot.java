@@ -3,9 +3,13 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
+import org.usfirst.frc.team5190.robot.oi.GamepadOI;
+import org.usfirst.frc.team5190.robot.oi.OI;
+import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
+import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -21,28 +25,34 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static Vision usbCamera;
+	// public static Vision usbCamera;
 
 	private Command autonomousCommand;
 
 	/**
 	 * The operator interface
 	 */
-	public static OI oi;
+	public static OI oi = new ScaleInputsOI(0.4, new GamepadOI());
+
 	static {
-		oi = new OI();
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.4, new GamepadOI());
+		scaledInputsOI.setCherryPickerScalingValue(0.7);
+		scaledInputsOI.setPawlScalingValue(0.2);
+		oi = scaledInputsOI;
 	}
 
 	public Robot() {
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 
-		usbCamera = new Vision();
-		usbCamera.visionInit();
+		// usbCamera = new Vision();
+		// usbCamera.visionInit();
 
 		SmartDashBoardDisplayer.getInstance().submit(
 				DriveTrainSubsystem.getInstance());
 		SmartDashBoardDisplayer.getInstance()
 				.submit(ArmSubsystem.getInstance());
+		SmartDashBoardDisplayer.getInstance().submit(
+				PawlSubsystem.getInstance());
 	}
 
 	@Override
@@ -100,7 +110,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		usbCamera.visionTeleop();
+		// usbCamera.visionTeleop();
 		Scheduler.getInstance().run();
 
 	}

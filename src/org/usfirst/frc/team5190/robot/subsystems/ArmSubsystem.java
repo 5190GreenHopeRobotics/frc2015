@@ -115,15 +115,6 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void moveArm(double power) {
-		power = power * 0.4;
-
-		System.out.println("AnalogPos: "
-				+ armCANTalonLeft.getAnalogInPosition());
-		System.out.println("AnalogVelocity: "
-				+ armCANTalonLeft.getAnalogInVelocity());
-		System.out.println("SensorPos: " + armCANTalonLeft.getPosition());
-		System.out.println("SensorVelocity: " + armCANTalonLeft.getSpeed());
-
 		armCANTalonLeft.set(power);
 	}
 
