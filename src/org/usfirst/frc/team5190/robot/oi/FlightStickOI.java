@@ -28,6 +28,10 @@ public class FlightStickOI implements OI {
 		return flightStickDrive;
 	}
 
+	/**
+	 * 
+	 * @return gives caller shootStick for their use.
+	 */
 	public Joystick getShootStick() {
 		return flightStickShoot;
 	}
