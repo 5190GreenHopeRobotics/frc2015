@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
 
-public class RangeFinder implements PIDSource {
+public class RangeFinder implements PIDSource{
 	private I2C i2c;
 	private byte[] distance;
 	private java.util.Timer updater;
