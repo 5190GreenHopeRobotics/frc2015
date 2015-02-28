@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5190.sensorFilter;
+package org.usfirst.frc.team5190.sensor;
 
 import java.util.TimerTask;
 

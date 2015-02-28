@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5190.sensorFilter;
+package org.usfirst.frc.team5190.sensor;
 
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
