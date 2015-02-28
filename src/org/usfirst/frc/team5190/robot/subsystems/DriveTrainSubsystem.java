@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * the drive train subsystem
+ * @author sdai the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private static DriveTrainSubsystem instance;
@@ -124,7 +124,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init the motors
 		initializeMotors();
 		// init drive
-		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+		mDrive = new RobotDrive(frontLeft, backRight);
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
@@ -155,20 +155,16 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft.changeControlMode(ControlMode.PercentVbus);
 		frontLeft.set(0);
 		backLeft.reverseOutput(false);
-		backLeft.changeControlMode(ControlMode.PercentVbus);
-		backLeft.set(0);
-		// backLeft.changeControlMode(ControlMode.Follower);
-		// // since back motors are followers/slaves, set() method sets their
-		// // master (should be the master's CAN Id)
-		// backLeft.set(frontLeft.getDeviceID());
+		backLeft.changeControlMode(ControlMode.Follower);
+		// since back motors are followers/slaves, set() method sets their
+		// master (should be the master's CAN Id)
+		backLeft.set(frontLeft.getDeviceID());
 		frontRight.reverseOutput(true);
 		frontRight.changeControlMode(ControlMode.PercentVbus);
 		frontRight.set(0);
 		backRight.reverseOutput(true);
-		backRight.changeControlMode(ControlMode.PercentVbus);
-		backRight.set(0);
-		// backRight.changeControlMode(ControlMode.Follower);
-		// backRight.set(frontRight.getDeviceID());
+		backRight.changeControlMode(ControlMode.Follower);
+		backRight.set(frontRight.getDeviceID());
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -299,6 +295,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param inches
+	 */
 	public void pidDrive(double inches) {
 		tempDriveDistance = inches;
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -313,14 +313,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backLeft.setPosition(0);
 		frontRight.setPosition(0);
 		backRight.setPosition(0);
-		frontLeft.changeControlMode(ControlMode.Follower);
-		frontLeft.set(backLeft.getDeviceID());
-		frontRight.changeControlMode(ControlMode.Follower);
-		frontRight.set(backRight.getDeviceID());
-		backLeft.changeControlMode(ControlMode.Position);
-		backLeft.set(inches);
-		backRight.changeControlMode(ControlMode.Position);
-		backRight.set(inches);
+		frontLeft.changeControlMode(ControlMode.Position);
+		frontLeft.set(inches);
+		frontRight.changeControlMode(ControlMode.Position);
+		frontRight.set(inches);
 	}
 
 	@Override
