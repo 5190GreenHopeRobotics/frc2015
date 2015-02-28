@@ -1,9 +1,8 @@
-package org.usfirst.frc.team5190.robot.commands;
+package org.usfirst.frc.team5190.robot.commands.joystick;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -15,7 +14,7 @@ public class DriveWithArcadeCommand extends Command {
 			.getInstance();
 
 	public DriveWithArcadeCommand() {
-		// needs drive train
+		super("DriveWithArcadeCommand");
 		requires(driveTrainSubsystem);
 	}
 
@@ -25,9 +24,8 @@ public class DriveWithArcadeCommand extends Command {
 
 	@Override
 	protected void execute() {
-		Joystick driveStick = Robot.oi.getDriveStick();
-		double moveValue = driveStick.getRawAxis(1);
-		double rotateValue = driveStick.getRawAxis(0);
+		double moveValue = Robot.oi.getForwardReverseAxis();
+		double rotateValue = Robot.oi.getLeftRightAxis();
 		// square the inputs (while preserving the sign) to increase fine
 		// control while permitting full power
 		if (moveValue >= 0.0) {
@@ -41,7 +39,6 @@ public class DriveWithArcadeCommand extends Command {
 			rotateValue = -(rotateValue * rotateValue);
 		}
 		driveTrainSubsystem.arcadeJoystickDrive(moveValue, rotateValue);
-		// Robot.driveTrainSubsystem.setPower(Robot.oi.getSpeed());
 	}
 
 	@Override

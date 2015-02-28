@@ -1,9 +1,8 @@
-package org.usfirst.frc.team5190.robot.commands;
+package org.usfirst.frc.team5190.robot.commands.joystick;
 
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,6 +17,7 @@ public class ArmTeleopCommand extends Command {
 	private double lastPowerValue = 0.0;
 
 	public ArmTeleopCommand() {
+		super("ArmTeleopCommand");
 		requires(armSubsystem);
 	}
 
@@ -25,9 +25,7 @@ public class ArmTeleopCommand extends Command {
 	}
 
 	protected void execute() {
-		Joystick joystick = Robot.oi.getDriveStick();
-		// reverse the joystick value
-		double power = -joystick.getRawAxis(5);
+		double power = Robot.oi.getArmAxis();
 
 		// The idea here to cap the rate of power change when moving away from 0
 		// but not when moving close to it
