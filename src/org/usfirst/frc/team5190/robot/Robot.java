@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
-import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
@@ -33,13 +32,13 @@ public class Robot extends IterativeRobot {
 	/**
 	 * The operator interface
 	 */
-	public static OI oi = new ScaleInputsOI(0.4, new GamepadOI());
+	public static OI oi;
 
 	static {
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.4,
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5,
 				new TwoGamepadOI());
 		scaledInputsOI.setCherryPickerScalingValue(0.7);
-		scaledInputsOI.setPawlScalingValue(0.2);
+		scaledInputsOI.setPawlScalingValue(0.5);
 		oi = scaledInputsOI;
 	}
 
