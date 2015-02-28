@@ -16,8 +16,8 @@ public class FlightStickOI implements OI {
 	}
 
 	public FlightStickOI(int portDrive, int portShoot) {
-		this.flightStickDrive = new Joystick(portDrive);
-		this.flightStickShoot = new Joystick(portShoot);
+		flightStickDrive = new Joystick(portDrive);
+		flightStickShoot = new Joystick(portShoot);
 	}
 
 	/**
@@ -121,3 +121,4 @@ public class FlightStickOI implements OI {
 	}
 
 }
+// hail hydra
