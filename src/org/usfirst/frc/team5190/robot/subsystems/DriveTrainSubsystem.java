@@ -261,8 +261,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	/**
 	 * control the drive train with a arcade drive
 	 * 
-	 * @param stick
-	 *            the one joystick
+	 * @param moveValue
+	 *            the forward value
+	 * @param rotateValue
+	 *            the turn value
 	 */
 
 	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
@@ -317,7 +319,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backLeft.changeControlMode(ControlMode.Position);
 		backLeft.set(inches);
 		backRight.changeControlMode(ControlMode.Position);
-		backRight.set(-inches);
+		backRight.set(inches);
 	}
 
 	@Override
