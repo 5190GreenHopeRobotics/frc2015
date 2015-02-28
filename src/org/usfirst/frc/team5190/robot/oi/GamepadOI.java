@@ -22,12 +22,12 @@ public class GamepadOI implements OI {
 
 	@Override
 	public double getForwardReverseAxis() {
-		return gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
+		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
 	}
 
 	@Override
 	public double getLeftRightAxis() {
-		return gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS);
+		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS);
 	}
 
 	@Override
@@ -38,9 +38,9 @@ public class GamepadOI implements OI {
 	@Override
 	public double getCherryPickerAxis() {
 		double retractValue = gamepad
-				.getRawAxis(LogitechGamepad.RIGHT_TRIGGER_AXIS);
-		double extendValue = gamepad
 				.getRawAxis(LogitechGamepad.LEFT_TRIGGER_AXIS);
+		double extendValue = gamepad
+				.getRawAxis(LogitechGamepad.RIGHT_TRIGGER_AXIS);
 		if (retractValue > 0.0) {
 			return -retractValue;
 		}

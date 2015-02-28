@@ -32,12 +32,12 @@ public class Robot extends IterativeRobot {
 	/**
 	 * The operator interface
 	 */
-	public static OI oi = new ScaleInputsOI(0.4, new GamepadOI());
+	public static OI oi;
 
 	static {
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.4, new GamepadOI());
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5, new GamepadOI());
 		scaledInputsOI.setCherryPickerScalingValue(0.7);
-		scaledInputsOI.setPawlScalingValue(0.2);
+		scaledInputsOI.setPawlScalingValue(0.5);
 		oi = scaledInputsOI;
 	}
 
