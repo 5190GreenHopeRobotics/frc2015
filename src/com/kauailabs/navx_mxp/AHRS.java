@@ -378,7 +378,7 @@ public class AHRS extends IMU {
 	 * Zeros the displacement integration variables. Invoke this at the moment
 	 * when integration begins.
 	 * 
-	 * @return none.
+	 * 
 	 */
 	public void resetDisplacement() {
 		for (int i = 0; i < 2; i++) {

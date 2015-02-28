@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.usfirst.frc.team5190.sensorFilter.AccelerometerFilter;
-import org.usfirst.frc.team5190.sensorFilter.Lidar;
-import org.usfirst.frc.team5190.sensorFilter.LidarFilter;
+import org.usfirst.frc.team5190.sensor.AccelerometerFilter;
+import org.usfirst.frc.team5190.sensor.Lidar;
+import org.usfirst.frc.team5190.sensor.LidarFilter;
 import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 

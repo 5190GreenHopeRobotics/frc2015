@@ -128,7 +128,7 @@ public class VL6180xRangeFinderImpl implements VL6180xRangeFinderIntf{
 	public float getAmbientLight(vl6180x_als_gain VL6180X_ALS_GAIN) {
 		  //First load in Gain we are using, do it everytime incase someone changes it on us.
 		  //Note: Upper nibble shoudl be set to 0x4 i.e. for ALS gain of 1.0 write 0x46
-		  VL6180x_setRegister(VL6180X_SYSALS_ANALOGUE_GAIN, (0x40 | VL6180X_ALS_GAIN)); // Set the ALS gain
+//		  VL6180x_setRegister(VL6180X_SYSALS_ANALOGUE_GAIN, (0x40 | VL6180X_ALS_GAIN)); // Set the ALS gain
 
 		  //Start ALS Measurement 
 		  VL6180x_setRegister(VL6180X_SYSALS_START, 0x01);
@@ -182,14 +182,14 @@ public class VL6180xRangeFinderImpl implements VL6180xRangeFinderIntf{
 
 	@Override
 	public int VL6180x_getRegister(int registerAddr) {
-		  int data;
+		  int data = 0;
 
 //		  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
-		  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
-		  Wire.write(registerAddr & 0xFF); //LSB of register address
-		  Wire.endTransmission(false); //Send address and register address bytes
-		  Wire.requestFrom( _i2caddress , 1);
-		  data = Wire.read(); //Read Data from selected register
+//		  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
+//		  Wire.write(registerAddr & 0xFF); //LSB of register address
+//		  Wire.endTransmission(false); //Send address and register address bytes
+//		  Wire.requestFrom( _i2caddress , 1);
+//		  data = Wire.read(); //Read Data from selected register
 
 		  return data;
 	}

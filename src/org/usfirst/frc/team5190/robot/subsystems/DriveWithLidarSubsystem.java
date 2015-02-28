@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import org.usfirst.frc.team5190.sensorFilter.Lidar;
+import org.usfirst.frc.team5190.sensor.Lidar;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Jaguar;
