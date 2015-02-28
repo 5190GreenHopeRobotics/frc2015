@@ -1,5 +1,13 @@
+com.kauailabs.nav6
+com.kauailabs.nav6.frc
+com.kauailabs.navx_mxp
+org.usfirst.frc.team5190.grid
 org.usfirst.frc.team5190.robot
 org.usfirst.frc.team5190.robot.commands
+org.usfirst.frc.team5190.robot.commands.joystick
+org.usfirst.frc.team5190.robot.joystick
+org.usfirst.frc.team5190.robot.motor
+org.usfirst.frc.team5190.robot.oi
 org.usfirst.frc.team5190.robot.subsystems
-org.usfirst.frc.team5190.sensorFilter
+org.usfirst.frc.team5190.sensor
 org.usfirst.frc.team5190.smartDashBoard
