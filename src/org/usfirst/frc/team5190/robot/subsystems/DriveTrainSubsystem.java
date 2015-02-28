@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * the drive train subsystem
+ * @author sdai the drive train subsystem
  */
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private static DriveTrainSubsystem instance;
@@ -124,7 +124,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init the motors
 		initializeMotors();
 		// init drive
-		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+		mDrive = new RobotDrive(frontLeft, backRight);
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
@@ -151,7 +151,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		frontRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		backLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
-
 		frontLeft.reverseOutput(true);
 		frontLeft.changeControlMode(ControlMode.PercentVbus);
 		frontLeft.set(0);
@@ -268,10 +267,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 
 	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
-		if (!disable) {
-			// KEEEEEEPPPPPPP THIIIISSSS
+		if (!disable)
 			mDrive.arcadeDrive(moveValue, rotateValue);
-		}
 	}
 
 	/**
@@ -298,6 +295,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param inches
+	 */
 	public void pidDrive(double inches) {
 		tempDriveDistance = inches;
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -312,14 +313,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backLeft.setPosition(0);
 		frontRight.setPosition(0);
 		backRight.setPosition(0);
-		frontLeft.changeControlMode(ControlMode.Follower);
-		frontLeft.set(backLeft.getDeviceID());
-		frontRight.changeControlMode(ControlMode.Follower);
-		frontRight.set(backRight.getDeviceID());
-		backLeft.changeControlMode(ControlMode.Position);
-		backLeft.set(inches);
-		backRight.changeControlMode(ControlMode.Position);
-		backRight.set(inches);
+		frontLeft.changeControlMode(ControlMode.Position);
+		frontLeft.set(inches);
+		frontRight.changeControlMode(ControlMode.Position);
+		frontRight.set(inches);
 	}
 
 	@Override

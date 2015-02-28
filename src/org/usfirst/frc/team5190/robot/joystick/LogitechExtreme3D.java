@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5190.robot.joystick;
 
 public class LogitechExtreme3D {
-	private static LogitechExtreme3D map = new LogitechExtreme3D();
+	private static LogitechExtreme3D instance;
 	// Upper buttons on Logitech Flight Stick
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
@@ -22,7 +22,21 @@ public class LogitechExtreme3D {
 	public static final int Z_ROTATE = 2;
 	public static final int SLIDER = 3;
 
+	/**
+	 * 
+	 * @return instance of LogitechExtreme3D for use by other classes without
+	 *         making duplicates
+	 */
 	public static LogitechExtreme3D getInstance() {
-		return map;
+		if (instance == null) {
+			try {
+				instance = new LogitechExtreme3D();
+			} catch (Throwable t) {
+				t.printStackTrace();
+				throw t;
+			}
+		}
+		return instance;
 	}
+
 }

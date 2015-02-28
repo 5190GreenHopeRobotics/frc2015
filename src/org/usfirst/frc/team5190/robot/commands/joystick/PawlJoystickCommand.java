@@ -1,13 +1,10 @@
 package org.usfirst.frc.team5190.robot.commands.joystick;
 
 import org.usfirst.frc.team5190.robot.Robot;
-import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class PawlJoystickCommand extends Command {
-
-	private PawlSubsystem pawlSubsystem = PawlSubsystem.getInstance();
 
 	private static final double MAX_POWER_DELTA = 0.05;
 
