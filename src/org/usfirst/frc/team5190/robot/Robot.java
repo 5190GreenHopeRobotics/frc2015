@@ -45,9 +45,6 @@ public class Robot extends IterativeRobot {
 	public Robot() {
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 
-		// usbCamera = new Vision();
-		// usbCamera.visionInit();
-
 		SmartDashBoardDisplayer.getInstance().submit(
 				DriveTrainSubsystem.getInstance());
 		SmartDashBoardDisplayer.getInstance()
@@ -111,7 +108,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		// usbCamera.visionTeleop();
 		Scheduler.getInstance().run();
 
 	}
