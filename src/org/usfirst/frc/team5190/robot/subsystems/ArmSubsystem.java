@@ -69,8 +69,8 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		armCANTalonRight.changeControlMode(ControlMode.Follower);
 		armCANTalonRight.set(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		armCANTalonRight.reverseOutput(true);
-		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonRight.enableBrakeMode(true);
+		armCANTalonLeft.enableBrakeMode(false);
+		armCANTalonRight.enableBrakeMode(false);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
 		armCANTalonLeft.setForwardSoftLimit(400);
 		armCANTalonLeft.setReverseSoftLimit(45);
