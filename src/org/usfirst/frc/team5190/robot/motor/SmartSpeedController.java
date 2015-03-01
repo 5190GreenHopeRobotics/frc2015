@@ -425,10 +425,10 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-				createDistanceSpeedPid();
+				createAnglePid();
 				pidController.setSetpoint(value);
 			} else if (controlMode == ControlMode.Distance) {
-				createAnglePid();
+				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
 			} else if (controlMode == ControlMode.Speed) {
 				createDistanceSpeedPid();
