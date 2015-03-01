@@ -52,4 +52,10 @@ public class TwoGamepadOI implements OI {
 		return -gamepad2.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
 	}
 
+	@Override
+	public boolean zeroPawlButton() {
+		return gamepad1.getRawButton(LogitechGamepad.RIGHT_BUMPER);
+		
+	}
+
 }

@@ -9,6 +9,7 @@ import org.usfirst.frc.team5190.smartDashBoard.Displayable;
 import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CANJaguar.ControlMode;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -23,6 +24,9 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		smartController = new SmartSpeedController(new Jaguar(RobotMap.PAWL_JAGUAR_PORT));
 		potentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 40, 0);
+		smartController.setPotentiometer(potentiometer);
+		smartController.setPID(0.1, 0, 0.1);
+		
 	}
 
 	@Override
@@ -43,6 +47,16 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 
 	public double getAngle() {
 		return potentiometer.get();
+	}
+	
+	public void goToAngle (double angle) {
+		smartController.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.Angle);
+		
+		
+	double pot = angle * 10.24/360;
+	smartController.set(pot);
+	
+		
 	}
 
 	public void movePawl(double speed) {
