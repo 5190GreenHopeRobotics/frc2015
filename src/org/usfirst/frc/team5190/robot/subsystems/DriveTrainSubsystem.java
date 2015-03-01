@@ -143,10 +143,13 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	private void initializeMotors() {
+
+		// create controller
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		backLeft = new CANTalon(RobotMap.BACKLEFT);
 		frontRight = new CANTalon(RobotMap.FRONTRIGHT);
 		backRight = new CANTalon(RobotMap.BACKRIGHT);
+		// set ramp speed
 		frontLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		backRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		frontRight.setCloseLoopRampRate(TALON_RAMP_SPEED);

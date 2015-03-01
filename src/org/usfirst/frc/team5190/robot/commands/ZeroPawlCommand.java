@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,21 +19,22 @@ public class ZeroPawlCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		setTimeout(2);
-		pawlSubsystem.goToAngle(0);
 
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
+		if (Robot.oi.zeroPawlButton()){
+			
+			pawlSubsystem.goToAngle(0);
+		}
 
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return isTimedOut();
+		return false;
 	}
 
 	@Override

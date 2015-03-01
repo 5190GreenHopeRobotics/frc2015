@@ -14,6 +14,6 @@ public class TeleopCommandGroup extends CommandGroup {
 		addParallel(new ArmTeleopCommand());
 		addParallel(new CherryPickerOperateCommand());
 		addParallel(new PawlJoystickCommand());
-		addParallel(new ZeroPawlCommand());
+		//addParallel(new ZeroPawlCommand());
 	}
 }

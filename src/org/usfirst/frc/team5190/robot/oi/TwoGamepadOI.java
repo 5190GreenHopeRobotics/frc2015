@@ -2,12 +2,15 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 
 public class TwoGamepadOI implements OI {
 	private Joystick gamepad1;
 	private Joystick gamepad2;
 	private int value;
+	private Button zeroPawlButton;
 
 	public TwoGamepadOI() {
 		this(0, 1);
@@ -18,6 +21,8 @@ public class TwoGamepadOI implements OI {
 		gamepad2 = new Joystick(gamepad2port);
 	}
 
+	
+	
 	@Override
 	public double getForwardReverseAxis() {
 		return gamepad1.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
@@ -54,8 +59,10 @@ public class TwoGamepadOI implements OI {
 
 	@Override
 	public boolean zeroPawlButton() {
-		return gamepad1.getRawButton(LogitechGamepad.RIGHT_BUMPER);
+		return gamepad2.getBumper(Hand.kRight);
+		
 		
 	}
 
-}
+		
+	}
