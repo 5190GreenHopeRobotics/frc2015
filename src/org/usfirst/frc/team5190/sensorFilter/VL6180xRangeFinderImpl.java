@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.sensorFilter;
 
+import org.usfirst.frc.team5190.protocol.I2CPlus;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -7,7 +9,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 public class VL6180xRangeFinderImpl implements VL6180xRangeFinderIntf{
 	
 	private int _i2caddress;
-	private I2C i2c;
+	private I2CPlus i2c;
 	private byte[] distance;
 	private final int RANGE_FINDER_ADDR = 0x29;
 
@@ -22,16 +24,16 @@ public class VL6180xRangeFinderImpl implements VL6180xRangeFinderIntf{
 	
 	public VL6180xRangeFinderImpl(int address, Port port){
 		_i2caddress = address; //set default address for communication
-		i2c = new I2C(port, RANGE_FINDER_ADDR);
+		i2c = new I2CPlus(port, RANGE_FINDER_ADDR);
 	}
 
 	@Override
 	public int VL6180xInit() {
-		  int data; //for temp data storage
+		  byte[] data = new byte[1]; //for temp data storage
 
-		  data = VL6180x_getRegister(VL6180X_SYSTEM_FRESH_OUT_OF_RESET);
+		  boolean status = i2c.read16bitRegister(VL6180X_SYSTEM_FRESH_OUT_OF_RESET, 1, data);
 
-		  if(data != 1) {
+		  if(!status) {
 			  return VL6180x_FAILURE_RESET;
 		  }
 
@@ -183,6 +185,10 @@ public class VL6180xRangeFinderImpl implements VL6180xRangeFinderIntf{
 	@Override
 	public int VL6180x_getRegister(int registerAddr) {
 		  int data = 0;
+		  
+		  i2c.write16bitRegister(registerAddr, data);
+		  Timer.delay(0.10); // Delay for measurement to be taken
+		  i2c.read16bitRegister(registerAddr, 1, distance); // Read in
 
 //		  Wire.beginTransmission( _i2caddress ); // Address set on class instantiation
 //		  Wire.write((registerAddr >> 8) & 0xFF); //MSB of register address
@@ -204,8 +210,7 @@ public class VL6180xRangeFinderImpl implements VL6180xRangeFinderIntf{
 
 	@Override
 	public void VL6180x_setRegister(int registerAddr, int data) {
-		// TODO Auto-generated method stub
-		
+		boolean status = i2c.write16bitRegister(registerAddr, data);
 	}
 
 	@Override
