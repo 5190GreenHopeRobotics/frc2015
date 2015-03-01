@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import org.usfirst.frc.team5190.sensorFilter.RangeFinder;
+import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class NavigationSubsystem extends Subsystem {
 
 	private static NavigationSubsystem instance;
-	private RangeFinder rangeFinder;
+	private VL6180xRangeFinder rangeFinder;
 
 	private NavigationSubsystem() {
-		rangeFinder = new RangeFinder(Port.kMXP);
+		rangeFinder = new VL6180xRangeFinder(Port.kMXP);
 		rangeFinder.start();
 	}
 
