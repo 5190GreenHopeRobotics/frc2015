@@ -1,16 +1,15 @@
 package org.usfirst.frc.team5190.robot;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.sensor.AccelerometerFilter;
 import org.usfirst.frc.team5190.sensor.Lidar;
 import org.usfirst.frc.team5190.sensor.LidarFilter;
-import org.usfirst.frc.team5190.smartDashBoard.Displayable;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
 
 import com.kauailabs.navx_mxp.AHRS;
 
@@ -112,18 +111,11 @@ public class IndependentSensors implements Displayable {
 	}
 
 	@Override
-	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		return null;
-	}
-
-	@Override
-	public Collection<Pair<String, Double>> getDecimalValues() {
-		LinkedList<Pair<String, Double>> result = new LinkedList<Pair<String, Double>>();
-		result.add(new Pair<String, Double>("Accelerometer X", accel.getX()));
-		result.add(new Pair<String, Double>("Accelerometer Y", accel.getY()));
-		result.add(new Pair<String, Double>("Accelerometer Z", accel.getZ()));
-		result.addAll(filteredLidar.getDecimalValues());
-		return result;
+	public void displayValues(Display display) {
+		display.putNumber("Accelerometer X", accel.getX());
+		display.putNumber("Accelerometer Y", accel.getY());
+		display.putNumber("Accelerometer Z", accel.getZ());
+		filteredLidar.displayValues(display);
 	}
 
 	protected static void loadSensor() {

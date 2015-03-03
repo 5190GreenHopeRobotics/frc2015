@@ -54,6 +54,7 @@ public class SmartSpeedController implements SpeedController {
 
 			@Override
 			public void run() {
+				// automatically stop pid if on target, emulate hardware pid
 				while (!Thread.interrupted()) {
 					if (pidController != null) {
 						if (pidController.isEnable()) {

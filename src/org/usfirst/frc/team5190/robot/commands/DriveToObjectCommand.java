@@ -17,6 +17,7 @@ public class DriveToObjectCommand extends Command {
 			.getInstance();
 
 	public DriveToObjectCommand() {
+		super("DriveToObjectCommand");
 		requires(driveTrainSubsystem);
 		d = driveTrainSubsystem.driveSetDistance();
 		// IndependentSensors.getGyro().reset(); //Temporary comment for testing

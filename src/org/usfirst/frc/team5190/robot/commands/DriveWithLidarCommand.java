@@ -12,6 +12,7 @@ public class DriveWithLidarCommand extends Command {
 			.getInstance();
 
 	public DriveWithLidarCommand() {
+		super("DriveWithLidarCommand");
 		requires(driveWithLidarSubsystem);
 	}
 

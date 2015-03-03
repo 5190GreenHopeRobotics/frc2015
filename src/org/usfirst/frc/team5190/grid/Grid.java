@@ -1,12 +1,11 @@
 package org.usfirst.frc.team5190.grid;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.IndependentSensors;
-import org.usfirst.frc.team5190.smartDashBoard.Displayable;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
+import org.usfirst.frc.team5190.util.Pair;
 
 public class Grid implements Displayable {
 	protected double currentX;
@@ -69,18 +68,8 @@ public class Grid implements Displayable {
 	}
 
 	@Override
-	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<Pair<String, Double>> getDecimalValues() {
-		LinkedList<Pair<String, Double>> list = new LinkedList<Pair<String, Double>>();
-		list.add(new Pair<String, Double>("X Grid Value", getCoordinate()
-				.first()));
-		list.add(new Pair<String, Double>("Y Grid Value", getCoordinate()
-				.second()));
-		return list;
+	public void displayValues(Display display) {
+		display.putNumber("X Grid Value", getCoordinate().first());
+		display.putNumber("Y Grid Value", getCoordinate().second());
 	}
 }

@@ -1,11 +1,9 @@
 package org.usfirst.frc.team5190.sensor;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
-import org.usfirst.frc.team5190.smartDashBoard.Displayable;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 
 import edu.wpi.first.wpilibj.PIDSource;
 
@@ -72,17 +70,8 @@ public class LidarFilter implements PIDSource, Displayable {
 	}
 
 	@Override
-	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<Pair<String, Double>> getDecimalValues() {
-		List<Pair<String, Double>> result = new LinkedList<Pair<String, Double>>();
-		result.add(new Pair<String, Double>("Filtered Lidar", pidGet()));
-		result.add(new Pair<String, Double>("Unfiltered Lidar", new Double(
-				lidar.getDistance())));
-		return result;
+	public void displayValues(Display display) {
+		display.putNumber("Filtered Lidar", pidGet());
+		display.putNumber("Unfiltered Lidar", lidar.getDistance());
 	}
 }
