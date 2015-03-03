@@ -53,55 +53,28 @@ public class FlightStickOI implements OI {
 	}
 
 	/**
-	 * @return speed from throttle on joystick
+	 * @return speed from throttle on joystick (slider)
 	 */
 	public double getFlightStickSpeed() {
 		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
 	}
 
 	/**
-	 * @return allow the user to move the arm up and down by passing in a
-	 *         condition to caller (1Raise, -1Lower, 0stop)
+	 * @return Axis for arm (y axis on joystick)
 	 */
 	@Override
 	public double getArmAxis() {
-		double condition = 0;
-		if (flightStickShoot.getRawButton(LogitechExtreme3D.TRIGGER)
-				&& flightStickShoot
-						.getRawButton(LogitechExtreme3D.THUMB_BUTTON)) {
-			condition = 0; // DO NOTHING
-		} else if (flightStickShoot
-				.getRawButton(LogitechExtreme3D.THUMB_BUTTON)) {
-			condition = -1.0; // LOWER
-		} else if (flightStickShoot.getRawButton(LogitechExtreme3D.TRIGGER)) {
-			condition = 1.0; // RAISE
-		} else {
-			condition = 0; // DO NOTHING
-		}
-		return condition;
+		return LogitechExtreme3D.Y_AXIS;
 	}
 
 	/**
-	 * @return get cherry picker speed
+	 * @return get cherry picker speed (y axis on joystick) Recommended that in
+	 *         your command, have a button pressed to activate the cherry
+	 *         picker.
 	 */
 	@Override
 	public double getCherryPickerAxis() {
-		double cherryPickerSpeed = 0;
-		if (flightStickShoot
-				.getRawButton(LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT)
-				&& flightStickShoot
-						.getRawButton(LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT)) {
-			cherryPickerSpeed = 0; // DO NOTHING
-		} else if (flightStickShoot
-				.getRawButton(LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT)) {
-			cherryPickerSpeed = 1; // EXTEND
-		} else if (flightStickShoot
-				.getRawButton(LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT)) {
-			cherryPickerSpeed = -1; // RETRACT
-		} else {
-			cherryPickerSpeed = 0; // DO NOTHING
-		}
-		return cherryPickerSpeed;
+		return LogitechExtreme3D.Y_AXIS;
 	}
 
 	/**
