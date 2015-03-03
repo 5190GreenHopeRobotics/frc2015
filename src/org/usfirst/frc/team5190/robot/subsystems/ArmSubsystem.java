@@ -160,55 +160,55 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		// level = 4;
 		// }
 		//
-		// switch (level) {
-		// case 0:
-		// setArmAngle().start(level0);
-		// break;
-		// case 1:
-		// setArmAngle().start(level1);
-		// break;
-		// case 2:
-		// setArmAngle().start(level2);
-		// break;
-		// case 3:
-		// setArmAngle().start(level3);
-		// break;
-		// case 4:
-		// setArmAngle().start(level4);
-		// }
+		switch (level) {
+		case 0:
+			setArmAngle().start(level0);
+			break;
+		case 1:
+			setArmAngle().start(level1);
+			break;
+		case 2:
+			setArmAngle().start(level2);
+			break;
+		case 3:
+			setArmAngle().start(level3);
+			break;
+		case 4:
+			setArmAngle().start(level4);
+		}
 	}
 
 	public void levelup() {
-		// double nextlevel = 0;
-		//
-		// if (getAngle() < level1) {
-		// nextlevel = level1;
-		// } else if (getAngle() < level2) {
-		// nextlevel = level2;
-		// } else if (getAngle() < level3) {
-		// nextlevel = level3;
-		// } else {
-		// nextlevel = level4;
-		// }
-		//
-		// setArmAngle().start(nextlevel);
+		double nextlevel = 0;
+
+		if (getAngle() < level1) {
+			nextlevel = level1;
+		} else if (getAngle() < level2) {
+			nextlevel = level2;
+		} else if (getAngle() < level3) {
+			nextlevel = level3;
+		} else {
+			nextlevel = level4;
+		}
+
+		setArmAngle().start(nextlevel);
 
 	}
 
 	public void leveldown() {
-		// double previouslevel = 0;
-		//
-		// if (getAngle() > level3) {
-		// previouslevel = level3;
-		// } else if (getAngle() > level2) {
-		// previouslevel = level2;
-		// } else if (getAngle() > level1) {
-		// previouslevel = level1;
-		// } else {
-		// previouslevel = 0;
-		// }
-		//
-		// setArmAngle().start(previouslevel);
+		double previouslevel = 0;
+
+		if (getAngle() > level3) {
+			previouslevel = level3;
+		} else if (getAngle() > level2) {
+			previouslevel = level2;
+		} else if (getAngle() > level1) {
+			previouslevel = level1;
+		} else {
+			previouslevel = 0;
+		}
+
+		setArmAngle().start(previouslevel);
 
 	}
 }
