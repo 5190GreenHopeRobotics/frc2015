@@ -23,7 +23,7 @@ public class SmartSpeedController implements SpeedController {
 	private DigitalInput reverseLimitSwitch;
 	private Potentiometer potentiometer;
 	private Encoder encoder;
-
+	private Thread pidThread;
 	private ControlMode controlMode = ControlMode.PercentVBus;
 	private boolean forwardLimitSwitchEnabled = false;
 	private boolean reverseLimitSwitchEnabled = false;
@@ -40,6 +40,7 @@ public class SmartSpeedController implements SpeedController {
 	private double p;
 	private double i;
 	private double d;
+	private boolean isPidOnTarget = false;
 
 	/**
 	 * init the smart controller with a regular controller
@@ -49,6 +50,32 @@ public class SmartSpeedController implements SpeedController {
 	 */
 	public SmartSpeedController(SpeedController speedController) {
 		this.speedController = speedController;
+		pidThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (!Thread.interrupted()) {
+					if (pidController != null) {
+						if (pidController.isEnable()) {
+							if (pidController.onTarget()) {
+								synchronized (this) {
+									isPidOnTarget = true;
+								}
+								pidController.disable();
+							}
+						}
+					}
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						return;
+					}
+				}
+
+			}
+
+		});
+		pidThread.start();
 	}
 
 	/**
@@ -425,14 +452,26 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-				createDistanceSpeedPid();
-				pidController.setSetpoint(value);
-			} else if (controlMode == ControlMode.Distance) {
 				createAnglePid();
 				pidController.setSetpoint(value);
+				pidController.enable();
+				synchronized (this) {
+					isPidOnTarget = false;
+				}
+			} else if (controlMode == ControlMode.Distance) {
+				createDistanceSpeedPid();
+				pidController.setSetpoint(value);
+				pidController.enable();
+				synchronized (this) {
+					isPidOnTarget = false;
+				}
 			} else if (controlMode == ControlMode.Speed) {
 				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
+				pidController.enable();
+				synchronized (this) {
+					isPidOnTarget = false;
+				}
 			}
 
 		}
