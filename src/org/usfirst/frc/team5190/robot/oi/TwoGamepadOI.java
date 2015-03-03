@@ -1,13 +1,14 @@
 package org.usfirst.frc.team5190.robot.oi;
 
+import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class TwoGamepadOI implements OI {
 	private Joystick gamepad1;
 	private Joystick gamepad2;
-	private int value;
 
 	public TwoGamepadOI() {
 		this(0, 1);
@@ -16,6 +17,10 @@ public class TwoGamepadOI implements OI {
 	public TwoGamepadOI(int gamepad1port, int gamepad2port) {
 		gamepad1 = new Joystick(gamepad1port);
 		gamepad2 = new Joystick(gamepad2port);
+
+		JoystickButton setAngleButton = new JoystickButton(gamepad2,
+				LogitechGamepad.A_BUTTON);
+		setAngleButton.whenPressed(new ArmSetAngleCommand(264, false));
 	}
 
 	@Override

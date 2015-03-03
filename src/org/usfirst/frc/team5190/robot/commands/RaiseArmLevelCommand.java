@@ -13,6 +13,7 @@ public class RaiseArmLevelCommand extends Command {
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	public RaiseArmLevelCommand() {
+		super("RaiseArmLevelCommand");
 		requires(armSubsystem);
 
 	}

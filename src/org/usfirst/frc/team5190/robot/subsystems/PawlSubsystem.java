@@ -1,13 +1,12 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.smartDashBoard.Displayable;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
+import org.usfirst.frc.team5190.robot.commands.joystick.PawlJoystickCommand;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -16,16 +15,23 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	private static PawlSubsystem instance;
 
 	private Jaguar jaguar;
-	private Potentiometer potentiometer;
+	private Potentiometer pawlPotentiometer;
+	private Potentiometer motorPotentiometer;
+	private DigitalInput clutchEngagedSwitch;
 
 	private PawlSubsystem() {
 		jaguar = new Jaguar(RobotMap.PAWL_JAGUAR_PORT);
-		potentiometer = new AnalogPotentiometer(
+		pawlPotentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 40, 0);
+		motorPotentiometer = new AnalogPotentiometer(
+				RobotMap.PAWL_MOTOR_POTENTIMETER_PORT, 40, 0);
+		clutchEngagedSwitch = new DigitalInput(
+				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
+		setDefaultCommand(new PawlJoystickCommand());
 	}
 
 	public static PawlSubsystem getInstance() {
@@ -41,7 +47,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public double getAngle() {
-		return potentiometer.get();
+		return pawlPotentiometer.get();
 	}
 
 	public void movePawl(double speed) {
@@ -53,15 +59,10 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	@Override
-	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		return null;
-	}
-
-	@Override
-	public Collection<Pair<String, Double>> getDecimalValues() {
-		LinkedList<Pair<String, Double>> values = new LinkedList<Pair<String, Double>>();
-		values.add(new Pair<String, Double>("Pawl Angle", potentiometer.get()));
-		return values;
+	public void displayValues(Display display) {
+		display.putNumber("Pawl Angle", pawlPotentiometer.get());
+		display.putNumber("Pawl Motor Angle", motorPotentiometer.get());
+		display.putBoolean("Pawl Clutch Engaged", !clutchEngagedSwitch.get());
 	}
 
 }

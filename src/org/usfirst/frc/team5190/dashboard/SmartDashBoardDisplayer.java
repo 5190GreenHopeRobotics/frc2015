@@ -1,12 +1,11 @@
-package org.usfirst.frc.team5190.smartDashBoard;
+package org.usfirst.frc.team5190.dashboard;
 
 import java.util.LinkedList;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SmartDashBoardDisplayer {
 	private LinkedList<Displayable> queue;
 	private static SmartDashBoardDisplayer instance;
+	private Display display = new SmartDashboardDisplay();
 
 	static {
 		instance = new SmartDashBoardDisplayer();
@@ -40,16 +39,7 @@ public class SmartDashBoardDisplayer {
 	 */
 	public void display() {
 		for (Displayable iter : queue) {
-			if (iter.getDecimalValues() != null) {
-				for (Pair<String, Double> iter2 : iter.getDecimalValues()) {
-					SmartDashboard.putNumber(iter2.first(), iter2.second());
-				}
-			}
-			if (iter.getBooleanValue() != null) {
-				for (Pair<String, Boolean> iter2 : iter.getBooleanValue()) {
-					SmartDashboard.putBoolean(iter2.first(), iter2.second());
-				}
-			}
+			iter.displayValues(display);
 		}
 	}
 }

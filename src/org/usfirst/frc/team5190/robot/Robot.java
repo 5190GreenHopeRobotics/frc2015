@@ -1,8 +1,8 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
@@ -10,7 +10,6 @@ import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
-import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,6 +27,7 @@ public class Robot extends IterativeRobot {
 	// public static Vision usbCamera;
 
 	private Command autonomousCommand;
+	private Scheduler scheduler;
 
 	/**
 	 * The operator interface
@@ -44,13 +44,13 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
+		scheduler = Scheduler.getInstance();
 
-		SmartDashBoardDisplayer.getInstance().submit(
-				DriveTrainSubsystem.getInstance());
-		SmartDashBoardDisplayer.getInstance()
-				.submit(ArmSubsystem.getInstance());
-		SmartDashBoardDisplayer.getInstance().submit(
-				PawlSubsystem.getInstance());
+		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
+				.getInstance();
+		displayer.submit(DriveTrainSubsystem.getInstance());
+		displayer.submit(ArmSubsystem.getInstance());
+		displayer.submit(PawlSubsystem.getInstance());
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
+		scheduler.run();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		scheduler.run();
 	}
 
 	@Override
@@ -85,7 +85,6 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 
-		new TeleopCommandGroup().start();
 		new PutSmartDashBoardCommand().start();
 	}
 
@@ -105,11 +104,9 @@ public class Robot extends IterativeRobot {
 	 * grab an image, draw the circle, and provide it for the camera server
 	 * which will in turn send it to the dashboard.
 	 */
-
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-
+		scheduler.run();
 	}
 
 	/**
