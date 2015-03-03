@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CherryPickerOperateCommand extends Command {
+public class CherryPickerJoystickCommand extends Command {
 	private CherryPickerSubsystem cherryPickerSubsystem = CherryPickerSubsystem
 			.getInstance();
 
-	public CherryPickerOperateCommand() {
+	public CherryPickerJoystickCommand() {
 		requires(cherryPickerSubsystem);
 	}
 

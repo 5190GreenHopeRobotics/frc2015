@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.command.Command;
 

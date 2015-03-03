@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickCommand;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
@@ -37,8 +38,9 @@ public class CherryPickerSubsystem extends Subsystem {
 		return instance;
 	}
 
+	@Override
 	public void initDefaultCommand() {
-
+		setDefaultCommand(new CherryPickerJoystickCommand());
 	}
 
 	public void operate(double speed) {

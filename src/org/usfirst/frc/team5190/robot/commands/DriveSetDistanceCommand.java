@@ -17,6 +17,7 @@ public class DriveSetDistanceCommand extends Command {
 
 	// requires the drive train Subsystem .
 	public DriveSetDistanceCommand(double distance) {
+		super("DriveSetDistanceCommand");
 		this.distance = distance;
 		requires(driveTrainSubsystem);
 	}

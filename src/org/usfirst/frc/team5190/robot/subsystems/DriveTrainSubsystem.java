@@ -1,11 +1,9 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.smartDashBoard.Displayable;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
+import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -199,11 +197,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		disable = flag;
 	}
 
-	/**
-	 * dummy
-	 */
 	@Override
 	public void initDefaultCommand() {
+		setDefaultCommand(new DriveWithArcadeCommand());
 	}
 
 	public DriveSetDistance driveSetDistance() {
@@ -320,28 +316,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	@Override
-	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
-		// booleanValues.add(new Pair<String,
-		// Boolean>("Encoder Right Direction",
-		// right.getDirection()));
-		// booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",
-		// left.getDirection()));
-		return booleanValues;
-	}
-
-	@Override
-	public Collection<Pair<String, Double>> getDecimalValues() {
-		// Double get = new Double(right.get());
-		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
-		// encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
-		// encoder.add(new Pair<String, Double>("Encoder Right Distance:", right
-		// .getDistance()));
-		// get = new Double(left.get());
-		// encoder.add(new Pair<String, Double>("Encoder Left Get", get));
-		// encoder.add(new Pair<String, Double>("Encoder Left Distance", left
-		// .getDistance()));
-		return encoder;
+	public void displayValues(Display display) {
 	}
 
 }
