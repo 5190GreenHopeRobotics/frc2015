@@ -86,12 +86,11 @@ public class FlightStickOI implements OI {
 	}
 
 	/**
-	 * @return set pawl to original position
+	 * @return condition to set pawl to original position
 	 */
 	public boolean zeroPawlButton() {
 		boolean zeroPawl = false;
-		if (flightStickDrive
-				.getRawButton(LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT)) {
+		if (flightStickDrive.getRawButton(LogitechExtreme3D.THUMB_BUTTON)) {
 			zeroPawl = true;
 		}
 		return zeroPawl;
