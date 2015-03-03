@@ -13,6 +13,7 @@ public class HardwarePIDDriveTestCommand extends Command {
 			.getInstance();
 
 	public HardwarePIDDriveTestCommand() {
+		super("HardwarePIDDriveTestCommand");
 		requires(driveTrainSubsystem);
 	}
 

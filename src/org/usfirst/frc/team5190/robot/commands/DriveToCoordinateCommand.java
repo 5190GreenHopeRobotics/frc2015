@@ -3,7 +3,7 @@ package org.usfirst.frc.team5190.robot.commands;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.Turn;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
+import org.usfirst.frc.team5190.util.Pair;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,6 +20,8 @@ public class DriveToCoordinateCommand extends Command {
 			.getInstance();
 
 	public DriveToCoordinateCommand(double x, double y) {
+		super("DriveToCoordinateCommand");
+		requires(driveTrainSubsystem);
 		coord = new Pair<Double, Double>(x, y);
 		xyDifference = new Pair<Double, Double>();
 		d = driveTrainSubsystem.driveSetDistance();

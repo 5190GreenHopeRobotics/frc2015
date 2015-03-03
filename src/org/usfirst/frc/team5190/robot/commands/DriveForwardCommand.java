@@ -16,7 +16,7 @@ public class DriveForwardCommand extends Command {
 	 * 
 	 */
 	public DriveForwardCommand() {
-		// needs drive train
+		super("DriveForwardCommand");
 		requires(driveTrainSubsystem);
 		driveTrainSubsystem.setPower(0.1);
 		// ini the ultrasonics
