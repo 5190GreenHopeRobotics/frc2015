@@ -54,14 +54,21 @@ public class SmartSpeedController implements SpeedController {
 
 			@Override
 			public void run() {
-				if (pidController != null) {
-					if (pidController.isEnable()) {
-						if (pidController.onTarget()) {
-							synchronized (this) {
-								isPidOnTarget = true;
+				while (!Thread.interrupted()) {
+					if (pidController != null) {
+						if (pidController.isEnable()) {
+							if (pidController.onTarget()) {
+								synchronized (this) {
+									isPidOnTarget = true;
+								}
+								pidController.disable();
 							}
-							pidController.disable();
 						}
+					}
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						return;
 					}
 				}
 

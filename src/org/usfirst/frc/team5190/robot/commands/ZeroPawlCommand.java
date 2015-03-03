@@ -17,7 +17,7 @@ public class ZeroPawlCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		pawlSubsystem.goToAngle(0);
+		pawlSubsystem.goToAngle(45);
 	}
 
 	@Override
