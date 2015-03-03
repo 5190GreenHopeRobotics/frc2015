@@ -124,7 +124,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init the motors
 		initializeMotors();
 		// init drive
-		mDrive = new RobotDrive(frontLeft, frontRight);
+		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
@@ -158,16 +158,20 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft.changeControlMode(ControlMode.PercentVbus);
 		frontLeft.set(0);
 		backLeft.reverseOutput(false);
-		backLeft.changeControlMode(ControlMode.Follower);
-		// since back motors are followers/slaves, set() method sets their
-		// master (should be the master's CAN Id)
-		backLeft.set(frontLeft.getDeviceID());
+		backLeft.changeControlMode(ControlMode.PercentVbus);
+		backLeft.set(0);
+		// backLeft.changeControlMode(ControlMode.Follower);
+		// // since back motors are followers/slaves, set() method sets their
+		// // master (should be the master's CAN Id)
+		// backLeft.set(frontLeft.getDeviceID());
 		frontRight.reverseOutput(true);
 		frontRight.changeControlMode(ControlMode.PercentVbus);
 		frontRight.set(0);
 		backRight.reverseOutput(true);
-		backRight.changeControlMode(ControlMode.Follower);
-		backRight.set(frontRight.getDeviceID());
+		backRight.changeControlMode(ControlMode.PercentVbus);
+		backRight.set(0);
+		// backRight.changeControlMode(ControlMode.Follower);
+		// backRight.set(frontRight.getDeviceID());
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
