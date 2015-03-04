@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
+import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
+import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,9 +19,27 @@ public class TwoGamepadOI implements OI {
 		gamepad1 = new Joystick(gamepad1port);
 		gamepad2 = new Joystick(gamepad2port);
 
-		JoystickButton setAngleButton = new JoystickButton(gamepad2,
+		// JoystickButton setAngleButton = new JoystickButton(gamepad2,
+		// LogitechGamepad.A_BUTTON);
+		// setAngleButton.whenPressed(new ArmSetAngleCommand(15, true));
+		JoystickButton levelUpCommand = new JoystickButton(gamepad2,
+				LogitechGamepad.B_BUTTON);
+		levelUpCommand.whenPressed(new ArmLevelUpCommand(true));
+		JoystickButton levelDownCommand = new JoystickButton(gamepad2,
 				LogitechGamepad.A_BUTTON);
-		setAngleButton.whenPressed(new ArmSetAngleCommand(264, false));
+		levelUpCommand.whenPressed(new ArmLevelDownCommand(true));
+
+		// Arm Test Stuff
+		// JoystickButton Level0Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.X_BUTTON);
+		// JoystickButton Level1Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.A_BUTTON);
+		// JoystickButton Level2Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.B_BUTTON);
+		// JoystickButton Level3Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.Y_BUTTON);
+		// JoystickButton Level4Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.A_BUTTON)
 	}
 
 	@Override

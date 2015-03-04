@@ -21,28 +21,27 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	public static final double level0 = 0;
-	public static final double level1 = 12.5;
-	public static final double level2 = 32.1;
-	public static final double level3 = 51.7;
-	public static final double level4 = 71.3;
+	public static final double level0 = 45;
+	public static final double level1 = 100.625;
+	public static final double level2 = 187.845;
+	public static final double level3 = 275.065;
+	public static final double level4 = 363.175;
 
 	private double motorSpeed = 0.1;
 
 	private ArmSubsystem() {
 		super("ArmSubsystem");
-		System.out.println("CONSTRUCTOR");
-		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
-		armCANTalonLeft.enableBrakeMode(true);
+		controlMode = ControlMode.PercentVbus;
+		armCANTalonLeft.changeControlMode(controlMode);
+		armCANTalonLeft.set(0);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
+		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
+		armCANTalonLeft.enableBrakeMode(true);
 		armCANTalonLeft.setForwardSoftLimit(400);
 		armCANTalonLeft.setReverseSoftLimit(45);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
-		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
-		armCANTalonLeft.changeControlMode(controlMode);
-		armCANTalonLeft.set(0);
 
 		armCANTalonRight = new CANTalon(RobotMap.ARM_TALONSRX_RIGHT_CAN_ID);
 		armCANTalonRight.changeControlMode(ControlMode.Follower);
@@ -93,12 +92,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 			armCANTalonLeft.set(power);
 		} else {
 			if (controlMode != ControlMode.Position) {
-				// Check to see if we have a valid angle before setting in
-				// position mode.
-				double angle = getAngle();
-				System.out.println("Angle: " + angle);
 				armCANTalonLeft.changeControlMode(ControlMode.Position);
-				armCANTalonLeft.set(angle);
+				armCANTalonLeft.set(getAngle());
 				controlMode = ControlMode.Position;
 			}
 		}
@@ -154,56 +149,56 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		// level = 4;
 		// }
 		//
-		// switch (level) {
-		// case 0:
-		// setArmAngle().start(level0);
-		// break;
-		// case 1:
-		// setArmAngle().start(level1);
-		// break;
-		// case 2:
-		// setArmAngle().start(level2);
-		// break;
-		// case 3:
-		// setArmAngle().start(level3);
-		// break;
-		// case 4:
-		// setArmAngle().start(level4);
-		// }
+		switch (level) {
+		case 0:
+			setArmAngle(level0);
+			break;
+		case 1:
+			setArmAngle(level1);
+			break;
+		case 2:
+			setArmAngle(level2);
+			break;
+		case 3:
+			setArmAngle(level3);
+			break;
+		case 4:
+			setArmAngle(level4);
+		}
 	}
 
-	public void levelup() {
-		// double nextlevel = 0;
-		//
-		// if (getAngle() < level1) {
-		// nextlevel = level1;
-		// } else if (getAngle() < level2) {
-		// nextlevel = level2;
-		// } else if (getAngle() < level3) {
-		// nextlevel = level3;
-		// } else {
-		// nextlevel = level4;
-		// }
-		//
-		// setArmAngle().start(nextlevel);
+	public double levelup() {
+		double nextlevel = 0;
 
+		if (getAngle() < level1) {
+			nextlevel = level1;
+		} else if (getAngle() < level2) {
+			nextlevel = level2;
+		} else if (getAngle() < level3) {
+			nextlevel = level3;
+		} else {
+			nextlevel = level4;
+		}
+
+		setArmAngle(nextlevel);
+		return nextlevel;
 	}
 
-	public void leveldown() {
-		// double previouslevel = 0;
-		//
-		// if (getAngle() > level3) {
-		// previouslevel = level3;
-		// } else if (getAngle() > level2) {
-		// previouslevel = level2;
-		// } else if (getAngle() > level1) {
-		// previouslevel = level1;
-		// } else {
-		// previouslevel = 0;
-		// }
-		//
-		// setArmAngle().start(previouslevel);
+	public double leveldown() {
+		double previouslevel = 0;
 
+		if (getAngle() > level3) {
+			previouslevel = level3;
+		} else if (getAngle() > level2) {
+			previouslevel = level2;
+		} else if (getAngle() > level1) {
+			previouslevel = level1;
+		} else {
+			previouslevel = 0;
+		}
+
+		setArmAngle(previouslevel);
+		return previouslevel;
 	}
 
 }

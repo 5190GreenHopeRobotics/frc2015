@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
+ * a speed controller wrapper that is suppose to turn every speed controller
+ * into CANTalon speed controller with pid and follower
  * 
- * @author dan, sdai a speed controller wrapper that is suppose to turn every
- *         speed controller into CANTalon speed controller with pid and follower
+ * @author dan, sdai
+ * 
  */
 public class SmartSpeedController implements SpeedController {
 
@@ -41,6 +43,7 @@ public class SmartSpeedController implements SpeedController {
 	private double i;
 	private double d;
 	private boolean isPidOnTarget = false;
+	private boolean stopPid = true;
 
 	/**
 	 * init the smart controller with a regular controller
@@ -54,6 +57,7 @@ public class SmartSpeedController implements SpeedController {
 
 			@Override
 			public void run() {
+				// automatically stop pid if on target, emulate hardware pid
 				while (!Thread.interrupted()) {
 					if (pidController != null) {
 						if (pidController.isEnable()) {
@@ -61,7 +65,8 @@ public class SmartSpeedController implements SpeedController {
 								synchronized (this) {
 									isPidOnTarget = true;
 								}
-								pidController.disable();
+								if (stopPid)
+									pidController.disable();
 							}
 						}
 					}
@@ -109,6 +114,10 @@ public class SmartSpeedController implements SpeedController {
 	 */
 	public ControlMode getControlMode() {
 		return controlMode;
+	}
+
+	public void setPidDisableOnTarget(boolean status) {
+		stopPid = status;
 	}
 
 	/**
