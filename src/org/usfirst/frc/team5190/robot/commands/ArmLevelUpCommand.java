@@ -11,6 +11,7 @@ public class ArmLevelUpCommand extends Command {
 
 	private final ArmSubsystem armsubsystem = ArmSubsystem.getInstance();
 	private boolean waitToFinish;
+	private double nextlevel;
 
 	public ArmLevelUpCommand(boolean waitToFinish) {
 		// Use requires() here to declare subsystem dependencies
@@ -21,7 +22,7 @@ public class ArmLevelUpCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		armsubsystem.levelup();
+		nextlevel = armsubsystem.levelup();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -31,7 +32,13 @@ public class ArmLevelUpCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		if (waitToFinish) {
+			double toprange = nextlevel + 1;
+			double bottomrange = nextlevel - 1;
+			return armsubsystem.getAngle() > bottomrange
+					&& armsubsystem.getAngle() < toprange;
+		}
+		return true;
 	}
 
 	// Called once after isFinished returns true

@@ -160,7 +160,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
-	public void levelup() {
+	public double levelup() {
 		double nextlevel = 0;
 
 		if (getAngle() < level1) {
@@ -174,10 +174,10 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		}
 
 		setArmAngle(nextlevel);
-
+		return nextlevel;
 	}
 
-	public void leveldown() {
+	public double leveldown() {
 		double previouslevel = 0;
 
 		if (getAngle() > level3) {
@@ -191,6 +191,6 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		}
 
 		setArmAngle(previouslevel);
-
+		return previouslevel;
 	}
 }
