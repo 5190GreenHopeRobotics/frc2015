@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
 	static {
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5,
 				new TwoGamepadOI());
-		scaledInputsOI.setCherryPickerScalingValue(0.7);
+		scaledInputsOI.setCherryPickerScalingValue(0.5);
 		scaledInputsOI.setPawlScalingValue(0.5);
 		oi = scaledInputsOI;
 	}
