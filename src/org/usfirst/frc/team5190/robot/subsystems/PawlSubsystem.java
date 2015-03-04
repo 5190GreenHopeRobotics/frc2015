@@ -22,9 +22,10 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	private PawlSubsystem() {
 		jaguar = new Jaguar(RobotMap.PAWL_JAGUAR_PORT);
 		pawlPotentiometer = new AnalogPotentiometer(
-				RobotMap.PAWL_POTENTIMETER_PORT, 40, 0);
+				RobotMap.PAWL_POTENTIMETER_PORT, 265.3888684113527, -174.15);
 		motorPotentiometer = new AnalogPotentiometer(
-				RobotMap.PAWL_MOTOR_POTENTIMETER_PORT, 40, 0);
+				RobotMap.PAWL_MOTOR_POTENTIMETER_PORT, -258.0645161290323,
+				218.65);
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 	}
@@ -62,7 +63,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	public void displayValues(Display display) {
 		display.putNumber("Pawl Angle", pawlPotentiometer.get());
 		display.putNumber("Pawl Motor Angle", motorPotentiometer.get());
-		display.putBoolean("Pawl Clutch Engaged", !clutchEngagedSwitch.get());
+		display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
 	}
 
 }
