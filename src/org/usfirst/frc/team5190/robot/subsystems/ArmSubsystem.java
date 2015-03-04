@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -70,7 +71,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 	@Override
 	public void initDefaultCommand() {
-		// setDefaultCommand(new ArmJoystickCommand());
+		setDefaultCommand(new ArmJoystickCommand());
 	}
 
 	/**
