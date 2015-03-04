@@ -17,7 +17,7 @@ public class ZeroPawlCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		pawlSubsystem.goToAngle(45);
+		pawlSubsystem.goToAngle(0);
 	}
 
 	@Override
@@ -28,18 +28,17 @@ public class ZeroPawlCommand extends Command {
 	@Override
 	protected boolean isFinished() {
 
-		return false;
+		return pawlSubsystem.angleReached();
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-
+		pawlSubsystem.disablePid();
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
+		System.err.println("Zero Pawl Interrupted");
 
 	}
 

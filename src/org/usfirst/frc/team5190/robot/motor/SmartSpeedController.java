@@ -25,7 +25,6 @@ public class SmartSpeedController implements SpeedController {
 	private DigitalInput reverseLimitSwitch;
 	private Potentiometer potentiometer;
 	private Encoder encoder;
-	private Thread pidThread;
 	private ControlMode controlMode = ControlMode.PercentVBus;
 	private boolean forwardLimitSwitchEnabled = false;
 	private boolean reverseLimitSwitchEnabled = false;
@@ -42,8 +41,6 @@ public class SmartSpeedController implements SpeedController {
 	private double p;
 	private double i;
 	private double d;
-	private boolean isPidOnTarget = false;
-	private boolean stopPid = true;
 
 	/**
 	 * init the smart controller with a regular controller
@@ -53,34 +50,6 @@ public class SmartSpeedController implements SpeedController {
 	 */
 	public SmartSpeedController(SpeedController speedController) {
 		this.speedController = speedController;
-		pidThread = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				// automatically stop pid if on target, emulate hardware pid
-				while (!Thread.interrupted()) {
-					if (pidController != null) {
-						if (pidController.isEnable()) {
-							if (pidController.onTarget()) {
-								synchronized (this) {
-									isPidOnTarget = true;
-								}
-								if (stopPid)
-									pidController.disable();
-							}
-						}
-					}
-					try {
-						Thread.sleep(20);
-					} catch (InterruptedException e) {
-						return;
-					}
-				}
-
-			}
-
-		});
-		pidThread.start();
 	}
 
 	/**
@@ -116,10 +85,6 @@ public class SmartSpeedController implements SpeedController {
 		return controlMode;
 	}
 
-	public void setPidDisableOnTarget(boolean status) {
-		stopPid = status;
-	}
-
 	/**
 	 * set the control mode for the speed controller
 	 * 
@@ -128,6 +93,10 @@ public class SmartSpeedController implements SpeedController {
 	 */
 	public void setControlMode(ControlMode controlMode) {
 		this.controlMode = controlMode;
+		if (controlMode == ControlMode.Follower
+				|| controlMode == ControlMode.PercentVBus) {
+			disablePid();
+		}
 		if (encoder != null) {
 			if (controlMode == ControlMode.Distance) {
 				encoder.setPIDSourceParameter(PIDSourceParameter.kDistance);
@@ -464,25 +433,25 @@ public class SmartSpeedController implements SpeedController {
 				createAnglePid();
 				pidController.setSetpoint(value);
 				pidController.enable();
-				synchronized (this) {
-					isPidOnTarget = false;
-				}
 			} else if (controlMode == ControlMode.Distance) {
 				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
 				pidController.enable();
-				synchronized (this) {
-					isPidOnTarget = false;
-				}
 			} else if (controlMode == ControlMode.Speed) {
 				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
 				pidController.enable();
-				synchronized (this) {
-					isPidOnTarget = false;
-				}
 			}
 
+		}
+	}
+
+	/**
+	 * disable the pid on this controller
+	 */
+	public void disablePid() {
+		if (pidController != null && pidController.isEnable()) {
+			pidController.disable();
 		}
 	}
 
@@ -517,11 +486,13 @@ public class SmartSpeedController implements SpeedController {
 
 	protected void createDistanceSpeedPid() {
 		pidController = new PIDController(p, i, d, encoder, speedController);
+		pidController.setAbsoluteTolerance(2);
 	}
 
 	protected void createAnglePid() {
 		pidController = new PIDController(p, i, d, potentiometer,
 				speedController);
+		pidController.setAbsoluteTolerance(2);
 	}
 
 	@Override

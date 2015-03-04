@@ -8,5 +8,6 @@ public class TeleopCommandGroup extends CommandGroup {
 
 	public TeleopCommandGroup() {
 		addParallel(new PawlJoystickCommand());
+		addParallel(new PawlFollowCommand());
 	}
 }

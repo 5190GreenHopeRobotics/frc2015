@@ -24,7 +24,6 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 				RobotMap.PAWL_JAGUAR_PORT));
 		pawlPotentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 265.3888684113527, -174.15);
-		smartController.setPotentiometer(pawlPotentiometer);
 		smartController.setPID(0.4, 0, 0.1);
 
 		motorPotentiometer = new AnalogPotentiometer(
@@ -32,6 +31,11 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 				218.65);
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
+
+		// set soft limit
+		smartController.setPotentiometer(motorPotentiometer);
+		smartController.setForwardSoftLimit(45);
+		smartController.setReverseSoftLimit(-45);
 	}
 
 	@Override
@@ -51,6 +55,12 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
+	public void followMotor() {
+		smartController
+				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.Angle);
+		smartController.set(pawlPotentiometer.get());
+	}
+
 	public double getAngle() {
 		return pawlPotentiometer.get();
 	}
@@ -58,10 +68,16 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	public void goToAngle(double angle) {
 		smartController
 				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.Angle);
+		smartController.set(angle);
 
-		double pot = angle * 10.24 / 360;
-		smartController.set(pot);
+	}
 
+	public void disablePid() {
+		smartController.disablePid();
+	}
+
+	public boolean angleReached() {
+		return smartController.isOnTarget();
 	}
 
 	public void movePawl(double speed) {
