@@ -8,12 +8,11 @@ import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * the arm subsystem
  */
-public class ArmSubsystem extends Subsystem implements Displayable {
+public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private static ArmSubsystem instance;
 
 	// Levels for arm corresponding with totes, current values are
@@ -28,13 +27,11 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	public static final double level3 = 51.7;
 	public static final double level4 = 71.3;
 
-	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
-
-	// private Potentiometer armPot = new AnalogPotentiometer(
-	// RobotMap.ARM_CANTALONLEFT_PORT, 40, 0);
 	private double motorSpeed = 0.1;
 
 	private ArmSubsystem() {
+		super("ArmSubsystem");
+		System.out.println("CONSTRUCTOR");
 		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		armCANTalonLeft.enableBrakeMode(true);
@@ -85,7 +82,6 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	 */
 	public void stopArm() {
 		armCANTalonLeft.set(0);
-		;
 	}
 
 	public void moveArm(double power) {
@@ -97,8 +93,12 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 			armCANTalonLeft.set(power);
 		} else {
 			if (controlMode != ControlMode.Position) {
+				// Check to see if we have a valid angle before setting in
+				// position mode.
+				double angle = getAngle();
+				System.out.println("Angle: " + angle);
 				armCANTalonLeft.changeControlMode(ControlMode.Position);
-				armCANTalonLeft.set(getAngle());
+				armCANTalonLeft.set(angle);
 				controlMode = ControlMode.Position;
 			}
 		}
@@ -126,6 +126,17 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	@Override
 	public void displayValues(Display display) {
 		display.putNumber("Arm Angle", getAngle());
+	}
+
+	@Override
+	protected void init() {
+	}
+
+	@Override
+	protected void disable() {
+		armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);
+		controlMode = ControlMode.PercentVbus;
+		armCANTalonLeft.set(0);
 	}
 
 	// Set a level for quick tote stacking
@@ -194,4 +205,5 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		// setArmAngle().start(previouslevel);
 
 	}
+
 }
