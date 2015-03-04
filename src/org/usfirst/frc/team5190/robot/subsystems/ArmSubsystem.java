@@ -34,7 +34,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	private double motorSpeed = 0.1;
 
 	private ArmSubsystem() {
-		controlMode = ControlMode.Position;
+		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		armCANTalonLeft.enableBrakeMode(true);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
@@ -44,7 +44,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		armCANTalonLeft.enableReverseSoftLimit(true);
 		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
 		armCANTalonLeft.changeControlMode(controlMode);
-		armCANTalonLeft.set(getAngle());
+		armCANTalonLeft.set(0);
 
 		armCANTalonRight = new CANTalon(RobotMap.ARM_TALONSRX_RIGHT_CAN_ID);
 		armCANTalonRight.changeControlMode(ControlMode.Follower);

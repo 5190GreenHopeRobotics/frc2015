@@ -50,12 +50,10 @@ public class ArmJoystickCommand extends Command {
 	}
 
 	protected void end() {
-		System.out.println("ENDING ARM TELEOP");
 		armSubsystem.stopArm();
 	}
 
 	protected void interrupted() {
-		System.out.println("INTERRUPTED ARM TELEOP");
 		end();
 	}
 }

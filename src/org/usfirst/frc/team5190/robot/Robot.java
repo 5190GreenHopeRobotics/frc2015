@@ -7,6 +7,7 @@ import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
@@ -51,6 +52,7 @@ public class Robot extends IterativeRobot {
 		displayer.submit(DriveTrainSubsystem.getInstance());
 		displayer.submit(ArmSubsystem.getInstance());
 		displayer.submit(PawlSubsystem.getInstance());
+		displayer.submit(CherryPickerSubsystem.getInstance());
 	}
 
 	@Override
