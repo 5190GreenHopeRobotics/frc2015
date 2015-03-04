@@ -20,7 +20,19 @@ public class TwoGamepadOI implements OI {
 
 		JoystickButton setAngleButton = new JoystickButton(gamepad2,
 				LogitechGamepad.A_BUTTON);
-		setAngleButton.whenPressed(new ArmSetAngleCommand(264, false));
+		setAngleButton.whenPressed(new ArmSetAngleCommand(15, true));
+
+		// Arm Test Stuff
+		// JoystickButton Level0Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.X_BUTTON);
+		// JoystickButton Level1Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.A_BUTTON);
+		// JoystickButton Level2Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.B_BUTTON);
+		// JoystickButton Level3Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.Y_BUTTON);
+		// JoystickButton Level4Button = new JoystickButton(gamepad2,
+		// LogitechGamepad.A_BUTTON)
 	}
 
 	@Override

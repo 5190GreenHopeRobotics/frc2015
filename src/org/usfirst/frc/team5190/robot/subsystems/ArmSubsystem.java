@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -68,7 +67,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new ArmJoystickCommand());
+		// setDefaultCommand(new ArmJoystickCommand());
 	}
 
 	/**
@@ -145,19 +144,19 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		//
 		switch (level) {
 		case 0:
-			setArmAngle().start(level0);
+			setArmAngle(level0);
 			break;
 		case 1:
-			setArmAngle().start(level1);
+			setArmAngle(level1);
 			break;
 		case 2:
-			setArmAngle().start(level2);
+			setArmAngle(level2);
 			break;
 		case 3:
-			setArmAngle().start(level3);
+			setArmAngle(level3);
 			break;
 		case 4:
-			setArmAngle().start(level4);
+			setArmAngle(level4);
 		}
 	}
 
@@ -174,7 +173,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 			nextlevel = level4;
 		}
 
-		setArmAngle().start(nextlevel);
+		setArmAngle(nextlevel);
 
 	}
 
@@ -191,7 +190,7 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 			previouslevel = 0;
 		}
 
-		setArmAngle().start(previouslevel);
+		setArmAngle(previouslevel);
 
 	}
 }
