@@ -21,11 +21,11 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	public static final double level0 = 0;
-	public static final double level1 = 12.5;
-	public static final double level2 = 32.1;
-	public static final double level3 = 51.7;
-	public static final double level4 = 71.3;
+	public static final double level0 = 45;
+	public static final double level1 = 100.625;
+	public static final double level2 = 187.845;
+	public static final double level3 = 275.065;
+	public static final double level4 = 363.175;
 
 	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
 
