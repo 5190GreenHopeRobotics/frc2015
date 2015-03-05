@@ -55,7 +55,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
-	public void followMotor() {
+	protected void followMotor() {
 		smartController
 				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.Angle);
 		smartController.set(pawlPotentiometer.get());
