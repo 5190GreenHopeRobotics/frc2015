@@ -86,12 +86,13 @@ public class SmartSpeedController implements SpeedController {
 	}
 
 	/**
-	 * set the control mode for the speed controller
-	 * 
-	 * @param controlMode
-	 *            the mode of the controller
+	 * Set the control mode for the speed controller. Checks to see if already
+	 * in the mode given and if so it does nothing.
 	 */
 	public void setControlMode(ControlMode controlMode) {
+		if (this.controlMode == controlMode) {
+			return;
+		}
 		this.controlMode = controlMode;
 		if (controlMode == ControlMode.Follower
 				|| controlMode == ControlMode.PercentVBus) {

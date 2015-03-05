@@ -5,6 +5,7 @@ import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.PawlJoystickCommand;
 import org.usfirst.frc.team5190.robot.motor.SmartSpeedController;
+import org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -34,8 +35,8 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 
 		// set soft limit
 		smartController.setPotentiometer(motorPotentiometer);
-		smartController.setForwardSoftLimit(45);
-		smartController.setReverseSoftLimit(-45);
+		smartController.setForwardSoftLimit(40);
+		smartController.setReverseSoftLimit(-40);
 	}
 
 	@Override
@@ -56,8 +57,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void followMotor() {
-		smartController
-				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.Angle);
+		smartController.setControlMode(ControlMode.Angle);
 		smartController.set(pawlPotentiometer.get());
 	}
 
@@ -66,8 +66,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void goToAngle(double angle) {
-		smartController
-				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.Angle);
+		smartController.setControlMode(ControlMode.Angle);
 		smartController.set(angle);
 
 	}
