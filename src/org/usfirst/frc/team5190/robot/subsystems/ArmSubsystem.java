@@ -8,12 +8,11 @@ import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * the arm subsystem
  */
-public class ArmSubsystem extends Subsystem implements Displayable {
+public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private static ArmSubsystem instance;
 
 	// Levels for arm corresponding with totes, current values are
@@ -22,30 +21,27 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	public static final double level0 = 0;
-	public static final double level1 = 12.5;
-	public static final double level2 = 32.1;
-	public static final double level3 = 51.7;
-	public static final double level4 = 71.3;
+	public static final double level0 = 45;
+	public static final double level1 = 100.625;
+	public static final double level2 = 187.845;
+	public static final double level3 = 275.065;
+	public static final double level4 = 363.175;
 
-	public static final double[] ARM_POWER_RANGE = { -0.2, 0.2 };
-
-	// private Potentiometer armPot = new AnalogPotentiometer(
-	// RobotMap.ARM_CANTALONLEFT_PORT, 40, 0);
 	private double motorSpeed = 0.1;
 
 	private ArmSubsystem() {
-		controlMode = ControlMode.PercentVbus;
+		super("ArmSubsystem");
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
-		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
-		armCANTalonLeft.setForwardSoftLimit(400);
-		armCANTalonLeft.setReverseSoftLimit(45);
-		armCANTalonLeft.enableForwardSoftLimit(true);
-		armCANTalonLeft.enableReverseSoftLimit(true);
-		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
+		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft.changeControlMode(controlMode);
 		armCANTalonLeft.set(0);
+		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
+		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
+		armCANTalonLeft.enableBrakeMode(true);
+		armCANTalonLeft.setForwardSoftLimit(400);
+		armCANTalonLeft.setReverseSoftLimit(43);
+		armCANTalonLeft.enableForwardSoftLimit(true);
+		armCANTalonLeft.enableReverseSoftLimit(true);
 
 		armCANTalonRight = new CANTalon(RobotMap.ARM_TALONSRX_RIGHT_CAN_ID);
 		armCANTalonRight.changeControlMode(ControlMode.Follower);
@@ -85,7 +81,6 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	 */
 	public void stopArm() {
 		armCANTalonLeft.set(0);
-		;
 	}
 
 	public void moveArm(double power) {
@@ -128,6 +123,17 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		display.putNumber("Arm Angle", getAngle());
 	}
 
+	@Override
+	protected void init() {
+	}
+
+	@Override
+	protected void disable() {
+		armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);
+		controlMode = ControlMode.PercentVbus;
+		armCANTalonLeft.set(0);
+	}
+
 	// Set a level for quick tote stacking
 	// arm is 31 inches long
 	// arm is 30.5 inches off the ground
@@ -143,55 +149,56 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		// level = 4;
 		// }
 		//
-		// switch (level) {
-		// case 0:
-		// setArmAngle().start(level0);
-		// break;
-		// case 1:
-		// setArmAngle().start(level1);
-		// break;
-		// case 2:
-		// setArmAngle().start(level2);
-		// break;
-		// case 3:
-		// setArmAngle().start(level3);
-		// break;
-		// case 4:
-		// setArmAngle().start(level4);
-		// }
+		switch (level) {
+		case 0:
+			setArmAngle(level0);
+			break;
+		case 1:
+			setArmAngle(level1);
+			break;
+		case 2:
+			setArmAngle(level2);
+			break;
+		case 3:
+			setArmAngle(level3);
+			break;
+		case 4:
+			setArmAngle(level4);
+		}
 	}
 
-	public void levelup() {
-		// double nextlevel = 0;
-		//
-		// if (getAngle() < level1) {
-		// nextlevel = level1;
-		// } else if (getAngle() < level2) {
-		// nextlevel = level2;
-		// } else if (getAngle() < level3) {
-		// nextlevel = level3;
-		// } else {
-		// nextlevel = level4;
-		// }
-		//
-		// setArmAngle().start(nextlevel);
+	public double levelup() {
+		double nextlevel = 0;
 
+		if (getAngle() < level1) {
+			nextlevel = level1;
+		} else if (getAngle() < level2) {
+			nextlevel = level2;
+		} else if (getAngle() < level3) {
+			nextlevel = level3;
+		} else {
+			nextlevel = level4;
+		}
+
+		setArmAngle(nextlevel);
+		return nextlevel;
 	}
 
-	public void leveldown() {
-		// double previouslevel = 0;
-		//
-		// if (getAngle() > level3) {
-		// previouslevel = level3;
-		// } else if (getAngle() > level2) {
-		// previouslevel = level2;
-		// } else if (getAngle() > level1) {
-		// previouslevel = level1;
-		// } else {
-		// previouslevel = 0;
-		// }
-		//
-		// setArmAngle().start(previouslevel);
+	public double leveldown() {
+		double previouslevel = 0;
 
+		if (getAngle() > level3) {
+			previouslevel = level3;
+		} else if (getAngle() > level2) {
+			previouslevel = level2;
+		} else if (getAngle() > level1) {
+			previouslevel = level1;
+		} else {
+			previouslevel = 0;
+		}
+
+		setArmAngle(previouslevel);
+		return previouslevel;
 	}
+
 }
