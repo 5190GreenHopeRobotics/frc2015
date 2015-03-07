@@ -247,6 +247,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void turnRight() {
 		if (!disable) {
 			mDrive.tankDrive(0, 0.1);
+			// mDrive.tankDrive(0, 0.5);
 		}
 	}
 
@@ -257,6 +258,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public void turnLeft() {
 		if (!disable) {
 			mDrive.tankDrive(0.1, 0);
+			// mDrive.tankDrive(.5, 0);
 		}
 	}
 

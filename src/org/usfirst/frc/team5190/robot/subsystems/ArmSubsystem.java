@@ -23,11 +23,11 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private ControlMode controlMode;
 	protected int lowLimit;
 	protected int highLimit;
-	public static final double level0 = 1;
-	public static final double level1 = 15;
-	public static final double level2 = 30;
-	public static final double level3 = 45;
-	public static final double level4 = 60;
+	public static final double level0 = 320;
+	public static final double level1 = 392.5983675;
+	public static final double level2 = 465.196735;
+	public static final double level3 = 537.7951025;
+	public static final double level4 = 610.39347;
 
 	private double motorSpeed = 0.1;
 
@@ -40,8 +40,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
 		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
 		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setForwardSoftLimit(70);
-		armCANTalonLeft.setReverseSoftLimit(0);
+		armCANTalonLeft.setForwardSoftLimit(676);
+		armCANTalonLeft.setReverseSoftLimit(320);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
 

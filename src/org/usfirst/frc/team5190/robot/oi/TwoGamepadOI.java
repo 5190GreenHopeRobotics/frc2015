@@ -2,12 +2,14 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
+import org.usfirst.frc.team5190.robot.commands.KILL;
 import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -49,6 +51,9 @@ public class TwoGamepadOI implements OI {
 		JoystickButton levelDownCommand = new JoystickButton(gamepadShoot,
 				LogitechGamepad.A_BUTTON);
 		levelDownCommand.whenPressed(new ArmLevelDownCommand(true));
+
+		// REMOVE IF NEEDED
+		SmartDashboard.putData("Kill Robot", new KILL());
 
 		// Arm Test Stuff
 		// JoystickButton Level0Button = new JoystickButton(gamepad2,
