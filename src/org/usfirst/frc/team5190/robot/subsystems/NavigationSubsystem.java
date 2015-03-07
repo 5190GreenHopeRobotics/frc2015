@@ -37,9 +37,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	private PIDSource currentAngleControl;
 
 	private NavigationSubsystem() {
+		serial = new SerialPort(57600, SerialPort.Port.kMXP);
 		rangeFinderLeft = new VL6180xRangeFinder(Port.kMXP);
 		rangeFinderLeft.start();
-		
+
 		rangeFinderRight = new VL6180xRangeFinder(Port.kOnboard);
 		rangeFinderRight.start();
 
@@ -70,13 +71,13 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
-	
-	public int getPawlDistanceFromObject(){
+
+	public int getPawlDistanceFromObject() {
 		int leftDistance = rangeFinderLeft.getDistance();
 		int rightDistance = rangeFinderRight.getDistance();
 		SmartDashboard.putNumber("Left range finder", leftDistance);
 		SmartDashboard.putNumber("Right rangeFinder", rightDistance);
-		return (leftDistance + rightDistance)/2;
+		return (leftDistance + rightDistance) / 2;
 	}
 
 	public AHRS getAHRS() {
@@ -124,7 +125,32 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	@Override
 	// Display values
 	public void displayValues(Display display) {
-		// filteredLidar.displayValues(display);
+		display.putNumber("NavX Altitude", navXSensor.getAltitude());
+		display.putNumber("NavX BarometricPressure",
+				navXSensor.getBarometricPressure());
+		display.putNumber("NavX Magnetometer X",
+				navXSensor.getCalibratedMagnetometerX());
+		display.putNumber("NavX Magnetometer Y",
+				navXSensor.getCalibratedMagnetometerY());
+		display.putNumber("NavX Magnetometer Z",
+				navXSensor.getCalibratedMagnetometerZ());
+		display.putNumber("NavX Compass Heading",
+				navXSensor.getCompassHeading());
+		display.putNumber("NavX Displacement X", navXSensor.getDisplacementX());
+		display.putNumber("NavX Displacement Y", navXSensor.getDisplacementY());
+		display.putNumber("NavX fused heading", navXSensor.getFusedHeading());
+		display.putNumber("NavX Pitch", navXSensor.getPitch());
+		display.putNumber("NavX Roll", navXSensor.getRoll());
+		display.putNumber("NavX Temperature", navXSensor.getTempC());
+		display.putNumber("NavX Velocity X", navXSensor.getVelocityX());
+		display.putNumber("NavX Velocity Y", navXSensor.getVelocityY());
+		display.putNumber("NavX World Linear Accel X",
+				navXSensor.getWorldLinearAccelX());
+		display.putNumber("NavX World Linear Accel Y",
+				navXSensor.getWorldLinearAccelY());
+		display.putNumber("NavX World Linear Accel Z",
+				navXSensor.getWorldLinearAccelZ());
+		display.putNumber("NavX Yaw", navXSensor.getYaw());
 	}
 
 	private void loadSensor() {

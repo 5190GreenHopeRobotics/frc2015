@@ -21,6 +21,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
+	protected int lowLimit;
+	protected int highLimit;
 	public static final double level0 = 320;
 	public static final double level1 = 392.5983675;
 	public static final double level2 = 465.196735;
@@ -116,6 +118,46 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 			controlMode = ControlMode.Position;
 		}
 		armCANTalonLeft.set(positionAngle);
+	}
+
+	public void setLimit(int low, int high) {
+		lowLimit = low;
+		highLimit = high;
+		armCANTalonLeft.setForwardSoftLimit(high);
+		armCANTalonLeft.setReverseSoftLimit(low);
+	}
+
+	public int getHighLimit() {
+		return highLimit;
+	}
+
+	public int getLowLimit() {
+		return lowLimit;
+	}
+
+	/**
+	 * move the arm down, won't do anything if hit the reverse limit switch
+	 * 
+	 * @return if it reached bottom
+	 */
+	public boolean goToLowest() {
+		if (!armCANTalonLeft.isRevLimitSwitchClosed()) {
+			moveArm(-0.1);
+
+		}
+		return armCANTalonLeft.isRevLimitSwitchClosed();
+	}
+
+	/**
+	 * move the arm up, wom't do anything if hit the top limit switch
+	 * 
+	 * @return if reached top
+	 */
+	public boolean goToHighest() {
+		if (!armCANTalonLeft.isFwdLimitSwitchClosed()) {
+			moveArm(0.1);
+		}
+		return armCANTalonLeft.isFwdLimitSwitchClosed();
 	}
 
 	@Override

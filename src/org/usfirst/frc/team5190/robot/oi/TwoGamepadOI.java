@@ -72,9 +72,8 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return OIUtils
-				.zeroSmallValues(0.05, -gamepadDrive
-						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_Y_AXIS));
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS));
 
 	}
 
@@ -83,8 +82,9 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return OIUtils.zeroSmallValues(0.05,
-				-gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS));
+		return OIUtils
+				.zeroSmallValues(0.05, -gamepadDrive
+						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
 	}
 
 	/**
