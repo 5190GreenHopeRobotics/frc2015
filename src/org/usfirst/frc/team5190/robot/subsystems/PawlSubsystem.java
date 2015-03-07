@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.concurrent.TimeUnit;
-
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
@@ -12,18 +10,17 @@ import org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
-public class PawlSubsystem extends Subsystem implements Displayable {
+public class PawlSubsystem extends LifecycleSubsystem implements Displayable {
 	private static PawlSubsystem instance;
 	private SmartSpeedController smartController;
 	private Potentiometer pawlPotentiometer;
 	private Potentiometer motorPotentiometer;
 	private DigitalInput clutchEngagedSwitch;
-	private Thread pawlSyncWorker;
 
 	private PawlSubsystem() {
+		super("PawlSubsystem");
 		smartController = new SmartSpeedController(new Jaguar(
 				RobotMap.PAWL_JAGUAR_PORT));
 		pawlPotentiometer = new AnalogPotentiometer(
@@ -38,28 +35,8 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 
 		// set soft limit
 		smartController.setPotentiometer(motorPotentiometer);
-		smartController.setForwardSoftLimit(40);
-		smartController.setReverseSoftLimit(-40);
-		pawlSyncWorker = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while (!Thread.interrupted()) {
-					if (!angleReached()) {
-						followMotor();
-					}
-					try {
-						TimeUnit.MILLISECONDS.sleep(100);
-					} catch (InterruptedException e) {
-						return;
-					}
-				}
-
-			}
-
-		});
-		pawlSyncWorker.start();
-
+		smartController.setForwardSoftLimit(90);
+		smartController.setReverseSoftLimit(0);
 	}
 
 	@Override
@@ -77,11 +54,6 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 			}
 		}
 		return instance;
-	}
-
-	protected synchronized void followMotor() {
-		smartController.setControlMode(ControlMode.Angle);
-		smartController.set(pawlPotentiometer.get());
 	}
 
 	public double getAngle() {
@@ -102,13 +74,13 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return smartController.isOnTarget();
 	}
 
-	public synchronized void movePawl(double speed) {
+	public void movePawl(double speed) {
 		smartController
 				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.PercentVBus);
 		smartController.set(speed);
 	}
 
-	public synchronized void stopPawl() {
+	public void stopPawl() {
 		smartController.set(0);
 	}
 
