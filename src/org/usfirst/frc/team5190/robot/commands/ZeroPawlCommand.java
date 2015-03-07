@@ -10,7 +10,6 @@ public class ZeroPawlCommand extends Command {
 		super("ZeroPawlCommand");
 
 		requires(pawlSubsystem);
-
 	}
 
 	private PawlSubsystem pawlSubsystem = PawlSubsystem.getInstance();
