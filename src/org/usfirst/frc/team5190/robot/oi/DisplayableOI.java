@@ -45,9 +45,4 @@ public class DisplayableOI implements OI, Displayable {
 		return sourceOI.getPawlAxis();
 	}
 
-	@Override
-	public boolean zeroPawlButton() {
-		return false;
-	}
-
 }

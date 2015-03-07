@@ -63,9 +63,4 @@ public class ScaleInputsOI implements OI {
 		return sourceOI.getPawlAxis() * pawlScalingValue;
 	}
 
-	@Override
-	public boolean zeroPawlButton() {
-		return false;
-	}
-
 }

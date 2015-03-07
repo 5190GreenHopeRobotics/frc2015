@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-
 public class SetPowerCurvesOI implements OI {
 
 	private OI sourceOI;
@@ -32,11 +31,6 @@ public class SetPowerCurvesOI implements OI {
 	@Override
 	public double getPawlAxis() {
 		return OIUtils.scaledCubic(0.8, sourceOI.getPawlAxis());
-	}
-
-	@Override
-	public boolean zeroPawlButton() {
-		return false;
 	}
 
 }

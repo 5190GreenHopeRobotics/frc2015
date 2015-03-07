@@ -10,6 +10,4 @@ public interface OI {
 	double getCherryPickerAxis();
 
 	double getPawlAxis();
-	
-	boolean zeroPawlButton();
 }
