@@ -176,43 +176,43 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	}
 
 	public double levelup() {
-		double nextlevel = 0;
+		double nextLevel;
 
 		if (getAngle() < level1) {
-			nextlevel = level1;
+			nextLevel = level1;
 		} else if (getAngle() < level2) {
-			nextlevel = level2;
+			nextLevel = level2;
 		} else if (getAngle() < level3) {
-			nextlevel = level3;
+			nextLevel = level3;
 		} else {
-			nextlevel = level4;
+			nextLevel = level4;
 		}
 
-		setArmAngle(nextlevel);
-		return nextlevel;
+		setArmAngle(nextLevel);
+		return nextLevel;
 	}
 
 	public int CurrentLevel() {
-		int nextlevel = 0;
+		int currentLevel;
 
 		if (getAngle() < level1) {
-			nextlevel = 0;
+			currentLevel = 0;
 		} else if (getAngle() < level2) {
-			nextlevel = 1;
+			currentLevel = 1;
 		} else if (getAngle() < level3) {
-			nextlevel = 2;
+			currentLevel = 2;
 		} else if (getAngle() < level4) {
-			nextlevel = 3;
+			currentLevel = 3;
 		} else {
-			nextlevel = 4;
+			currentLevel = 4;
 
 		}
 
-		return nextlevel;
+		return currentLevel;
 	}
 
 	public double leveldown() {
-		double previouslevel = 0;
+		double previouslevel;
 
 		if (getAngle() > level3) {
 			previouslevel = level3;
@@ -221,7 +221,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		} else if (getAngle() > level1) {
 			previouslevel = level1;
 		} else {
-			previouslevel = 0;
+			previouslevel = level0;
 		}
 
 		setArmAngle(previouslevel);
