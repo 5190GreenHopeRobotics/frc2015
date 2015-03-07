@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickCommand;
 
@@ -10,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class CherryPickerSubsystem extends Subsystem {
+public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private static CherryPickerSubsystem instance;
 
 	// DIO ports temporary in this class.
@@ -71,6 +73,14 @@ public class CherryPickerSubsystem extends Subsystem {
 
 	public void stopCherryPicker() {
 		this.cherryPickerController.set(0);
+	}
+
+	@Override
+	public void displayValues(Display display) {
+		display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
+		display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
+		display.putNumber("Cherry Picker Motor Power",
+				cherryPickerController.get());
 	}
 
 }
