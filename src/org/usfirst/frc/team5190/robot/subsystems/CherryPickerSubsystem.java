@@ -46,6 +46,9 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void operate(double speed) {
+		if (ArmSubsystem.getInstance().getAngle() < 30 && speed > 0) {
+			return;
+		}
 		if (speed < 0 && this.reachedMinLimit()) {
 			stopCherryPicker();
 		} else if (speed > 0 && this.reachedMaxLimit()) {
@@ -75,12 +78,14 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 		this.cherryPickerController.set(0);
 	}
 
+	// Display Values
 	@Override
 	public void displayValues(Display display) {
 		display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
 		display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
 		display.putNumber("Cherry Picker Motor Power",
-				cherryPickerController.get());
+				cherryPickerController.getSpeed());
+		// cherryPickerController.get());
 	}
 
 }

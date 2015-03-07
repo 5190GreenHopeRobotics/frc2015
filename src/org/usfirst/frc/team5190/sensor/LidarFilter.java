@@ -70,8 +70,9 @@ public class LidarFilter implements PIDSource, Displayable {
 	}
 
 	@Override
+	// Display Values
 	public void displayValues(Display display) {
-		display.putNumber("Filtered Lidar", pidGet());
-		display.putNumber("Unfiltered Lidar", lidar.getDistance());
+		// display.putNumber("Filtered Lidar", pidGet());
+		// display.putNumber("Unfiltered Lidar", lidar.getDistance());
 	}
 }

@@ -41,10 +41,11 @@ public class Robot extends IterativeRobot {
 		// Initialize OI
 		OI joystickOI = new FlightStickWithGamePadOI(0, 1);
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5, powerCurvesOI);
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
 		scaledInputsOI.setPawlScalingValue(0.5);
 		scaledInputsOI.setArmScalingValue(0.5);
+		scaledInputsOI.setForwardReverseScalingValue(0.5);
 		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
 		oi = displayableOI;
 

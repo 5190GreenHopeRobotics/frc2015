@@ -104,8 +104,9 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	}
 
 	@Override
+	// Display values
 	public void displayValues(Display display) {
-		filteredLidar.displayValues(display);
+		// filteredLidar.displayValues(display);
 	}
 
 	private void loadSensor() {
