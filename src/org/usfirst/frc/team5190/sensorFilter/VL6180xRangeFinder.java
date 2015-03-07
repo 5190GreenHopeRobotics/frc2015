@@ -16,10 +16,6 @@ public class VL6180xRangeFinder extends AbstractVL6180xRangeFinder implements PI
 	public VL6180xRangeFinder(Port port) {
 		i2c = new I2CPlus(port, RANGE_FINDER_ADDR);
 
-		boolean devicePresent = i2c.addressOnly();
-		if (!devicePresent) {
-			System.out.println("VL6180X device not present!");
-		}
 		distance = new byte[1];
 
 		updater = new java.util.Timer();

@@ -25,7 +25,7 @@ public class TestCommand extends Command {
     protected void execute() {
     	int distance = nav.getPawlDistanceFromObject();
     	System.out.println();
-    	SmartDashboard.putNumber("Range Finder", distance);
+//    	SmartDashboard.putNumber("Range Finder", distance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
