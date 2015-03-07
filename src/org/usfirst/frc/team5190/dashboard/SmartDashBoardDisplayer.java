@@ -30,7 +30,7 @@ public class SmartDashBoardDisplayer {
 	 * @param toAdd
 	 *            the Displayable to be added
 	 */
-	public void submit(Displayable toAdd) {
+	public void addDisplayable(Displayable toAdd) {
 		queue.add(toAdd);
 	}
 

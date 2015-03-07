@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class TwoGamepadOI implements OI {
 	private Joystick gamepad1;
 	private Joystick gamepad2;
-	private int value;
 	private Button zeroPawlButton;
 
 	public TwoGamepadOI() {
@@ -49,18 +48,21 @@ public class TwoGamepadOI implements OI {
 
 	@Override
 	public double getForwardReverseAxis() {
-		return -gamepad1.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_Y_AXIS);
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepad1.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_Y_AXIS));
 
 	}
 
 	@Override
 	public double getLeftRightAxis() {
-		return -gamepad1.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepad1.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
 	}
 
 	@Override
 	public double getArmAxis() {
-		return -gamepad2.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepad2.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS));
 	}
 
 	@Override
@@ -77,8 +79,8 @@ public class TwoGamepadOI implements OI {
 
 	@Override
 	public double getPawlAxis() {
-		// TODO Auto-generated method stub
-		return -gamepad2.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepad2.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
 	}
 
 	@Override
