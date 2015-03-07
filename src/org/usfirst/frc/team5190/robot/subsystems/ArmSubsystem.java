@@ -118,6 +118,26 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.set(positionAngle);
 	}
 
+	public void setLimit(int low, int high) {
+		armCANTalonLeft.setForwardSoftLimit(high);
+		armCANTalonLeft.setReverseSoftLimit(low);
+	}
+
+	public boolean goToLowest() {
+		if (!armCANTalonLeft.isRevLimitSwitchClosed()) {
+			moveArm(-0.5);
+
+		}
+		return armCANTalonLeft.isRevLimitSwitchClosed();
+	}
+
+	public boolean goToHighest() {
+		if (!armCANTalonLeft.isFwdLimitSwitchClosed()) {
+			moveArm(0.5);
+		}
+		return armCANTalonLeft.isFwdLimitSwitchClosed();
+	}
+
 	@Override
 	public void displayValues(Display display) {
 		display.putNumber("Arm Angle", getAngle());

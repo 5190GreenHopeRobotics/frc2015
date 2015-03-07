@@ -8,6 +8,7 @@ public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 
 	public StackedTotesAutonomousCommandGroup() {
 		// stack 3 tote and go to auto zone
+		addSequential(new ArmSyncCommand());
 		addSequential(new DriveToObjectCommand());
 		addSequential(new TimedRaiseLowerArmCommand(6, true));
 		addSequential(new DriveToObjectCommand());
