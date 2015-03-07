@@ -81,9 +81,10 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	// Display Values
 	@Override
 	public void displayValues(Display display) {
-		// display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
-		// display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
-		// display.putNumber("Cherry Picker Motor Power",
+		display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
+		display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
+		display.putNumber("Cherry Picker Motor Power",
+				cherryPickerController.getSpeed());
 		// cherryPickerController.get());
 	}
 
