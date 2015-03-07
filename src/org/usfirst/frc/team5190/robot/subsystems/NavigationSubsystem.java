@@ -37,7 +37,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	private PIDSource currentAngleControl;
 
 	private NavigationSubsystem() {
-		serial = new SerialPort(300, SerialPort.Port.kMXP);
+		serial = new SerialPort(57600, SerialPort.Port.kMXP);
 		rangeFinderLeft = new VL6180xRangeFinder(Port.kMXP);
 		rangeFinderLeft.start();
 
