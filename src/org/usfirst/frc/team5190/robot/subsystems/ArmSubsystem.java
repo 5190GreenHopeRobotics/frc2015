@@ -124,7 +124,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		display.putNumber("Arm Angle", getAngle());
 		display.putNumber("Arm Level(No platform)", CurrentLevel());
 		display.putNumber("Arm Speed", armCANTalonLeft.getEncVelocity());
-		display.putNumber("Arm Position", armCANTalonLeft.getPosition());
 		display.putBoolean("Arm Top Limit Switch",
 				armCANTalonLeft.isFwdLimitSwitchClosed());
 		display.putBoolean("Arm Bottom Limit Switch",

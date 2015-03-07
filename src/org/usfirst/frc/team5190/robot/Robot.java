@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 		scaledInputsOI.setArmScalingValue(0.5);
 		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
 		oi = displayableOI;
+		joystick
 
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 		scheduler = Scheduler.getInstance();

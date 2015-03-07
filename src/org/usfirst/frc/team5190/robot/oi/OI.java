@@ -10,5 +10,7 @@ public interface OI {
 	double getCherryPickerAxis();
 
 	double getPawlAxis();
+	
+	void
 
 }
