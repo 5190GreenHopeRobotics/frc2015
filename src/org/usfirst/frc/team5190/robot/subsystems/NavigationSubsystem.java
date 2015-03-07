@@ -34,6 +34,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	private PIDSource currentAngleControl;
 
 	private NavigationSubsystem() {
+		serial = new SerialPort(300, SerialPort.Port.kMXP);
 		sensors = new HashMap<String, PIDSource>();
 		rawLidar = new Lidar(Port.kMXP);
 		filteredLidar = new LidarFilter(rawLidar);
