@@ -26,6 +26,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	public static final double level2 = 187.845;
 	public static final double level3 = 275.065;
 	public static final double level4 = 363.175;
+	protected int lowLimit;
+	protected int highLimit;
 
 	private double motorSpeed = 0.1;
 
@@ -119,8 +121,18 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	}
 
 	public void setLimit(int low, int high) {
+		lowLimit = low;
+		highLimit = high;
 		armCANTalonLeft.setForwardSoftLimit(high);
 		armCANTalonLeft.setReverseSoftLimit(low);
+	}
+
+	public int getHighLimit() {
+		return highLimit;
+	}
+
+	public int getLowLimit() {
+		return lowLimit;
 	}
 
 	public boolean goToLowest() {
