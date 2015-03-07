@@ -35,8 +35,8 @@ public class ArmLevelUpCommand extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		if (waitToFinish) {
-			double toprange = nextlevel + 4.45;
-			double bottomrange = nextlevel - 4.45;
+			double toprange = nextlevel + 1;
+			double bottomrange = nextlevel - 1;
 			return armsubsystem.getAngle() > bottomrange
 					&& armsubsystem.getAngle() < toprange;
 		}

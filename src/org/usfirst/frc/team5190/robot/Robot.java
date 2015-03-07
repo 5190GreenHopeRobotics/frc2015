@@ -8,6 +8,7 @@ import org.usfirst.frc.team5190.robot.oi.FlightStickWithGamePadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
+import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
@@ -40,7 +41,8 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		// Initialize OI
-		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
+		OI twoGamePadOI = new TwoGamepadOI(0, 1);
+		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(twoGamePadOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
 		scaledInputsOI.setPawlScalingValue(0.5);

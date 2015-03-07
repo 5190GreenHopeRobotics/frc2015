@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot.oi;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
 import org.usfirst.frc.team5190.robot.commands.KILL;
-import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,16 +40,16 @@ public class TwoGamepadOI implements OI {
 		gamepadDrive = new Joystick(gamepadDrivePort);
 		gamepadShoot = new Joystick(gamepadShootPort);
 		// initialize buttons
-		zeroPawlButton = new JoystickButton(gamepadShoot,
-				LogitechGamepad.RIGHT_BUMPER);
-		zeroPawlButton.whenPressed(new ZeroPawlCommand());
+		// zeroPawlButton = new JoystickButton(gamepadShoot,
+		// LogitechGamepad.RIGHT_BUMPER);
+		// zeroPawlButton.whenPressed(new ZeroPawlCommand());
 		// do actions with buttons
 		JoystickButton levelUpCommand = new JoystickButton(gamepadShoot,
 				LogitechGamepad.B_BUTTON);
 		levelUpCommand.whenPressed(new ArmLevelUpCommand(true));
-		JoystickButton levelDownCommand = new JoystickButton(gamepadShoot,
+		JoystickButton levelDownCommand2 = new JoystickButton(gamepadShoot,
 				LogitechGamepad.A_BUTTON);
-		levelDownCommand.whenPressed(new ArmLevelDownCommand(true));
+		levelDownCommand2.whenPressed(new ArmLevelDownCommand(true));
 
 		// REMOVE IF NEEDED
 		SmartDashboard.putData("Kill Robot", new KILL());
