@@ -58,6 +58,10 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
+	public void retractCherryPicker() {
+		cherryPickerController.set(0.2);
+	}
+
 	/**
 	 * @return If limit switch on Cherry Picker attachment has been triggered
 	 *         Extend Limit (boolean)

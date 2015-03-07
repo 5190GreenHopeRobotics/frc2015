@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CherryPickerJoystickCommand extends Command {
 	private CherryPickerSubsystem cherryPickerSubsystem = CherryPickerSubsystem
 			.getInstance();
+	private static boolean flag = false;
 
 	public CherryPickerJoystickCommand() {
 		requires(cherryPickerSubsystem);
@@ -18,11 +19,20 @@ public class CherryPickerJoystickCommand extends Command {
 
 	@Override
 	protected void initialize() {
+		if (cherryPickerSubsystem.reachedMinLimit() == true
+				&& Robot.joystickOI.getCherryPickerAxis() < 0) {
+			flag = true;
+		}
+		flag = false;
 	}
 
 	@Override
 	protected void execute() {
-		cherryPickerSubsystem.operate(Robot.oi.getCherryPickerAxis());
+		if (flag == false) {
+			cherryPickerSubsystem.operate(Robot.oi.getCherryPickerAxis());
+		} else {
+			cherryPickerSubsystem.retractCherryPicker();
+		}
 	}
 
 	@Override

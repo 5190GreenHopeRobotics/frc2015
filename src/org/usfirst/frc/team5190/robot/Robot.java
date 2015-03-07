@@ -36,10 +36,10 @@ public class Robot extends IterativeRobot {
 	 * The operator interface
 	 */
 	public static OI oi;
+	public static OI joystickOI = new FlightStickWithGamePadOI(0, 1);
 
 	public Robot() {
 		// Initialize OI
-		OI joystickOI = new FlightStickWithGamePadOI(0, 1);
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
