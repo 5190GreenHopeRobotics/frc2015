@@ -2,12 +2,14 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
+import org.usfirst.frc.team5190.robot.commands.KILL;
 import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -50,6 +52,9 @@ public class TwoGamepadOI implements OI {
 				LogitechGamepad.A_BUTTON);
 		levelDownCommand.whenPressed(new ArmLevelDownCommand(true));
 
+		// REMOVE IF NEEDED
+		SmartDashboard.putData("Kill Robot", new KILL());
+
 		// Arm Test Stuff
 		// JoystickButton Level0Button = new JoystickButton(gamepad2,
 		// LogitechGamepad.X_BUTTON);
@@ -79,9 +84,8 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return OIUtils
-				.zeroSmallValues(0.05, -gamepadDrive
-						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS));
 	}
 
 	/**
@@ -99,9 +103,9 @@ public class TwoGamepadOI implements OI {
 	@Override
 	public double getCherryPickerAxis() {
 		double retractValue = gamepadShoot
-				.getRawAxis(LogitechGamepad.RIGHT_TRIGGER_AXIS);
-		double extendValue = gamepadShoot
 				.getRawAxis(LogitechGamepad.LEFT_TRIGGER_AXIS);
+		double extendValue = gamepadShoot
+				.getRawAxis(LogitechGamepad.RIGHT_TRIGGER_AXIS);
 		if (retractValue > 0.0) {
 			return -retractValue;
 		}

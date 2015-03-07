@@ -21,11 +21,11 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	public static final double level0 = 45;
-	public static final double level1 = 100.625;
-	public static final double level2 = 187.845;
-	public static final double level3 = 275.065;
-	public static final double level4 = 363.175;
+	public static final double level0 = 1;
+	public static final double level1 = 15;
+	public static final double level2 = 30;
+	public static final double level3 = 45;
+	public static final double level4 = 60;
 
 	private double motorSpeed = 0.1;
 
