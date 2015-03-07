@@ -3,11 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="var" path="networktables"/>
 	<classpathentry exported="true" kind="var" path="networktables.sources"/>
-	<classpathentry exported="true" kind="var" path="wpilib">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/Alan/wpilib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry exported="true" kind="var" path="wpilib"/>
 	<classpathentry exported="true" kind="var" path="wpilib.sources"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>

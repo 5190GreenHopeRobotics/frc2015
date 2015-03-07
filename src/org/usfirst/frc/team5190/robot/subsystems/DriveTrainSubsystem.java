@@ -1,11 +1,9 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.smartDashBoard.Displayable;
-import org.usfirst.frc.team5190.smartDashBoard.Pair;
+import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -124,7 +122,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// init the motors
 		initializeMotors();
 		// init drive
-		mDrive = new RobotDrive(frontLeft, backRight);
+		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 		mDrive.setSafetyEnabled(false);
 		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
 		turnRobotDrive = new TurnRobotDrive(mDrive);
@@ -143,10 +141,13 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	private void initializeMotors() {
+
+		// create controller
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		backLeft = new CANTalon(RobotMap.BACKLEFT);
 		frontRight = new CANTalon(RobotMap.FRONTRIGHT);
 		backRight = new CANTalon(RobotMap.BACKRIGHT);
+		// set ramp speed
 		frontLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		backRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
 		frontRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
@@ -155,16 +156,20 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft.changeControlMode(ControlMode.PercentVbus);
 		frontLeft.set(0);
 		backLeft.reverseOutput(false);
-		backLeft.changeControlMode(ControlMode.Follower);
-		// since back motors are followers/slaves, set() method sets their
-		// master (should be the master's CAN Id)
-		backLeft.set(frontLeft.getDeviceID());
+		backLeft.changeControlMode(ControlMode.PercentVbus);
+		backLeft.set(0);
+		// backLeft.changeControlMode(ControlMode.Follower);
+		// // since back motors are followers/slaves, set() method sets their
+		// // master (should be the master's CAN Id)
+		// backLeft.set(frontLeft.getDeviceID());
 		frontRight.reverseOutput(true);
 		frontRight.changeControlMode(ControlMode.PercentVbus);
 		frontRight.set(0);
 		backRight.reverseOutput(true);
-		backRight.changeControlMode(ControlMode.Follower);
-		backRight.set(frontRight.getDeviceID());
+		backRight.changeControlMode(ControlMode.PercentVbus);
+		backRight.set(0);
+		// backRight.changeControlMode(ControlMode.Follower);
+		// backRight.set(frontRight.getDeviceID());
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -199,11 +204,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		disable = flag;
 	}
 
-	/**
-	 * dummy
-	 */
 	@Override
 	public void initDefaultCommand() {
+		setDefaultCommand(new DriveWithArcadeCommand());
 	}
 
 	public DriveSetDistance driveSetDistance() {
@@ -319,29 +322,21 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight.set(inches);
 	}
 
-	@Override
-	public Collection<Pair<String, Boolean>> getBooleanValue() {
-		LinkedList<Pair<String, Boolean>> booleanValues = new LinkedList<Pair<String, Boolean>>();
-		// booleanValues.add(new Pair<String,
-		// Boolean>("Encoder Right Direction",
-		// right.getDirection()));
-		// booleanValues.add(new Pair<String, Boolean>("Encoder Left Direction",
-		// left.getDirection()));
-		return booleanValues;
-	}
-
-	@Override
-	public Collection<Pair<String, Double>> getDecimalValues() {
-		// Double get = new Double(right.get());
-		LinkedList<Pair<String, Double>> encoder = new LinkedList<Pair<String, Double>>();
-		// encoder.add(new Pair<String, Double>("Encoder Right Get:", get));
-		// encoder.add(new Pair<String, Double>("Encoder Right Distance:", right
-		// .getDistance()));
-		// get = new Double(left.get());
-		// encoder.add(new Pair<String, Double>("Encoder Left Get", get));
-		// encoder.add(new Pair<String, Double>("Encoder Left Distance", left
-		// .getDistance()));
-		return encoder;
+	public void displayValues(Display display) {
+		display.putNumber("FrontLeft Speed", frontLeft.getSpeed());
+		display.putNumber("FrontRight Speed", frontRight.getSpeed());
+		display.putNumber("BackLeft Speed", backLeft.getSpeed());
+		display.putNumber("BackRight Speed", backRight.getSpeed());
+		display.putBoolean("DriveTrain Enabled", mDrive.isAlive());
+		display.putNumber("FrontLeft Position", frontLeft.getPosition());
+		display.putNumber("FrontRight Position", frontRight.getPosition());
+		display.putNumber("BackLeft Position", backLeft.getPosition());
+		display.putNumber("BackRight Position", backRight.getPosition());
+		display.putNumber("FrontLeft Enc Position", frontLeft.getEncPosition());
+		display.putNumber("FrontRight Enc Position",
+				frontRight.getEncPosition());
+		display.putNumber("BackLeft Enc Position", backLeft.getEncPosition());
+		display.putNumber("BackRight Enc Position", backRight.getEncPosition());
 	}
 
 }

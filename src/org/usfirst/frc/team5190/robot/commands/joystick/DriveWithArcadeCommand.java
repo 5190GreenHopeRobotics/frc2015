@@ -26,20 +26,6 @@ public class DriveWithArcadeCommand extends Command {
 	protected void execute() {
 		double moveValue = Robot.oi.getForwardReverseAxis();
 		double rotateValue = Robot.oi.getLeftRightAxis();
-		// SmartDashboard.putNumber("Move Value", moveValue);
-		// SmartDashboard.putNumber("Rotate Value", rotateValue);
-		// // square the inputs (while preserving the sign) to increase fine
-		// // control while permitting full power
-		// if (moveValue >= 0.0) {
-		// moveValue = (moveValue * moveValue);
-		// } else {
-		// moveValue = -(moveValue * moveValue);
-		// }
-		// if (rotateValue >= 0.0) {
-		// rotateValue = (rotateValue * rotateValue);
-		// } else {
-		// rotateValue = -(rotateValue * rotateValue);
-		// }
 		driveTrainSubsystem.arcadeJoystickDrive(moveValue, rotateValue);
 	}
 

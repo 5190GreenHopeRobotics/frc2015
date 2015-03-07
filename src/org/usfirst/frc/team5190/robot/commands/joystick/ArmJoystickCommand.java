@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmTeleopCommand extends Command {
+public class ArmJoystickCommand extends Command {
 
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
@@ -16,7 +16,7 @@ public class ArmTeleopCommand extends Command {
 
 	private double lastPowerValue = 0.0;
 
-	public ArmTeleopCommand() {
+	public ArmJoystickCommand() {
 		super("ArmTeleopCommand");
 		requires(armSubsystem);
 	}

@@ -1,24 +1,20 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RaiseArmLevelCommand extends Command {
+public class KILL extends Command {
 
-	// private ArmSetAngleCommand armSetAngleCommand;
-	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
-
-	public RaiseArmLevelCommand() {
-		requires(armSubsystem);
-
+	public KILL() {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		System.exit(0);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

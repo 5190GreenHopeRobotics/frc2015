@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
+ * a speed controller wrapper that is suppose to turn every speed controller
+ * into CANTalon speed controller with pid and follower
  * 
- * @author dan, sdai a speed controller wrapper that is suppose to turn every
- *         speed controller into CANTalon speed controller with pid and follower
+ * @author dan, sdai
+ * 
  */
 public class SmartSpeedController implements SpeedController {
 
@@ -23,7 +25,6 @@ public class SmartSpeedController implements SpeedController {
 	private DigitalInput reverseLimitSwitch;
 	private Potentiometer potentiometer;
 	private Encoder encoder;
-
 	private ControlMode controlMode = ControlMode.PercentVBus;
 	private boolean forwardLimitSwitchEnabled = false;
 	private boolean reverseLimitSwitchEnabled = false;
@@ -85,13 +86,18 @@ public class SmartSpeedController implements SpeedController {
 	}
 
 	/**
-	 * set the control mode for the speed controller
-	 * 
-	 * @param controlMode
-	 *            the mode of the controller
+	 * Set the control mode for the speed controller. Checks to see if already
+	 * in the mode given and if so it does nothing.
 	 */
 	public void setControlMode(ControlMode controlMode) {
+		if (this.controlMode == controlMode) {
+			return;
+		}
 		this.controlMode = controlMode;
+		if (controlMode == ControlMode.Follower
+				|| controlMode == ControlMode.PercentVBus) {
+			disablePid();
+		}
 		if (encoder != null) {
 			if (controlMode == ControlMode.Distance) {
 				encoder.setPIDSourceParameter(PIDSourceParameter.kDistance);
@@ -425,16 +431,28 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-				createDistanceSpeedPid();
-				pidController.setSetpoint(value);
-			} else if (controlMode == ControlMode.Distance) {
 				createAnglePid();
 				pidController.setSetpoint(value);
+				pidController.enable();
+			} else if (controlMode == ControlMode.Distance) {
+				createDistanceSpeedPid();
+				pidController.setSetpoint(value);
+				pidController.enable();
 			} else if (controlMode == ControlMode.Speed) {
 				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
+				pidController.enable();
 			}
 
+		}
+	}
+
+	/**
+	 * disable the pid on this controller
+	 */
+	public void disablePid() {
+		if (pidController != null && pidController.isEnable()) {
+			pidController.disable();
 		}
 	}
 
@@ -469,11 +487,13 @@ public class SmartSpeedController implements SpeedController {
 
 	protected void createDistanceSpeedPid() {
 		pidController = new PIDController(p, i, d, encoder, speedController);
+		pidController.setAbsoluteTolerance(2);
 	}
 
 	protected void createAnglePid() {
 		pidController = new PIDController(p, i, d, potentiometer,
 				speedController);
+		pidController.setAbsoluteTolerance(2);
 	}
 
 	@Override

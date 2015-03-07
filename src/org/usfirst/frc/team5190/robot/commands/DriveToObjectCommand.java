@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.IndependentSensors;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
 
@@ -17,6 +16,7 @@ public class DriveToObjectCommand extends Command {
 			.getInstance();
 
 	public DriveToObjectCommand() {
+		super("DriveToObjectCommand");
 		requires(driveTrainSubsystem);
 		d = driveTrainSubsystem.driveSetDistance();
 		// IndependentSensors.getGyro().reset(); //Temporary comment for testing
@@ -28,7 +28,7 @@ public class DriveToObjectCommand extends Command {
 	protected void initialize() {
 		driveTrainSubsystem.setPower(0.5);
 		// lidar inoperable at the moment
-		distanceBuffer = IndependentSensors.getLidar().getValue();
+		// distanceBuffer = IndependentSensors.getLidar().getValue();
 		distanceBuffer *= 2.54; // cm to inches
 		distanceBuffer -= 2; // estimated buffer distance so the edge doesn't
 								// hit the object

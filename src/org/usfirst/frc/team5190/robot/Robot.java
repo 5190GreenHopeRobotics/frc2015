@@ -1,17 +1,19 @@
 package org.usfirst.frc.team5190.robot;
 
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.TeleopCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TestCommand;
+import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
+import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
 import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
-import org.usfirst.frc.team5190.smartDashBoard.SmartDashBoardDisplayer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -29,29 +31,35 @@ public class Robot extends IterativeRobot {
 	// public static Vision usbCamera;
 
 	private Command autonomousCommand;
+	private Scheduler scheduler;
 
 	/**
 	 * The operator interface
 	 */
 	public static OI oi;
 
-	static {
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5,
-				new TwoGamepadOI());
-		scaledInputsOI.setCherryPickerScalingValue(0.7);
-		scaledInputsOI.setPawlScalingValue(0.5);
-		oi = scaledInputsOI;
-	}
-
 	public Robot() {
-		autonomousCommand = new StackedTotesAutonomousCommandGroup();
+		// Initialize OI
+		TwoGamepadOI joystickOI = new TwoGamepadOI();
+		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
+		scaledInputsOI.setCherryPickerScalingValue(0.5);
+		scaledInputsOI.setPawlScalingValue(0.5);
+		scaledInputsOI.setArmScalingValue(0.5);
+		scaledInputsOI.setForwardReverseScalingValue(0.5);
+		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
+		oi = displayableOI;
 
-		SmartDashBoardDisplayer.getInstance().submit(
-				DriveTrainSubsystem.getInstance());
-		SmartDashBoardDisplayer.getInstance()
-				.submit(ArmSubsystem.getInstance());
-		SmartDashBoardDisplayer.getInstance().submit(
-				PawlSubsystem.getInstance());
+		autonomousCommand = new StackedTotesAutonomousCommandGroup();
+		scheduler = Scheduler.getInstance();
+
+		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
+				.getInstance();
+		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
+		displayer.addDisplayable(ArmSubsystem.getInstance());
+		displayer.addDisplayable(PawlSubsystem.getInstance());
+		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
+		displayer.addDisplayable(displayableOI);
 	}
 
 	@Override
@@ -60,7 +68,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
+		scheduler.run();
 	}
 
 	@Override
@@ -79,7 +87,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		scheduler.run();
 	}
 
 	@Override
@@ -88,7 +96,6 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 
-		new TeleopCommandGroup().start();
 		new PutSmartDashBoardCommand().start();
 
 	}
@@ -109,11 +116,9 @@ public class Robot extends IterativeRobot {
 	 * grab an image, draw the circle, and provide it for the camera server
 	 * which will in turn send it to the dashboard.
 	 */
-
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-
+		scheduler.run();
 	}
 
 	/**

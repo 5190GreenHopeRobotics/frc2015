@@ -1,6 +1,9 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import org.usfirst.frc.team5190.dashboard.Display;
+import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
+import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickCommand;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
@@ -9,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class CherryPickerSubsystem extends Subsystem {
+public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private static CherryPickerSubsystem instance;
 
 	// DIO ports temporary in this class.
@@ -37,11 +40,15 @@ public class CherryPickerSubsystem extends Subsystem {
 		return instance;
 	}
 
+	@Override
 	public void initDefaultCommand() {
-
+		setDefaultCommand(new CherryPickerJoystickCommand());
 	}
 
 	public void operate(double speed) {
+		if (ArmSubsystem.getInstance().getAngle() < 30 && speed > 0) {
+			return;
+		}
 		if (speed < 0 && this.reachedMinLimit()) {
 			stopCherryPicker();
 		} else if (speed > 0 && this.reachedMaxLimit()) {
@@ -69,6 +76,16 @@ public class CherryPickerSubsystem extends Subsystem {
 
 	public void stopCherryPicker() {
 		this.cherryPickerController.set(0);
+	}
+
+	// Display Values
+	@Override
+	public void displayValues(Display display) {
+		display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
+		display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
+		display.putNumber("Cherry Picker Motor Power",
+				cherryPickerController.getSpeed());
+		// cherryPickerController.get());
 	}
 
 }
