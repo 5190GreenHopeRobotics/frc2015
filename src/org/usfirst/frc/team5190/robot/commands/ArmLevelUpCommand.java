@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmLevelUpCommand extends Command {
 
 	private final ArmSubsystem armsubsystem = ArmSubsystem.getInstance();
+	// start command to see if command wants to wait or complete command
+	// immediately
 	private boolean waitToFinish;
 	private double nextlevel;
 
@@ -33,8 +35,8 @@ public class ArmLevelUpCommand extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		if (waitToFinish) {
-			double toprange = nextlevel + 1;
-			double bottomrange = nextlevel - 1;
+			double toprange = nextlevel + 4.45;
+			double bottomrange = nextlevel - 4.45;
 			return armsubsystem.getAngle() > bottomrange
 					&& armsubsystem.getAngle() < toprange;
 		}
