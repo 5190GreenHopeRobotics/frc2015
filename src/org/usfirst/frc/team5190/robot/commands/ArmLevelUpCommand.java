@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmLevelUpCommand extends Command {
 
 	private final ArmSubsystem armsubsystem = ArmSubsystem.getInstance();
+	// start command to see if command wants to wait or complete command
+	// immediately
 	private boolean waitToFinish;
 	private double nextlevel;
 

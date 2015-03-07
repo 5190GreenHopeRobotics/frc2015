@@ -86,17 +86,5 @@ public class TwoFlightStickOI implements OI {
 		return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
 	}
 
-	/**
-	 * @return set pawl to original position
-	 */
-	public boolean zeroPawlButton() {
-		boolean zeroPawl = false;
-		if (flightStickDrive
-				.getRawButton(LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT)) {
-			zeroPawl = true;
-		}
-		return zeroPawl;
-	}
-
 }
 // hail hydra

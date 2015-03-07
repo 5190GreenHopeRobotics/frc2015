@@ -1,5 +1,10 @@
 package org.usfirst.frc.team5190.robot.joystick;
 
+/**
+ * 
+ * Button map for logitech gamepad
+ *
+ */
 public class LogitechGamepad {
 	public static final int LEFT_JOYSTICK_X_AXIS = 0;
 	public static final int LEFT_JOYSTICK_Y_AXIS = 1;
