@@ -135,6 +135,11 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		return lowLimit;
 	}
 
+	/**
+	 * move the arm down, won't do anything if hit the reverse limit switch
+	 * 
+	 * @return if it reached bottom
+	 */
 	public boolean goToLowest() {
 		if (!armCANTalonLeft.isRevLimitSwitchClosed()) {
 			moveArm(-0.5);
@@ -143,6 +148,11 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		return armCANTalonLeft.isRevLimitSwitchClosed();
 	}
 
+	/**
+	 * move the arm up, wom't do anything if hit the top limit switch
+	 * 
+	 * @return if reached top
+	 */
 	public boolean goToHighest() {
 		if (!armCANTalonLeft.isFwdLimitSwitchClosed()) {
 			moveArm(0.5);

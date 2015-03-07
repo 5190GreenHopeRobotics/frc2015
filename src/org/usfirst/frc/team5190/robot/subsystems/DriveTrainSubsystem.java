@@ -165,7 +165,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight.reverseOutput(true);
 		frontRight.changeControlMode(ControlMode.PercentVbus);
 		frontRight.set(0);
-		backRight.reverseOutput(true);
+		backRight.reverseOutput(false);
 		backRight.changeControlMode(ControlMode.PercentVbus);
 		backRight.set(0);
 		// backRight.changeControlMode(ControlMode.Follower);
