@@ -79,9 +79,8 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return OIUtils
-				.zeroSmallValues(0.05, -gamepadDrive
-						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
+		return OIUtils.zeroSmallValues(0.05,
+				-gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS));
 	}
 
 	/**
@@ -99,9 +98,9 @@ public class TwoGamepadOI implements OI {
 	@Override
 	public double getCherryPickerAxis() {
 		double retractValue = gamepadShoot
-				.getRawAxis(LogitechGamepad.RIGHT_TRIGGER_AXIS);
-		double extendValue = gamepadShoot
 				.getRawAxis(LogitechGamepad.LEFT_TRIGGER_AXIS);
+		double extendValue = gamepadShoot
+				.getRawAxis(LogitechGamepad.RIGHT_TRIGGER_AXIS);
 		if (retractValue > 0.0) {
 			return -retractValue;
 		}
