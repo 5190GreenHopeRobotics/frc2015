@@ -55,4 +55,5 @@ public class GamepadOI implements OI {
 	public boolean zeroPawlButton() {
 		return gamepad.getRawButton(LogitechGamepad.RIGHT_BUMPER);
 	}
+
 }
