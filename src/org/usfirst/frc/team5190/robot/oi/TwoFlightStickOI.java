@@ -5,17 +5,18 @@ import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public class FlightStickOI implements OI {
+public class TwoFlightStickOI implements OI {
 	// init joystick
 	private Joystick flightStickDrive;
 	private Joystick flightStickShoot;
+	private double cherryPickerButtonSpeed = 1.0;
 
-	public FlightStickOI() {
+	public TwoFlightStickOI() {
 		JoystickButton zeroPawl = new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.BOTTOM_BUTTON_BOTTOM_LEFT);
 	}
 
-	public FlightStickOI(int portDrive, int portShoot) {
+	public TwoFlightStickOI(int portDrive, int portShoot) {
 		flightStickDrive = new Joystick(portDrive);
 		flightStickShoot = new Joystick(portShoot);
 	}
@@ -41,7 +42,7 @@ public class FlightStickOI implements OI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return flightStickDrive.getY();
+		return flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class FlightStickOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return flightStickDrive.getX();
+		return flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS);
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class FlightStickOI implements OI {
 	 */
 	@Override
 	public double getArmAxis() {
-		return LogitechExtreme3D.Y_AXIS;
+		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class FlightStickOI implements OI {
 	 */
 	@Override
 	public double getCherryPickerAxis() {
-		return LogitechExtreme3D.Y_AXIS;
+		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**
@@ -82,18 +83,7 @@ public class FlightStickOI implements OI {
 	 */
 	@Override
 	public double getPawlAxis() {
-		return flightStickShoot.getTwist();
-	}
-
-	/**
-	 * @return condition to set pawl to original position
-	 */
-	public boolean zeroPawlButton() {
-		boolean zeroPawl = false;
-		if (flightStickDrive.getRawButton(LogitechExtreme3D.THUMB_BUTTON)) {
-			zeroPawl = true;
-		}
-		return zeroPawl;
+		return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
 	}
 
 }

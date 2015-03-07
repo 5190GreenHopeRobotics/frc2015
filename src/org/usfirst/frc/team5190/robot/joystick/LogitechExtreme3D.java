@@ -1,5 +1,10 @@
 package org.usfirst.frc.team5190.robot.joystick;
 
+/**
+ * 
+ * button map for Logitech Joystick
+ *
+ */
 public class LogitechExtreme3D {
 	private static LogitechExtreme3D instance;
 	// Upper buttons on Logitech Flight Stick

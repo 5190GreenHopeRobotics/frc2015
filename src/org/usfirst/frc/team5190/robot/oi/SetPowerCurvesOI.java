@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.ScaledControl;
-
 public class SetPowerCurvesOI implements OI {
 
 	private OI sourceOI;
@@ -12,32 +10,27 @@ public class SetPowerCurvesOI implements OI {
 
 	@Override
 	public double getForwardReverseAxis() {
-		return ScaledControl.squared(sourceOI.getForwardReverseAxis());
+		return OIUtils.scaledCubic(0.8, sourceOI.getForwardReverseAxis());
 	}
 
 	@Override
 	public double getLeftRightAxis() {
-		return ScaledControl.squared(sourceOI.getLeftRightAxis());
+		return OIUtils.scaledCubic(0.8, sourceOI.getLeftRightAxis());
 	}
 
 	@Override
 	public double getArmAxis() {
-		return ScaledControl.squared(sourceOI.getArmAxis());
+		return OIUtils.scaledCubic(0.8, sourceOI.getArmAxis());
 	}
 
 	@Override
 	public double getCherryPickerAxis() {
-		return ScaledControl.squared(sourceOI.getCherryPickerAxis());
+		return OIUtils.scaledCubic(0.8, sourceOI.getCherryPickerAxis());
 	}
 
 	@Override
 	public double getPawlAxis() {
-		return ScaledControl.squared(sourceOI.getPawlAxis());
-	}
-
-	@Override
-	public boolean zeroPawlButton() {
-		return false;
+		return OIUtils.scaledCubic(0.8, sourceOI.getPawlAxis());
 	}
 
 }

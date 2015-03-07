@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
+import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
@@ -36,26 +37,27 @@ public class Robot extends IterativeRobot {
 	 */
 	public static OI oi;
 
-	static {
+	public Robot() {
+		// Initialize OI
 		TwoGamepadOI joystickOI = new TwoGamepadOI();
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
 		scaledInputsOI.setPawlScalingValue(0.5);
 		scaledInputsOI.setArmScalingValue(0.5);
-		oi = scaledInputsOI;
-	}
+		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
+		oi = displayableOI;
 
-	public Robot() {
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 		scheduler = Scheduler.getInstance();
 
 		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
 				.getInstance();
-		displayer.submit(DriveTrainSubsystem.getInstance());
-		displayer.submit(ArmSubsystem.getInstance());
-		displayer.submit(PawlSubsystem.getInstance());
-		displayer.submit(CherryPickerSubsystem.getInstance());
+		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
+		displayer.addDisplayable(ArmSubsystem.getInstance());
+		displayer.addDisplayable(PawlSubsystem.getInstance());
+		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
+		displayer.addDisplayable(displayableOI);
 	}
 
 	@Override
