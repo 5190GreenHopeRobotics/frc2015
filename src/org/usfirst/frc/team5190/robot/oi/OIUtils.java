@@ -51,4 +51,32 @@ public class OIUtils {
 		return power;
 	}
 
+	public static class RampRate {
+		private double rampRate;
+		private double lastPowerValue = 0.0;
+
+		public RampRate(double rampRate) {
+			this.rampRate = rampRate;
+		}
+
+		public double limitToRampRate(double power) {
+			// if the power value changes sign from the last one then reset the
+			// last
+			// value to 0.
+			if (power > 0 && lastPowerValue < 0 || power < 0
+					&& lastPowerValue > 0) {
+				lastPowerValue = 0.0;
+			}
+			if (power > 0 && (power - lastPowerValue) > rampRate) {
+				power = lastPowerValue + rampRate;
+			} else if (power < 0 && (lastPowerValue - power) > rampRate) {
+				power = lastPowerValue - rampRate;
+			}
+			return power;
+		}
+	}
+
+	public static RampRate createRampRate(double rampRate) {
+		return new RampRate(rampRate);
+	}
 }
