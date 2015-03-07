@@ -126,8 +126,10 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 	}
 
 	@Override
+	// Display values
 	public void displayValues(Display display) {
-		display.putNumber("Arm Angle", getAngle());
+		// display.putNumber("Arm Angle", getAngle());
+		// display.putNumber("CurrentLevel",
 	}
 
 	// Set a level for quick tote stacking
@@ -177,6 +179,25 @@ public class ArmSubsystem extends Subsystem implements Displayable {
 		}
 
 		setArmAngle(nextlevel);
+		return nextlevel;
+	}
+
+	public int CurrentLevelup() {
+		int nextlevel = 0;
+
+		if (getAngle() < level1) {
+			nextlevel = 0;
+		} else if (getAngle() < level2) {
+			nextlevel = 1;
+		} else if (getAngle() < level3) {
+			nextlevel = 2;
+		} else if (getAngle() < level4) {
+			nextlevel = 3;
+		} else {
+			nextlevel = 4;
+
+		}
+
 		return nextlevel;
 	}
 
