@@ -38,8 +38,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
 		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
 		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setForwardSoftLimit(400);
-		armCANTalonLeft.setReverseSoftLimit(43);
+		armCANTalonLeft.setForwardSoftLimit(676);
+		armCANTalonLeft.setReverseSoftLimit(313);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
 
