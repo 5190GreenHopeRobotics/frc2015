@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
+import org.usfirst.frc.team5190.robot.commands.KILL;
 import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
@@ -31,10 +32,14 @@ public class FlightStickWithGamePadOI implements OI {
 				LogitechGamepad.RIGHT_BUMPER);
 		JoystickButton decrementArmHeight = new JoystickButton(gamePadShoot,
 				LogitechGamepad.LEFT_BUMPER);
+		// Joystick buttons
+		JoystickButton terminateRobot = new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
 		// do actions with buttons
 		zeroPawl.whenPressed(new ZeroPawlCommand());
 		incrementArmHeight.whenPressed(new ArmLevelUpCommand(true));
 		decrementArmHeight.whenPressed(new ArmLevelDownCommand(true));
+		terminateRobot.whenPressed(new KILL());
 	}
 
 	/**
