@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TwoGamepadOI implements OI {
 	// initailize gamepads
-	private Joystick gamepadDrive;
+	public Joystick gamepadDrive;
 	private Joystick gamepadShoot;
 	// initialize buttons
 	private Button zeroPawlButton;
@@ -73,8 +73,8 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return OIUtils.zeroSmallValues(0.05,
-				gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS));
+		// return OIUtils.zeroSmallValues(0.05, gamepadDrive.getY());
+		return gamepadDrive.getY();
 
 	}
 
@@ -83,9 +83,8 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return OIUtils
-				.zeroSmallValues(0.05, -gamepadDrive
-						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
+		return -gamepadDrive.getRawAxis(4);
+		// return OIUtils.zeroSmallValues(0.05, -gamepadDrive.getRawAxis(4));
 	}
 
 	/**
