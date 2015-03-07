@@ -46,6 +46,9 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void operate(double speed) {
+		if (ArmSubsystem.getInstance().getAngle() < 30 && speed > 0) {
+			return;
+		}
 		if (speed < 0 && this.reachedMinLimit()) {
 			stopCherryPicker();
 		} else if (speed > 0 && this.reachedMaxLimit()) {
