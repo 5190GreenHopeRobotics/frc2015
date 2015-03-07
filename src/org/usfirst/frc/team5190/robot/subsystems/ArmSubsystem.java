@@ -119,8 +119,17 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	}
 
 	@Override
+	// Display values
 	public void displayValues(Display display) {
 		display.putNumber("Arm Angle", getAngle());
+		display.putNumber("Arm Level(No platform)", CurrentLevel());
+		display.putNumber("Arm Speed", armCANTalonLeft.getEncVelocity());
+		display.putNumber("Arm Position", armCANTalonLeft.getPosition());
+		display.putBoolean("Arm Top Limit Switch",
+				armCANTalonLeft.isFwdLimitSwitchClosed());
+		display.putBoolean("Arm Bottom Limit Switch",
+				armCANTalonLeft.isRevLimitSwitchClosed());
+		display.putBoolean("Arm Enabled", armCANTalonLeft.isAlive());
 	}
 
 	@Override
@@ -181,6 +190,25 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		}
 
 		setArmAngle(nextlevel);
+		return nextlevel;
+	}
+
+	public int CurrentLevel() {
+		int nextlevel = 0;
+
+		if (getAngle() < level1) {
+			nextlevel = 0;
+		} else if (getAngle() < level2) {
+			nextlevel = 1;
+		} else if (getAngle() < level3) {
+			nextlevel = 2;
+		} else if (getAngle() < level4) {
+			nextlevel = 3;
+		} else {
+			nextlevel = 4;
+
+		}
+
 		return nextlevel;
 	}
 
