@@ -4,10 +4,10 @@ import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
+import org.usfirst.frc.team5190.robot.oi.FlightStickWithGamePadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
-import org.usfirst.frc.team5190.robot.oi.TwoGamepadOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		// Initialize OI
-		TwoGamepadOI joystickOI = new TwoGamepadOI();
+		OI joystickOI = new FlightStickWithGamePadOI(0, 1);
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.5, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
