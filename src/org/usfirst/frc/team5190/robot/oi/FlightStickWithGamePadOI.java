@@ -2,7 +2,7 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
-import org.usfirst.frc.team5190.robot.commands.KILL;
+import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
@@ -39,7 +39,7 @@ public class FlightStickWithGamePadOI implements OI {
 		zeroPawl.whenPressed(new ZeroPawlCommand());
 		incrementArmHeight.whenPressed(new ArmLevelUpCommand(true));
 		decrementArmHeight.whenPressed(new ArmLevelDownCommand(true));
-		terminateRobot.whenPressed(new KILL());
+		terminateRobot.whenPressed(new KillCommand());
 	}
 
 	/**

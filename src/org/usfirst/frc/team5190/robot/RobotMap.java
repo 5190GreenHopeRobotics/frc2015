@@ -20,6 +20,8 @@ public class RobotMap {
 
 	// navigation
 	public static final Port LIDAR_PORT = Port.kMXP;
+	public static final Port RANGE_FINDER_LEFT_PORT = Port.kMXP;
+	public static final Port RANGE_FINDER_RIGHT_PORT = Port.kOnboard;
 
 	// pawl
 	public static final int PAWL_JAGUAR_PORT = 1;

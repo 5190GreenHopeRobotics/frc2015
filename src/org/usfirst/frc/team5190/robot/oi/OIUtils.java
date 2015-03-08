@@ -36,6 +36,10 @@ public class OIUtils {
 				* power;
 	}
 
+	public static double scaledSquare(double scalingValue, double power) {
+		return scalingValue * power * power + (1 - scalingValue) * power;
+	}
+
 	/**
 	 * Intended to be used when a joystick doesn't return exactly zero when the
 	 * stick in not being used.
@@ -72,6 +76,7 @@ public class OIUtils {
 			} else if (power < 0 && (lastPowerValue - power) > rampRate) {
 				power = lastPowerValue - rampRate;
 			}
+			lastPowerValue = power;
 			return power;
 		}
 	}

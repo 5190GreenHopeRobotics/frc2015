@@ -2,7 +2,7 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
 import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
-import org.usfirst.frc.team5190.robot.commands.KILL;
+import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -52,7 +52,7 @@ public class TwoGamepadOI implements OI {
 		levelDownCommand2.whenPressed(new ArmLevelDownCommand(true));
 
 		// REMOVE IF NEEDED
-		SmartDashboard.putData("Kill Robot", new KILL());
+		SmartDashboard.putData("Kill Robot", new KillCommand());
 
 		// Arm Test Stuff
 		// JoystickButton Level0Button = new JoystickButton(gamepad2,
@@ -72,9 +72,7 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return OIUtils
-				.zeroSmallValues(0.05, -gamepadDrive
-						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_Y_AXIS));
+		return -gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
 
 	}
 
@@ -83,8 +81,7 @@ public class TwoGamepadOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return OIUtils.zeroSmallValues(0.05,
-				-gamepadDrive.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS));
+		return -gamepadDrive.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
 	}
 
 	/**

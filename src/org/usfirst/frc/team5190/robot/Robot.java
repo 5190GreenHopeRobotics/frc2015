@@ -45,7 +45,8 @@ public class Robot extends IterativeRobot {
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
 		scaledInputsOI.setPawlScalingValue(0.5);
 		scaledInputsOI.setArmScalingValue(0.5);
-		scaledInputsOI.setForwardReverseScalingValue(0.5);
+		scaledInputsOI.setForwardReverseScalingValue(0.7);
+		scaledInputsOI.setLeftRightScalingValue(0.7);
 		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
 		oi = displayableOI;
 

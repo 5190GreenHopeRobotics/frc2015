@@ -1,13 +1,14 @@
 package org.usfirst.frc.team5190.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class KILL extends Command {
+public class KillCommand extends Command {
 
-	public KILL() {
+	public KillCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}

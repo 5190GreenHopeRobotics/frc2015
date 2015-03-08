@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.UnsupportedSensorException;
 import org.usfirst.frc.team5190.sensor.Lidar;
 import org.usfirst.frc.team5190.sensor.LidarFilter;
@@ -14,7 +15,6 @@ import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
 
 import com.kauailabs.navx_mxp.AHRS;
 
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -37,14 +37,16 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	private PIDSource currentAngleControl;
 
 	private NavigationSubsystem() {
-		rangeFinderLeft = new VL6180xRangeFinder(Port.kMXP);
+		rangeFinderLeft = new VL6180xRangeFinder(
+				RobotMap.RANGE_FINDER_LEFT_PORT);
 		rangeFinderLeft.start();
-		
-		rangeFinderRight = new VL6180xRangeFinder(Port.kOnboard);
+
+		rangeFinderRight = new VL6180xRangeFinder(
+				RobotMap.RANGE_FINDER_RIGHT_PORT);
 		rangeFinderRight.start();
 
 		sensors = new HashMap<String, PIDSource>();
-		rawLidar = new Lidar(Port.kMXP);
+		rawLidar = new Lidar(RobotMap.LIDAR_PORT);
 		filteredLidar = new LidarFilter(rawLidar);
 		navXSensor = new AHRS(serial);
 		currentSpeedControl = rawLidar;
@@ -70,13 +72,13 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
-	
-	public int getPawlDistanceFromObject(){
+
+	public int getPawlDistanceFromObject() {
 		int leftDistance = rangeFinderLeft.getDistance();
 		int rightDistance = rangeFinderRight.getDistance();
 		SmartDashboard.putNumber("Left range finder", leftDistance);
 		SmartDashboard.putNumber("Right rangeFinder", rightDistance);
-		return (leftDistance + rightDistance)/2;
+		return (leftDistance + rightDistance) / 2;
 	}
 
 	public AHRS getAHRS() {

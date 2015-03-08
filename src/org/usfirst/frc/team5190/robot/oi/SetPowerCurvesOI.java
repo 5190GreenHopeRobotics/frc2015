@@ -1,21 +1,29 @@
 package org.usfirst.frc.team5190.robot.oi;
 
+import org.usfirst.frc.team5190.robot.oi.OIUtils.RampRate;
+
 public class SetPowerCurvesOI implements OI {
 
 	private OI sourceOI;
+	private RampRate forwardReverseRampRate;
+	private RampRate leftRightRampRate;
 
 	public SetPowerCurvesOI(OI sourceOI) {
 		this.sourceOI = sourceOI;
+		forwardReverseRampRate = OIUtils.createRampRate(0.05);
+		leftRightRampRate = OIUtils.createRampRate(0.05);
 	}
 
 	@Override
 	public double getForwardReverseAxis() {
-		return OIUtils.scaledCubic(0.8, sourceOI.getForwardReverseAxis());
+		double power = OIUtils.scaledCubic(0, sourceOI.getForwardReverseAxis());
+		return forwardReverseRampRate.limitToRampRate(power);
 	}
 
 	@Override
 	public double getLeftRightAxis() {
-		return OIUtils.scaledCubic(0.8, sourceOI.getLeftRightAxis());
+		double power = OIUtils.scaledCubic(0, sourceOI.getLeftRightAxis());
+		return leftRightRampRate.limitToRampRate(power);
 	}
 
 	@Override
