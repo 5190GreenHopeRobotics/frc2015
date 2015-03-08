@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TwoGamepadOI implements OI {
 	// initailize gamepads
-	private Joystick gamepadDrive;
+	public Joystick gamepadDrive;
 	private Joystick gamepadShoot;
 	// initialize buttons
 	private Button zeroPawlButton;

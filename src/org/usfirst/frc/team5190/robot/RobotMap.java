@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
 
 public class RobotMap {
 	// arm
@@ -19,9 +20,10 @@ public class RobotMap {
 	public static final int BACKRIGHT = 4;
 
 	// navigation
-	public static final Port LIDAR_PORT = Port.kMXP;
-	public static final Port RANGE_FINDER_LEFT_PORT = Port.kMXP;
-	public static final Port RANGE_FINDER_RIGHT_PORT = Port.kOnboard;
+	public static final I2C.Port LIDAR_PORT = I2C.Port.kMXP;
+	public static final I2C.Port RANGE_FINDER_LEFT_PORT = I2C.Port.kMXP;
+	public static final I2C.Port RANGE_FINDER_RIGHT_PORT = I2C.Port.kOnboard;
+	public static final SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
 
 	// pawl
 	public static final int PAWL_JAGUAR_PORT = 1;

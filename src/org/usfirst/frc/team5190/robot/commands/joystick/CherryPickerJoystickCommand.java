@@ -12,17 +12,33 @@ public class CherryPickerJoystickCommand extends Command {
 	private CherryPickerSubsystem cherryPickerSubsystem = CherryPickerSubsystem
 			.getInstance();
 
+	private static boolean flag;
+
 	public CherryPickerJoystickCommand() {
 		requires(cherryPickerSubsystem);
 	}
 
 	@Override
 	protected void initialize() {
+
+		cherryPickerSubsystem.resetCounter();
+		if (cherryPickerSubsystem.isSwitchPressed()
+				&& Robot.oi.getCherryPickerAxis() < 0) {
+			flag = false;
+		} else {
+			flag = true;
+		}
 	}
 
 	@Override
 	protected void execute() {
-		cherryPickerSubsystem.operate(Robot.oi.getCherryPickerAxis());
+
+		if (flag = false) {
+			cherryPickerSubsystem.operate(Robot.oi.getCherryPickerAxis());
+		} else {
+			cherryPickerSubsystem.retract();
+
+		}
 	}
 
 	@Override

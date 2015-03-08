@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.commands;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -14,6 +15,7 @@ public class DriveToObjectCommand extends Command {
 	private double distanceBuffer;
 	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
 			.getInstance();
+	private PIDController pidController;
 
 	public DriveToObjectCommand() {
 		super("DriveToObjectCommand");
