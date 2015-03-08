@@ -21,11 +21,13 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	public static final double level0 = 1;
-	public static final double level1 = 15;
-	public static final double level2 = 30;
-	public static final double level3 = 45;
-	public static final double level4 = 60;
+	protected int lowLimit;
+	protected int highLimit;
+	public static final double level0 = 320;
+	public static final double level1 = 392.5983675;
+	public static final double level2 = 465.196735;
+	public static final double level3 = 537.7951025;
+	public static final double level4 = 610.39347;
 
 	private double motorSpeed = 0.1;
 
@@ -118,6 +120,46 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.set(positionAngle);
 	}
 
+	public void setLimit(int low, int high) {
+		lowLimit = low;
+		highLimit = high;
+		armCANTalonLeft.setForwardSoftLimit(high);
+		armCANTalonLeft.setReverseSoftLimit(low);
+	}
+
+	public int getHighLimit() {
+		return highLimit;
+	}
+
+	public int getLowLimit() {
+		return lowLimit;
+	}
+
+	/**
+	 * move the arm down, won't do anything if hit the reverse limit switch
+	 * 
+	 * @return if it reached bottom
+	 */
+	public boolean goToLowest() {
+		if (!armCANTalonLeft.isRevLimitSwitchClosed()) {
+			moveArm(-0.1);
+
+		}
+		return armCANTalonLeft.isRevLimitSwitchClosed();
+	}
+
+	/**
+	 * move the arm up, wom't do anything if hit the top limit switch
+	 * 
+	 * @return if reached top
+	 */
+	public boolean goToHighest() {
+		if (!armCANTalonLeft.isFwdLimitSwitchClosed()) {
+			moveArm(0.1);
+		}
+		return armCANTalonLeft.isFwdLimitSwitchClosed();
+	}
+
 	@Override
 	// Display values
 	public void displayValues(Display display) {
@@ -176,43 +218,43 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	}
 
 	public double levelup() {
-		double nextlevel = 0;
+		double nextLevel;
 
 		if (getAngle() < level1) {
-			nextlevel = level1;
+			nextLevel = level1;
 		} else if (getAngle() < level2) {
-			nextlevel = level2;
+			nextLevel = level2;
 		} else if (getAngle() < level3) {
-			nextlevel = level3;
+			nextLevel = level3;
 		} else {
-			nextlevel = level4;
+			nextLevel = level4;
 		}
 
-		setArmAngle(nextlevel);
-		return nextlevel;
+		setArmAngle(nextLevel);
+		return nextLevel;
 	}
 
 	public int CurrentLevel() {
-		int nextlevel = 0;
+		int currentLevel;
 
 		if (getAngle() < level1) {
-			nextlevel = 0;
+			currentLevel = 0;
 		} else if (getAngle() < level2) {
-			nextlevel = 1;
+			currentLevel = 1;
 		} else if (getAngle() < level3) {
-			nextlevel = 2;
+			currentLevel = 2;
 		} else if (getAngle() < level4) {
-			nextlevel = 3;
+			currentLevel = 3;
 		} else {
-			nextlevel = 4;
+			currentLevel = 4;
 
 		}
 
-		return nextlevel;
+		return currentLevel;
 	}
 
 	public double leveldown() {
-		double previouslevel = 0;
+		double previouslevel;
 
 		if (getAngle() > level3) {
 			previouslevel = level3;
@@ -221,7 +263,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		} else if (getAngle() > level1) {
 			previouslevel = level1;
 		} else {
-			previouslevel = 0;
+			previouslevel = level0;
 		}
 
 		setArmAngle(previouslevel);
