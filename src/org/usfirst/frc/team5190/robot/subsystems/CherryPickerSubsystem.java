@@ -5,6 +5,7 @@ import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickCommand;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,6 +20,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private Talon cherryPickerController;
 	private DigitalInput minLimitSwitch;
 	private DigitalInput maxLimitSwitch;
+	private Counter cherryPickerCounter;
 
 	private CherryPickerSubsystem() {
 		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
@@ -26,6 +28,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT);
 		maxLimitSwitch = new DigitalInput(
 				RobotMap.CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT);
+		cherryPickerCounter = new Counter(minLimitSwitch);
 	}
 
 	public static CherryPickerSubsystem getInstance() {
@@ -38,6 +41,18 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 			}
 		}
 		return instance;
+	}
+
+	public boolean isSwitchPressed() {
+		return cherryPickerCounter.get() > 0;
+	}
+
+	public void resetCounter() {
+		cherryPickerCounter.reset();
+	}
+
+	public void retract() {
+		cherryPickerController.set(-0.2);
 	}
 
 	@Override
