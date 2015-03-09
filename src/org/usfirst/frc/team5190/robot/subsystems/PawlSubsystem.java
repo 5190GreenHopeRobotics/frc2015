@@ -6,37 +6,44 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.PawlJoystickCommand;
 import org.usfirst.frc.team5190.robot.motor.SmartSpeedController;
 import org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode;
+import org.usfirst.frc.team5190.robot.motor.SmartSpeedController.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 public class PawlSubsystem extends Subsystem implements Displayable {
+	public static final double DEFAULT_PAWL_ZERO_OFFSET = -154;
+	public static final String PAWL_ZERO_OFFSET_PREF_KEY = "pawl.angle.zero.offset";
+
 	private static PawlSubsystem instance;
 	private SmartSpeedController smartController;
 	private Potentiometer pawlPotentiometer;
-	private Potentiometer motorPotentiometer;
 	private DigitalInput clutchEngagedSwitch;
 
 	private PawlSubsystem() {
+		Preferences preferences = Preferences.getInstance();
+		double zeroOffset = preferences.getDouble("pawl.angle.zero.offset",
+				DEFAULT_PAWL_ZERO_OFFSET);
+		pawlPotentiometer = new AnalogPotentiometer(
+				RobotMap.PAWL_POTENTIMETER_PORT, 270, zeroOffset);
+
 		smartController = new SmartSpeedController(new Jaguar(
 				RobotMap.PAWL_JAGUAR_PORT));
-		pawlPotentiometer = new AnalogPotentiometer(
-				RobotMap.PAWL_POTENTIMETER_PORT, 265.3888684113527, -174.15);
 		smartController.setPID(0.4, 0, 0.1);
-
-		motorPotentiometer = new AnalogPotentiometer(
-				RobotMap.PAWL_MOTOR_POTENTIMETER_PORT, -258.0645161290323,
-				218.65);
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 
 		// set soft limit
-		smartController.setPotentiometer(motorPotentiometer);
-		smartController.setForwardSoftLimit(40);
-		smartController.setReverseSoftLimit(-40);
+		smartController.setPotentiometer(pawlPotentiometer);
+		smartController.setFeedbackDevice(FeedbackDevice.Potentiometer);
+		smartController.setForwardSoftLimit(20);
+		smartController.setReverseSoftLimit(-20);
+		smartController.setForwardSoftLimitEnabled(true);
+		smartController.setReverseSoftLimitEnabled(true);
 	}
 
 	@Override
@@ -54,11 +61,6 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 			}
 		}
 		return instance;
-	}
-
-	public void followMotor() {
-		smartController.setControlMode(ControlMode.Angle);
-		smartController.set(pawlPotentiometer.get());
 	}
 
 	public double getAngle() {
@@ -79,23 +81,38 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return smartController.isOnTarget();
 	}
 
-	public void movePawl(double speed) {
-		smartController
-				.setControlMode(org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode.PercentVBus);
-		smartController.set(speed);
+	public void movePawl(double power) {
+		// if (clutchEngaged()) {
+		// if (power > 0.05 || power < -0.05) {
+		// if (smartController.getControlMode() != ControlMode.PercentVBus) {
+		// smartController.setControlMode(ControlMode.PercentVBus);
+		// }
+		// smartController.set(power);
+		// } else {
+		// if (smartController.getControlMode() != ControlMode.Angle) {
+		// smartController.setControlMode(ControlMode.Angle);
+		// smartController.set(getAngle());
+		// }
+		// }
+		// }
+		if (smartController.getControlMode() != ControlMode.PercentVBus) {
+			smartController.setControlMode(ControlMode.PercentVBus);
+		}
+		smartController.set(power);
 	}
 
 	public void stopPawl() {
 		smartController.set(0);
 	}
 
+	public boolean clutchEngaged() {
+		return clutchEngagedSwitch.get();
+	}
+
 	@Override
 	public void displayValues(Display display) {
-		// display.putNumber("Pawl Angle", pawlPotentiometer.get());
-		// display.putNumber("Pawl Speed",
-		// smartController.getEncoder().getRate());
-		// display.putNumber("Pawl Motor Angle", motorPotentiometer.get());
-		// display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
+		display.putNumber("Pawl Angle", pawlPotentiometer.get());
+		display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
 	}
 
 }

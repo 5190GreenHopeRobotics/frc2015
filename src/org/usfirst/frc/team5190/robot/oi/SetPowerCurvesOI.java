@@ -23,6 +23,10 @@ public class SetPowerCurvesOI implements OI {
 	@Override
 	public double getLeftRightAxis() {
 		double power = OIUtils.scaledCubic(0, sourceOI.getLeftRightAxis());
+		power *= (sourceOI.getForwardReverseAxis() * 0.2 + 1);
+		if (power > 1.0) {
+			power = 1.0;
+		}
 		return leftRightRampRate.limitToRampRate(power);
 	}
 

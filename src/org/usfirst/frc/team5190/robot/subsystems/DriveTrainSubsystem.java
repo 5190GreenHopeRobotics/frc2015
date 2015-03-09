@@ -4,8 +4,6 @@ import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.Turn;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -151,6 +149,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	private void initializeMotors() {
 
+		/*********************************************************************
+		 * 
+		 * DO NOT CHANGE CODE IN THIS SECTION WITHOUT PERMISSION FROM A MENTOR
+		 * 
+		 ********************************************************************/
 		// create controller
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		backLeft = new CANTalon(RobotMap.BACKLEFT);
@@ -164,7 +167,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft.reverseOutput(true);
 		frontLeft.changeControlMode(ControlMode.PercentVbus);
 		frontLeft.set(0);
-		backLeft.reverseOutput(false);
+		backLeft.reverseOutput(true);
 		backLeft.changeControlMode(ControlMode.PercentVbus);
 		backLeft.set(0);
 		// backLeft.changeControlMode(ControlMode.Follower);
@@ -280,8 +283,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 
 	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
-		if (!disable)
+		if (!disable) {
 			mDrive.arcadeDrive(moveValue, rotateValue);
+		}
 	}
 
 	/**
@@ -338,7 +342,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// display.putNumber("BackLeft Speed", backLeft.getSpeed());
 		// display.putNumber("BackRight Speed", backRight.getSpeed());
 		display.putNumber("Speed(Forward)",
-				(frontRight.getSpeed() + fronLeft.getSpeed()) / 2);
+				(frontRight.getSpeed() + frontLeft.getSpeed()) / 2);
 		display.putBoolean("DriveTrain Enabled", mDrive.isAlive());
 		// display.putNumber("FrontLeft Position", frontLeft.getPosition());
 		// display.putNumber("FrontRight Position", frontRight.getPosition());

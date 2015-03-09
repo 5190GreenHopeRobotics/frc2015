@@ -16,19 +16,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private static CherryPickerSubsystem instance;
 
+	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.08;
+
 	// DIO ports temporary in this class.
 	private Talon cherryPickerController;
-	private DigitalInput minLimitSwitch;
-	private DigitalInput maxLimitSwitch;
-	private Counter cherryPickerCounter;
+	private Counter minLimitSwitch;
+	private Counter maxLimitSwitch;
+	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	private CherryPickerSubsystem() {
 		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
-		minLimitSwitch = new DigitalInput(
-				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT);
-		maxLimitSwitch = new DigitalInput(
-				RobotMap.CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT);
-		cherryPickerCounter = new Counter(minLimitSwitch);
+		minLimitSwitch = new Counter(new DigitalInput(
+				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT));
+		maxLimitSwitch = new Counter(new DigitalInput(
+				RobotMap.CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT));
 	}
 
 	public static CherryPickerSubsystem getInstance() {
@@ -43,37 +44,39 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
-	public boolean isSwitchPressed() {
-		return cherryPickerCounter.get() > 0;
-	}
-
-	public void resetCounter() {
-		cherryPickerCounter.reset();
-	}
-
-	public void retract() {
-		cherryPickerController.set(-0.2);
-	}
-
 	public void initDefaultCommand() {
 		setDefaultCommand(new CherryPickerJoystickCommand());
 	}
 
 	public void operate(double speed) {
-		if (ArmSubsystem.getInstance().getAngle() < 30 && speed > 0) {
-			return;
-		}
-		if (speed < 0 && this.reachedMinLimit()) {
-			stopCherryPicker();
-		} else if (speed > 0 && this.reachedMaxLimit()) {
-			stopCherryPicker();
-		} else {
-			this.cherryPickerController.set(speed);
+
+		set(speed);
+	}
+
+	private void set(double power) {
+		if (reachedMinLimit()) {
+			if (power <= 0) {
+				keepRetracted();
+			} else {
+				minLimitSwitch.reset();
+				cherryPickerController.set(power);
+			}
+		} else if (reachedMaxLimit()) {
+			if (power < 0) {
+				maxLimitSwitch.reset();
+				cherryPickerController.set(power);
+			}
+		} else if (armNotTooLow()) {
+			cherryPickerController.set(power);
 		}
 	}
 
-	public void retractCherryPicker() {
-		cherryPickerController.set(0.2);
+	private void keepRetracted() {
+		this.cherryPickerController.set(KEEP_CHERRY_PICKER_RETRACTED_POWER);
+	}
+
+	private boolean armNotTooLow() {
+		return armSubsystem.getAngle() >= 30;
 	}
 
 	/**
@@ -81,7 +84,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	 *         Extend Limit (boolean)
 	 */
 	public boolean reachedMaxLimit() {
-		return !maxLimitSwitch.get();
+		return maxLimitSwitch.get() > 0;
 	}
 
 	/**
@@ -89,7 +92,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	 *         Retract Limit (Boolean)
 	 */
 	public boolean reachedMinLimit() {
-		return !minLimitSwitch.get();
+		return minLimitSwitch.get() > 0;
 	}
 
 	public void stopCherryPicker() {

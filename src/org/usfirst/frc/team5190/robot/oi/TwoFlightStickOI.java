@@ -42,7 +42,7 @@ public class TwoFlightStickOI implements OI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		return -flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class TwoFlightStickOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS);
+		return -flightStickDrive.getRawAxis(LogitechExtreme3D.Z_ROTATE);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class TwoFlightStickOI implements OI {
 	 */
 	@Override
 	public double getArmAxis() {
-		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		return -flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**
@@ -75,7 +75,16 @@ public class TwoFlightStickOI implements OI {
 	 */
 	@Override
 	public double getCherryPickerAxis() {
-		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		boolean extendButton = flightStickShoot
+				.getRawButton(LogitechExtreme3D.TRIGGER);
+		boolean retractButton = flightStickShoot
+				.getRawButton(LogitechExtreme3D.THUMB_BUTTON);
+		if (retractButton) {
+			return -cherryPickerButtonSpeed;
+		} else if (extendButton) {
+			return cherryPickerButtonSpeed;
+		}
+		return 0.0;
 	}
 
 	/**
@@ -83,7 +92,8 @@ public class TwoFlightStickOI implements OI {
 	 */
 	@Override
 	public double getPawlAxis() {
-		return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
+		return 0;
+		// return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
 	}
 
 }
