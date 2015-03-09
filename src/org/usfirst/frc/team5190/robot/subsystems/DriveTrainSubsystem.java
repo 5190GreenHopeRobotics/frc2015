@@ -4,6 +4,8 @@ import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.Turn;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -211,7 +213,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		disable = flag;
 	}
 
-	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithArcadeCommand());
 	}
@@ -332,20 +333,25 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void displayValues(Display display) {
-		display.putNumber("FrontLeft Speed", frontLeft.getSpeed());
-		display.putNumber("FrontRight Speed", frontRight.getSpeed());
-		display.putNumber("BackLeft Speed", backLeft.getSpeed());
-		display.putNumber("BackRight Speed", backRight.getSpeed());
+		// display.putNumber("FrontLeft Speed", frontLeft.getSpeed());
+		// display.putNumber("FrontRight Speed", frontRight.getSpeed());
+		// display.putNumber("BackLeft Speed", backLeft.getSpeed());
+		// display.putNumber("BackRight Speed", backRight.getSpeed());
+		display.putNumber("Speed(Forward)",
+				(frontRight.getSpeed() + fronLeft.getSpeed()) / 2);
 		display.putBoolean("DriveTrain Enabled", mDrive.isAlive());
-		display.putNumber("FrontLeft Position", frontLeft.getPosition());
-		display.putNumber("FrontRight Position", frontRight.getPosition());
-		display.putNumber("BackLeft Position", backLeft.getPosition());
-		display.putNumber("BackRight Position", backRight.getPosition());
-		display.putNumber("FrontLeft Enc Position", frontLeft.getEncPosition());
-		display.putNumber("FrontRight Enc Position",
-				frontRight.getEncPosition());
-		display.putNumber("BackLeft Enc Position", backLeft.getEncPosition());
-		display.putNumber("BackRight Enc Position", backRight.getEncPosition());
+		// display.putNumber("FrontLeft Position", frontLeft.getPosition());
+		// display.putNumber("FrontRight Position", frontRight.getPosition());
+		// display.putNumber("BackLeft Position", backLeft.getPosition());
+		// display.putNumber("BackRight Position", backRight.getPosition());
+		// display.putNumber("FrontLeft Enc Position",
+		// frontLeft.getEncPosition());
+		// display.putNumber("FrontRight Enc Position",
+		// frontRight.getEncPosition());
+		// display.putNumber("BackLeft Enc Position",
+		// backLeft.getEncPosition());
+		// display.putNumber("BackRight Enc Position",
+		// backRight.getEncPosition());
 	}
 
 }

@@ -55,7 +55,6 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 		cherryPickerController.set(-0.2);
 	}
 
-	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new CherryPickerJoystickCommand());
 	}
@@ -98,7 +97,6 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	}
 
 	// Display Values
-	@Override
 	public void displayValues(Display display) {
 		display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
 		display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
