@@ -149,6 +149,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	private void initializeMotors() {
 
+		/*********************************************************************
+		 * 
+		 * DO NOT CHANGE CODE IN THIS SECTION WITHOUT PERMISSION FROM A MENTOR
+		 * 
+		 ********************************************************************/
 		// create controller
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		backLeft = new CANTalon(RobotMap.BACKLEFT);
@@ -162,7 +167,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft.reverseOutput(true);
 		frontLeft.changeControlMode(ControlMode.PercentVbus);
 		frontLeft.set(0);
-		backLeft.reverseOutput(false);
+		backLeft.reverseOutput(true);
 		backLeft.changeControlMode(ControlMode.PercentVbus);
 		backLeft.set(0);
 		// backLeft.changeControlMode(ControlMode.Follower);
@@ -279,8 +284,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 
 	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
-		if (!disable)
+		if (!disable) {
 			mDrive.arcadeDrive(moveValue, rotateValue);
+		}
 	}
 
 	/**

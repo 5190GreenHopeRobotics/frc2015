@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot.motor;
 
+import java.util.TimerTask;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -20,11 +22,16 @@ public class SmartSpeedController implements SpeedController {
 		PercentVBus, Angle, Speed, Distance, Follower
 	}
 
+	public enum FeedbackDevice {
+		Potentiometer, Encoder
+	}
+
 	private SpeedController speedController;
 	private DigitalInput forwardLimitSwitch;
 	private DigitalInput reverseLimitSwitch;
 	private Potentiometer potentiometer;
 	private Encoder encoder;
+	private FeedbackDevice feedbackDevice;
 	private ControlMode controlMode = ControlMode.PercentVBus;
 	private boolean forwardLimitSwitchEnabled = false;
 	private boolean reverseLimitSwitchEnabled = false;
@@ -41,6 +48,14 @@ public class SmartSpeedController implements SpeedController {
 	private double p;
 	private double i;
 	private double d;
+
+	private class SoftLimitMonitor extends TimerTask {
+		@Override
+		public void run() {
+			double position = getPosition();
+
+		}
+	}
 
 	/**
 	 * init the smart controller with a regular controller
@@ -148,6 +163,14 @@ public class SmartSpeedController implements SpeedController {
 		} else if (controlMode == ControlMode.Speed) {
 			encoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 		}
+	}
+
+	public FeedbackDevice getFeedbackDevice() {
+		return feedbackDevice;
+	}
+
+	public void setFeedbackDevice(FeedbackDevice feedbackDevice) {
+		this.feedbackDevice = feedbackDevice;
 	}
 
 	/**
@@ -408,9 +431,9 @@ public class SmartSpeedController implements SpeedController {
 	 * @return distance if it is in DIstance, pot reading if int Angle
 	 */
 	public double getPosition() {
-		if (controlMode == ControlMode.Distance) {
-			return encoder.getDistance();
-		} else if (controlMode == ControlMode.Angle) {
+		if (feedbackDevice == FeedbackDevice.Encoder) {
+			return encoder.get();
+		} else if (feedbackDevice == FeedbackDevice.Potentiometer) {
 			return potentiometer.get();
 		} else {
 			return 0;

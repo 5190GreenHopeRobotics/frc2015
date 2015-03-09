@@ -1,8 +1,11 @@
 package org.usfirst.frc.team5190.robot.oi;
 
+import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
+import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class GamepadOI implements OI {
 
@@ -14,6 +17,13 @@ public class GamepadOI implements OI {
 
 	public GamepadOI(int port) {
 		gamepad = new Joystick(port);
+
+		JoystickButton levelUpCommand = new JoystickButton(gamepad,
+				LogitechGamepad.B_BUTTON);
+		levelUpCommand.whenPressed(new ArmLevelUpCommand(true));
+		JoystickButton levelDownCommand = new JoystickButton(gamepad,
+				LogitechGamepad.A_BUTTON);
+		levelDownCommand.whenPressed(new ArmLevelDownCommand(true));
 	}
 
 	public Joystick getGamepad() {
