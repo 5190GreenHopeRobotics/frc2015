@@ -30,10 +30,9 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 				DEFAULT_PAWL_ZERO_OFFSET);
 		pawlPotentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 270, zeroOffset);
-
 		smartController = new SmartSpeedController(new Jaguar(
 				RobotMap.PAWL_JAGUAR_PORT));
-		smartController.setPID(0.4, 0, 0.1);
+		smartController.setPID(0.1, 0, 0.8);
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 
@@ -44,6 +43,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		smartController.setReverseSoftLimit(-20);
 		smartController.setForwardSoftLimitEnabled(true);
 		smartController.setReverseSoftLimitEnabled(true);
+
 	}
 
 	@Override
@@ -68,7 +68,12 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void goToAngle(double angle) {
-		smartController.setControlMode(ControlMode.Angle);
+		if (!clutchEngaged()) {
+			smartController.disablePid();
+			return;
+		}
+		if (smartController.getControlMode() != ControlMode.Angle)
+			smartController.setControlMode(ControlMode.Angle);
 		smartController.set(angle);
 
 	}
@@ -78,6 +83,9 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public boolean angleReached() {
+		if (smartController.getControlMode() != ControlMode.Angle) {
+			smartController.setControlMode(ControlMode.Angle);
+		}
 		return smartController.isOnTarget();
 	}
 

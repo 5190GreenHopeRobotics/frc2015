@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5190.robot.commands.joystick;
 
+import java.util.concurrent.TimeUnit;
+
 import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
@@ -26,6 +28,9 @@ public class PawlJoystickCommand extends Command {
 	@Override
 	protected void execute() {
 
+		if (!pawlSubsystem.angleReached()) {
+			return;
+		}
 		// reverse the joystick value
 		double power = Robot.oi.getPawlAxis();
 
@@ -43,7 +48,12 @@ public class PawlJoystickCommand extends Command {
 			power = lastPowerValue - MAX_POWER_DELTA;
 		}
 
-		pawlSubsystem.movePawl(power);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			return;
+		}
+		pawlSubsystem.goToAngle(power * 20);
 		lastPowerValue = power;
 	}
 

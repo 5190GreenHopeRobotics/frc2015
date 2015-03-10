@@ -120,6 +120,13 @@ public class SmartSpeedController implements SpeedController {
 				encoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 			}
 		}
+		if (controlMode == ControlMode.Angle) {
+			createAnglePid();
+		}
+		if (controlMode == ControlMode.Distance
+				|| controlMode == ControlMode.Speed) {
+			createDistanceSpeedPid();
+		}
 	}
 
 	/**
@@ -454,15 +461,13 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-				createAnglePid();
+
 				pidController.setSetpoint(value);
 				pidController.enable();
 			} else if (controlMode == ControlMode.Distance) {
-				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
 				pidController.enable();
 			} else if (controlMode == ControlMode.Speed) {
-				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
 				pidController.enable();
 			}
