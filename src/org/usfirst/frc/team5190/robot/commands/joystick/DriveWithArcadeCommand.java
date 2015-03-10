@@ -26,7 +26,7 @@ public class DriveWithArcadeCommand extends Command {
 	protected void execute() {
 		double moveValue = Robot.oi.getForwardReverseAxis();
 		double rotateValue = Robot.oi.getLeftRightAxis();
-		driveTrainSubsystem.arcadeJoystickDrive(moveValue, rotateValue);
+		driveTrainSubsystem.arcadeDrive(moveValue, rotateValue);
 	}
 
 	@Override
