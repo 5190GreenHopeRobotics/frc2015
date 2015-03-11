@@ -20,10 +20,10 @@ public class GamepadOI implements OI {
 
 		JoystickButton levelUpCommand = new JoystickButton(gamepad,
 				LogitechGamepad.B_BUTTON);
-		levelUpCommand.whenPressed(new ArmLevelUpCommand(true));
+		levelUpCommand.whenPressed(new ArmLevelUpCommand());
 		JoystickButton levelDownCommand = new JoystickButton(gamepad,
 				LogitechGamepad.A_BUTTON);
-		levelDownCommand.whenPressed(new ArmLevelDownCommand(true));
+		levelDownCommand.whenPressed(new ArmLevelDownCommand());
 	}
 
 	public Joystick getGamepad() {
@@ -32,17 +32,17 @@ public class GamepadOI implements OI {
 
 	@Override
 	public double getForwardReverseAxis() {
-		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
+		return -gamepad.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_Y_AXIS);
 	}
 
 	@Override
 	public double getLeftRightAxis() {
-		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS);
+		return -gamepad.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
 	}
 
 	@Override
 	public double getArmAxis() {
-		return -gamepad.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_Y_AXIS);
+		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
 	}
 
 	@Override
@@ -57,13 +57,10 @@ public class GamepadOI implements OI {
 		return extendValue;
 	}
 
-	@Override
+	// @Override
 	public double getPawlAxis() {
-		return -gamepad.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
-	}
-
-	public boolean zeroPawlButton() {
-		return gamepad.getRawButton(LogitechGamepad.RIGHT_BUMPER);
+		// return -gamepad.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
+		return 0;
 	}
 
 }

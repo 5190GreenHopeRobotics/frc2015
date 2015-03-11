@@ -37,8 +37,8 @@ public class FlightStickWithGamePadOI implements OI {
 				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
 		// do actions with buttons
 		zeroPawl.whenPressed(new ZeroPawlCommand());
-		incrementArmHeight.whenPressed(new ArmLevelUpCommand(true));
-		decrementArmHeight.whenPressed(new ArmLevelDownCommand(true));
+		incrementArmHeight.whenPressed(new ArmLevelUpCommand());
+		decrementArmHeight.whenPressed(new ArmLevelDownCommand());
 		terminateRobot.whenPressed(new KillCommand());
 	}
 
