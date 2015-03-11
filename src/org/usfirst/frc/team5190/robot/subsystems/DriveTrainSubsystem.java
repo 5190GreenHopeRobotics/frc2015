@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -229,9 +228,9 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		return new Turn();
 	}
 
-	/**
-	 * drive forward at the full speed
-	 */
+	public TurnPIDOutput createTurnPIDOutput() {
+		return new TurnPIDOutput();
+	}
 
 	public void driveForward() {
 		if (!disable) {
@@ -283,24 +282,15 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 *            the turn value
 	 */
 
-	public void arcadeJoystickDrive(double moveValue, double rotateValue) {
+	public void arcadeDrive(double moveValue, double rotateValue) {
 		if (!disable) {
-			mDrive.arcadeDrive(moveValue, rotateValue);
+			mDrive.arcadeDrive(moveValue, rotateValue, false);
 		}
 	}
 
-	/**
-	 * control the robot with tank drive joystick configuration
-	 * 
-	 * @param s1
-	 *            the left stick
-	 * @param s2
-	 *            the right stick
-	 */
-
-	public void tankJoystickDrive(Joystick s1, Joystick s2) {
+	public void tankDrive(double leftPower, double rightPower) {
 		if (!disable) {
-			mDrive.tankDrive(s1, s2);
+			mDrive.tankDrive(leftPower, rightPower);
 		}
 	}
 

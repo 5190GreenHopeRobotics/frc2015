@@ -82,10 +82,6 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return (leftDistance + rightDistance) / 2;
 	}
 
-	public AHRS getAHRS() {
-		return navXSensor;
-	}
-
 	public void setCurrentSpeedUnit(String name)
 			throws UnsupportedSensorException {
 		currentSpeedControl = sensors.get(name);
@@ -104,8 +100,20 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
-	public LidarFilter getLidar() {
-		return filteredLidar;
+	public double getRoll() {
+		return navXSensor.getRoll();
+	}
+
+	public double getPitch() {
+		return navXSensor.getPitch();
+	}
+
+	public double getYaw() {
+		return navXSensor.getYaw();
+	}
+
+	public RobotHeadingPIDSource createRobotHeadingPIDSource() {
+		return new RobotHeadingPIDSource();
 	}
 
 	public PIDSource getSpeedControlUnit() {
@@ -128,8 +136,6 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	// Display values
 	public void displayValues(Display display) {
 		display.putNumber("NavX Altitude", navXSensor.getAltitude());
-		display.putNumber("NavX BarometricPressure",
-				navXSensor.getBarometricPressure());
 		display.putNumber("NavX Magnetometer X",
 				navXSensor.getCalibratedMagnetometerX());
 		display.putNumber("NavX Magnetometer Y",
@@ -153,6 +159,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		display.putNumber("NavX World Linear Accel Z",
 				navXSensor.getWorldLinearAccelZ());
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
+		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
 	}
 
 	private void loadSensor() {

@@ -1,10 +1,9 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
-import org.usfirst.frc.team5190.robot.commands.PutSmartDashBoardCommand;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
-import org.usfirst.frc.team5190.robot.oi.GamepadOI;
+import org.usfirst.frc.team5190.robot.oi.FlightStickWithGamePadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
@@ -40,7 +39,7 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		// Initialize OI
-		OI joystickOI = new GamepadOI();
+		OI joystickOI = new FlightStickWithGamePadOI(0, 1);
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
@@ -66,6 +65,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+		SmartDashBoardDisplayer.getInstance().start();
 	}
 
 	@Override
@@ -79,7 +79,6 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-		new PutSmartDashBoardCommand().start();
 	}
 
 	/**
@@ -93,11 +92,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		LifecycleSubsystemManager.getInstance().teleopInit();
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
-
-		new PutSmartDashBoardCommand().start();
-
+		}
 	}
 
 	/**
