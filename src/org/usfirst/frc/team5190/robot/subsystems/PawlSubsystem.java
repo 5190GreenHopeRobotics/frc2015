@@ -32,7 +32,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 				RobotMap.PAWL_POTENTIMETER_PORT, 270, zeroOffset);
 		smartController = new SmartSpeedController(new Jaguar(
 				RobotMap.PAWL_JAGUAR_PORT));
-		smartController.setPID(0.1, 0, 0.8);
+		smartController.setPID(0.005, 0, 0);
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 

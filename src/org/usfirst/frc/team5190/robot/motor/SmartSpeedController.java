@@ -522,6 +522,7 @@ public class SmartSpeedController implements SpeedController {
 		pidController = new PIDController(p, i, d, potentiometer,
 				speedController);
 		pidController.setAbsoluteTolerance(2);
+
 	}
 
 	@Override
