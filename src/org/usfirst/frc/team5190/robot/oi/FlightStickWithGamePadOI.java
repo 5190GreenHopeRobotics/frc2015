@@ -59,9 +59,9 @@ public class FlightStickWithGamePadOI implements OI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return (-flightStickDrive.getY()) * (-flightStickDrive.getY())
-				* (-flightStickDrive.getY()) * (-flightStickDrive.getY())
-				* (-flightStickDrive.getY());
+		return -(flightStickDrive.getY()) * (flightStickDrive.getY())
+				* (flightStickDrive.getY()) * (flightStickDrive.getY())
+				* (flightStickDrive.getY());
 	}
 
 	/**
@@ -69,11 +69,11 @@ public class FlightStickWithGamePadOI implements OI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return -flightStickDrive.getRawAxis(4)
-				* -flightStickDrive.getRawAxis(4)
-				* -flightStickDrive.getRawAxis(4)
-				* -flightStickDrive.getRawAxis(4)
-				* -flightStickDrive.getRawAxis(4);
+		return -flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS)
+				* flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS)
+				* flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS)
+				* flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS)
+				* flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS);
 	}
 
 	/**
