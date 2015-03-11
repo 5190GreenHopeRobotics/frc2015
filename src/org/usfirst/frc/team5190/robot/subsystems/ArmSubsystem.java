@@ -24,7 +24,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	protected int lowLimit;
 	protected int highLimit;
 	public static final double level0 = 320;
-	public static final double level1 = 392.5983675;
+	public static final double level1 = 400.5983675;
 	public static final double level2 = 465.196735;
 	public static final double level3 = 537.7951025;
 	public static final double level4 = 610.39347;
@@ -38,7 +38,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.changeControlMode(controlMode);
 		armCANTalonLeft.set(0);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
-		armCANTalonLeft.setPID(2, 0.004, 0, 0, 0, 0, 0);
+		armCANTalonLeft.setPID(2.2, 0, 0, 0, 0, 0, 0);
 		armCANTalonLeft.enableBrakeMode(true);
 		armCANTalonLeft.setForwardSoftLimit(676);
 		armCANTalonLeft.setReverseSoftLimit(313);
@@ -222,15 +222,18 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 
 		if (getAngle() < level1) {
 			nextLevel = level1;
+			setArmAngle(nextLevel);
 		} else if (getAngle() < level2) {
 			nextLevel = level2;
+			setArmAngle(nextLevel);
 		} else if (getAngle() < level3) {
 			nextLevel = level3;
+			setArmAngle(nextLevel);
 		} else {
 			nextLevel = level4;
+			setArmAngle(nextLevel);
 		}
 
-		setArmAngle(nextLevel);
 		return nextLevel;
 	}
 
@@ -258,15 +261,18 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 
 		if (getAngle() > level3) {
 			previouslevel = level3;
+			setArmAngle(previouslevel);
 		} else if (getAngle() > level2) {
 			previouslevel = level2;
+			setArmAngle(previouslevel);
 		} else if (getAngle() > level1) {
 			previouslevel = level1;
+			setArmAngle(previouslevel);
 		} else {
 			previouslevel = level0;
+			setArmAngle(previouslevel);
 		}
 
-		setArmAngle(previouslevel);
 		return previouslevel;
 	}
 

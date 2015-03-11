@@ -6,7 +6,6 @@ import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,10 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TwoGamepadOI implements OI {
 	// initailize gamepads
-	public Joystick gamepadDrive;
+	private Joystick gamepadDrive;
 	private Joystick gamepadShoot;
+
 	// initialize buttons
-	private Button zeroPawlButton;
+	// private Button zeroPawlButton;
 
 	/**
 	 * Call on normal constructor in program
@@ -46,10 +46,10 @@ public class TwoGamepadOI implements OI {
 		// do actions with buttons
 		JoystickButton levelUpCommand = new JoystickButton(gamepadShoot,
 				LogitechGamepad.B_BUTTON);
-		levelUpCommand.whenPressed(new ArmLevelUpCommand(true));
-		JoystickButton levelDownCommand2 = new JoystickButton(gamepadShoot,
+		levelUpCommand.whenPressed(new ArmLevelUpCommand());
+		JoystickButton levelDownCommand = new JoystickButton(gamepadShoot,
 				LogitechGamepad.A_BUTTON);
-		levelDownCommand2.whenPressed(new ArmLevelDownCommand(true));
+		levelDownCommand.whenPressed(new ArmLevelDownCommand());
 
 		// REMOVE IF NEEDED
 		SmartDashboard.putData("Kill Robot", new KillCommand());
