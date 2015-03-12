@@ -4,7 +4,6 @@ import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PawlJoystickCommand extends Command {
 
@@ -27,9 +26,6 @@ public class PawlJoystickCommand extends Command {
 	@Override
 	protected void execute() {
 
-		// if (!pawlSubsystem.angleReached()) {
-		// return;
-		// }
 		// reverse the joystick value
 		double power = Robot.oi.getPawlAxis();
 
@@ -38,23 +34,16 @@ public class PawlJoystickCommand extends Command {
 
 		// if the power value changes sign from the last one then reset the last
 		// value to 0.
-		// if (power > 0 && lastPowerValue < 0 || power < 0 && lastPowerValue >
-		// 0) {
-		// lastPowerValue = 0.0;
-		// }
-		// if (power > 0 && (power - lastPowerValue) > MAX_POWER_DELTA) {
-		// power = lastPowerValue + MAX_POWER_DELTA;
-		// } else if (power < 0 && (lastPowerValue - power) > MAX_POWER_DELTA) {
-		// power = lastPowerValue - MAX_POWER_DELTA;
-		// }
+		if (power > 0 && lastPowerValue < 0 || power < 0 && lastPowerValue > 0) {
+			lastPowerValue = 0.0;
+		}
+		if (power > 0 && (power - lastPowerValue) > MAX_POWER_DELTA) {
+			power = lastPowerValue + MAX_POWER_DELTA;
+		} else if (power < 0 && (lastPowerValue - power) > MAX_POWER_DELTA) {
+			power = lastPowerValue - MAX_POWER_DELTA;
+		}
 
-		// try {
-		// TimeUnit.SECONDS.sleep(1);
-		// } catch (InterruptedException e) {
-		// return;
-		// }
-		SmartDashboard.putNumber("pawl power", power * 20);
-		pawlSubsystem.goToAngle(power * 20);
+		pawlSubsystem.movePawl(power);
 		lastPowerValue = power;
 	}
 

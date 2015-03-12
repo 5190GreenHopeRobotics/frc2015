@@ -23,6 +23,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	private SmartSpeedController smartController;
 	private Potentiometer pawlPotentiometer;
 	private DigitalInput clutchEngagedSwitch;
+	private boolean isLocked;
 
 	private PawlSubsystem() {
 		Preferences preferences = Preferences.getInstance();
@@ -63,6 +64,16 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
+	public void lock() {
+		isLocked = true;
+		goToAngle(getAngle());
+	}
+
+	public void unLock() {
+		isLocked = false;
+		smartController.disablePid();
+	}
+
 	public double getAngle() {
 		return pawlPotentiometer.get();
 	}
@@ -90,6 +101,9 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void movePawl(double power) {
+		if (isLocked) {
+			return;
+		}
 		// if (clutchEngaged()) {
 		// if (power > 0.05 || power < -0.05) {
 		// if (smartController.getControlMode() != ControlMode.PercentVBus) {

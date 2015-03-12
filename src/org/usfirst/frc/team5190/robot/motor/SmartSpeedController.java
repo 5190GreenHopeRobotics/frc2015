@@ -461,15 +461,17 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-
 				pidController.setSetpoint(value);
-				pidController.enable();
+				if (!pidController.isEnable())
+					pidController.enable();
 			} else if (controlMode == ControlMode.Distance) {
 				pidController.setSetpoint(value);
-				pidController.enable();
+				if (!pidController.isEnable())
+					pidController.enable();
 			} else if (controlMode == ControlMode.Speed) {
 				pidController.setSetpoint(value);
-				pidController.enable();
+				if (!pidController.isEnable())
+					pidController.enable();
 			}
 
 		}
@@ -515,13 +517,13 @@ public class SmartSpeedController implements SpeedController {
 
 	protected void createDistanceSpeedPid() {
 		pidController = new PIDController(p, i, d, encoder, speedController);
-		pidController.setAbsoluteTolerance(2);
+		// pidController.setAbsoluteTolerance(2);
 	}
 
 	protected void createAnglePid() {
 		pidController = new PIDController(p, i, d, potentiometer,
 				speedController);
-		pidController.setAbsoluteTolerance(2);
+		// pidController.setAbsoluteTolerance(2);
 
 	}
 

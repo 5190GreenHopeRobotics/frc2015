@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
-		scaledInputsOI.setPawlScalingValue(1);
+		scaledInputsOI.setPawlScalingValue(0.2);
 		scaledInputsOI.setArmScalingValue(0.5);
 		scaledInputsOI.setForwardReverseScalingValue(0.7);
 		scaledInputsOI.setLeftRightScalingValue(0.7);
