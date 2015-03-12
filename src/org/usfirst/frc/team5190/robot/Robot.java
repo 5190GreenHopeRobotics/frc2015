@@ -3,7 +3,7 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
-import org.usfirst.frc.team5190.robot.oi.FlightStickWithGamePadOI;
+import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		// Initialize OI
-		OI joystickOI = new FlightStickWithGamePadOI(0, 1);
+		OI joystickOI = new GamepadOI();
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);

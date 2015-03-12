@@ -24,10 +24,10 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	protected int lowLimit;
 	protected int highLimit;
 	public static final double level0 = 320;
-	public static final double level1 = 400.5983675;
-	public static final double level2 = 465.196735;
-	public static final double level3 = 537.7951025;
-	public static final double level4 = 610.39347;
+	public static final double level1 = 392.5983;
+	public static final double level2 = 465.1967;
+	public static final double level3 = 537.7951;
+	public static final double level4 = 610.3934;
 
 	private double motorSpeed = 0.1;
 
@@ -40,8 +40,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
 		armCANTalonLeft.setPID(2.2, 0, 0, 0, 0, 0, 0);
 		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setForwardSoftLimit(676);
 		armCANTalonLeft.setReverseSoftLimit(313);
+		armCANTalonLeft.setForwardSoftLimit(676);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
 
@@ -115,9 +115,10 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	public void setArmAngle(double positionAngle) {
 		if (controlMode != ControlMode.Position) {
 			armCANTalonLeft.changeControlMode(ControlMode.Position);
+			armCANTalonLeft.set(positionAngle);
+			System.out.println("The Angle Given To Be Set" + positionAngle);
 			controlMode = ControlMode.Position;
 		}
-		armCANTalonLeft.set(positionAngle);
 	}
 
 	public void setLimit(int low, int high) {
@@ -221,17 +222,29 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		double nextLevel;
 
 		if (getAngle() < level1) {
+
 			nextLevel = level1;
 			setArmAngle(nextLevel);
+			System.out.println("SetAngle To: " + nextLevel);
+
 		} else if (getAngle() < level2) {
+
 			nextLevel = level2;
 			setArmAngle(nextLevel);
+			System.out.println("SetAngle To: " + nextLevel);
+
 		} else if (getAngle() < level3) {
+
 			nextLevel = level3;
 			setArmAngle(nextLevel);
+			System.out.println("SetAngle To: " + nextLevel);
+
 		} else {
+
 			nextLevel = level4;
 			setArmAngle(nextLevel);
+			System.out.println("SetAngle To: " + nextLevel);
+
 		}
 
 		return nextLevel;
@@ -260,19 +273,30 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		double previouslevel;
 
 		if (getAngle() > level3) {
+
 			previouslevel = level3;
 			setArmAngle(previouslevel);
+			System.out.println("SetAngle To: " + previouslevel);
+
 		} else if (getAngle() > level2) {
+
 			previouslevel = level2;
 			setArmAngle(previouslevel);
+			System.out.println("SetAngle To: " + previouslevel);
+
 		} else if (getAngle() > level1) {
+
 			previouslevel = level1;
 			setArmAngle(previouslevel);
+			System.out.println("SetAngle To: " + previouslevel);
+
 		} else {
+
 			previouslevel = level0;
 			setArmAngle(previouslevel);
-		}
+			System.out.println("SetAngle To: " + previouslevel);
 
+		}
 		return previouslevel;
 	}
 
