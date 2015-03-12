@@ -10,19 +10,20 @@ public class SetPowerCurvesOI implements OI {
 
 	public SetPowerCurvesOI(OI sourceOI) {
 		this.sourceOI = sourceOI;
-		forwardReverseRampRate = OIUtils.createRampRate(0.05);
-		leftRightRampRate = OIUtils.createRampRate(0.05);
+		forwardReverseRampRate = OIUtils.createRampRate(0.04);
+		leftRightRampRate = OIUtils.createRampRate(0.04);
 	}
 
 	@Override
 	public double getForwardReverseAxis() {
-		double power = OIUtils.scaledCubic(0, sourceOI.getForwardReverseAxis());
+		double power = OIUtils.scaledCubic(1.0,
+				sourceOI.getForwardReverseAxis());
 		return forwardReverseRampRate.limitToRampRate(power);
 	}
 
 	@Override
 	public double getLeftRightAxis() {
-		double power = OIUtils.scaledCubic(0, sourceOI.getLeftRightAxis());
+		double power = OIUtils.scaledCubic(0.8, sourceOI.getLeftRightAxis());
 		power *= (sourceOI.getForwardReverseAxis() * 0.2 + 1);
 		if (power > 1.0) {
 			power = 1.0;
