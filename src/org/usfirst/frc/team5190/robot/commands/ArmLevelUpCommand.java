@@ -10,45 +10,42 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmLevelUpCommand extends Command {
 
 	private final ArmSubsystem armsubsystem = ArmSubsystem.getInstance();
-	// start command to see if command wants to wait or complete command
-	// immediately
-	private boolean waitToFinish;
 	private double nextlevel;
 
-	public ArmLevelUpCommand(boolean waitToFinish) {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		this.waitToFinish = waitToFinish;
+	public ArmLevelUpCommand() {
 		requires(armsubsystem);
+		// setInterruptible(false);
+		setTimeout(3);
 	}
 
-	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
 		nextlevel = armsubsystem.levelup();
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
 
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
-		if (waitToFinish) {
-			double toprange = nextlevel + 1;
-			double bottomrange = nextlevel - 1;
-			return armsubsystem.getAngle() > bottomrange
-					&& armsubsystem.getAngle() < toprange;
-		}
-		return true;
+		// double toprange = nextlevel + 8;
+		// double bottomrange = nextlevel - 8;
+		// return armsubsystem.getAngle() < toprange
+		// && armsubsystem.getAngle() > bottomrange;
+		return isTimedOut();
 	}
 
-	// Called once after isFinished returns true
+	@Override
 	protected void end() {
+		armsubsystem.stopArm();
+		// System.out.println("Something Ended The UpLevel Command Button As Well.");
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
+		armsubsystem.stopArm();
+		// System.out.println("Something Interrupted The UpLevel Command Button As Well.");
 	}
 }

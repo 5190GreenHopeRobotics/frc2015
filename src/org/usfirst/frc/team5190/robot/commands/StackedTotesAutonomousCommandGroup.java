@@ -17,7 +17,7 @@ public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 		// addSequential(new DriveToObjectCommand());
 		// addSequential(new TimedRaiseLowerArmCommand(6, false));
 		// addSequential(new TimedRaiseLowerArmCommand(6, true));
-		// addSequential(new TurnCommand(90));
+		addSequential(new TurnCommand(10));
 		// addSequential(new DriveSetDistanceCommand(12 * 3));
 		addSequential(new CallibratePawlZeroAngleOffsetCommand());
 	}

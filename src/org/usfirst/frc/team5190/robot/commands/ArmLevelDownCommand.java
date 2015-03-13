@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmLevelDownCommand extends Command {
 
 	private final ArmSubsystem armsubsystem = ArmSubsystem.getInstance();
-	private boolean waitToFinish;
 	private double previouslevel;
 
-	public ArmLevelDownCommand(boolean waitToFinish) {
+	public ArmLevelDownCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		this.waitToFinish = waitToFinish;
 		requires(armsubsystem);
+		// setInterruptible(false);
+		setTimeout(0.4);
 	}
 
 	// Called just before this Command runs the first time
@@ -32,21 +32,25 @@ public class ArmLevelDownCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (waitToFinish) {
-			double toprange = previouslevel + 1;
-			double bottomrange = previouslevel - 1;
-			return armsubsystem.getAngle() > bottomrange
-					&& armsubsystem.getAngle() < toprange;
-		}
-		return true;
+		// double toprange = previouslevel + 8;
+		// double bottomrange = previouslevel - 8;
+		// return armsubsystem.getAngle() < toprange
+		// && armsubsystem.getAngle() > bottomrange;
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		armsubsystem.stopArm();
+		// System.out
+		// .println("Something Ended The DownLevel Command Button As Well.");
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		armsubsystem.stopArm();
+		// System.out
+		// .println("Something Interrupted The DownLevel Command Button As Well.");
 	}
 }

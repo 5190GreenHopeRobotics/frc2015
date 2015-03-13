@@ -18,12 +18,11 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 public class PawlSubsystem extends Subsystem implements Displayable {
 	public static final double DEFAULT_PAWL_ZERO_OFFSET = -154;
 	public static final String PAWL_ZERO_OFFSET_PREF_KEY = "pawl.angle.zero.offset";
-
+	private boolean isLocked;
 	private static PawlSubsystem instance;
 	private SmartSpeedController smartController;
 	private Potentiometer pawlPotentiometer;
 	private DigitalInput clutchEngagedSwitch;
-	private boolean isLocked;
 
 	private PawlSubsystem() {
 		Preferences preferences = Preferences.getInstance();
@@ -31,9 +30,10 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 				DEFAULT_PAWL_ZERO_OFFSET);
 		pawlPotentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 270, zeroOffset);
+
 		smartController = new SmartSpeedController(new Jaguar(
 				RobotMap.PAWL_JAGUAR_PORT));
-		smartController.setPID(0.005, 0, 0);
+		smartController.setPID(0.4, 0, 0.1);
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 
@@ -44,12 +44,21 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		smartController.setReverseSoftLimit(-20);
 		smartController.setForwardSoftLimitEnabled(true);
 		smartController.setReverseSoftLimitEnabled(true);
-
 	}
 
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new PawlJoystickCommand());
+	}
+
+	public void lock() {
+		isLocked = true;
+		goToAngle(getAngle());
+	}
+
+	public void unLock() {
+		isLocked = false;
+		smartController.disablePid();
 	}
 
 	public static PawlSubsystem getInstance() {
@@ -64,27 +73,12 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
-	public void lock() {
-		isLocked = true;
-		goToAngle(getAngle());
-	}
-
-	public void unLock() {
-		isLocked = false;
-		smartController.disablePid();
-	}
-
 	public double getAngle() {
 		return pawlPotentiometer.get();
 	}
 
 	public void goToAngle(double angle) {
-		if (!clutchEngaged()) {
-			smartController.disablePid();
-			return;
-		}
-		if (smartController.getControlMode() != ControlMode.Angle)
-			smartController.setControlMode(ControlMode.Angle);
+		smartController.setControlMode(ControlMode.Angle);
 		smartController.set(angle);
 
 	}
@@ -94,16 +88,10 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	}
 
 	public boolean angleReached() {
-		if (smartController.getControlMode() != ControlMode.Angle) {
-			smartController.setControlMode(ControlMode.Angle);
-		}
 		return smartController.isOnTarget();
 	}
 
 	public void movePawl(double power) {
-		if (isLocked) {
-			return;
-		}
 		// if (clutchEngaged()) {
 		// if (power > 0.05 || power < -0.05) {
 		// if (smartController.getControlMode() != ControlMode.PercentVBus) {
