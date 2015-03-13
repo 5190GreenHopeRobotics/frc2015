@@ -6,6 +6,7 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.sensor.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
 
+import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
@@ -21,7 +22,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	private VL6180xRangeFinder rangeFinderLeft, rangeFinderRight;
 	private Lidar lidar;
-	private AHRS navXSensor;
+	private IMU navXSensor;
 
 	private NavigationSubsystem() {
 		super("NavigationSubsystem");
@@ -83,22 +84,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	@Override
 	// Display values
 	public void displayValues(Display display) {
-		display.putNumber("NavX Magnetometer X",
-				navXSensor.getCalibratedMagnetometerX());
-		display.putNumber("NavX Magnetometer Y",
-				navXSensor.getCalibratedMagnetometerY());
-		display.putNumber("NavX Magnetometer Z",
-				navXSensor.getCalibratedMagnetometerZ());
 		display.putNumber("NavX Compass Heading",
 				navXSensor.getCompassHeading());
-		display.putNumber("NavX Displacement X", navXSensor.getDisplacementX());
-		display.putNumber("NavX Displacement Y", navXSensor.getDisplacementY());
-		display.putNumber("NavX fused heading", navXSensor.getFusedHeading());
 		display.putNumber("NavX Pitch", navXSensor.getPitch());
 		display.putNumber("NavX Roll", navXSensor.getRoll());
-		display.putNumber("NavX Temperature", navXSensor.getTempC());
-		display.putNumber("NavX Velocity X", navXSensor.getVelocityX());
-		display.putNumber("NavX Velocity Y", navXSensor.getVelocityY());
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
 		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
 		display.putNumber("Lidar Distance", lidar.getDistance());
