@@ -3,16 +3,12 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
-import org.usfirst.frc.team5190.robot.oi.FlightStickWithGamePadOI;
+import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
-import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -39,7 +35,7 @@ public class Robot extends IterativeRobot {
 
 	public Robot() {
 		// Initialize OI
-		OI joystickOI = new FlightStickWithGamePadOI(0, 1);
+		OI joystickOI = new GamepadOI();
 		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
 		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
 		scaledInputsOI.setCherryPickerScalingValue(0.5);
@@ -55,12 +51,12 @@ public class Robot extends IterativeRobot {
 
 		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
 				.getInstance();
-		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
-		displayer.addDisplayable(ArmSubsystem.getInstance());
-		displayer.addDisplayable(PawlSubsystem.getInstance());
-		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
-		displayer.addDisplayable(displayableOI);
-		displayer.addDisplayable(NavigationSubsystem.getInstance());
+		// displayer.addDisplayable(DriveTrainSubsystem.getInstance());
+		// displayer.addDisplayable(ArmSubsystem.getInstance());
+		// displayer.addDisplayable(PawlSubsystem.getInstance());
+		// displayer.addDisplayable(CherryPickerSubsystem.getInstance());
+		// displayer.addDisplayable(displayableOI);
+		// displayer.addDisplayable(NavigationSubsystem.getInstance());
 	}
 
 	@Override
@@ -115,6 +111,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		System.out.print(NavigationSubsystem.getInstance().getRange());
 		scheduler.run();
 	}
 

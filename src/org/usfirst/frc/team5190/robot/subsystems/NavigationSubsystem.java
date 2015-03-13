@@ -49,6 +49,8 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		sensors = new HashMap<String, PIDSource>();
 		rawLidar = new Lidar(RobotMap.LIDAR_PORT);
 		filteredLidar = new LidarFilter(rawLidar);
+		rawLidar.start();
+
 		navXSensor = new AHRS(serial);
 		currentSpeedControl = rawLidar;
 		// currentAngleControl = gyro;
@@ -72,6 +74,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	public double getRange() {
+		return rawLidar.getDistance();
 	}
 
 	public int getPawlDistanceFromObject() {

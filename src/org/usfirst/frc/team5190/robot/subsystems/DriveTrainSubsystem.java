@@ -306,16 +306,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * 
 	 * @param inches
 	 */
+	// set ramp rate to 6, everything else to 0
 	public void pidDrive(double inches) {
 		tempDriveDistance = inches;
-		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontLeft.setPID(0.5, 0, 0.4);
-		backLeft.setPID(0.5, 0, 0.4);
-		frontRight.setPID(0.5, 0, 0.4);
-		backRight.setPID(0.5, 0, 0.4);
+		frontLeft.setPID(0.5, 0, 0);
+		frontRight.setPID(0.5, 0, 0);
 		frontLeft.setPosition(0);
 		backLeft.setPosition(0);
 		frontRight.setPosition(0);
@@ -324,6 +319,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft.set(inches);
 		frontRight.changeControlMode(ControlMode.Position);
 		frontRight.set(inches);
+	}
+
+	public double testDrive() {
+		return frontLeft.getPosition();
 	}
 
 	public void displayValues(Display display) {
