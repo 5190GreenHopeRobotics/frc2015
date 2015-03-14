@@ -62,6 +62,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return (leftDistance + rightDistance) / 2;
 	}
 
+	public double getLidarDistanceFromObject() {
+		return lidar.getDistance();
+	}
+
 	public double getRoll() {
 		return navXSensor.getRoll();
 	}
@@ -89,6 +93,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	public RobotHeadingPIDSource createRobotHeadingPIDSource() {
 		return new RobotHeadingPIDSource();
+	}
+
+	public LidarDistancePIDSource createLidarDistancePIDSource() {
+		return new LidarDistancePIDSource();
 	}
 
 	@Override

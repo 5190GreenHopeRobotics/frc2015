@@ -139,6 +139,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 			frontRight.setPosition(0);
 			frontRight.set(inchesToTicks(inches));
 		}
+
+		private double inchesToTicks(double inches) {
+			return inches * 100;
+		}
 	}
 
 	/**
@@ -213,7 +217,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		disable = flag;
 	}
 
-	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithArcadeCommand());
 	}
@@ -224,6 +227,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public TurnPIDOutput createTurnPIDOutput() {
 		return new TurnPIDOutput();
+	}
+
+	public DriveStraightPIDOutput createDriveStraightPIDOutput() {
+		return new DriveStraightPIDOutput();
 	}
 
 	public void arcadeDrive(double moveValue, double rotateValue) {
@@ -263,24 +270,17 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
-	private double inchesToTicks(double inches) {
-		return inches * 10;
+	public double testDrive() {
+		return frontLeft.getPosition();
 	}
 
 	public void displayValues(Display display) {
-		display.putNumber("FrontLeft Speed", frontLeft.getSpeed());
-		display.putNumber("FrontRight Speed", frontRight.getSpeed());
-		display.putNumber("BackLeft Speed", backLeft.getSpeed());
-		display.putNumber("BackRight Speed", backRight.getSpeed());
-		display.putNumber("FrontLeft Position", frontLeft.getPosition());
-		display.putNumber("FrontRight Position", frontRight.getPosition());
-		display.putNumber("BackLeft Position", backLeft.getPosition());
-		display.putNumber("BackRight Position", backRight.getPosition());
+		display.putNumber("Left Speed", frontLeft.getSpeed());
+		display.putNumber("Right Speed", frontRight.getSpeed());
+		display.putNumber("Left Position", frontLeft.getPosition());
+		display.putNumber("Right Position", frontRight.getPosition());
 		display.putNumber("FrontLeft Enc Position", frontLeft.getEncPosition());
 		display.putNumber("FrontRight Enc Position",
 				frontRight.getEncPosition());
-		display.putNumber("BackLeft Enc Position", backLeft.getEncPosition());
-		display.putNumber("BackRight Enc Position", backRight.getEncPosition());
 	}
-
 }

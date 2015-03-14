@@ -19,6 +19,7 @@ public class DriveSetDistanceCommand extends Command {
 		super("DriveSetDistanceCommand");
 		this.distance = distance;
 		requires(driveTrainSubsystem);
+		setTimeout(3);
 	}
 
 	@Override
@@ -39,11 +40,10 @@ public class DriveSetDistanceCommand extends Command {
 	@Override
 	protected void end() {
 		driveSetDistance.end();
-
 	}
 
 	@Override
 	protected void interrupted() {
-		driveSetDistance.end();
+		end();
 	}
 }
