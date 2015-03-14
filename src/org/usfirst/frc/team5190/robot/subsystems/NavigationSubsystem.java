@@ -65,6 +65,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return (leftDistance + rightDistance) / 2;
 	}
 
+	public double getLidarDistanceFromObject() {
+		return lidar.getDistance();
+	}
+
 	public double getRoll() {
 		return navXSensor.getRoll();
 	}
@@ -81,6 +85,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return new RobotHeadingPIDSource();
 	}
 
+	public LidarDistancePIDSource createLidarDistancePIDSource() {
+		return new LidarDistancePIDSource();
+	}
+
 	@Override
 	// Display values
 	public void displayValues(Display display) {
@@ -90,6 +98,6 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		display.putNumber("NavX Roll", navXSensor.getRoll());
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
 		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
-		display.putNumber("Lidar Distance", lidar.getDistance());
+		display.putNumber("Lidar Distance", getLidarDistanceFromObject());
 	}
 }

@@ -215,7 +215,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		disable = flag;
 	}
 
-	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithArcadeCommand());
 	}
@@ -230,6 +229,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public TurnPIDOutput createTurnPIDOutput() {
 		return new TurnPIDOutput();
+	}
+
+	public DriveStraightPIDOutput createDriveStraightPIDOutput() {
+		return new DriveStraightPIDOutput();
 	}
 
 	public void driveForward() {
@@ -307,16 +310,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * 
 	 * @param inches
 	 */
+	// set ramp rate to 6, everything else to 0
 	public void pidDrive(double inches) {
 		tempDriveDistance = inches;
-		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontLeft.setPID(0.5, 0, 0.4);
-		backLeft.setPID(0.5, 0, 0.4);
-		frontRight.setPID(0.5, 0, 0.4);
-		backRight.setPID(0.5, 0, 0.4);
+		frontLeft.setPID(0.5, 0, 0);
+		frontRight.setPID(0.5, 0, 0);
 		frontLeft.setPosition(0);
 		backLeft.setPosition(0);
 		frontRight.setPosition(0);
@@ -327,21 +325,30 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight.set(inches);
 	}
 
+	public double testDrive() {
+		return frontLeft.getPosition();
+	}
+
 	public void displayValues(Display display) {
-		display.putNumber("FrontLeft Speed", frontLeft.getSpeed());
-		display.putNumber("FrontRight Speed", frontRight.getSpeed());
-		display.putNumber("BackLeft Speed", backLeft.getSpeed());
-		display.putNumber("BackRight Speed", backRight.getSpeed());
+		// display.putNumber("FrontLeft Speed", frontLeft.getSpeed());
+		// display.putNumber("FrontRight Speed", frontRight.getSpeed());
+		// display.putNumber("BackLeft Speed", backLeft.getSpeed());
+		// display.putNumber("BackRight Speed", backRight.getSpeed());
+		display.putNumber("Speed(Forward)",
+				(frontRight.getSpeed() + frontLeft.getSpeed()) / 2);
 		display.putBoolean("DriveTrain Enabled", mDrive.isAlive());
-		display.putNumber("FrontLeft Position", frontLeft.getPosition());
-		display.putNumber("FrontRight Position", frontRight.getPosition());
-		display.putNumber("BackLeft Position", backLeft.getPosition());
-		display.putNumber("BackRight Position", backRight.getPosition());
-		display.putNumber("FrontLeft Enc Position", frontLeft.getEncPosition());
-		display.putNumber("FrontRight Enc Position",
-				frontRight.getEncPosition());
-		display.putNumber("BackLeft Enc Position", backLeft.getEncPosition());
-		display.putNumber("BackRight Enc Position", backRight.getEncPosition());
+		// display.putNumber("FrontLeft Position", frontLeft.getPosition());
+		// display.putNumber("FrontRight Position", frontRight.getPosition());
+		// display.putNumber("BackLeft Position", backLeft.getPosition());
+		// display.putNumber("BackRight Position", backRight.getPosition());
+		// display.putNumber("FrontLeft Enc Position",
+		// frontLeft.getEncPosition());
+		// display.putNumber("FrontRight Enc Position",
+		// frontRight.getEncPosition());
+		// display.putNumber("BackLeft Enc Position",
+		// backLeft.getEncPosition());
+		// display.putNumber("BackRight Enc Position",
+		// backRight.getEncPosition());
 	}
 
 }

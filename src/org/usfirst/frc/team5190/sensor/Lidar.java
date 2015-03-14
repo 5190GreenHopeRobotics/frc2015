@@ -24,6 +24,7 @@ public class Lidar implements PIDSource {
 		updater = new java.util.Timer();
 	}
 
+	// <<8 multiplies by 2^8
 	// Distance in cm
 	public int getDistance() {
 		return (Byte.toUnsignedInt(distance[0]) << 8)
@@ -60,7 +61,6 @@ public class Lidar implements PIDSource {
 
 	// Timer task to keep distance updated
 	private class LIDARUpdater extends TimerTask {
-		@Override
 		public void run() {
 			update();
 		}
