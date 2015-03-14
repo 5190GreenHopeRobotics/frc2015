@@ -1,70 +1,31 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
-import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
-import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
  * @author Tony Zhang
  * @description Operate robot with two gamepads
  */
-public class TwoGamepadOI implements OI {
-	// initailize gamepads
+public class TwoGamepadOI extends AbstractOI {
 	private Joystick gamepadDrive;
 	private Joystick gamepadShoot;
 
-	// initialize buttons
-	// private Button zeroPawlButton;
-
-	/**
-	 * Call on normal constructor in program
-	 */
 	public TwoGamepadOI() {
 		// set gamepads equal to ports
 		this(0, 1);
 	}
 
-	/**
-	 * 
-	 * @param gamepad1port
-	 * @param gamepad2port
-	 */
 	public TwoGamepadOI(int gamepadDrivePort, int gamepadShootPort) {
 		// set gamepads equal to ports
 		gamepadDrive = new Joystick(gamepadDrivePort);
 		gamepadShoot = new Joystick(gamepadShootPort);
-		// initialize buttons
-		// zeroPawlButton = new JoystickButton(gamepadShoot,
-		// LogitechGamepad.RIGHT_BUMPER);
-		// zeroPawlButton.whenPressed(new ZeroPawlCommand());
-		// do actions with buttons
-		JoystickButton levelUpCommand = new JoystickButton(gamepadShoot,
-				LogitechGamepad.B_BUTTON);
-		levelUpCommand.whenPressed(new ArmLevelUpCommand());
-		JoystickButton levelDownCommand = new JoystickButton(gamepadShoot,
-				LogitechGamepad.A_BUTTON);
-		levelDownCommand.whenPressed(new ArmLevelDownCommand());
 
-		// REMOVE IF NEEDED
-		SmartDashboard.putData("Kill Robot", new KillCommand());
-
-		// Arm Test Stuff
-		// JoystickButton Level0Button = new JoystickButton(gamepad2,
-		// LogitechGamepad.X_BUTTON);
-		// JoystickButton Level1Button = new JoystickButton(gamepad2,
-		// LogitechGamepad.A_BUTTON);
-		// JoystickButton Level2Button = new JoystickButton(gamepad2,
-		// LogitechGamepad.B_BUTTON);
-		// JoystickButton Level3Button = new JoystickButton(gamepad2,
-		// LogitechGamepad.Y_BUTTON);
-		// JoystickButton Level4Button = new JoystickButton(gamepad2,
-		// LogitechGamepad.A_BUTTON)
+		initializeButtons();
 	}
 
 	/**
@@ -118,12 +79,29 @@ public class TwoGamepadOI implements OI {
 						.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS));
 	}
 
-	/**
-	 * 
-	 * @return gamepad shoot Right bumper,
-	 */
-	public boolean zeroPawlButton() {
-		return gamepadShoot.getRawButton(LogitechGamepad.RIGHT_BUMPER);
+	@Override
+	protected Button getLevelUpButton() {
+		return new JoystickButton(gamepadShoot, LogitechGamepad.B_BUTTON);
+	}
+
+	@Override
+	protected Button getLevelDownButton() {
+		return new JoystickButton(gamepadShoot, LogitechGamepad.A_BUTTON);
+	}
+
+	@Override
+	protected Button getZeroPawlButton() {
+		return new JoystickButton(gamepadShoot, LogitechGamepad.RIGHT_BUMPER);
+	}
+
+	@Override
+	protected Button getKillButton() {
+		return new JoystickButton(gamepadDrive, LogitechGamepad.START);
+	}
+
+	@Override
+	protected Button getMoarPowahButton() {
+		return new JoystickButton(gamepadDrive, LogitechGamepad.LEFT_BUMPER);
 	}
 
 }

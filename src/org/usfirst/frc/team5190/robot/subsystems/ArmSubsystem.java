@@ -16,8 +16,22 @@ import edu.wpi.first.wpilibj.Preferences;
 public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private static ArmSubsystem instance;
 
-	private static final int HIGH_SOFT_LIMIT = 676;
-	private static final int LOW_SOFT_LIMIT = 313;
+	private static final int ARM_RANGE = 363;
+	private static final int ARM_BOTTOM_OFFSET = 313;
+
+	private static final double ARM_SET_ANGLE_P = 0.5;
+	private static final double ARM_SET_ANGLE_I = 0.003;
+	private static final double ARM_SET_ANGLE_D = 0;
+	private static final int ARM_SET_ANGLE_IZONE = 100;
+	private static final double ARM_SET_ANGLE_RAMP_RATE = 0;
+	private static final int ARM_SET_ANGLE_PROFILE = 1;
+
+	private static final double ARM_HOLD_P = 1.8;
+	private static final double ARM_HOLD_I = 0.003;
+	private static final double ARM_HOLD_D = 0;
+	private static final int ARM_HOLD_IZONE = 100;
+	private static final double ARM_HOLD_RAMP_RATE = 0;
+	private static final int ARM_HOLD_PROFILE = 0;
 
 	// Levels for arm corresponding with totes, current values are
 	// placeholders,
@@ -25,40 +39,70 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	private int lowLimit;
-	private int highLimit;
-	private static final double level0 = 320;
-	private static final double level1 = 392.5983;
-	private static final double level2 = 465.1967;
-	private static final double level3 = 537.7951;
-	private static final double level4 = 610.3934;
+	private int armBottomOffset;
+	private int armRange;
+	private static final int level0 = 7;
+	private static final int level1 = 80;
+	private static final int level2 = 152;
+	private static final int level3 = 225;
+	private static final int level4 = 287;
 
 	private Preferences prefs = Preferences.getInstance();
 
-	private double motorSpeed = 0.1;
+	public class SetArmAngle {
+
+		private double angle;
+
+		private SetArmAngle(double angle) {
+			this.angle = armBottomOffset + angle;
+
+			System.out.println("The Angle Given To Be Set" + this.angle);
+		}
+
+		public void start() {
+			if (controlMode != ControlMode.Position) {
+				armCANTalonLeft.changeControlMode(ControlMode.Position);
+				controlMode = ControlMode.Position;
+			}
+			configureSetAnglePID();
+		}
+
+		public void execute() {
+			armCANTalonLeft.set(angle);
+		}
+
+		/**
+		 * stop the pid
+		 */
+		public void end() {
+		}
+	}
 
 	private ArmSubsystem() {
 		super("ArmSubsystem");
 
-		lowLimit = prefs.getInt("arm.soft.limit.low", LOW_SOFT_LIMIT);
-		highLimit = prefs.getInt("arm.soft.limit.high", HIGH_SOFT_LIMIT);
+		armBottomOffset = prefs.getInt("arm.bottom.offset", ARM_BOTTOM_OFFSET);
+		armRange = prefs.getInt("arm.range", ARM_RANGE);
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft.changeControlMode(controlMode);
 		armCANTalonLeft.set(0);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
-		armCANTalonLeft.setPID(1.8, 0.003, 0, 0, 0, 0, 0);
+		configureSetAnglePID();
+		configureHoldPID();
 		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setReverseSoftLimit(lowLimit);
-		armCANTalonLeft.setForwardSoftLimit(highLimit);
+		armCANTalonLeft.setReverseSoftLimit(armBottomOffset);
+		armCANTalonLeft.setForwardSoftLimit(armBottomOffset + armRange);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
+		armCANTalonLeft.setSafetyEnabled(false);
 
 		armCANTalonRight = new CANTalon(RobotMap.ARM_TALONSRX_RIGHT_CAN_ID);
 		armCANTalonRight.changeControlMode(ControlMode.Follower);
 		armCANTalonRight.set(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		armCANTalonRight.reverseOutput(true);
 		armCANTalonRight.enableBrakeMode(true);
+		armCANTalonRight.setSafetyEnabled(false);
 	}
 
 	public static ArmSubsystem getInstance() {
@@ -79,14 +123,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	}
 
 	/**
-	 * This raises the arm by using motorSpeed (positive value).
-	 */
-	public void raiseArm() {
-		armCANTalonLeft.set(motorSpeed);
-
-	}
-
-	/**
 	 * This stops the arm angle from changing (No rise or lowering) = speed is
 	 * 0.
 	 */
@@ -103,71 +139,53 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 			armCANTalonLeft.set(power);
 		} else {
 			if (controlMode != ControlMode.Position) {
+				configureHoldPID();
+				armCANTalonLeft.ClearIaccum();
 				armCANTalonLeft.changeControlMode(ControlMode.Position);
-				armCANTalonLeft.set(getAngle());
+				armCANTalonLeft.set(armCANTalonLeft.getPosition());
 				controlMode = ControlMode.Position;
 			}
 		}
 	}
 
 	/**
-	 * This sets the motorSpeed to negative, lowering the arm.
+	 * Arm Potentiometer position value shifted by the Arm bottom offset. Will
+	 * be in the
 	 */
-	public void lowerArm() {
-		armCANTalonLeft.set(motorSpeed);
-	}
-
 	public double getAngle() {
-		return armCANTalonLeft.getPosition();
+		return armCANTalonLeft.getPosition() - armBottomOffset;
 	}
 
-	public void setArmAngle(double positionAngle) {
-		if (controlMode != ControlMode.Position) {
-			armCANTalonLeft.changeControlMode(ControlMode.Position);
-			armCANTalonLeft.set(positionAngle);
-			System.out.println("The Angle Given To Be Set" + positionAngle);
-			controlMode = ControlMode.Position;
-		}
+	public SetArmAngle setArmAngle(double positionAngle) {
+		return new SetArmAngle(positionAngle);
 	}
 
-	public void setLimit(int low, int high) {
-		lowLimit = low;
-		highLimit = high;
-		armCANTalonLeft.setForwardSoftLimit(high);
-		armCANTalonLeft.setReverseSoftLimit(low);
+	private void configureSetAnglePID() {
+		double p = prefs.getDouble("arm.set.angle.p", ARM_SET_ANGLE_P);
+		double i = prefs.getDouble("arm.set.angle.i", ARM_SET_ANGLE_I);
+		double d = prefs.getDouble("arm.set.angle.d", ARM_SET_ANGLE_D);
+		double rampRate = prefs.getDouble("arm.set.angle.ramp.rate",
+				ARM_SET_ANGLE_RAMP_RATE);
+		int izone = prefs.getInt("arm.set.angle.izone", ARM_SET_ANGLE_IZONE);
+		int profile = prefs.getInt("arm.set.angle.profile",
+				ARM_SET_ANGLE_PROFILE);
+		System.out.println("Set Angle P: " + p + " I: " + i + " D: "
+				+ " rampRate: " + rampRate + " izone: " + izone + " profile: "
+				+ profile);
+		armCANTalonLeft.setPID(p, i, d, 0, izone, rampRate, profile);
 	}
 
-	public int getHighLimit() {
-		return highLimit;
-	}
-
-	public int getLowLimit() {
-		return lowLimit;
-	}
-
-	/**
-	 * move the arm down, won't do anything if hit the reverse limit switch
-	 * 
-	 * @return if it reached bottom
-	 */
-	public boolean goToLowest() {
-		if (!armCANTalonLeft.isRevLimitSwitchClosed()) {
-			moveArm(-0.1);
-
-		}
-		return armCANTalonLeft.isRevLimitSwitchClosed();
-	}
-
-	/**
-	 * move the arm up, wom't do anything if hit the top limit switch
-	 * 
-	 * @return if reached top
-	 */
-	public boolean goToHighest() {
-		if (!armCANTalonLeft.isFwdLimitSwitchClosed()) {
-			moveArm(0.1);
-		}
-		return armCANTalonLeft.isFwdLimitSwitchClosed();
+	private void configureHoldPID() {
+		double p = prefs.getDouble("arm.hold.p", ARM_HOLD_P);
+		double i = prefs.getDouble("arm.hold.i", ARM_HOLD_I);
+		double d = prefs.getDouble("arm.hold.d", ARM_HOLD_D);
+		double rampRate = prefs.getDouble("arm.hold.ramp.rate",
+				ARM_HOLD_RAMP_RATE);
+		int izone = prefs.getInt("arm.hold.izone", ARM_HOLD_IZONE);
+		int profile = prefs.getInt("arm.hold.profile", ARM_HOLD_PROFILE);
+		System.out.println("Hold P: " + p + " I: " + i + " D: " + " rampRate: "
+				+ rampRate + " izone: " + izone + " profile: " + profile);
+		armCANTalonLeft.setPID(p, i, d, 0, izone, rampRate, profile);
 	}
 
 	@Override
@@ -180,10 +198,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 				armCANTalonLeft.isFwdLimitSwitchClosed());
 		display.putBoolean("Arm Low Hard Limit",
 				armCANTalonLeft.isRevLimitSwitchClosed());
-		display.putBoolean("Arm High Soft Limit",
-				armCANTalonLeft.getPosition() >= highLimit);
-		display.putBoolean("Arm Low Soft Limit",
-				armCANTalonLeft.getPosition() <= lowLimit);
+		display.putBoolean("Arm High Soft Limit", getAngle() >= armRange);
+		display.putBoolean("Arm Low Soft Limit", getAngle() <= 0);
 
 	}
 

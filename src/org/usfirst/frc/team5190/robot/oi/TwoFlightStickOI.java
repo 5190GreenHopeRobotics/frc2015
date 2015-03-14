@@ -3,22 +3,23 @@ package org.usfirst.frc.team5190.robot.oi;
 import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public class TwoFlightStickOI implements OI {
-	// init joystick
+public class TwoFlightStickOI extends AbstractOI {
 	private Joystick flightStickDrive;
 	private Joystick flightStickShoot;
 	private double cherryPickerButtonSpeed = 1.0;
 
 	public TwoFlightStickOI() {
-		JoystickButton zeroPawl = new JoystickButton(flightStickShoot,
-				LogitechExtreme3D.BOTTOM_BUTTON_BOTTOM_LEFT);
+		this(0, 1);
 	}
 
 	public TwoFlightStickOI(int portDrive, int portShoot) {
 		flightStickDrive = new Joystick(portDrive);
 		flightStickShoot = new Joystick(portShoot);
+
+		initializeButtons();
 	}
 
 	/**
@@ -92,8 +93,36 @@ public class TwoFlightStickOI implements OI {
 	 */
 	@Override
 	public double getPawlAxis() {
-		return 0;
-		// return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
+		return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
+	}
+
+	@Override
+	protected Button getLevelUpButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
+	}
+
+	@Override
+	protected Button getLevelDownButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+	}
+
+	@Override
+	protected Button getZeroPawlButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.BOTTOM_BUTTON_TOP_RIGHT);
+	}
+
+	@Override
+	protected Button getKillButton() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.BOTTOM_BUTTON_BOTTOM_RIGHT);
+	}
+
+	@Override
+	protected Button getMoarPowahButton() {
+		return new JoystickButton(flightStickDrive, LogitechExtreme3D.TRIGGER);
 	}
 
 }
