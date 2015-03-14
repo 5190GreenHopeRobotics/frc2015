@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -54,8 +55,10 @@ public class Robot extends IterativeRobot {
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
 		autonomousChooser
 				.addObject("Cherry Pick", new CherryPickCommandGroup());
+
 		scheduler = Scheduler.getInstance();
 
+		// setup displayables
 		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
 				.getInstance();
 		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
@@ -64,6 +67,14 @@ public class Robot extends IterativeRobot {
 		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
 		displayer.addDisplayable(displayableOI);
 		displayer.addDisplayable(NavigationSubsystem.getInstance());
+
+		// add scheduler, subsystems to dashboard
+		SmartDashboard.putData(scheduler);
+		SmartDashboard.putData(DriveTrainSubsystem.getInstance());
+		SmartDashboard.putData(ArmSubsystem.getInstance());
+		SmartDashboard.putData(PawlSubsystem.getInstance());
+		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
+		SmartDashboard.putData(NavigationSubsystem.getInstance());
 	}
 
 	@Override
