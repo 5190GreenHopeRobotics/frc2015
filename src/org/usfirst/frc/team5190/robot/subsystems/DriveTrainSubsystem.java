@@ -8,9 +8,9 @@ import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -19,16 +19,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private static DriveTrainSubsystem instance;
 
-	/**
-	 * The range +/- that is acceptable for driving a set distance.
-	 */
-	public static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
+	private static final double DRIVE_SET_DISTANCE_P = 0.4;
+	private static final double DRIVE_SET_DISTANCE_I = 0;
+	private static final double DRIVE_SET_DISTANCE_V = 0;
+	private static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
 
 	/**
 	 * The maximum power for driving under PID control for going a specific
 	 * distance
 	 */
-	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -0.5, 0.5 };
+	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -1000,
+			1000 };
 
 	/**
 	 * The range of degrees +/- that is acceptable for turning a requested
@@ -41,26 +42,52 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 */
 	public static final double[] TURN_OUTPUT_RANGE = { -0.3, 0.3 };
 
-	public static final double TALON_RAMP_SPEED = 3.0;
+	public static final double TALON_CLOSED_LOOP_RAMP_SPEED = 48.0;
 
 	public static final double kP = 0.03;
 	private double tempDriveDistance;
-	private RobotDrive mDrive;
 	private boolean disable = false;
-	private Encoder right, left;
 	private CANTalon frontLeft, backLeft, frontRight, backRight;
-	private DriveStraightRobotDrive driveStraightRobotDrive;
-	private TurnRobotDrive turnRobotDrive;
+
+	private class AveragedEncoderTicksPIDSource implements PIDSource {
+
+		@Override
+		public double pidGet() {
+			return frontLeft.getEncPosition() + frontRight.getEncPosition() / 2;
+		}
+
+	}
+
+	private class DriveStraightPIDOutput implements PIDOutput {
+		private NavigationSubsystem navigationSubsystem = NavigationSubsystem
+				.getInstance();
+
+		private static final double kP = .03;
+		private double startingAngle;
+
+		public DriveStraightPIDOutput() {
+			// Ideally I think this shouldn't zero the yaw value. It should get
+			// the current initial angle then in the pidWrite it should use
+			// difference between the inital angle and the current angle. That
+			// way the yaw value doesn't get messed up if something else is
+			// using it. The problem though is that then it would have to handle
+			// the transition from -180 to 180. Rather than deal with that we're
+			// doing this simplification.
+			navigationSubsystem.zeroYaw();
+		}
+
+		@Override
+		public void pidWrite(double output) {
+			double angle = navigationSubsystem.getYaw(); // get current heading
+			frontLeft.set(output + (-angle * kP));
+			frontRight.set(output + (angle * kP));
+		}
+	}
 
 	public class DriveSetDistance {
 		PIDController pidController;
 
 		private DriveSetDistance() {
-			// pidController = new PIDController(0.5, 0, 0.4, enc,
-			// driveStraightRobotDrive);
-			// pidController.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
-			// pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
-			// DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
 		}
 
 		/**
@@ -71,7 +98,14 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 *            added to the actual distance you want to go.
 		 */
 		public void start(double distance) {
-			// pidController.setSetpoint(enc.getDistance() + distance);
+			AveragedEncoderTicksPIDSource averagedEncoder = new AveragedEncoderTicksPIDSource();
+			pidController = new PIDController(0.5, 0, 0, averagedEncoder,
+					new DriveStraightPIDOutput());
+			pidController.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
+					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
+			double startPoint = averagedEncoder.pidGet();
+			pidController.setSetpoint(startPoint + distance);
 			pidController.enable();
 
 		}
@@ -87,37 +121,23 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		public boolean drivenDistance() {
 			return pidController.onTarget();
 		}
-	}
 
-	public class Turn {
-		PIDController pidController;
+		public void configureMotors(double inches) {
+			backLeft.changeControlMode(ControlMode.Follower);
+			backLeft.set(frontLeft.getDeviceID());
 
-		private Turn() {
-			pidController = new PIDController(0.3, 0, 0.1, null, turnRobotDrive);
-			pidController.setAbsoluteTolerance(TURN_TOLERANCE);
-			pidController.setOutputRange(TURN_OUTPUT_RANGE[0],
-					TURN_OUTPUT_RANGE[1]);
-			pidController.setSetpoint(45);
-			pidController.enable();
-		}
+			frontLeft.changeControlMode(ControlMode.Position);
+			frontLeft.setPID(0.5, 0, 0, 0, 0, TALON_CLOSED_LOOP_RAMP_SPEED, 1);
+			frontLeft.setPosition(0);
+			frontLeft.set(inchesToTicks(inches));
+			frontLeft.setSafetyEnabled(false);
 
-		/**
-		 * 
-		 * @param turnDegree
-		 */
-		public void start(double turnDegree) {
-			pidController.setSetpoint(turnDegree);
-			pidController.enable();
+			backRight.changeControlMode(ControlMode.Follower);
+			backRight.set(frontRight.getDeviceID());
 
-		}
-
-		public void end() {
-			pidController.disable();
-		}
-
-		// This asks to see if it has gotten to the distance.
-		public boolean finishedTurn() {
-			return pidController.onTarget();
+			frontRight.changeControlMode(ControlMode.Speed);
+			frontRight.setPosition(0);
+			frontRight.set(inchesToTicks(inches));
 		}
 	}
 
@@ -127,11 +147,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private DriveTrainSubsystem() {
 		// init the motors
 		initializeMotors();
-		// init drive
-		mDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
-		mDrive.setSafetyEnabled(false);
-		driveStraightRobotDrive = new DriveStraightRobotDrive(mDrive);
-		turnRobotDrive = new TurnRobotDrive(mDrive);
 	}
 
 	public static DriveTrainSubsystem getInstance() {
@@ -153,56 +168,39 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 * DO NOT CHANGE CODE IN THIS SECTION WITHOUT PERMISSION FROM A MENTOR
 		 * 
 		 ********************************************************************/
-		// create controller
+
+		// front left
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
-		backLeft = new CANTalon(RobotMap.BACKLEFT);
-		frontRight = new CANTalon(RobotMap.FRONTRIGHT);
-		backRight = new CANTalon(RobotMap.BACKRIGHT);
-		// set ramp speed
-		frontLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
-		backRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
-		frontRight.setCloseLoopRampRate(TALON_RAMP_SPEED);
-		backLeft.setCloseLoopRampRate(TALON_RAMP_SPEED);
-		frontLeft.reverseOutput(true);
-		frontLeft.changeControlMode(ControlMode.PercentVbus);
-		frontLeft.set(0);
-		backLeft.reverseOutput(true);
-		backLeft.changeControlMode(ControlMode.PercentVbus);
-		backLeft.set(0);
-		// backLeft.changeControlMode(ControlMode.Follower);
-		// // since back motors are followers/slaves, set() method sets their
-		// // master (should be the master's CAN Id)
-		// backLeft.set(frontLeft.getDeviceID());
-		frontRight.reverseOutput(true);
-		frontRight.changeControlMode(ControlMode.PercentVbus);
-		frontRight.set(0);
-		backRight.reverseOutput(false);
-		backRight.changeControlMode(ControlMode.PercentVbus);
-		backRight.set(0);
-		// backRight.changeControlMode(ControlMode.Follower);
-		// backRight.set(frontRight.getDeviceID());
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontLeft.reverseSensor(true);
+		frontLeft.setCloseLoopRampRate(48);
+		frontLeft.setSafetyEnabled(false);
+		frontLeft.changeControlMode(ControlMode.Speed);
+		frontLeft.set(0);
+
+		// back left
+		backLeft = new CANTalon(RobotMap.BACKLEFT);
 		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backLeft.reverseSensor(true);
+		backLeft.setSafetyEnabled(false);
+		backLeft.changeControlMode(ControlMode.Follower);
+		backLeft.set(frontLeft.getDeviceID());
+
+		// front right
+		frontRight = new CANTalon(RobotMap.FRONTRIGHT);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontRight.reverseOutput(true);
+		frontRight.changeControlMode(ControlMode.Speed);
+		frontRight.setCloseLoopRampRate(48);
+		frontRight.setSafetyEnabled(false);
+		frontRight.set(0);
+
+		// back right
+		backRight = new CANTalon(RobotMap.BACKRIGHT);
 		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-	}
-
-	/**
-	 * set the output of the motor
-	 * 
-	 * @param power
-	 *            the power, from 0 to 1
-	 */
-	public void setPower(double power) {
-		mDrive.setMaxOutput(power);
-	}
-
-	/**
-	 * reset all the encoder
-	 */
-	public void resetEncoder() {
-		right.reset();
-		left.reset();
+		backRight.changeControlMode(ControlMode.Follower);
+		backRight.setSafetyEnabled(false);
+		backRight.set(frontRight.getDeviceID());
 	}
 
 	/**
@@ -224,107 +222,49 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		return new DriveSetDistance();
 	}
 
-	public Turn turn() {
-		return new Turn();
-	}
-
 	public TurnPIDOutput createTurnPIDOutput() {
 		return new TurnPIDOutput();
 	}
 
-	public void driveForward() {
-		if (!disable) {
-			mDrive.drive(1, 0);
-		}
-	}
-
-	/**
-	 * drive at a speed, forward is 0 - 1, back is 0 - -1
-	 * 
-	 * @param speed
-	 *            the speed robot will go at, -1 to 1, 1 goes forward
-	 */
-
-	public void drive(double speed) {
-		if (!disable) {
-			driveStraightRobotDrive.drive(speed);
-		}
-	}
-
-	/**
-	 * turn right at speed of 0.1
-	 */
-
-	public void turnRight() {
-		if (!disable) {
-			mDrive.tankDrive(0, 0.1);
-			// mDrive.tankDrive(0, 0.5);
-		}
-	}
-
-	/**
-	 * turn left at speed of 0.1
-	 */
-
-	public void turnLeft() {
-		if (!disable) {
-			mDrive.tankDrive(0.1, 0);
-			// mDrive.tankDrive(.5, 0);
-		}
-	}
-
-	/**
-	 * control the drive train with a arcade drive
-	 * 
-	 * @param moveValue
-	 *            the forward value
-	 * @param rotateValue
-	 *            the turn value
-	 */
-
 	public void arcadeDrive(double moveValue, double rotateValue) {
 		if (!disable) {
-			mDrive.arcadeDrive(moveValue, rotateValue, false);
+			double leftMotorSpeed = 0.0;
+			double rightMotorSpeed = 0.0;
+			if (moveValue > 0.0) {
+				if (rotateValue > 0.0) {
+					leftMotorSpeed = moveValue - rotateValue;
+					rightMotorSpeed = Math.max(moveValue, rotateValue);
+				} else {
+					leftMotorSpeed = Math.max(moveValue, -rotateValue);
+					rightMotorSpeed = moveValue + rotateValue;
+				}
+			} else {
+				if (rotateValue > 0.0) {
+					leftMotorSpeed = -Math.max(-moveValue, rotateValue);
+					rightMotorSpeed = moveValue + rotateValue;
+				} else {
+					leftMotorSpeed = moveValue - rotateValue;
+					rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+				}
+			}
+			// Scale up to rpm
+			leftMotorSpeed *= 1000;
+			rightMotorSpeed *= 1000;
+
+			frontLeft.set(leftMotorSpeed);
+			frontRight.set(rightMotorSpeed);
 		}
 	}
 
 	public void tankDrive(double leftPower, double rightPower) {
 		if (!disable) {
-			mDrive.tankDrive(leftPower, rightPower);
+			frontLeft.set(leftPower * 1000);
+			frontRight.set(rightPower * 1000);
 		}
 	}
 
-	public boolean isOnTarget() {
-		if (backRight.get() == -tempDriveDistance
-				&& backLeft.get() == tempDriveDistance) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * 
-	 * @param inches
-	 */
-	public void pidDrive(double inches) {
-		tempDriveDistance = inches;
-		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontLeft.setPID(0.5, 0, 0.4);
-		backLeft.setPID(0.5, 0, 0.4);
-		frontRight.setPID(0.5, 0, 0.4);
-		backRight.setPID(0.5, 0, 0.4);
-		frontLeft.setPosition(0);
-		backLeft.setPosition(0);
-		frontRight.setPosition(0);
-		backRight.setPosition(0);
-		frontLeft.changeControlMode(ControlMode.Position);
-		frontLeft.set(inches);
-		frontRight.changeControlMode(ControlMode.Position);
-		frontRight.set(inches);
+	private double inchesToTicks(double inches) {
+		return inches * 10;
 	}
 
 	public void displayValues(Display display) {
@@ -332,7 +272,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		display.putNumber("FrontRight Speed", frontRight.getSpeed());
 		display.putNumber("BackLeft Speed", backLeft.getSpeed());
 		display.putNumber("BackRight Speed", backRight.getSpeed());
-		display.putBoolean("DriveTrain Enabled", mDrive.isAlive());
 		display.putNumber("FrontLeft Position", frontLeft.getPosition());
 		display.putNumber("FrontRight Position", frontRight.getPosition());
 		display.putNumber("BackLeft Position", backLeft.getPosition());
