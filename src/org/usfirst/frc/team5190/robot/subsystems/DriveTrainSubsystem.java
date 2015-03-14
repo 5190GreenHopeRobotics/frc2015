@@ -12,13 +12,20 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * @author sdai the drive train subsystem
  */
-public class DriveTrainSubsystem extends Subsystem implements Displayable {
+public class DriveTrainSubsystem extends LifecycleSubsystem implements
+		Displayable {
 	private static DriveTrainSubsystem instance;
+
+	private static final double DRIVE_VELOCITY_P = 0.5;
+	private static final double DRIVE_VELOCITY_I = 0;
+	private static final double DRIVE_VELOCITY_D = 0;
+	private static final double DRIVE_VELOCITY_RAMP_RATE = 0;
+	private static final int DRIVE_VELOCITY_IZONE = 0;
+	private static final int DRIVE_VELOCITY_PROFILE = 0;
 
 	private static final double DRIVE_SET_DISTANCE_P = 2.0;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
@@ -38,6 +45,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private boolean disable = false;
 	private CANTalon frontLeft, backLeft, frontRight, backRight;
 	private Preferences prefs = Preferences.getInstance();
+
+	private boolean moarPowah;
 
 	private class AveragedEncoderTicksPIDSource implements PIDSource {
 
@@ -128,7 +137,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	 * Init the drive train at default port, in RobotMap
 	 */
 	private DriveTrainSubsystem() {
-		// init the motors
+		super("DriveTrainSubsystem");
 		initializeMotors();
 	}
 
@@ -156,6 +165,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontLeft.setSafetyEnabled(false);
+		frontLeft.setPID(0.5, 0.002, 0, 0, 100, 0, 0);
 		frontLeft.changeControlMode(ControlMode.Speed);
 		frontLeft.set(0);
 
@@ -182,6 +192,21 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		backRight.changeControlMode(ControlMode.Follower);
 		backRight.setSafetyEnabled(false);
 		backRight.set(frontRight.getDeviceID());
+
+		configureVelocityPID();
+	}
+
+	private void configureVelocityPID() {
+		double p = prefs.getDouble("dt.velocity.p", DRIVE_VELOCITY_P);
+		double i = prefs.getDouble("dt.velocity.i", DRIVE_VELOCITY_I);
+		double d = prefs.getDouble("dt.velocity.d", DRIVE_VELOCITY_D);
+		double rampRate = prefs.getDouble("dt.velocity.ramp.rate",
+				DRIVE_VELOCITY_RAMP_RATE);
+		int izone = prefs.getInt("dt.velocity.izone", DRIVE_VELOCITY_IZONE);
+		int profile = prefs.getInt("dt.velocity.profile",
+				DRIVE_VELOCITY_PROFILE);
+		frontLeft.setPID(p, i, d, 0, izone, rampRate, profile);
+		frontRight.setPID(p, i, d, 0, izone, rampRate, profile);
 	}
 
 	/**
@@ -231,9 +256,18 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 					rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 				}
 			}
+
+			if (moarPowah) {
+				frontLeft.setF(leftMotorSpeed * 100);
+				frontRight.setF(rightMotorSpeed * 100);
+			} else {
+				frontLeft.setF(0);
+				frontRight.setF(0);
+			}
+
 			// Scale up to rpm
-			leftMotorSpeed *= 1000;
-			rightMotorSpeed *= 1000;
+			leftMotorSpeed *= 1500;
+			rightMotorSpeed *= 1500;
 
 			frontLeft.set(leftMotorSpeed);
 			frontRight.set(rightMotorSpeed);
@@ -242,13 +276,13 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public void tankDrive(double leftPower, double rightPower) {
 		if (!disable) {
-			frontLeft.set(leftPower * 1000);
-			frontRight.set(rightPower * 1000);
+			frontLeft.set(leftPower * 1500);
+			frontRight.set(rightPower * 1500);
 		}
 	}
 
-	public double testDrive() {
-		return frontLeft.getPosition();
+	public void moarPowah(boolean moarPlease) {
+		moarPowah = moarPlease;
 	}
 
 	public void displayValues(Display display) {
@@ -256,5 +290,12 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		display.putNumber("Right Speed", frontRight.getSpeed());
 		display.putNumber("Left Position", frontLeft.getPosition());
 		display.putNumber("Right Position", frontRight.getPosition());
+	}
+
+	@Override
+	protected void init() {
+		// configure PID again in case the values were updated while the robot
+		// as disabled
+		configureVelocityPID();
 	}
 }
