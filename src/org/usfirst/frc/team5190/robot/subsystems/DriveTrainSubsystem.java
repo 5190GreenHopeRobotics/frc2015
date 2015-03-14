@@ -20,10 +20,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	private static DriveTrainSubsystem instance;
 
-	private static final double DRIVE_SET_DISTANCE_P = 0.4;
+	private static final double DRIVE_SET_DISTANCE_P = 2.0;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
 	private static final double DRIVE_SET_DISTANCE_D = 0;
 	private static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
+	private static final double TICKS_IN_INCH = 42;
 
 	/**
 	 * The maximum power for driving under PID control for going a specific
@@ -42,7 +43,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 		@Override
 		public double pidGet() {
-			return frontLeft.getEncPosition() + frontRight.getEncPosition() / 2;
+			return (frontLeft.getPosition() + frontRight.getPosition()) / 2;
 		}
 
 	}
@@ -66,7 +67,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 		@Override
 		public void pidWrite(double output) {
-			System.out.println("Output: " + output);
 			double angle = navigationSubsystem.getYaw(); // get current heading
 			frontLeft.set(output + (-angle * kP));
 			frontRight.set(output + (angle * kP));
@@ -75,8 +75,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	public class DriveSetDistance {
 		PIDController pidController;
+		private double ticksInInch;
 
 		private DriveSetDistance() {
+			ticksInInch = prefs.getDouble("dt.ticks.in.inch", TICKS_IN_INCH);
 		}
 
 		/**
@@ -88,17 +90,19 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 */
 		public void start(double distance) {
 			AveragedEncoderTicksPIDSource averagedEncoder = new AveragedEncoderTicksPIDSource();
-			pidController = new PIDController(prefs.getDouble("dt.distance.p",
-					DRIVE_SET_DISTANCE_P), prefs.getDouble("dt.distance.i",
-					DRIVE_SET_DISTANCE_I), prefs.getDouble("dt.distance.d",
-					DRIVE_SET_DISTANCE_D), averagedEncoder,
+			double p = prefs.getDouble("dt.distance.p", DRIVE_SET_DISTANCE_P);
+			double i = prefs.getDouble("dt.distance.i", DRIVE_SET_DISTANCE_I);
+			double d = prefs.getDouble("dt.distance.d", DRIVE_SET_DISTANCE_D);
+			pidController = new PIDController(p, i, d, averagedEncoder,
 					new DriveStraightPIDOutput());
-			pidController.setAbsoluteTolerance(prefs.getDouble(
+			double tolerance = inchesToTicks(prefs.getDouble(
 					"dt.distance.tolerance", DRIVE_SET_DISTANCE_TOLERANCE));
+			pidController.setAbsoluteTolerance(tolerance);
 			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
 					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
 			double startPoint = averagedEncoder.pidGet();
-			pidController.setSetpoint(startPoint + inchesToTicks(distance));
+			double endPoint = startPoint + inchesToTicks(distance);
+			pidController.setSetpoint(endPoint);
 			pidController.enable();
 
 		}
@@ -116,7 +120,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		}
 
 		private double inchesToTicks(double inches) {
-			return inches * 100;
+			return inches * ticksInInch;
 		}
 	}
 
@@ -151,8 +155,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// front left
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontLeft.reverseSensor(true);
-		frontLeft.setCloseLoopRampRate(48);
 		frontLeft.setSafetyEnabled(false);
 		frontLeft.changeControlMode(ControlMode.Speed);
 		frontLeft.set(0);
@@ -169,8 +171,8 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		frontRight = new CANTalon(RobotMap.FRONTRIGHT);
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.reverseOutput(true);
+		frontRight.reverseSensor(true);
 		frontRight.changeControlMode(ControlMode.Speed);
-		frontRight.setCloseLoopRampRate(48);
 		frontRight.setSafetyEnabled(false);
 		frontRight.set(0);
 
