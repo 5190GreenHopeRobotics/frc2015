@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
 		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
 		oi = displayableOI;
 
+		autonomousChooser = new SendableChooser();
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
 		autonomousChooser
 				.addObject("Cherry Pick", new CherryPickCommandGroup());
