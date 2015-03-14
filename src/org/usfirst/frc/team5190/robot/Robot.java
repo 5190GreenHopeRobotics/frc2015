@@ -71,6 +71,7 @@ public class Robot extends IterativeRobot {
 
 		// add scheduler, subsystems to dashboard
 		SmartDashboard.putData(scheduler);
+		SmartDashboard.putData("Autonomous Sequence", autonomousChooser);
 		SmartDashboard.putData(DriveTrainSubsystem.getInstance());
 		SmartDashboard.putData(ArmSubsystem.getInstance());
 		SmartDashboard.putData(PawlSubsystem.getInstance());
