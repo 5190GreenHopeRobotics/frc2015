@@ -82,8 +82,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println(NavigationSubsystem.getInstance()
-				.getLidarDistanceFromObject());
 		scheduler.run();
 	}
 
@@ -113,8 +111,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(NavigationSubsystem.getInstance()
-				.getLidarDistanceFromObject());
 		scheduler.run();
 	}
 
