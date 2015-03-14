@@ -11,7 +11,6 @@ import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -60,8 +59,6 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	public int getPawlDistanceFromObject() {
 		int leftDistance = rangeFinderLeft.getDistance();
 		int rightDistance = rangeFinderRight.getDistance();
-		SmartDashboard.putNumber("Left range finder", leftDistance);
-		SmartDashboard.putNumber("Right rangeFinder", rightDistance);
 		return (leftDistance + rightDistance) / 2;
 	}
 
@@ -75,6 +72,19 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	public double getYaw() {
 		return navXSensor.getYaw();
+	}
+
+	/**
+	 * Reset the Yaw value to zero. Should be done periodically when at a known
+	 * reference angle because the yaw will drift over time. The drift is
+	 * approximently 1 degree a minute.
+	 */
+	public void zeroYaw() {
+		navXSensor.zeroYaw();
+	}
+
+	public boolean isHeadingCalibrating() {
+		return navXSensor.isCalibrating();
 	}
 
 	public RobotHeadingPIDSource createRobotHeadingPIDSource() {
@@ -91,5 +101,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
 		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
 		display.putNumber("Lidar Distance", lidar.getDistance());
+		display.putNumber("Left rangefinder", rangeFinderLeft.getDistance());
+		display.putNumber("Right rangeFinder", rangeFinderRight.getDistance());
 	}
 }
