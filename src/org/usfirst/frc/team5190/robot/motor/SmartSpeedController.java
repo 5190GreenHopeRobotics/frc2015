@@ -121,11 +121,11 @@ public class SmartSpeedController implements SpeedController {
 			}
 		}
 		if (controlMode == ControlMode.Angle) {
-			createAnglePid();
+			createPid();
 		}
 		if (controlMode == ControlMode.Distance
 				|| controlMode == ControlMode.Speed) {
-			createDistanceSpeedPid();
+			createPid();
 		}
 	}
 
@@ -515,16 +515,13 @@ public class SmartSpeedController implements SpeedController {
 		return false;
 	}
 
-	protected void createDistanceSpeedPid() {
-		pidController = new PIDController(p, i, d, encoder, speedController);
-		// pidController.setAbsoluteTolerance(2);
-	}
-
-	protected void createAnglePid() {
-		pidController = new PIDController(p, i, d, potentiometer,
-				speedController);
-		// pidController.setAbsoluteTolerance(2);
-
+	protected void createPid() {
+		if (feedbackDevice == FeedbackDevice.Encoder) {
+			pidController = new PIDController(p, i, d, encoder, speedController);
+		} else if (feedbackDevice == FeedbackDevice.Potentiometer) {
+			pidController = new PIDController(p, i, d, potentiometer,
+					speedController);
+		}
 	}
 
 	@Override
