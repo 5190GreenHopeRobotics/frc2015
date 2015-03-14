@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -21,7 +22,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 	private static final double DRIVE_SET_DISTANCE_P = 0.4;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
-	private static final double DRIVE_SET_DISTANCE_V = 0;
+	private static final double DRIVE_SET_DISTANCE_D = 0;
 	private static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
 
 	/**
@@ -31,23 +32,11 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -1000,
 			1000 };
 
-	/**
-	 * The range of degrees +/- that is acceptable for turning a requested
-	 * amount.
-	 */
-	public static final double TURN_TOLERANCE = 2.0;
-
-	/**
-	 * The maximum power for driving under PID control for turning the robot
-	 */
-	public static final double[] TURN_OUTPUT_RANGE = { -0.3, 0.3 };
-
 	public static final double TALON_CLOSED_LOOP_RAMP_SPEED = 48.0;
 
-	public static final double kP = 0.03;
-	private double tempDriveDistance;
 	private boolean disable = false;
 	private CANTalon frontLeft, backLeft, frontRight, backRight;
+	private Preferences prefs = Preferences.getInstance();
 
 	private class AveragedEncoderTicksPIDSource implements PIDSource {
 
@@ -62,8 +51,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		private NavigationSubsystem navigationSubsystem = NavigationSubsystem
 				.getInstance();
 
-		private static final double kP = .03;
-		private double startingAngle;
+		private static final double kP = 100;
 
 		public DriveStraightPIDOutput() {
 			// Ideally I think this shouldn't zero the yaw value. It should get
@@ -78,6 +66,7 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 
 		@Override
 		public void pidWrite(double output) {
+			System.out.println("Output: " + output);
 			double angle = navigationSubsystem.getYaw(); // get current heading
 			frontLeft.set(output + (-angle * kP));
 			frontRight.set(output + (angle * kP));
@@ -99,13 +88,17 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		 */
 		public void start(double distance) {
 			AveragedEncoderTicksPIDSource averagedEncoder = new AveragedEncoderTicksPIDSource();
-			pidController = new PIDController(0.5, 0, 0, averagedEncoder,
+			pidController = new PIDController(prefs.getDouble("dt.distance.p",
+					DRIVE_SET_DISTANCE_P), prefs.getDouble("dt.distance.i",
+					DRIVE_SET_DISTANCE_I), prefs.getDouble("dt.distance.d",
+					DRIVE_SET_DISTANCE_D), averagedEncoder,
 					new DriveStraightPIDOutput());
-			pidController.setAbsoluteTolerance(DRIVE_SET_DISTANCE_TOLERANCE);
+			pidController.setAbsoluteTolerance(prefs.getDouble(
+					"dt.distance.tolerance", DRIVE_SET_DISTANCE_TOLERANCE));
 			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
 					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
 			double startPoint = averagedEncoder.pidGet();
-			pidController.setSetpoint(startPoint + distance);
+			pidController.setSetpoint(startPoint + inchesToTicks(distance));
 			pidController.enable();
 
 		}
@@ -120,24 +113,6 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		// This asks to see if it has gotten to the distance.
 		public boolean drivenDistance() {
 			return pidController.onTarget();
-		}
-
-		public void configureMotors(double inches) {
-			backLeft.changeControlMode(ControlMode.Follower);
-			backLeft.set(frontLeft.getDeviceID());
-
-			frontLeft.changeControlMode(ControlMode.Position);
-			frontLeft.setPID(0.5, 0, 0, 0, 0, TALON_CLOSED_LOOP_RAMP_SPEED, 1);
-			frontLeft.setPosition(0);
-			frontLeft.set(inchesToTicks(inches));
-			frontLeft.setSafetyEnabled(false);
-
-			backRight.changeControlMode(ControlMode.Follower);
-			backRight.set(frontRight.getDeviceID());
-
-			frontRight.changeControlMode(ControlMode.Speed);
-			frontRight.setPosition(0);
-			frontRight.set(inchesToTicks(inches));
 		}
 
 		private double inchesToTicks(double inches) {
@@ -279,8 +254,5 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		display.putNumber("Right Speed", frontRight.getSpeed());
 		display.putNumber("Left Position", frontLeft.getPosition());
 		display.putNumber("Right Position", frontRight.getPosition());
-		display.putNumber("FrontLeft Enc Position", frontLeft.getEncPosition());
-		display.putNumber("FrontRight Enc Position",
-				frontRight.getEncPosition());
 	}
 }

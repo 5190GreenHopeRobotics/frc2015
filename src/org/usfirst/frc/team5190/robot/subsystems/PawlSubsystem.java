@@ -112,6 +112,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	@Override
 	public void displayValues(Display display) {
 		display.putNumber("Pawl Angle", pawlPotentiometer.get());
+		display.putNumber("Pawl Power", smartController.get());
 		display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
 	}
 

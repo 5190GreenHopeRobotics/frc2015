@@ -8,6 +8,7 @@ import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.Preferences;
 
 /**
  * the arm subsystem
@@ -15,24 +16,32 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private static ArmSubsystem instance;
 
+	private static final int HIGH_SOFT_LIMIT = 676;
+	private static final int LOW_SOFT_LIMIT = 313;
+
 	// Levels for arm corresponding with totes, current values are
 	// placeholders,
 	// need to acquire more math to find real values
 	private CANTalon armCANTalonLeft;
 	private CANTalon armCANTalonRight;
 	private ControlMode controlMode;
-	protected int lowLimit;
-	protected int highLimit;
-	public static final double level0 = 320;
-	public static final double level1 = 392.5983;
-	public static final double level2 = 465.1967;
-	public static final double level3 = 537.7951;
-	public static final double level4 = 610.3934;
+	private int lowLimit;
+	private int highLimit;
+	private static final double level0 = 320;
+	private static final double level1 = 392.5983;
+	private static final double level2 = 465.1967;
+	private static final double level3 = 537.7951;
+	private static final double level4 = 610.3934;
+
+	private Preferences prefs = Preferences.getInstance();
 
 	private double motorSpeed = 0.1;
 
 	private ArmSubsystem() {
 		super("ArmSubsystem");
+
+		lowLimit = prefs.getInt("arm.soft.limit.low", LOW_SOFT_LIMIT);
+		highLimit = prefs.getInt("arm.soft.limit.high", HIGH_SOFT_LIMIT);
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft.changeControlMode(controlMode);
@@ -40,8 +49,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
 		armCANTalonLeft.setPID(1.8, 0.003, 0, 0, 0, 0, 0);
 		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setReverseSoftLimit(313);
-		armCANTalonLeft.setForwardSoftLimit(676);
+		armCANTalonLeft.setReverseSoftLimit(lowLimit);
+		armCANTalonLeft.setForwardSoftLimit(highLimit);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
 
@@ -165,13 +174,17 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	// Display values
 	public void displayValues(Display display) {
 		display.putNumber("Arm Angle", getAngle());
-		display.putNumber("Arm Level(No platform)", CurrentLevel());
-		display.putNumber("Arm Speed", armCANTalonLeft.getEncVelocity());
-		display.putBoolean("Arm Top Limit Switch",
+		display.putNumber("Arm Level", CurrentLevel());
+		display.putNumber("Arm Power", armCANTalonLeft.getSpeed());
+		display.putBoolean("Arm High Hard Limit",
 				armCANTalonLeft.isFwdLimitSwitchClosed());
-		display.putBoolean("Arm Bottom Limit Switch",
+		display.putBoolean("Arm Low Hard Limit",
 				armCANTalonLeft.isRevLimitSwitchClosed());
-		display.putBoolean("Arm Enabled", armCANTalonLeft.isAlive());
+		display.putBoolean("Arm High Soft Limit",
+				armCANTalonLeft.getPosition() >= highLimit);
+		display.putBoolean("Arm Low Soft Limit",
+				armCANTalonLeft.getPosition() <= lowLimit);
+
 	}
 
 	@Override

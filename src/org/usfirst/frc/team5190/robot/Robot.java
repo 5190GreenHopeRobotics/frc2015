@@ -1,14 +1,18 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
-import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -46,16 +50,16 @@ public class Robot extends IterativeRobot {
 		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
 		oi = displayableOI;
 
-		autonomousCommand = new StackedTotesAutonomousCommandGroup();
+		autonomousCommand = new OneToteCommandGroup();
 		scheduler = Scheduler.getInstance();
 
 		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
 				.getInstance();
-		// displayer.addDisplayable(DriveTrainSubsystem.getInstance());
-		// displayer.addDisplayable(ArmSubsystem.getInstance());
-		// displayer.addDisplayable(PawlSubsystem.getInstance());
-		// displayer.addDisplayable(CherryPickerSubsystem.getInstance());
-		// displayer.addDisplayable(displayableOI);
+		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
+		displayer.addDisplayable(ArmSubsystem.getInstance());
+		displayer.addDisplayable(PawlSubsystem.getInstance());
+		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
+		displayer.addDisplayable(displayableOI);
 		displayer.addDisplayable(NavigationSubsystem.getInstance());
 	}
 

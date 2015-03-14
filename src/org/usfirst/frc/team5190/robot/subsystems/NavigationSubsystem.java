@@ -25,10 +25,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	private NavigationSubsystem() {
 		super("NavigationSubsystem");
-		// rangeFinderLeft = new VL6180xRangeFinder(
-		// RobotMap.RANGE_FINDER_LEFT_PORT);
-		// rangeFinderLeft.start();
-		//
+		rangeFinderLeft = new VL6180xRangeFinder(
+				RobotMap.RANGE_FINDER_LEFT_PORT);
+		rangeFinderLeft.start();
+
 		rangeFinderRight = new VL6180xRangeFinder(
 				RobotMap.RANGE_FINDER_RIGHT_PORT);
 		rangeFinderRight.start();
@@ -102,14 +102,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	@Override
 	// Display values
 	public void displayValues(Display display) {
-		display.putNumber("NavX Compass Heading",
-				navXSensor.getCompassHeading());
-		display.putNumber("NavX Pitch", navXSensor.getPitch());
-		display.putNumber("NavX Roll", navXSensor.getRoll());
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
 		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
 		display.putNumber("Lidar Distance", lidar.getDistance());
-		display.putNumber("Left rangefinder", rangeFinderLeft.getDistance());
-		display.putNumber("Right rangeFinder", rangeFinderRight.getDistance());
+		display.putNumber("Left Rangefinder", rangeFinderLeft.getDistance());
+		display.putNumber("Right RangeFinder", rangeFinderRight.getDistance());
 	}
 }

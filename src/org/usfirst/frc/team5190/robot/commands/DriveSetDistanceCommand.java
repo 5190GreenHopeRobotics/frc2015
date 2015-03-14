@@ -39,6 +39,7 @@ public class DriveSetDistanceCommand extends Command {
 
 	@Override
 	protected void end() {
+		System.out.println("WOOOTTTTT!!!!!");
 		driveSetDistance.end();
 	}
 
