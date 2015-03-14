@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 		// displayer.addDisplayable(PawlSubsystem.getInstance());
 		// displayer.addDisplayable(CherryPickerSubsystem.getInstance());
 		// displayer.addDisplayable(displayableOI);
-		// displayer.addDisplayable(NavigationSubsystem.getInstance());
+		displayer.addDisplayable(NavigationSubsystem.getInstance());
 	}
 
 	@Override
@@ -82,6 +82,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		System.out.println(NavigationSubsystem.getInstance()
+				.getLidarDistanceFromObject());
 		scheduler.run();
 	}
 
@@ -111,7 +113,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		System.out.print(NavigationSubsystem.getInstance().getRange());
+		System.out.println(NavigationSubsystem.getInstance()
+				.getLidarDistanceFromObject());
 		scheduler.run();
 	}
 

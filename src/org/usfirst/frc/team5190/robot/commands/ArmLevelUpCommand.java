@@ -14,8 +14,8 @@ public class ArmLevelUpCommand extends Command {
 
 	public ArmLevelUpCommand() {
 		requires(armsubsystem);
-		setInterruptible(false);
-		setTimeout(5);
+		// setInterruptible(false);
+		setTimeout(3);
 	}
 
 	@Override
@@ -30,21 +30,22 @@ public class ArmLevelUpCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		double toprange = nextlevel + 8;
-		double bottomrange = nextlevel - 8;
-		return armsubsystem.getAngle() < toprange
-				&& armsubsystem.getAngle() > bottomrange;
+		// double toprange = nextlevel + 8;
+		// double bottomrange = nextlevel - 8;
+		// return armsubsystem.getAngle() < toprange
+		// && armsubsystem.getAngle() > bottomrange;
+		return isTimedOut();
 	}
 
 	@Override
 	protected void end() {
-		System.out
-				.println("Something Ended The UpLevel Command Button As Well.");
+		armsubsystem.stopArm();
+		// System.out.println("Something Ended The UpLevel Command Button As Well.");
 	}
 
 	@Override
 	protected void interrupted() {
-		System.out
-				.println("Something Interrupted The UpLevel Command Button As Well.");
+		armsubsystem.stopArm();
+		// System.out.println("Something Interrupted The UpLevel Command Button As Well.");
 	}
 }

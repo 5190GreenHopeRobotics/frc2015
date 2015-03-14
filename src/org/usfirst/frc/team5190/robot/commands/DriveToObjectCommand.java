@@ -1,9 +1,11 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
+import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,31 +13,37 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveToObjectCommand extends Command {
 
-	private DriveSetDistance d;
-	private double distanceBuffer;
 	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
 			.getInstance();
+	private NavigationSubsystem navigationSubsystem = NavigationSubsystem
+			.getInstance();
 	private PIDController pidController;
+	private double centimetersToTarget;
 
 	public DriveToObjectCommand() {
-		super("DriveToObjectCommand");
+		requires(navigationSubsystem);
 		requires(driveTrainSubsystem);
-		d = driveTrainSubsystem.driveSetDistance();
-		// IndependentSensors.getGyro().reset(); //Temporary comment for testing
-		// purposes
+
+		PIDSource pidSource = navigationSubsystem
+				.createLidarDistancePIDSource();
+		PIDOutput pidOutput = driveTrainSubsystem
+				.createDriveStraightPIDOutput();
+		pidController = new PIDController(-.01, 0, 0, pidSource, pidOutput,
+				0.01);
+		pidController.setAbsoluteTolerance(2);
+		pidController.setOutputRange(-0.3, 0.3);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		driveTrainSubsystem.setPower(0.5);
-		// lidar inoperable at the moment
-		// distanceBuffer = IndependentSensors.getLidar().getValue();
-		distanceBuffer *= 2.54; // cm to inches
-		distanceBuffer -= 2; // estimated buffer distance so the edge doesn't
-								// hit the object
-		d.start(distanceBuffer);
-
+		centimetersToTarget = navigationSubsystem.getLidarDistanceFromObject();
+		if (centimetersToTarget > 63) {
+			pidController.setSetpoint(63);
+		} else {
+			pidController.setSetpoint(centimetersToTarget);
+		}
+		pidController.enable();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -46,14 +54,13 @@ public class DriveToObjectCommand extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return d.drivenDistance();
+		return pidController.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		// IndependentSensors.getGyro().reset();
-		d.end();
+		pidController.disable();
 	}
 
 	// Called when another command which requires one or more of the same

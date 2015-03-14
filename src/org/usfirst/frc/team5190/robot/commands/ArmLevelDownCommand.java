@@ -16,8 +16,8 @@ public class ArmLevelDownCommand extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(armsubsystem);
-		setInterruptible(false);
-		setTimeout(5);
+		// setInterruptible(false);
+		setTimeout(0.4);
 	}
 
 	// Called just before this Command runs the first time
@@ -32,22 +32,25 @@ public class ArmLevelDownCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		double toprange = previouslevel + 8;
-		double bottomrange = previouslevel - 8;
-		return armsubsystem.getAngle() < toprange
-				&& armsubsystem.getAngle() > bottomrange;
+		// double toprange = previouslevel + 8;
+		// double bottomrange = previouslevel - 8;
+		// return armsubsystem.getAngle() < toprange
+		// && armsubsystem.getAngle() > bottomrange;
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		System.out
-				.println("Something Ended The DownLevel Command Button As Well.");
+		armsubsystem.stopArm();
+		// System.out
+		// .println("Something Ended The DownLevel Command Button As Well.");
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		System.out
-				.println("Something Interrupted The DownLevel Command Button As Well.");
+		armsubsystem.stopArm();
+		// System.out
+		// .println("Something Interrupted The DownLevel Command Button As Well.");
 	}
 }

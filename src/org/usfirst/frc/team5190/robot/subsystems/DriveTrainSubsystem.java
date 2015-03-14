@@ -231,6 +231,10 @@ public class DriveTrainSubsystem extends Subsystem implements Displayable {
 		return new TurnPIDOutput();
 	}
 
+	public DriveStraightPIDOutput createDriveStraightPIDOutput() {
+		return new DriveStraightPIDOutput();
+	}
+
 	public void driveForward() {
 		if (!disable) {
 			mDrive.drive(1, 0);
