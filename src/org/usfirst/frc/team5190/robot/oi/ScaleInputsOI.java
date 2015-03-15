@@ -1,7 +1,10 @@
 package org.usfirst.frc.team5190.robot.oi;
 
+import edu.wpi.first.wpilibj.Preferences;
+
 public class ScaleInputsOI implements OI {
 
+	private Preferences pref;
 	private double forwardReverseScalingValue;
 	private double leftRightScalingValue;
 	private double armScalingValue;
@@ -11,10 +14,23 @@ public class ScaleInputsOI implements OI {
 
 	public ScaleInputsOI(double defaultScalingValue, OI sourceOI) {
 		forwardReverseScalingValue = defaultScalingValue;
+		forwardReverseScalingValue = pref.getDouble(
+				"control.axis.scaling.forwardreverse", 0.7);
+
 		leftRightScalingValue = defaultScalingValue;
+		leftRightScalingValue = pref.getDouble(
+				"control.axis.scaling.leftright", 0.7);
+
 		armScalingValue = defaultScalingValue;
+		armScalingValue = pref.getDouble("control.axis.scaling.arm", 0.5);
+
 		cherryPickerScalingValue = defaultScalingValue;
+		cherryPickerScalingValue = pref.getDouble(
+				"control.axis.scaling.cherrypicker", 0.3);
+
 		pawlScalingValue = defaultScalingValue;
+		pawlScalingValue = pref.getDouble("control.axis.scaling.pawl", 0.3);
+
 		this.sourceOI = sourceOI;
 	}
 
