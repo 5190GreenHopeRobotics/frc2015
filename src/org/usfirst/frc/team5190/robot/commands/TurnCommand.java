@@ -26,7 +26,7 @@ public class TurnCommand extends Command {
 
 		PIDSource pidSource = navigationSubsystem.createRobotHeadingPIDSource();
 		PIDOutput pidOutput = driveTrainSubsystem.createTurnPIDOutput();
-		pidController = new PIDController(.02, 0, 0, pidSource, pidOutput, 0.01);
+		pidController = new PIDController(.03, 0, 0, pidSource, pidOutput, 0.01);
 		pidController.setContinuous(true);
 		pidController.setInputRange(0, 360);
 		pidController.setAbsoluteTolerance(2);
