@@ -64,7 +64,10 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 				armCANTalonLeft.changeControlMode(ControlMode.Position);
 				controlMode = ControlMode.Position;
 			}
+			armCANTalonLeft.disableControl();
 			configureSetAnglePID();
+			armCANTalonLeft.set(angle);
+			armCANTalonLeft.enableControl();
 		}
 
 		public void execute() {
@@ -169,7 +172,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		int izone = prefs.getInt("arm.set.angle.izone", ARM_SET_ANGLE_IZONE);
 		int profile = prefs.getInt("arm.set.angle.profile",
 				ARM_SET_ANGLE_PROFILE);
-		System.out.println("Set Angle P: " + p + " I: " + i + " D: "
+		System.out.println("Set Angle P: " + p + " I: " + i + " D: " + d
 				+ " rampRate: " + rampRate + " izone: " + izone + " profile: "
 				+ profile);
 		armCANTalonLeft.setPID(p, i, d, 0, izone, rampRate, profile);
@@ -183,8 +186,9 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 				ARM_HOLD_RAMP_RATE);
 		int izone = prefs.getInt("arm.hold.izone", ARM_HOLD_IZONE);
 		int profile = prefs.getInt("arm.hold.profile", ARM_HOLD_PROFILE);
-		System.out.println("Hold P: " + p + " I: " + i + " D: " + " rampRate: "
-				+ rampRate + " izone: " + izone + " profile: " + profile);
+		System.out.println("Hold P: " + p + " I: " + i + " D: " + d
+				+ " rampRate: " + rampRate + " izone: " + izone + " profile: "
+				+ profile);
 		armCANTalonLeft.setPID(p, i, d, 0, izone, rampRate, profile);
 	}
 
