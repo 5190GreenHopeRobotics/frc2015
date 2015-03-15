@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private static CherryPickerSubsystem instance;
 
-	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.08;
+	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.1;
 
 	// DIO ports temporary in this class.
 	private Talon cherryPickerController;
