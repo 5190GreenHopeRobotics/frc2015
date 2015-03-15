@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
 
@@ -83,6 +84,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 
 	private ArmSubsystem() {
 		super("ArmSubsystem");
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 
 		armBottomOffset = prefs.getInt("arm.bottom.offset", ARM_BOTTOM_OFFSET);
 		armRange = prefs.getInt("arm.range", ARM_RANGE);

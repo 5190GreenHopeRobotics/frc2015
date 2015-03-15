@@ -1,10 +1,18 @@
 package org.usfirst.frc.team5190.robot.oi;
 
+import org.usfirst.frc.team5190.robot.config.Configurable;
+import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
+
 import edu.wpi.first.wpilibj.Preferences;
 
-public class ScaleInputsOI implements OI {
+public class ScaleInputsOI implements OI, Configurable {
+	private static final double FORWARD_REVERSE_SCALING = 0.7;
+	private static final double LEFT_RIGHT_SCALING = 0.7;
+	private static final double ARM_SCALING = 0.5;
+	private static final double CHERRY_PICKER_SCALING = 0.5;
+	private static final double PAWL_SCALING = 0.2;
 
-	private Preferences pref;
+	private Preferences pref = Preferences.getInstance();
 	private double forwardReverseScalingValue;
 	private double leftRightScalingValue;
 	private double armScalingValue;
@@ -12,46 +20,12 @@ public class ScaleInputsOI implements OI {
 	private double pawlScalingValue;
 	private OI sourceOI;
 
-	public ScaleInputsOI(double defaultScalingValue, OI sourceOI) {
-		forwardReverseScalingValue = defaultScalingValue;
-		forwardReverseScalingValue = pref.getDouble(
-				"control.axis.scaling.forwardreverse", 0.7);
+	public ScaleInputsOI(OI sourceOI) {
+		ConfigurationManager.getInstance().addConfigurable(this);
 
-		leftRightScalingValue = defaultScalingValue;
-		leftRightScalingValue = pref.getDouble(
-				"control.axis.scaling.leftright", 0.7);
-
-		armScalingValue = defaultScalingValue;
-		armScalingValue = pref.getDouble("control.axis.scaling.arm", 0.5);
-
-		cherryPickerScalingValue = defaultScalingValue;
-		cherryPickerScalingValue = pref.getDouble(
-				"control.axis.scaling.cherrypicker", 0.3);
-
-		pawlScalingValue = defaultScalingValue;
-		pawlScalingValue = pref.getDouble("control.axis.scaling.pawl", 0.3);
+		updateConfiguration();
 
 		this.sourceOI = sourceOI;
-	}
-
-	public void setForwardReverseScalingValue(double forwardReverseScalingValue) {
-		this.forwardReverseScalingValue = forwardReverseScalingValue;
-	}
-
-	public void setLeftRightScalingValue(double leftRightScalingValue) {
-		this.leftRightScalingValue = leftRightScalingValue;
-	}
-
-	public void setArmScalingValue(double armScalingValue) {
-		this.armScalingValue = armScalingValue;
-	}
-
-	public void setCherryPickerScalingValue(double cherryPickerScalingValue) {
-		this.cherryPickerScalingValue = cherryPickerScalingValue;
-	}
-
-	public void setPawlScalingValue(double pawlScalingValue) {
-		this.pawlScalingValue = pawlScalingValue;
 	}
 
 	@Override
@@ -77,6 +51,20 @@ public class ScaleInputsOI implements OI {
 	@Override
 	public double getPawlAxis() {
 		return sourceOI.getPawlAxis() * pawlScalingValue;
+	}
+
+	@Override
+	public void updateConfiguration() {
+		forwardReverseScalingValue = pref.getDouble(
+				"control.axis.scaling.forwardreverse", FORWARD_REVERSE_SCALING);
+		leftRightScalingValue = pref.getDouble(
+				"control.axis.scaling.leftright", LEFT_RIGHT_SCALING);
+		armScalingValue = pref.getDouble("control.axis.scaling.arm",
+				ARM_SCALING);
+		cherryPickerScalingValue = pref.getDouble(
+				"control.axis.scaling.cherrypicker", CHERRY_PICKER_SCALING);
+		pawlScalingValue = pref.getDouble("control.axis.scaling.pawl",
+				PAWL_SCALING);
 	}
 
 }

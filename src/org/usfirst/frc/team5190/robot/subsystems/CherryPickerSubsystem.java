@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickCommand;
 
@@ -25,6 +26,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	private CherryPickerSubsystem() {
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
 		minLimitSwitch = new Counter(new DigitalInput(
 				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT));

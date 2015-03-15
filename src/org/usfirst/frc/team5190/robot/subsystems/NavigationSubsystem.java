@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.sensor.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
@@ -25,6 +26,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	private NavigationSubsystem() {
 		super("NavigationSubsystem");
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		rangeFinderLeft = new VL6180xRangeFinder(
 				RobotMap.RANGE_FINDER_LEFT_PORT);
 		rangeFinderLeft.start();

@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
 
@@ -138,6 +139,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	 */
 	private DriveTrainSubsystem() {
 		super("DriveTrainSubsystem");
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		initializeMotors();
 	}
 

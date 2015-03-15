@@ -66,7 +66,7 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getArmAxis() {
-		return -flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**

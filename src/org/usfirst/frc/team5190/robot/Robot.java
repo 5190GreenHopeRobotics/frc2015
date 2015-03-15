@@ -1,10 +1,10 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
-import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
+import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
@@ -34,6 +34,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	private Scheduler scheduler;
+	private ConfigurationManager configurationManager = ConfigurationManager
+			.getInstance();
 	private SendableChooser autonomousChooser;
 	private Command autonomousCommand;
 
@@ -43,18 +45,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public Robot() {
-		// Initialize OI
-		OI joystickOI = new TwoFlightStickOI();
-		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
-		scaledInputsOI.setCherryPickerScalingValue(0.3);
-
-		scaledInputsOI.setPawlScalingValue(0.3);
-		scaledInputsOI.setArmScalingValue(0.5);
-		scaledInputsOI.setForwardReverseScalingValue(0.7);
-		scaledInputsOI.setLeftRightScalingValue(0.7);
-		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
-		oi = displayableOI;
+		initializeOI();
 
 		CameraServer server = CameraServer.getInstance();
 		server.setQuality(50);
@@ -69,17 +60,7 @@ public class Robot extends IterativeRobot {
 
 		scheduler = Scheduler.getInstance();
 
-		// setup displayables
-		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
-				.getInstance();
-		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
-		displayer.addDisplayable(ArmSubsystem.getInstance());
-		displayer.addDisplayable(PawlSubsystem.getInstance());
-		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
-		displayer.addDisplayable(displayableOI);
-		displayer.addDisplayable(NavigationSubsystem.getInstance());
-
-		// add scheduler, subsystems to dashboard
+		// add scheduler, autonomous chooser, and subsystems to dashboard
 		SmartDashboard.putData(scheduler);
 		SmartDashboard.putData("Autonomous Sequence", autonomousChooser);
 		SmartDashboard.putData(DriveTrainSubsystem.getInstance());
@@ -87,19 +68,19 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(PawlSubsystem.getInstance());
 		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
 		SmartDashboard.putData(NavigationSubsystem.getInstance());
+	}
 
-		// testing
-		SmartDashboard.putData(new ArmSetAngleCommand(100));
+	private void initializeOI() {
+		OI joystickOI = new TwoFlightStickOI();
+		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(powerCurvesOI);
+		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
+		oi = displayableOI;
 	}
 
 	@Override
 	public void robotInit() {
 		SmartDashBoardDisplayer.getInstance().start();
-	}
-
-	@Override
-	public void disabledPeriodic() {
-		scheduler.run();
 	}
 
 	@Override
@@ -114,6 +95,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		configurationManager.configure();
 		scheduler.run();
 	}
 
@@ -126,15 +108,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called when the disabled button is hit. You can use it
-	 * to reset subsystems before shutting down.
-	 */
-	@Override
-	public void disabledInit() {
-		LifecycleSubsystemManager.getInstance().disable();
-	}
-
-	/**
 	 * This function is called periodically during operator control
 	 *
 	 *
@@ -143,6 +116,23 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		configurationManager.configure();
+
+		scheduler.run();
+	}
+
+	/**
+	 * This function is called when the disabled button is hit. You can use it
+	 * to reset subsystems before shutting down.
+	 */
+	@Override
+	public void disabledInit() {
+		LifecycleSubsystemManager.getInstance().disable();
+	}
+
+	@Override
+	public void disabledPeriodic() {
+		configurationManager.configure();
 		scheduler.run();
 	}
 
