@@ -4,6 +4,7 @@ import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
@@ -16,6 +17,7 @@ import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -52,6 +54,12 @@ public class Robot extends IterativeRobot {
 		scaledInputsOI.setLeftRightScalingValue(0.7);
 		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
 		oi = displayableOI;
+
+		CameraServer server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
+
+		autonomousCommand = new StackedTotesAutonomousCommandGroup();
 
 		autonomousChooser = new SendableChooser();
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
