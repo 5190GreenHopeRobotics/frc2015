@@ -1,24 +1,16 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.robot.RobotMap;
-import org.usfirst.frc.team5190.robot.UnsupportedSensorException;
 import org.usfirst.frc.team5190.sensor.Lidar;
-import org.usfirst.frc.team5190.sensor.LidarFilter;
 import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
 
+import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.navx_mxp.AHRS;
 
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,33 +18,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	private static NavigationSubsystem instance;
-	private VL6180xRangeFinder rangeFinderLeft, rangeFinderRight;
 
-	private Map<String, PIDSource> sensors;
-	private Lidar rawLidar;
-	private SerialPort serial;
-	private LidarFilter filteredLidar;
-	private AHRS navXSensor;
-	private PIDSource currentSpeedControl;
-	private PIDSource currentAngleControl;
+	private VL6180xRangeFinder rangeFinderLeft, rangeFinderRight;
+	private Lidar lidar;
+	private IMU navXSensor;
 
 	private NavigationSubsystem() {
+		super("NavigationSubsystem");
 		rangeFinderLeft = new VL6180xRangeFinder(
 				RobotMap.RANGE_FINDER_LEFT_PORT);
-		serial = new SerialPort(57600, RobotMap.NAVX_PORT);
 		rangeFinderLeft.start();
 
 		rangeFinderRight = new VL6180xRangeFinder(
 				RobotMap.RANGE_FINDER_RIGHT_PORT);
 		rangeFinderRight.start();
 
-		sensors = new HashMap<String, PIDSource>();
-		rawLidar = new Lidar(RobotMap.LIDAR_PORT);
-		filteredLidar = new LidarFilter(rawLidar);
-		navXSensor = new AHRS(serial);
-		currentSpeedControl = rawLidar;
-		// currentAngleControl = gyro;
-		loadSensor();
+		lidar = new Lidar(RobotMap.LIDAR_PORT);
+		lidar.start();
+		navXSensor = new AHRS(new SerialPort(57600, RobotMap.NAVX_PORT));
 
 	}
 
@@ -70,34 +53,17 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	@Override
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		// no default command for this subsystem
 	}
 
 	public int getPawlDistanceFromObject() {
 		int leftDistance = rangeFinderLeft.getDistance();
 		int rightDistance = rangeFinderRight.getDistance();
-		SmartDashboard.putNumber("Left range finder", leftDistance);
-		SmartDashboard.putNumber("Right rangeFinder", rightDistance);
 		return (leftDistance + rightDistance) / 2;
 	}
 
-	public void setCurrentSpeedUnit(String name)
-			throws UnsupportedSensorException {
-		currentSpeedControl = sensors.get(name);
-		if (currentSpeedControl == null) {
-			currentSpeedControl = rawLidar;
-			throw new UnsupportedSensorException(name + " is not supported");
-		}
-	}
-
-	public void setCurrentAngleControlUnit(String name)
-			throws UnsupportedSensorException {
-		currentAngleControl = sensors.get(name);
-		if (currentAngleControl == null) {
-			// currentAngleControl = gyro;
-			throw new UnsupportedSensorException(name + " is not supported");
-		}
+	public double getLidarDistanceFromObject() {
+		return lidar.getDistance();
 	}
 
 	public double getRoll() {
@@ -112,59 +78,34 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return navXSensor.getYaw();
 	}
 
+	/**
+	 * Reset the Yaw value to zero. Should be done periodically when at a known
+	 * reference angle because the yaw will drift over time. The drift is
+	 * approximently 1 degree a minute.
+	 */
+	public void zeroYaw() {
+		navXSensor.zeroYaw();
+	}
+
+	public boolean isHeadingCalibrating() {
+		return navXSensor.isCalibrating();
+	}
+
 	public RobotHeadingPIDSource createRobotHeadingPIDSource() {
 		return new RobotHeadingPIDSource();
 	}
 
-	public PIDSource getSpeedControlUnit() {
-		return currentSpeedControl;
-	}
-
-	public PIDSource getAngleControl() {
-		return currentAngleControl;
-	}
-
-	public List<String> getSupportedSensors() {
-		List<String> supported = new LinkedList<String>();
-		for (Map.Entry<String, PIDSource> i : sensors.entrySet()) {
-			supported.add(i.getKey());
-		}
-		return supported;
+	public LidarDistancePIDSource createLidarDistancePIDSource() {
+		return new LidarDistancePIDSource();
 	}
 
 	@Override
 	// Display values
 	public void displayValues(Display display) {
-		display.putNumber("NavX Altitude", navXSensor.getAltitude());
-		display.putNumber("NavX Magnetometer X",
-				navXSensor.getCalibratedMagnetometerX());
-		display.putNumber("NavX Magnetometer Y",
-				navXSensor.getCalibratedMagnetometerY());
-		display.putNumber("NavX Magnetometer Z",
-				navXSensor.getCalibratedMagnetometerZ());
-		display.putNumber("NavX Compass Heading",
-				navXSensor.getCompassHeading());
-		display.putNumber("NavX Displacement X", navXSensor.getDisplacementX());
-		display.putNumber("NavX Displacement Y", navXSensor.getDisplacementY());
-		display.putNumber("NavX fused heading", navXSensor.getFusedHeading());
-		display.putNumber("NavX Pitch", navXSensor.getPitch());
-		display.putNumber("NavX Roll", navXSensor.getRoll());
-		display.putNumber("NavX Temperature", navXSensor.getTempC());
-		display.putNumber("NavX Velocity X", navXSensor.getVelocityX());
-		display.putNumber("NavX Velocity Y", navXSensor.getVelocityY());
-		display.putNumber("NavX World Linear Accel X",
-				navXSensor.getWorldLinearAccelX());
-		display.putNumber("NavX World Linear Accel Y",
-				navXSensor.getWorldLinearAccelY());
-		display.putNumber("NavX World Linear Accel Z",
-				navXSensor.getWorldLinearAccelZ());
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
 		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
+		display.putNumber("Lidar Distance", lidar.getDistance());
+		display.putNumber("Left Rangefinder", rangeFinderLeft.getDistance());
+		display.putNumber("Right RangeFinder", rangeFinderRight.getDistance());
 	}
-
-	private void loadSensor() {
-		sensors.put("lidar", rawLidar);
-		sensors.put("navX", navXSensor);
-	}
-
 }

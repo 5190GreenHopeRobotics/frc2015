@@ -1,0 +1,192 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="30" y="266"/>
+		<property name="Text" value="Autonomous Sequence"/>
+	</static-widget>
+	<widget field="Autonomous Sequence" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="181" y="242"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="752" y="331"/>
+		<property name="Text" value="Navigation"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="797" y="222"/>
+		<property name="Text" value="Pawl"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="633" y="221"/>
+		<property name="Text" value="Cherry Picker"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="798" y="8"/>
+		<property name="Text" value="Arm"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="471" y="333"/>
+		<property name="Text" value="Drive Train"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="457" y="173"/>
+		<property name="Text" value="Joystick Inputs"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="409" y="8"/>
+		<property name="Text" value="Subsystem Command Executing"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="104" y="313"/>
+		<width>53</width>
+		<height>21</height>
+		<property name="Text" value="Scheduler"/>
+	</static-widget>
+	<widget field="Right RangeFinder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="703" y="445"/>
+		<width>145</width>
+	</widget>
+	<widget field="Left Rangefinder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="711" y="421"/>
+		<width>137</width>
+	</widget>
+	<widget field="Lidar Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="725" y="398"/>
+		<width>123</width>
+	</widget>
+	<widget field="NavX Calibrating" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="714" y="352"/>
+		<width>135</width>
+	</widget>
+	<widget field="NavX Yaw" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="744" y="375"/>
+		<width>105</width>
+	</widget>
+	<widget field="Pawl Axis" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="480" y="296"/>
+		<width>102</width>
+		<height>20</height>
+	</widget>
+	<widget field="Cherry Picker Axis" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="439" y="272"/>
+		<width>143</width>
+	</widget>
+	<widget field="Arm Axis" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="484" y="248"/>
+		<width>98</width>
+	</widget>
+	<widget field="Left Right Axis" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="456" y="224"/>
+		<width>126</width>
+	</widget>
+	<widget field="Forward Reverse Axis" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="420" y="200"/>
+		<width>162</width>
+	</widget>
+	<widget field="CP Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="626" y="241"/>
+		<width>102</width>
+	</widget>
+	<widget field="CP Min Limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="616" y="265"/>
+		<width>112</width>
+	</widget>
+	<widget field="CP Max Limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="613" y="290"/>
+		<width>116</width>
+		<height>20</height>
+	</widget>
+	<widget field="Pawl Clutch Engaged" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="733" y="291"/>
+		<width>157</width>
+	</widget>
+	<widget field="Pawl Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="778" y="267"/>
+		<width>112</width>
+	</widget>
+	<widget field="Pawl Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="781" y="244"/>
+		<width>109</width>
+	</widget>
+	<widget field="Arm Low Soft Limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="708" y="106"/>
+		<width>144</width>
+		<height>20</height>
+	</widget>
+	<widget field="Arm High Soft Limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="706" y="131"/>
+		<width>146</width>
+	</widget>
+	<widget field="Arm Low Hard Limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="705" y="156"/>
+		<width>147</width>
+	</widget>
+	<widget field="Arm High Hard Limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="703" y="180"/>
+		<width>149</width>
+	</widget>
+	<widget field="Arm Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="745" y="57"/>
+		<width>107</width>
+	</widget>
+	<widget field="Arm Level" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="750" y="81"/>
+		<width>102</width>
+	</widget>
+	<widget field="Arm Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="748" y="33"/>
+		<width>104</width>
+	</widget>
+	<widget field="Right Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="460" y="426"/>
+		<width>120</width>
+	</widget>
+	<widget field="Left Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="467" y="402"/>
+		<width>114</width>
+	</widget>
+	<widget field="Right Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="468" y="378"/>
+		<width>113</width>
+	</widget>
+	<widget field="Left Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="474" y="354"/>
+		<width>107</width>
+	</widget>
+	<widget field="NavigationSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="385" y="132"/>
+		<width>243</width>
+		<height>20</height>
+	</widget>
+	<widget field="CherryPickerSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="375" y="82"/>
+		<width>255</width>
+	</widget>
+	<widget field="PawlSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="414" y="107"/>
+		<width>215</width>
+		<height>20</height>
+	</widget>
+	<widget field="ArmSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="417" y="57"/>
+		<width>213</width>
+	</widget>
+	<widget field="DriveTrainSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="387" y="33"/>
+		<width>243</width>
+	</widget>
+	<widget field="Scheduler" type="Scheduler" class="edu.wpi.first.smartdashboard.gui.elements.Scheduler">
+		<location x="5" y="342"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="921" y="0"/>
+		<width>360</width>
+		<height>500</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="0" y="0"/>
+		<property name="Connection Color" value="0.0.255.255"/>
+	</static-widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>

@@ -26,7 +26,7 @@ public class TurnCommand extends Command {
 
 		PIDSource pidSource = navigationSubsystem.createRobotHeadingPIDSource();
 		PIDOutput pidOutput = driveTrainSubsystem.createTurnPIDOutput();
-		pidController = new PIDController(1, 0, 0, pidSource, pidOutput, 0.02);
+		pidController = new PIDController(.02, 0, 0, pidSource, pidOutput, 0.01);
 		pidController.setContinuous(true);
 		pidController.setInputRange(0, 360);
 		pidController.setAbsoluteTolerance(2);
@@ -36,7 +36,14 @@ public class TurnCommand extends Command {
 	@Override
 	protected void initialize() {
 		double currentYaw = navigationSubsystem.getYaw();
-		double desiredYaw = ((currentYaw + 180 + degree) % 360) - 180;
+		double desiredYaw = currentYaw + degree;
+		// known bug, this will not work if the number of degrees requested to
+		// turn is more than 180
+		if (desiredYaw > 180) {
+			desiredYaw = desiredYaw - 360;
+		} else if (desiredYaw < -180) {
+			desiredYaw = desiredYaw + 360;
+		}
 		System.out.println("C: " + currentYaw + " D: " + desiredYaw);
 		pidController.setSetpoint(desiredYaw);
 		pidController.enable();
@@ -44,6 +51,7 @@ public class TurnCommand extends Command {
 
 	@Override
 	protected void execute() {
+		System.out.println("Yaw: " + navigationSubsystem.getYaw());
 	}
 
 	@Override

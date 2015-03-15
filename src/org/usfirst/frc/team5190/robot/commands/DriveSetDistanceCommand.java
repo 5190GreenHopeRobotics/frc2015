@@ -15,39 +15,34 @@ public class DriveSetDistanceCommand extends Command {
 			.getInstance();
 	private DriveSetDistance driveSetDistance;
 
-	// requires the drive train Subsystem .
 	public DriveSetDistanceCommand(double distance) {
 		super("DriveSetDistanceCommand");
 		this.distance = distance;
 		requires(driveTrainSubsystem);
 	}
 
-	// Drives to the set distance, which is added to the value the encoder is
-	// already there.
+	@Override
 	protected void initialize() {
-		driveTrainSubsystem.setPower(0.4);
 		driveSetDistance = driveTrainSubsystem.driveSetDistance();
 		driveSetDistance.start(distance);
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		return driveSetDistance.drivenDistance();
 	}
 
-	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 		driveSetDistance.end();
-
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
-		driveSetDistance.end();
+		end();
 	}
 }

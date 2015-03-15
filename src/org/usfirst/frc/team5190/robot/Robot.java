@@ -1,6 +1,9 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
+import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
+import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.GamepadOI;
@@ -19,6 +22,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,10 +33,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	// public static Vision usbCamera;
-
-	private Command autonomousCommand;
 	private Scheduler scheduler;
+	private SendableChooser autonomousChooser;
+	private Command autonomousCommand;
 
 	/**
 	 * The operator interface
@@ -56,8 +60,15 @@ public class Robot extends IterativeRobot {
 		server.startAutomaticCapture("cam0");
 
 		autonomousCommand = new StackedTotesAutonomousCommandGroup();
+
+		autonomousChooser = new SendableChooser();
+		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
+		autonomousChooser
+				.addObject("Cherry Pick", new CherryPickCommandGroup());
+
 		scheduler = Scheduler.getInstance();
 
+		// setup displayables
 		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
 				.getInstance();
 		displayer.addDisplayable(DriveTrainSubsystem.getInstance());
@@ -66,6 +77,18 @@ public class Robot extends IterativeRobot {
 		displayer.addDisplayable(CherryPickerSubsystem.getInstance());
 		displayer.addDisplayable(displayableOI);
 		displayer.addDisplayable(NavigationSubsystem.getInstance());
+
+		// add scheduler, subsystems to dashboard
+		SmartDashboard.putData(scheduler);
+		SmartDashboard.putData("Autonomous Sequence", autonomousChooser);
+		SmartDashboard.putData(DriveTrainSubsystem.getInstance());
+		SmartDashboard.putData(ArmSubsystem.getInstance());
+		SmartDashboard.putData(PawlSubsystem.getInstance());
+		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
+		SmartDashboard.putData(NavigationSubsystem.getInstance());
+
+		// testing
+		SmartDashboard.putData(new ArmSetAngleCommand(100));
 	}
 
 	@Override
@@ -81,9 +104,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
-		if (autonomousCommand != null) {
-			autonomousCommand.start();
-		}
+		autonomousCommand = (Command) autonomousChooser.getSelected();
+		autonomousCommand.start();
 	}
 
 	/**
