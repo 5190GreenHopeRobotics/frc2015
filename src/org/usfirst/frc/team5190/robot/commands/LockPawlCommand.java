@@ -1,26 +1,24 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class HardwarePIDDriveTestCommand extends Command {
+public class LockPawlCommand extends Command {
 
-	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
-			.getInstance();
+	private PawlSubsystem pawl = PawlSubsystem.getInstance();
 
-	public HardwarePIDDriveTestCommand() {
-		super("HardwarePIDDriveTestCommand");
-		requires(driveTrainSubsystem);
+	public LockPawlCommand() {
+		requires(pawl);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		driveTrainSubsystem.pidDrive(10);
+		pawl.lock();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -31,7 +29,7 @@ public class HardwarePIDDriveTestCommand extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return driveTrainSubsystem.isOnTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true

@@ -28,6 +28,8 @@ public class RobotMap {
 	// pawl
 	public static final int PAWL_JAGUAR_PORT = 1;
 	public static final int PAWL_POTENTIMETER_PORT = 4;
+	public static final int PAWL_ENCODER_A_PORT = 10;
+	public static final int PAWL_ENCODER_B_PORT = 11;
 	public static final int PAWL_CLUTCH_ENAGED_SWITCH_PORT = 4;
 
 	// lights

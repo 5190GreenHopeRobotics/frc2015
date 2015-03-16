@@ -1,15 +1,18 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
-import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
+import org.usfirst.frc.team5190.robot.commands.LockPawlCommand;
+import org.usfirst.frc.team5190.robot.commands.UnlockPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public class GamepadOI implements OI {
+public class GamepadOI extends AbstractOI {
 
 	private Joystick gamepad;
+	private Button lockPawl;
+	private Button unLockPawl;
 
 	public GamepadOI() {
 		this(0);
@@ -18,12 +21,12 @@ public class GamepadOI implements OI {
 	public GamepadOI(int port) {
 		gamepad = new Joystick(port);
 
-		JoystickButton levelUpCommand = new JoystickButton(gamepad,
-				LogitechGamepad.B_BUTTON);
-		levelUpCommand.whenPressed(new ArmLevelUpCommand());
-		JoystickButton levelDownCommand = new JoystickButton(gamepad,
-				LogitechGamepad.A_BUTTON);
-		levelDownCommand.whenPressed(new ArmLevelDownCommand());
+		initializeButtons();
+
+		lockPawl = new JoystickButton(gamepad, LogitechGamepad.Y_BUTTON);
+		unLockPawl = new JoystickButton(gamepad, LogitechGamepad.X_BUTTON);
+		lockPawl.whenPressed(new LockPawlCommand());
+		unLockPawl.whenPressed(new UnlockPawlCommand());
 	}
 
 	public Joystick getGamepad() {
@@ -42,7 +45,7 @@ public class GamepadOI implements OI {
 
 	@Override
 	public double getArmAxis() {
-		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
+		return gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
 	}
 
 	@Override
@@ -57,9 +60,34 @@ public class GamepadOI implements OI {
 		return extendValue;
 	}
 
-	// @Override
+	@Override
 	public double getPawlAxis() {
 		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_X_AXIS);
+	}
+
+	@Override
+	protected Button getLevelUpButton() {
+		return new JoystickButton(gamepad, LogitechGamepad.B_BUTTON);
+	}
+
+	@Override
+	protected Button getLevelDownButton() {
+		return new JoystickButton(gamepad, LogitechGamepad.A_BUTTON);
+	}
+
+	@Override
+	protected Button getZeroPawlButton() {
+		return new JoystickButton(gamepad, LogitechGamepad.RIGHT_BUMPER);
+	}
+
+	@Override
+	protected Button getKillButton() {
+		return new JoystickButton(gamepad, LogitechGamepad.START);
+	}
+
+	@Override
+	protected Button getMoarPowahButton() {
+		return new JoystickButton(gamepad, LogitechGamepad.LEFT_BUMPER);
 	}
 
 }
