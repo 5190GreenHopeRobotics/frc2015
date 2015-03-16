@@ -5,76 +5,76 @@ import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.PawlJoystickCommand;
-import org.usfirst.frc.team5190.robot.motor.SmartSpeedController;
-import org.usfirst.frc.team5190.robot.motor.SmartSpeedController.ControlMode;
-import org.usfirst.frc.team5190.robot.motor.SmartSpeedController.FeedbackDevice;
+import org.usfirst.frc.team5190.robot.config.Configurable;
+import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
-public class PawlSubsystem extends Subsystem implements Displayable {
+public class PawlSubsystem extends Subsystem implements Displayable,
+		Configurable {
 	public static final double DEFAULT_PAWL_ZERO_OFFSET = -154;
 	public static final String PAWL_ZERO_OFFSET_PREF_KEY = "pawl.angle.zero.offset";
-	public static final int ENCODER_TICK_DEGREE = 360;
-	private boolean isLocked;
-	private Encoder encoder;
-	private PIDController angleController;
+	private static final double PAWL_LOCK_P = 0.005;
+	private static final double PAWL_LOCK_I = 0;
+	private static final double PAWL_LOCK_D = 0;
+	private static final double PAWL_LOCK_UPDATE_PERIOD = 0.01;
+	private static final double PAWL_TICK_DELTA = 5;
+
 	private static PawlSubsystem instance;
-	private SmartSpeedController smartController;
+
+	private Preferences prefs = Preferences.getInstance();
+
+	private Encoder encoder;
+	private Jaguar motor;
 	private Potentiometer pawlPotentiometer;
 	private DigitalInput clutchEngagedSwitch;
 
+	private double tickDelta = PAWL_TICK_DELTA;
+
+	// private PIDController angleController;
+	private PIDController lockController;
+
+	private double lockP = PAWL_LOCK_P;
+	private double lockI = PAWL_LOCK_I;
+	private double lockD = PAWL_LOCK_D;
+
 	private PawlSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
-		Preferences preferences = Preferences.getInstance();
-		double zeroOffset = preferences.getDouble("pawl.angle.zero.offset",
+		ConfigurationManager.getInstance().addConfigurable(this);
+
+		updateConfiguration();
+
+		double zeroOffset = prefs.getDouble(PAWL_ZERO_OFFSET_PREF_KEY,
 				DEFAULT_PAWL_ZERO_OFFSET);
+
 		pawlPotentiometer = new AnalogPotentiometer(
 				RobotMap.PAWL_POTENTIMETER_PORT, 270, zeroOffset);
 
-		smartController = new SmartSpeedController(new Jaguar(
-				RobotMap.PAWL_JAGUAR_PORT));
-		smartController.setPID(0.005, 0, 0);
+		motor = new Jaguar(RobotMap.PAWL_JAGUAR_PORT);
+
 		clutchEngagedSwitch = new DigitalInput(
 				RobotMap.PAWL_CLUTCH_ENAGED_SWITCH_PORT);
 
-		// dummy
-		encoder = new Encoder(10, 11);
-		encoder.setDistancePerPulse(360 / ENCODER_TICK_DEGREE);
+		encoder = new Encoder(10, 11, false, EncodingType.k4X);
+		encoder.setPIDSourceParameter(PIDSourceParameter.kDistance);
 		encoder.reset();
 
-		// set soft limit
-		smartController.setEncoder(encoder);
-		smartController.setPotentiometer(pawlPotentiometer);
-		smartController.setFeedbackDevice(FeedbackDevice.Potentiometer);
-		smartController.setForwardSoftLimit(20);
-		smartController.setReverseSoftLimit(-20);
-		smartController.setForwardSoftLimitEnabled(true);
-		smartController.setReverseSoftLimitEnabled(true);
+		double lockPidUpdatePeriod = prefs.getDouble("pawl.lock.update.period",
+				PAWL_LOCK_UPDATE_PERIOD);
+		lockController = new PIDController(lockP, lockI, lockD, encoder, motor,
+				lockPidUpdatePeriod);
 
-		angleController = new PIDController(0.005, 0, 0, encoder,
-				smartController);
-	}
-
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new PawlJoystickCommand());
-	}
-
-	public void lock() {
-		isLocked = true;
-		goToAngle(getAngle());
-	}
-
-	public void unLock() {
-		isLocked = false;
-		smartController.disablePid();
+		// angleController = new PIDController(0.005, 0, 0, pawlPotentiometer,
+		// motor);
 	}
 
 	public static PawlSubsystem getInstance() {
@@ -89,55 +89,58 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
+	@Override
+	protected void initDefaultCommand() {
+		setDefaultCommand(new PawlJoystickCommand());
+	}
+
+	public void lock() {
+		goToAngle(getAngle());
+	}
+
+	public void unLock() {
+	}
+
 	public double getAngle() {
 		return pawlPotentiometer.get();
 	}
 
 	public void goToAngle(double angle) {
-		if (smartController.getControlMode() != ControlMode.PercentVBus) {
-			smartController.setControlMode(ControlMode.PercentVBus);
-		}
-		angleController.setSetpoint(angle * (22 / 18));
-		if (!angleController.isEnable()) {
-			angleController.enable();
-		}
 
-	}
-
-	public void disablePid() {
-		smartController.disablePid();
 	}
 
 	public boolean angleReached() {
-		return smartController.isOnTarget();
+		return true;
+	}
+
+	public void finishGoToAngle() {
+
 	}
 
 	public boolean isLocked() {
-		return isLocked;
+		return true;
 	}
 
 	public void movePawl(double power) {
-		// if (clutchEngaged()) {
-		// if (power > 0.05 || power < -0.05) {
-		// if (smartController.getControlMode() != ControlMode.PercentVBus) {
-		// smartController.setControlMode(ControlMode.PercentVBus);
-		// }
-		// smartController.set(power);
-		// } else {
-		// if (smartController.getControlMode() != ControlMode.Angle) {
-		// smartController.setControlMode(ControlMode.Angle);
-		// smartController.set(getAngle());
-		// }
-		// }
-		// }
-		if (smartController.getControlMode() != ControlMode.PercentVBus) {
-			smartController.setControlMode(ControlMode.PercentVBus);
-		}
-		smartController.set(power);
-	}
+		if (clutchEngaged()) {
+			int moveTicks = (int) Math.round(power * tickDelta);
 
-	public void stopPawl() {
-		smartController.set(0);
+			synchronized (lockController) {
+				if (!lockController.isEnable()) {
+					lockController.setSetpoint(encoder.get() + moveTicks);
+					lockController.enable();
+				} else {
+					lockController.setSetpoint(lockController.getSetpoint()
+							+ moveTicks);
+				}
+			}
+		} else {
+			synchronized (lockController) {
+				if (lockController.isEnable()) {
+					lockController.reset();
+				}
+			}
+		}
 	}
 
 	public boolean clutchEngaged() {
@@ -147,9 +150,27 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	@Override
 	public void displayValues(Display display) {
 		display.putNumber("Pawl Angle", pawlPotentiometer.get());
-		display.putNumber("Pawl Power", smartController.get());
+		display.putNumber("Pawl Power", motor.get());
+		display.putNumber("Pawl Encoder", encoder.get());
 		display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
+	}
 
+	@Override
+	public void updateConfiguration() {
+		double p = prefs.getDouble("pawl.lock.p", PAWL_LOCK_P);
+		double i = prefs.getDouble("pawl.lock.i", PAWL_LOCK_I);
+		double d = prefs.getDouble("pawl.lock.d", PAWL_LOCK_D);
+		if (p != lockP || i != lockI || d != lockD) {
+			boolean wasEnabled = lockController.isEnable();
+			lockController.reset();
+			lockController.setPID(p, i, d);
+			lockP = p;
+			lockI = i;
+			lockD = d;
+			if (wasEnabled) {
+				lockController.enable();
+			}
+		}
 	}
 
 }
