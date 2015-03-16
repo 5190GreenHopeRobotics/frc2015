@@ -20,11 +20,11 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private static final int ARM_RANGE = 363;
 	private static final int ARM_BOTTOM_OFFSET = 313;
 
-	private static final double ARM_SET_ANGLE_P = 0.5;
-	private static final double ARM_SET_ANGLE_I = 0.003;
-	private static final double ARM_SET_ANGLE_D = 0;
-	private static final int ARM_SET_ANGLE_IZONE = 100;
-	private static final double ARM_SET_ANGLE_RAMP_RATE = 0;
+	private static final double ARM_SET_ANGLE_P = 12.5;
+	private static final double ARM_SET_ANGLE_I = 0.05;
+	private static final double ARM_SET_ANGLE_D = 9000;
+	private static final int ARM_SET_ANGLE_IZONE = 10;
+	private static final double ARM_SET_ANGLE_RAMP_RATE = 48;
 	private static final int ARM_SET_ANGLE_PROFILE = 1;
 
 	private static final double ARM_HOLD_P = 1.8;
@@ -65,10 +65,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 				armCANTalonLeft.changeControlMode(ControlMode.Position);
 				controlMode = ControlMode.Position;
 			}
-			armCANTalonLeft.disableControl();
 			configureSetAnglePID();
 			armCANTalonLeft.set(angle);
-			armCANTalonLeft.enableControl();
 		}
 
 		public void execute() {
@@ -93,8 +91,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.changeControlMode(controlMode);
 		armCANTalonLeft.set(0);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
-		configureSetAnglePID();
-		configureHoldPID();
 		armCANTalonLeft.enableBrakeMode(true);
 		armCANTalonLeft.setReverseSoftLimit(armBottomOffset);
 		armCANTalonLeft.setForwardSoftLimit(armBottomOffset + armRange);
@@ -125,14 +121,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new ArmJoystickCommand());
-	}
-
-	/**
-	 * This stops the arm angle from changing (No rise or lowering) = speed is
-	 * 0.
-	 */
-	public void stopArm() {
-		armCANTalonLeft.set(0);
 	}
 
 	public void moveArm(double power) {

@@ -5,6 +5,8 @@ import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
+import org.usfirst.frc.team5190.robot.config.Configurable;
+import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -13,12 +15,13 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Preferences.IncompatibleTypeException;
 
 /**
  * @author sdai the drive train subsystem
  */
 public class DriveTrainSubsystem extends LifecycleSubsystem implements
-		Displayable {
+		Displayable, Configurable {
 	private static DriveTrainSubsystem instance;
 
 	private static final double DRIVE_VELOCITY_P = 0.5;
@@ -27,6 +30,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	private static final double DRIVE_VELOCITY_RAMP_RATE = 0;
 	private static final int DRIVE_VELOCITY_IZONE = 0;
 	private static final int DRIVE_VELOCITY_PROFILE = 0;
+	private static final double DRIVE_VELOCITY_RANGE = 1000;
 
 	private static final double DRIVE_SET_DISTANCE_P = 2.0;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
@@ -45,6 +49,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 
 	private boolean disable = false;
 	private CANTalon frontLeft, backLeft, frontRight, backRight;
+	private double velocityRange;
 	private Preferences prefs = Preferences.getInstance();
 
 	private boolean moarPowah;
@@ -140,7 +145,9 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	private DriveTrainSubsystem() {
 		super("DriveTrainSubsystem");
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
+		ConfigurationManager.getInstance().addConfigurable(this);
 		initializeMotors();
+		updateConfiguration();
 	}
 
 	public static DriveTrainSubsystem getInstance() {
@@ -199,16 +206,25 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	}
 
 	private void configureVelocityPID() {
-		double p = prefs.getDouble("dt.velocity.p", DRIVE_VELOCITY_P);
-		double i = prefs.getDouble("dt.velocity.i", DRIVE_VELOCITY_I);
-		double d = prefs.getDouble("dt.velocity.d", DRIVE_VELOCITY_D);
-		double rampRate = prefs.getDouble("dt.velocity.ramp.rate",
-				DRIVE_VELOCITY_RAMP_RATE);
-		int izone = prefs.getInt("dt.velocity.izone", DRIVE_VELOCITY_IZONE);
-		int profile = prefs.getInt("dt.velocity.profile",
-				DRIVE_VELOCITY_PROFILE);
-		frontLeft.setPID(p, i, d, 0, izone, rampRate, profile);
-		frontRight.setPID(p, i, d, 0, izone, rampRate, profile);
+		try {
+			double p = prefs.getDouble("dt.velocity.p", DRIVE_VELOCITY_P);
+			double i = prefs.getDouble("dt.velocity.i", DRIVE_VELOCITY_I);
+			double d = prefs.getDouble("dt.velocity.d", DRIVE_VELOCITY_D);
+			double rampRate = prefs.getDouble("dt.velocity.ramp.rate",
+					DRIVE_VELOCITY_RAMP_RATE);
+			int izone = prefs.getInt("dt.velocity.izone", DRIVE_VELOCITY_IZONE);
+			int profile = prefs.getInt("dt.velocity.profile",
+					DRIVE_VELOCITY_PROFILE);
+			frontLeft.setPID(p, i, d, 0, izone, rampRate, profile);
+			frontRight.setPID(p, i, d, 0, izone, rampRate, profile);
+
+			System.out.println("Drive Velocity P: " + p + " I: " + i + " D: "
+					+ d + " rampRate: " + rampRate + " izone: " + izone
+					+ " profile: " + profile);
+		} catch (IncompatibleTypeException e) {
+			System.out.println("Failed to set configuration for drive train. "
+					+ e.getMessage());
+		}
 	}
 
 	/**
@@ -268,8 +284,8 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			}
 
 			// Scale up to rpm
-			leftMotorSpeed *= 1500;
-			rightMotorSpeed *= 1500;
+			leftMotorSpeed *= velocityRange;
+			rightMotorSpeed *= velocityRange;
 
 			frontLeft.set(leftMotorSpeed);
 			frontRight.set(rightMotorSpeed);
@@ -278,8 +294,8 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 
 	public void tankDrive(double leftPower, double rightPower) {
 		if (!disable) {
-			frontLeft.set(leftPower * 1500);
-			frontRight.set(rightPower * 1500);
+			frontLeft.set(leftPower * velocityRange);
+			frontRight.set(rightPower * velocityRange);
 		}
 	}
 
@@ -299,5 +315,17 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		// configure PID again in case the values were updated while the robot
 		// as disabled
 		configureVelocityPID();
+	}
+
+	@Override
+	public void updateConfiguration() {
+		try {
+			velocityRange = prefs.getDouble("dt.velocity.range",
+					DRIVE_VELOCITY_RANGE);
+		} catch (IncompatibleTypeException e) {
+			System.out.println("Failed to set configuration for drive train. "
+					+ e.getMessage());
+		}
+		System.out.println("Velocity Range: " + velocityRange);
 	}
 }

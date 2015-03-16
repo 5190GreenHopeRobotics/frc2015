@@ -50,12 +50,9 @@ public class ArmJoystickCommand extends Command {
 	}
 
 	protected void end() {
-		System.out.println("Buttons Ended Me");
-		armSubsystem.stopArm();
 	}
 
 	protected void interrupted() {
-		System.out.println("Buttons Interrupted Me");
 		end();
 	}
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
+import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
@@ -68,6 +69,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(PawlSubsystem.getInstance());
 		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
 		SmartDashboard.putData(NavigationSubsystem.getInstance());
+
+		SmartDashboard.putData(new ArmSetAngleCommand(100));
 	}
 
 	private void initializeOI() {

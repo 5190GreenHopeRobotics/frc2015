@@ -41,7 +41,6 @@ public class ArmLevelDownCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		armsubsystem.stopArm();
 		// System.out
 		// .println("Something Ended The DownLevel Command Button As Well.");
 	}
@@ -49,7 +48,6 @@ public class ArmLevelDownCommand extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		armsubsystem.stopArm();
 		// System.out
 		// .println("Something Interrupted The DownLevel Command Button As Well.");
 	}

@@ -8,7 +8,6 @@ import org.usfirst.frc.team5190.sensor.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
 
 import com.kauailabs.nav6.frc.IMU;
-import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -37,8 +36,7 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 		lidar = new Lidar(RobotMap.LIDAR_PORT);
 		lidar.start();
-		navXSensor = new AHRS(new SerialPort(57600, RobotMap.NAVX_PORT));
-
+		navXSensor = new IMU(new SerialPort(57600, RobotMap.NAVX_PORT));
 	}
 
 	public static NavigationSubsystem getInstance() {

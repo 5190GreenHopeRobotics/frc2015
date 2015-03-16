@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.config;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences.IncompatibleTypeException;
 
 public class ConfigurationManager {
 
@@ -53,7 +54,13 @@ public class ConfigurationManager {
 	public void configure() {
 		if (t % configUpdatePeriod == 0) {
 			for (Configurable configurable : configurables) {
-				configurable.updateConfiguration();
+				try {
+					configurable.updateConfiguration();
+				} catch (IncompatibleTypeException e) {
+					System.out.println("Failed to set configuration for "
+							+ configurable.getClass().getTypeName() + ". "
+							+ e.getMessage());
+				}
 			}
 		}
 		t++;
