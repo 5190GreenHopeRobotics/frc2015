@@ -36,7 +36,7 @@ public class GamepadOI extends AbstractOI {
 
 	@Override
 	public double getArmAxis() {
-		return -gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
+		return gamepad.getRawAxis(LogitechGamepad.LEFT_JOYSTICK_Y_AXIS);
 	}
 
 	@Override
