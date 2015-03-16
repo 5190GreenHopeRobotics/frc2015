@@ -6,9 +6,17 @@ import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnCommand extends Command {
+	private static final double TURN_P = 0.01;
+	private static final double TURN_I = 0;
+	private static final double TURN_D = 0;
+	private static final double TURN_UPDATE_PERIOD = 0.01;
+	private static final double TURN_TOLERANCE = 4;
+
+	private Preferences prefs = Preferences.getInstance();
 
 	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
 			.getInstance();
@@ -24,13 +32,22 @@ public class TurnCommand extends Command {
 
 		this.degree = degree;
 
+		double p = prefs.getDouble("dt.turn.p", TURN_P);
+		double i = prefs.getDouble("dt.turn.i", TURN_I);
+		double d = prefs.getDouble("dt.turn.d", TURN_D);
+		double period = prefs.getDouble("dt.turn.update.period",
+				TURN_UPDATE_PERIOD);
+		double tolerance = prefs.getDouble("dt.turn.tolerance", TURN_TOLERANCE);
+		System.out.println("Turn P: " + p + " I: " + i + " D: " + d
+				+ " period: " + period + " tolerance: " + tolerance);
+
 		PIDSource pidSource = navigationSubsystem.createRobotHeadingPIDSource();
 		PIDOutput pidOutput = driveTrainSubsystem.createTurnPIDOutput();
-		pidController = new PIDController(.02, 0, 0, pidSource, pidOutput, 0.01);
+		pidController = new PIDController(p, i, d, pidSource, pidOutput, period);
 		pidController.setContinuous(true);
-		pidController.setInputRange(0, 360);
-		pidController.setAbsoluteTolerance(2);
-		pidController.setOutputRange(-0.3, 0.3);
+		pidController.setInputRange(-180, 180);
+		pidController.setAbsoluteTolerance(tolerance);
+		pidController.setOutputRange(-1, 1);
 	}
 
 	@Override

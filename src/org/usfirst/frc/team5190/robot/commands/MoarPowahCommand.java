@@ -4,38 +4,37 @@ import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class ResetEncoderCommand extends Command {
+public class MoarPowahCommand extends Command {
 
 	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
 			.getInstance();
+	private boolean moarPlease;
 
-	public ResetEncoderCommand() {
+	public MoarPowahCommand(boolean moarPlease) {
 		requires(driveTrainSubsystem);
+		this.moarPlease = moarPlease;
 	}
 
-	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
+		driveTrainSubsystem.moarPowah(moarPlease);
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
-		driveTrainSubsystem.resetEncoder();
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		return true;
 	}
 
-	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 	}
+
 }

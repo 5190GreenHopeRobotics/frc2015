@@ -39,13 +39,11 @@ public class ArmLevelUpCommand extends Command {
 
 	@Override
 	protected void end() {
-		armsubsystem.stopArm();
 		// System.out.println("Something Ended The UpLevel Command Button As Well.");
 	}
 
 	@Override
 	protected void interrupted() {
-		armsubsystem.stopArm();
 		// System.out.println("Something Interrupted The UpLevel Command Button As Well.");
 	}
 }

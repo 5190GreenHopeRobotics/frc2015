@@ -2,16 +2,15 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.sensor.Lidar;
 import org.usfirst.frc.team5190.sensorFilter.VL6180xRangeFinder;
 
 import com.kauailabs.nav6.frc.IMU;
-import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,18 +25,18 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 
 	private NavigationSubsystem() {
 		super("NavigationSubsystem");
-		// rangeFinderLeft = new VL6180xRangeFinder(
-		// RobotMap.RANGE_FINDER_LEFT_PORT);
-		// rangeFinderLeft.start();
-		//
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
+		rangeFinderLeft = new VL6180xRangeFinder(
+				RobotMap.RANGE_FINDER_LEFT_PORT);
+		rangeFinderLeft.start();
+
 		rangeFinderRight = new VL6180xRangeFinder(
 				RobotMap.RANGE_FINDER_RIGHT_PORT);
 		rangeFinderRight.start();
 
 		lidar = new Lidar(RobotMap.LIDAR_PORT);
 		lidar.start();
-		navXSensor = new AHRS(new SerialPort(57600, RobotMap.NAVX_PORT));
-
+		navXSensor = new IMU(new SerialPort(57600, RobotMap.NAVX_PORT));
 	}
 
 	public static NavigationSubsystem getInstance() {
@@ -60,8 +59,6 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	public int getPawlDistanceFromObject() {
 		int leftDistance = rangeFinderLeft.getDistance();
 		int rightDistance = rangeFinderRight.getDistance();
-		SmartDashboard.putNumber("Left range finder", leftDistance);
-		SmartDashboard.putNumber("Right rangeFinder", rightDistance);
 		return (leftDistance + rightDistance) / 2;
 	}
 
@@ -81,6 +78,19 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return navXSensor.getYaw();
 	}
 
+	/**
+	 * Reset the Yaw value to zero. Should be done periodically when at a known
+	 * reference angle because the yaw will drift over time. The drift is
+	 * approximently 1 degree a minute.
+	 */
+	public void zeroYaw() {
+		navXSensor.zeroYaw();
+	}
+
+	public boolean isHeadingCalibrating() {
+		return navXSensor.isCalibrating();
+	}
+
 	public RobotHeadingPIDSource createRobotHeadingPIDSource() {
 		return new RobotHeadingPIDSource();
 	}
@@ -92,12 +102,10 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 	@Override
 	// Display values
 	public void displayValues(Display display) {
-		display.putNumber("NavX Compass Heading",
-				navXSensor.getCompassHeading());
-		display.putNumber("NavX Pitch", navXSensor.getPitch());
-		display.putNumber("NavX Roll", navXSensor.getRoll());
 		display.putNumber("NavX Yaw", navXSensor.getYaw());
 		display.putBoolean("NavX Calibrating", navXSensor.isCalibrating());
-		display.putNumber("Lidar Distance", getLidarDistanceFromObject());
+		display.putNumber("Lidar Distance", lidar.getDistance());
+		display.putNumber("Left Rangefinder", rangeFinderLeft.getDistance());
+		display.putNumber("Right RangeFinder", rangeFinderRight.getDistance());
 	}
 }

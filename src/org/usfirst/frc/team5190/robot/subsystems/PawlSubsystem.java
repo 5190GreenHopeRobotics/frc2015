@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.PawlJoystickCommand;
 import org.usfirst.frc.team5190.robot.motor.SmartSpeedController;
@@ -30,6 +31,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	private DigitalInput clutchEngagedSwitch;
 
 	private PawlSubsystem() {
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		Preferences preferences = Preferences.getInstance();
 		double zeroOffset = preferences.getDouble("pawl.angle.zero.offset",
 				DEFAULT_PAWL_ZERO_OFFSET);
@@ -145,6 +147,7 @@ public class PawlSubsystem extends Subsystem implements Displayable {
 	@Override
 	public void displayValues(Display display) {
 		display.putNumber("Pawl Angle", pawlPotentiometer.get());
+		display.putNumber("Pawl Power", smartController.get());
 		display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
 
 	}

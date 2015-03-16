@@ -14,8 +14,8 @@ public class RobotMap {
 	public static final int CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT = 2;
 
 	// drive train
-	public static final int FRONTLEFT = 2;
-	public static final int BACKLEFT = 1;
+	public static final int FRONTLEFT = 1;
+	public static final int BACKLEFT = 2;
 	public static final int FRONTRIGHT = 3;
 	public static final int BACKRIGHT = 4;
 
