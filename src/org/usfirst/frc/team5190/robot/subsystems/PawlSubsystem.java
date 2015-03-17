@@ -123,23 +123,24 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 
 	public void movePawl(double power) {
 		if (clutchEngaged()) {
-			int moveTicks = (int) Math.round(power * tickDelta);
-
-			synchronized (lockController) {
-				if (!lockController.isEnable()) {
-					lockController.setSetpoint(encoder.get() + moveTicks);
-					lockController.enable();
-				} else {
-					lockController.setSetpoint(lockController.getSetpoint()
-							+ moveTicks);
-				}
-			}
-		} else {
-			synchronized (lockController) {
-				if (lockController.isEnable()) {
-					lockController.reset();
-				}
-			}
+			// int moveTicks = (int) Math.round(power * tickDelta);
+			//
+			// synchronized (lockController) {
+			// if (!lockController.isEnable()) {
+			// lockController.setSetpoint(encoder.get() + moveTicks);
+			// lockController.enable();
+			// } else {
+			// lockController.setSetpoint(lockController.getSetpoint()
+			// + moveTicks);
+			// }
+			// }
+			// } else {
+			// synchronized (lockController) {
+			// if (lockController.isEnable()) {
+			// lockController.reset();
+			// }
+			// }
+			motor.set(power);
 		}
 	}
 
