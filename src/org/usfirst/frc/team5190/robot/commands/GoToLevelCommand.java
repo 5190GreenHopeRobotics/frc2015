@@ -11,25 +11,20 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GoToLevelCommand extends Command {
 	private final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
-	private static final int[] levels = { 7, 80, 152, 225, 287 };
+	private static final int[] levels = { 7, 167, 283 };
 	private static final int level0 = 7;
-	private static final int level1 = 80;
-	private static final int level2 = 152;
-	private static final int level3 = 225;
-	private static final int level4 = 287;
+	private static final int level1 = 167;
+	private static final int level2 = 283;
 	private double goToAngLevel;
 	private static final double ARM_SET_ANGLE_TOLERANCE = 2;
 	private double tolerance;
 	private SetArmAngle setArmAngle;
 	private Preferences prefs = Preferences.getInstance();
+	private boolean goUp;
 
 	public GoToLevelCommand(boolean goUp) {
 		requires(armSubsystem);
-		if (goUp) {
-			goToAngLevel = levelup();
-		} else {
-			goToAngLevel = leveldown();
-		}
+		this.goUp = goUp;
 	}
 
 	public GoToLevelCommand(int goToLevel) {
@@ -45,17 +40,9 @@ public class GoToLevelCommand extends Command {
 
 			nextLevel = level1;
 
-		} else if (armSubsystem.getAngle() < level2) {
-
-			nextLevel = level2;
-
-		} else if (armSubsystem.getAngle() < level3) {
-
-			nextLevel = level3;
-
 		} else {
 
-			nextLevel = level4;
+			nextLevel = level2;
 
 		}
 		System.out.println("SetAngle To: " + nextLevel);
@@ -64,12 +51,7 @@ public class GoToLevelCommand extends Command {
 
 	public double leveldown() {
 		double previouslevel;
-
-		if (armSubsystem.getAngle() > level3) {
-
-			previouslevel = level3;
-
-		} else if (armSubsystem.getAngle() > level2) {
+		if (armSubsystem.getAngle() > level2) {
 
 			previouslevel = level2;
 
@@ -88,6 +70,12 @@ public class GoToLevelCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		if (goUp) {
+			goToAngLevel = levelup();
+		} else {
+			goToAngLevel = leveldown();
+		}
+
 		tolerance = prefs.getDouble("arm.set.angle.tolerance",
 				ARM_SET_ANGLE_TOLERANCE);
 		setArmAngle = armSubsystem.setArmAngle(goToAngLevel);
