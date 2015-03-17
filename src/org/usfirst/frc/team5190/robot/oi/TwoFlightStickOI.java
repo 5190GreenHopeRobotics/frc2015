@@ -57,7 +57,8 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return -flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		double speed = -flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		return speed;
 	}
 
 	/**
@@ -65,7 +66,8 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return -flightStickDrive.getRawAxis(LogitechExtreme3D.Z_ROTATE);
+		double speed = -flightStickDrive.getRawAxis(LogitechExtreme3D.X_AXIS);
+		return speed;
 	}
 
 	/**

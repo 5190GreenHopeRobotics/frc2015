@@ -4,7 +4,6 @@ import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
