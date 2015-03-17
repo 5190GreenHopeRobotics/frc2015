@@ -24,11 +24,11 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 		Configurable, PIDOutput {
 	public static final double DEFAULT_PAWL_ZERO_OFFSET = -154;
 	public static final String PAWL_ZERO_OFFSET_PREF_KEY = "pawl.angle.zero.offset";
-	private static final double PAWL_LOCK_P = 0.005;
+	private static final double PAWL_LOCK_P = 0.01;
 	private static final double PAWL_LOCK_I = 0;
 	private static final double PAWL_LOCK_D = 0;
 	private static final double PAWL_LOCK_UPDATE_PERIOD = 0.01;
-	private static final double PAWL_TICK_DELTA = 10;
+	private static final double PAWL_TICK_DELTA = 5;
 
 	private static PawlSubsystem instance;
 
@@ -193,5 +193,6 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 				lockController.enable();
 			}
 		}
+		tickDelta = prefs.getDouble("pawl.tick.delta", PAWL_TICK_DELTA);
 	}
 }
