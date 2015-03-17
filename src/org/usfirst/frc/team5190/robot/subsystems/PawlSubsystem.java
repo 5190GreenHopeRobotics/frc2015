@@ -14,16 +14,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 public class PawlSubsystem extends Subsystem implements Displayable,
-		Configurable {
+		Configurable, PIDOutput {
 	public static final double DEFAULT_PAWL_ZERO_OFFSET = -154;
 	public static final String PAWL_ZERO_OFFSET_PREF_KEY = "pawl.angle.zero.offset";
-	private static final double PAWL_LOCK_P = 0.005;
+	private static final double PAWL_LOCK_P = 0.01;
 	private static final double PAWL_LOCK_I = 0;
 	private static final double PAWL_LOCK_D = 0;
 	private static final double PAWL_LOCK_UPDATE_PERIOD = 0.01;
@@ -46,6 +47,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	private double lockP = PAWL_LOCK_P;
 	private double lockI = PAWL_LOCK_I;
 	private double lockD = PAWL_LOCK_D;
+	private boolean limitReached = false;
 
 	private PawlSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
@@ -70,7 +72,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 
 		double lockPidUpdatePeriod = prefs.getDouble("pawl.lock.update.period",
 				PAWL_LOCK_UPDATE_PERIOD);
-		lockController = new PIDController(lockP, lockI, lockD, encoder, motor,
+		lockController = new PIDController(lockP, lockI, lockD, encoder, this,
 				lockPidUpdatePeriod);
 
 		// angleController = new PIDController(0.005, 0, 0, pawlPotentiometer,
@@ -94,13 +96,6 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 		setDefaultCommand(new PawlJoystickCommand());
 	}
 
-	public void lock() {
-		goToAngle(getAngle());
-	}
-
-	public void unLock() {
-	}
-
 	public double getAngle() {
 		return pawlPotentiometer.get();
 	}
@@ -117,21 +112,28 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 
 	}
 
-	public boolean isLocked() {
-		return true;
-	}
-
 	public void movePawl(double power) {
-		if (clutchEngaged()) {
-			int moveTicks = (int) Math.round(power * tickDelta);
+		int moveTicks = (int) Math.round(power * tickDelta);
 
+		if (clutchEngaged()) {
 			synchronized (lockController) {
 				if (!lockController.isEnable()) {
 					lockController.setSetpoint(encoder.get() + moveTicks);
 					lockController.enable();
 				} else {
-					lockController.setSetpoint(lockController.getSetpoint()
-							+ moveTicks);
+					double angle = getAngle();
+					if ((angle < 30 && angle > -30)
+							|| (angle < -30 && power > 0)
+							|| (angle > 30 && power < 0)) {
+						lockController.setSetpoint(encoder.get() + moveTicks);
+						limitReached = false;
+					} else {
+						if (!limitReached) {
+							limitReached = true;
+							lockController.setSetpoint(encoder.get());
+						}
+
+					}
 				}
 			}
 		} else {
@@ -140,7 +142,27 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 					lockController.reset();
 				}
 			}
+			// still allow motor movement when clutch not engaged in case there
+			// is an issue with the clutch engaged switch
+			motor.set(power);
 		}
+
+	}
+
+	@Override
+	public void pidWrite(double output) {
+		System.out.println("Pawl: " + output);
+		if (output > 0.1) {
+			output = 0.1;
+		} else if (output < -0.1) {
+			output = 0.1;
+		}
+		set(output);
+	}
+
+	private void set(double power) {
+		// Invert the motor
+		motor.set(-power);
 	}
 
 	public boolean clutchEngaged() {
@@ -152,7 +174,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 		display.putNumber("Pawl Angle", pawlPotentiometer.get());
 		display.putNumber("Pawl Power", motor.get());
 		display.putNumber("Pawl Encoder", encoder.get());
-		display.putBoolean("Pawl Clutch Engaged", clutchEngagedSwitch.get());
+		display.putBoolean("Pawl Clutch Engaged", clutchEngaged());
 	}
 
 	@Override
@@ -171,6 +193,6 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 				lockController.enable();
 			}
 		}
+		tickDelta = prefs.getDouble("pawl.tick.delta", PAWL_TICK_DELTA);
 	}
-
 }

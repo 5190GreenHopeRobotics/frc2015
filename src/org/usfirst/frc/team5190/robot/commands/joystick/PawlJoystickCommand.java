@@ -20,15 +20,9 @@ public class PawlJoystickCommand extends Command {
 
 	@Override
 	protected void execute() {
-		if (!pawlSubsystem.clutchEngaged()) {
-			return;
-		}
-		if (pawlSubsystem.isLocked()) {
-			return;
-		}
 		double power = Robot.oi.getPawlAxis();
 
-		pawlSubsystem.goToAngle(power * 20);
+		pawlSubsystem.movePawl(power);
 	}
 
 	@Override

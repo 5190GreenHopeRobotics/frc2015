@@ -45,15 +45,28 @@ public class TurnCommand extends Command {
 		PIDSource pidSource = new TurnSensorWrapper(
 				navigationSubsystem.createRobotHeadingPIDSource());
 		PIDOutput pidOutput = driveTrainSubsystem.createTurnPIDOutput();
-		pidController = new PIDController(p, i, d, pidSource, pidOutput, period);
+		pidController = new PIDController(TURN_P, TURN_I, TURN_D, pidSource,
+				pidOutput, period);
+		;
 		pidController.setContinuous(true);
 		pidController.setInputRange(-180, 180);
-		pidController.setAbsoluteTolerance(tolerance);
+		pidController.setAbsoluteTolerance(TURN_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
 	}
 
 	@Override
 	protected void initialize() {
+		double p = prefs.getDouble("dt.turn.p", TURN_P);
+		double i = prefs.getDouble("dt.turn.i", TURN_I);
+		double d = prefs.getDouble("dt.turn.d", TURN_D);
+		double tolerance = prefs.getDouble("dt.turn.tolerance", TURN_TOLERANCE);
+		System.out.println("Turn P: " + p + " I: " + i + " D: " + d
+				+ " tolerance: " + tolerance);
+
+		pidController.setPID(p, i, d);
+		pidController.setAbsoluteTolerance(tolerance);
+		pidController.reset();
+
 		double currentYaw = navigationSubsystem.getYaw();
 		double desiredYaw = currentYaw + degree;
 		// known bug, this will not work if the number of degrees requested to

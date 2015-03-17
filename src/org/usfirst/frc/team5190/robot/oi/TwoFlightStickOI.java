@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.TurnCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,18 +21,18 @@ public class TwoFlightStickOI extends AbstractOI {
 
 		initializeButtons();
 
-		JoystickButton slightlyLeft = new JoystickButton(flightStickDrive,
-				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
-		slightlyLeft.whenPressed(new TurnCommand(-4));
-		JoystickButton slightlyRight = new JoystickButton(flightStickDrive,
-				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
-		slightlyRight.whenPressed(new TurnCommand(4));
-		JoystickButton left90 = new JoystickButton(flightStickDrive,
-				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
-		left90.whenPressed(new TurnCommand(-90));
-		JoystickButton right90 = new JoystickButton(flightStickDrive,
-				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
-		right90.whenPressed(new TurnCommand(90));
+		// JoystickButton slightlyLeft = new JoystickButton(flightStickDrive,
+		// LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
+		// slightlyLeft.whenPressed(new TurnCommand(-4));
+		// JoystickButton slightlyRight = new JoystickButton(flightStickDrive,
+		// LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+		// slightlyRight.whenPressed(new TurnCommand(4));
+		// JoystickButton left90 = new JoystickButton(flightStickDrive,
+		// LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+		// left90.whenPressed(new TurnCommand(-90));
+		// JoystickButton right90 = new JoystickButton(flightStickDrive,
+		// LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
+		// right90.whenPressed(new TurnCommand(90));
 	}
 
 	/**
@@ -57,7 +56,8 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getForwardReverseAxis() {
-		return -flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		double speed = -flightStickDrive.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		return speed;
 	}
 
 	/**
@@ -65,7 +65,8 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getLeftRightAxis() {
-		return -flightStickDrive.getRawAxis(LogitechExtreme3D.Z_ROTATE);
+		double speed = -flightStickDrive.getRawAxis(LogitechExtreme3D.Z_ROTATE);
+		return speed;
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getArmAxis() {
-		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		return -flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**

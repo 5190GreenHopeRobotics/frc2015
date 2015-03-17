@@ -40,6 +40,15 @@ public class OIUtils {
 		return scalingValue * power * power + (1 - scalingValue) * power;
 	}
 
+	public static double scaledSquareRoot(double scalingValue, double power) {
+		return scalingValue * Math.sqrt(power);
+	}
+
+	public static double scaledCubeRoot(double scalingValue, double power) {
+		final double pow = (1 / 3);
+		return scalingValue * Math.pow(power, pow);
+	}
+
 	/**
 	 * Intended to be used when a joystick doesn't return exactly zero when the
 	 * stick in not being used.

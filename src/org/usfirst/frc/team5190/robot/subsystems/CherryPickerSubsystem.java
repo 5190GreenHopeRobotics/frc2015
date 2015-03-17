@@ -68,7 +68,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 				maxLimitSwitch.reset();
 				cherryPickerController.set(power);
 			}
-		} else if (armNotTooLow()) {
+		} else if (armNotTooLow() || power < 0) {
 			cherryPickerController.set(power);
 		}
 	}

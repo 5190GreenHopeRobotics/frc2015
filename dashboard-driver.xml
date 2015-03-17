@@ -1,0 +1,67 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.WebcamViewerExtensionCompat">
+		<location x="247" y="14"/>
+		<width>597</width>
+		<height>479</height>
+	</static-widget>
+	<widget field="ArmSetAngleCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="33"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="9" y="80"/>
+		<property name="Text" value="Autonomous Sequence"/>
+	</static-widget>
+	<widget field="Autonomous Sequence" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="130" y="71"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="798" y="8"/>
+		<property name="Text" value="Arm"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="921" y="0"/>
+		<width>360</width>
+		<height>500</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="0" y="0"/>
+		<property name="Connection Color" value="0.0.255.255"/>
+	</static-widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="CherryPickerSubsystem"/>
+	<hidden field="Right Position"/>
+	<hidden field="ArmSubsystem"/>
+	<hidden field="DriveTrainSubsystem"/>
+	<hidden field="Left Right Axis"/>
+	<hidden field="Scheduler"/>
+	<hidden field="Arm Low Hard Limit"/>
+	<hidden field="CP Min Limit"/>
+	<hidden field="Cherry Picker Axis"/>
+	<hidden field="PawlSubsystem"/>
+	<hidden field="Arm High Soft Limit"/>
+	<hidden field="Forward Reverse Axis"/>
+	<hidden field="Pawl Power"/>
+	<hidden field="Left Rangefinder"/>
+	<hidden field="Right Speed"/>
+	<hidden field="NavX Calibrating"/>
+	<hidden field="Left Speed"/>
+	<hidden field="Pawl Axis"/>
+	<hidden field="Arm Low Soft Limit"/>
+	<hidden field="Arm Angle"/>
+	<hidden field="CP Power"/>
+	<hidden field="Arm Power"/>
+	<hidden field="Pawl Clutch Engaged"/>
+	<hidden field="Arm Level"/>
+	<hidden field="Pawl Angle"/>
+	<hidden field="Lidar Distance"/>
+	<hidden field="Arm Axis"/>
+	<hidden field="Right RangeFinder"/>
+	<hidden field="NavigationSubsystem"/>
+	<hidden field="Arm High Hard Limit"/>
+	<hidden field="CP Max Limit"/>
+	<hidden field="Left Position"/>
+	<hidden field="NavX Yaw"/>
+</xml>
