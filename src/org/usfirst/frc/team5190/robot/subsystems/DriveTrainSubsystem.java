@@ -35,15 +35,14 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	private static final double DRIVE_SET_DISTANCE_P = 2.0;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
 	private static final double DRIVE_SET_DISTANCE_D = 0;
-	private static final double DRIVE_SET_DISTANCE_TOLERANCE = 2.0;
-	private static final double TICKS_IN_INCH = 42;
+	private static final double DRIVE_SET_DISTANCE_TOLERANCE = 1.0;
+	private static final double TICKS_IN_INCH = 47;
 
 	/**
 	 * The maximum power for driving under PID control for going a specific
 	 * distance
 	 */
-	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -1000,
-			1000 };
+	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -150, 150 };
 
 	public static final double TALON_CLOSED_LOOP_RAMP_SPEED = 48.0;
 
@@ -67,7 +66,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		private NavigationSubsystem navigationSubsystem = NavigationSubsystem
 				.getInstance();
 
-		private static final double kP = 100;
+		private static final double kP = 10;
 
 		public DriveStraightPIDOutput() {
 			// Ideally I think this shouldn't zero the yaw value. It should get
@@ -109,7 +108,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			double i = prefs.getDouble("dt.distance.i", DRIVE_SET_DISTANCE_I);
 			double d = prefs.getDouble("dt.distance.d", DRIVE_SET_DISTANCE_D);
 			pidController = new PIDController(p, i, d, averagedEncoder,
-					new DriveStraightPIDOutput());
+					new DriveStraightPIDOutput(), 0.01);
 			double tolerance = inchesToTicks(prefs.getDouble(
 					"dt.distance.tolerance", DRIVE_SET_DISTANCE_TOLERANCE));
 			pidController.setAbsoluteTolerance(tolerance);
