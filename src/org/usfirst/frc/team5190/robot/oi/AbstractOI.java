@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
-import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
+import org.usfirst.frc.team5190.robot.commands.GoToLevelCommand;
 import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.commands.MoarPowahCommand;
 import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
@@ -14,8 +13,8 @@ public abstract class AbstractOI implements OI {
 	}
 
 	protected void initializeButtons() {
-		getLevelUpButton().whenPressed(new ArmLevelUpCommand());
-		getLevelDownButton().whenPressed(new ArmLevelDownCommand());
+		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
+		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
 		getZeroPawlButton().whenPressed(new ZeroPawlCommand());
 		getKillButton().whenPressed(new KillCommand());
 

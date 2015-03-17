@@ -42,11 +42,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private ControlMode controlMode;
 	private int armBottomOffset;
 	private int armRange;
-	private static final int level0 = 7;
-	private static final int level1 = 80;
-	private static final int level2 = 152;
-	private static final int level3 = 225;
-	private static final int level4 = 287;
 
 	private Preferences prefs = Preferences.getInstance();
 
@@ -186,7 +181,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	// Display values
 	public void displayValues(Display display) {
 		display.putNumber("Arm Angle", getAngle());
-		display.putNumber("Arm Level", CurrentLevel());
 		display.putNumber("Arm Power", armCANTalonLeft.getSpeed());
 		display.putBoolean("Arm High Hard Limit",
 				armCANTalonLeft.isFwdLimitSwitchClosed());
@@ -206,121 +200,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);
 		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft.set(0);
-	}
-
-	// Set a level for quick tote stacking
-	// arm is 31 inches long
-	// arm is 30.5 inches off the ground
-	// Tote is 12.1 inches tall(11.5 to hold)
-	// Level 1 = 23.6 inches high, 6.9 inches below arm
-	// Level 2 = 35.7 inches high
-	public void setLevel(int level) {
-
-		// if (level < 0) {
-		// level = 0;
-		// }
-		// if (level > 4) {
-		// level = 4;
-		// }
-		//
-		switch (level) {
-		case 0:
-			setArmAngle(level0);
-			break;
-		case 1:
-			setArmAngle(level1);
-			break;
-		case 2:
-			setArmAngle(level2);
-			break;
-		case 3:
-			setArmAngle(level3);
-			break;
-		case 4:
-			setArmAngle(level4);
-		}
-	}
-
-	public double levelup() {
-		double nextLevel;
-
-		if (getAngle() < level1) {
-
-			nextLevel = level1;
-			setArmAngle(nextLevel);
-			System.out.println("SetAngle To: " + nextLevel);
-
-		} else if (getAngle() < level2) {
-
-			nextLevel = level2;
-			setArmAngle(nextLevel);
-			System.out.println("SetAngle To: " + nextLevel);
-
-		} else if (getAngle() < level3) {
-
-			nextLevel = level3;
-			setArmAngle(nextLevel);
-			System.out.println("SetAngle To: " + nextLevel);
-
-		} else {
-
-			nextLevel = level4;
-			setArmAngle(nextLevel);
-			System.out.println("SetAngle To: " + nextLevel);
-
-		}
-
-		return nextLevel;
-	}
-
-	public int CurrentLevel() {
-		int currentLevel;
-
-		if (getAngle() < level1) {
-			currentLevel = 0;
-		} else if (getAngle() < level2) {
-			currentLevel = 1;
-		} else if (getAngle() < level3) {
-			currentLevel = 2;
-		} else if (getAngle() < level4) {
-			currentLevel = 3;
-		} else {
-			currentLevel = 4;
-
-		}
-
-		return currentLevel;
-	}
-
-	public double leveldown() {
-		double previouslevel;
-
-		if (getAngle() > level3) {
-
-			previouslevel = level3;
-			setArmAngle(previouslevel);
-			System.out.println("SetAngle To: " + previouslevel);
-
-		} else if (getAngle() > level2) {
-
-			previouslevel = level2;
-			setArmAngle(previouslevel);
-			System.out.println("SetAngle To: " + previouslevel);
-
-		} else if (getAngle() > level1) {
-
-			previouslevel = level1;
-			setArmAngle(previouslevel);
-			System.out.println("SetAngle To: " + previouslevel);
-
-		} else {
-
-			previouslevel = level0;
-			setArmAngle(previouslevel);
-			System.out.println("SetAngle To: " + previouslevel);
-
-		}
-		return previouslevel;
 	}
 
 }
