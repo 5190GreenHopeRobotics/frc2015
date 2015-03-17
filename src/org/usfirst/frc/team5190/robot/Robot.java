@@ -1,19 +1,29 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
-import org.usfirst.frc.team5190.robot.commands.StackedTotesAutonomousCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.ArmSetAngleCommand;
+import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
+import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
-import org.usfirst.frc.team5190.robot.oi.GamepadOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
 import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
+import org.usfirst.frc.team5190.robot.oi.TwoFlightStickOI;
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,10 +33,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	// public static Vision usbCamera;
-
-	private Command autonomousCommand;
 	private Scheduler scheduler;
+	private ConfigurationManager configurationManager = ConfigurationManager
+			.getInstance();
+	private SendableChooser autonomousChooser;
+	private Command autonomousCommand;
 
 	/**
 	 * The operator interface
@@ -34,29 +45,38 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public Robot() {
-		// Initialize OI
-		OI joystickOI = new GamepadOI();
-		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
-		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(0.8, powerCurvesOI);
-		scaledInputsOI.setCherryPickerScalingValue(0.5);
-		scaledInputsOI.setPawlScalingValue(0.3);
-		scaledInputsOI.setArmScalingValue(0.5);
-		scaledInputsOI.setForwardReverseScalingValue(0.7);
-		scaledInputsOI.setLeftRightScalingValue(0.7);
-		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
-		oi = displayableOI;
 
-		autonomousCommand = new StackedTotesAutonomousCommandGroup();
+		initializeOI();
+
+		CameraServer server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
+
+		autonomousChooser = new SendableChooser();
+		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
+		autonomousChooser
+				.addObject("Cherry Pick", new CherryPickCommandGroup());
+
 		scheduler = Scheduler.getInstance();
 
-		SmartDashBoardDisplayer displayer = SmartDashBoardDisplayer
-				.getInstance();
-		// displayer.addDisplayable(DriveTrainSubsystem.getInstance());
-		// displayer.addDisplayable(ArmSubsystem.getInstance());
-		// displayer.addDisplayable(PawlSubsystem.getInstance());
-		// displayer.addDisplayable(CherryPickerSubsystem.getInstance());
-		// displayer.addDisplayable(displayableOI);
-		displayer.addDisplayable(NavigationSubsystem.getInstance());
+		// add scheduler, autonomous chooser, and subsystems to dashboard
+		SmartDashboard.putData(scheduler);
+		SmartDashboard.putData("Autonomous Sequence", autonomousChooser);
+		SmartDashboard.putData(DriveTrainSubsystem.getInstance());
+		SmartDashboard.putData(ArmSubsystem.getInstance());
+		SmartDashboard.putData(PawlSubsystem.getInstance());
+		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
+		SmartDashboard.putData(NavigationSubsystem.getInstance());
+
+		SmartDashboard.putData(new ArmSetAngleCommand(100));
+	}
+
+	private void initializeOI() {
+		OI joystickOI = new TwoFlightStickOI();
+		SetPowerCurvesOI powerCurvesOI = new SetPowerCurvesOI(joystickOI);
+		ScaleInputsOI scaledInputsOI = new ScaleInputsOI(powerCurvesOI);
+		DisplayableOI displayableOI = new DisplayableOI(scaledInputsOI);
+		oi = displayableOI;
 	}
 
 	@Override
@@ -65,16 +85,10 @@ public class Robot extends IterativeRobot {
 	}
 
 	@Override
-	public void disabledPeriodic() {
-		scheduler.run();
-	}
-
-	@Override
 	public void autonomousInit() {
 		LifecycleSubsystemManager.getInstance().autonomousInit();
-		if (autonomousCommand != null) {
-			autonomousCommand.start();
-		}
+		autonomousCommand = (Command) autonomousChooser.getSelected();
+		autonomousCommand.start();
 	}
 
 	/**
@@ -82,6 +96,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		configurationManager.configure();
 		scheduler.run();
 	}
 
@@ -94,15 +109,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called when the disabled button is hit. You can use it
-	 * to reset subsystems before shutting down.
-	 */
-	@Override
-	public void disabledInit() {
-		LifecycleSubsystemManager.getInstance().disable();
-	}
-
-	/**
 	 * This function is called periodically during operator control
 	 *
 	 *
@@ -111,6 +117,23 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		configurationManager.configure();
+
+		scheduler.run();
+	}
+
+	/**
+	 * This function is called when the disabled button is hit. You can use it
+	 * to reset subsystems before shutting down.
+	 */
+	@Override
+	public void disabledInit() {
+		LifecycleSubsystemManager.getInstance().disable();
+	}
+
+	@Override
+	public void disabledPeriodic() {
+		configurationManager.configure();
 		scheduler.run();
 	}
 

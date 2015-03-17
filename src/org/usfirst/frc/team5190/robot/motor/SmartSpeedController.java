@@ -120,6 +120,13 @@ public class SmartSpeedController implements SpeedController {
 				encoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 			}
 		}
+		if (controlMode == ControlMode.Angle) {
+			createPid();
+		}
+		if (controlMode == ControlMode.Distance
+				|| controlMode == ControlMode.Speed) {
+			createPid();
+		}
 	}
 
 	/**
@@ -454,17 +461,17 @@ public class SmartSpeedController implements SpeedController {
 			if (controlMode == ControlMode.PercentVBus) {
 				speedController.set(value);
 			} else if (controlMode == ControlMode.Angle) {
-				createAnglePid();
 				pidController.setSetpoint(value);
-				pidController.enable();
+				if (!pidController.isEnable())
+					pidController.enable();
 			} else if (controlMode == ControlMode.Distance) {
-				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
-				pidController.enable();
+				if (!pidController.isEnable())
+					pidController.enable();
 			} else if (controlMode == ControlMode.Speed) {
-				createDistanceSpeedPid();
 				pidController.setSetpoint(value);
-				pidController.enable();
+				if (!pidController.isEnable())
+					pidController.enable();
 			}
 
 		}
@@ -508,15 +515,13 @@ public class SmartSpeedController implements SpeedController {
 		return false;
 	}
 
-	protected void createDistanceSpeedPid() {
-		pidController = new PIDController(p, i, d, encoder, speedController);
-		pidController.setAbsoluteTolerance(2);
-	}
-
-	protected void createAnglePid() {
-		pidController = new PIDController(p, i, d, potentiometer,
-				speedController);
-		pidController.setAbsoluteTolerance(2);
+	protected void createPid() {
+		if (feedbackDevice == FeedbackDevice.Encoder) {
+			pidController = new PIDController(p, i, d, encoder, speedController);
+		} else if (feedbackDevice == FeedbackDevice.Potentiometer) {
+			pidController = new PIDController(p, i, d, potentiometer,
+					speedController);
+		}
 	}
 
 	@Override

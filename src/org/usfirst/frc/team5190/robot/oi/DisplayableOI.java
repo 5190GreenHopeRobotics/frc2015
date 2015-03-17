@@ -2,12 +2,14 @@ package org.usfirst.frc.team5190.robot.oi;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 
 public class DisplayableOI implements OI, Displayable {
 	private OI sourceOI;
 
 	public DisplayableOI(OI sourceOI) {
 		this.sourceOI = sourceOI;
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 	}
 
 	@Override

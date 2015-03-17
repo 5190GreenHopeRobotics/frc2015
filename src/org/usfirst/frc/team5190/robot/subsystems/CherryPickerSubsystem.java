@@ -2,6 +2,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
+import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickCommand;
 
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private static CherryPickerSubsystem instance;
 
-	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.08;
+	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.1;
 
 	// DIO ports temporary in this class.
 	private Talon cherryPickerController;
@@ -25,6 +26,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	private CherryPickerSubsystem() {
+		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
 		minLimitSwitch = new Counter(new DigitalInput(
 				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT));
@@ -101,11 +103,9 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 
 	// Display Values
 	public void displayValues(Display display) {
-		display.putBoolean("Cherry Picker Max Limit", reachedMaxLimit());
-		display.putBoolean("Cherry Picker Min Limit", reachedMinLimit());
-		display.putNumber("Cherry Picker Motor Power",
-				cherryPickerController.getSpeed());
-		// cherryPickerController.get());
+		display.putBoolean("CP Max Limit", reachedMaxLimit());
+		display.putBoolean("CP Min Limit", reachedMinLimit());
+		display.putNumber("CP Power", cherryPickerController.getSpeed());
 	}
 
 }

@@ -1,13 +1,10 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.ArmLevelDownCommand;
-import org.usfirst.frc.team5190.robot.commands.ArmLevelUpCommand;
-import org.usfirst.frc.team5190.robot.commands.KillCommand;
-import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
 import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
 import org.usfirst.frc.team5190.robot.joystick.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -16,7 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * @description Run Robot with a Joystick for driving and a Logitech Gamepad for
  *              shooting
  */
-public class FlightStickWithGamePadOI implements OI {
+public class FlightStickWithGamePadOI extends AbstractOI {
 	// init joystick and gamepad
 	private Joystick flightStickDrive = null;
 	private Joystick gamePadShoot = null;
@@ -25,21 +22,7 @@ public class FlightStickWithGamePadOI implements OI {
 	 * Use to operate buttons on Gamepad and Joystick
 	 */
 	public FlightStickWithGamePadOI() {
-		// Gamepad Buttons
-		JoystickButton zeroPawl = new JoystickButton(gamePadShoot,
-				LogitechGamepad.RIGHT_STICK_BUTTON);
-		JoystickButton incrementArmHeight = new JoystickButton(gamePadShoot,
-				LogitechGamepad.RIGHT_BUMPER);
-		JoystickButton decrementArmHeight = new JoystickButton(gamePadShoot,
-				LogitechGamepad.LEFT_BUMPER);
-		// Joystick buttons
-		JoystickButton terminateRobot = new JoystickButton(flightStickDrive,
-				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
-		// do actions with buttons
-		zeroPawl.whenPressed(new ZeroPawlCommand());
-		incrementArmHeight.whenPressed(new ArmLevelUpCommand());
-		decrementArmHeight.whenPressed(new ArmLevelDownCommand());
-		terminateRobot.whenPressed(new KillCommand());
+		this(0, 1);
 	}
 
 	/**
@@ -50,6 +33,8 @@ public class FlightStickWithGamePadOI implements OI {
 	public FlightStickWithGamePadOI(int joystickPort, int gamepadPort) {
 		this.flightStickDrive = new Joystick(joystickPort);
 		this.gamePadShoot = new Joystick(gamepadPort);
+
+		initializeButtons();
 	}
 
 	/**
@@ -106,6 +91,31 @@ public class FlightStickWithGamePadOI implements OI {
 	@Override
 	public double getPawlAxis() {
 		return gamePadShoot.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
+	}
+
+	@Override
+	protected Button getLevelUpButton() {
+		return new JoystickButton(gamePadShoot, LogitechGamepad.B_BUTTON);
+	}
+
+	@Override
+	protected Button getLevelDownButton() {
+		return new JoystickButton(gamePadShoot, LogitechGamepad.A_BUTTON);
+	}
+
+	@Override
+	protected Button getZeroPawlButton() {
+		return new JoystickButton(gamePadShoot, LogitechGamepad.RIGHT_BUMPER);
+	}
+
+	@Override
+	protected Button getKillButton() {
+		return new JoystickButton(gamePadShoot, LogitechGamepad.START);
+	}
+
+	@Override
+	protected Button getMoarPowahButton() {
+		return new JoystickButton(gamePadShoot, LogitechGamepad.LEFT_BUMPER);
 	}
 
 }

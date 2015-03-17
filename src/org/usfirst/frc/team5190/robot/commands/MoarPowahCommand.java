@@ -1,30 +1,23 @@
 package org.usfirst.frc.team5190.robot.commands;
 
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem.DriveSetDistance;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class DriveSetDistanceCommand extends Command {
+public class MoarPowahCommand extends Command {
 
-	private double distance;
 	private DriveTrainSubsystem driveTrainSubsystem = DriveTrainSubsystem
 			.getInstance();
-	private DriveSetDistance driveSetDistance;
+	private boolean moarPlease;
 
-	public DriveSetDistanceCommand(double distance) {
-		super("DriveSetDistanceCommand");
-		this.distance = distance;
+	public MoarPowahCommand(boolean moarPlease) {
 		requires(driveTrainSubsystem);
+		this.moarPlease = moarPlease;
 	}
 
 	@Override
 	protected void initialize() {
-		driveSetDistance = driveTrainSubsystem.driveSetDistance();
-		driveSetDistance.start(distance);
+		driveTrainSubsystem.moarPowah(moarPlease);
 	}
 
 	@Override
@@ -33,16 +26,15 @@ public class DriveSetDistanceCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return driveSetDistance.drivenDistance();
+		return true;
 	}
 
 	@Override
 	protected void end() {
-		driveSetDistance.end();
 	}
 
 	@Override
 	protected void interrupted() {
-		end();
 	}
+
 }

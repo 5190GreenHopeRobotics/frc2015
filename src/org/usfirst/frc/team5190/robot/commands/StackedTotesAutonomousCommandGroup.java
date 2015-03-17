@@ -7,17 +7,22 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StackedTotesAutonomousCommandGroup extends CommandGroup {
 
 	public StackedTotesAutonomousCommandGroup() {
-		// stack 3 tote and go to auto zone
-		// addSequential(new ArmSyncCommand());
-		// addSequential(new DriveToObjectCommand());
-		// addSequential(new TimedRaiseLowerArmCommand(6, true));
-		// addSequential(new DriveToObjectCommand());
-		// addSequential(new TimedRaiseLowerArmCommand(6, false));
-		// addSequential(new TimedRaiseLowerArmCommand(6, true));
-		// addSequential(new DriveToObjectCommand());
-		// addSequential(new TimedRaiseLowerArmCommand(6, false));
-		// addSequential(new TimedRaiseLowerArmCommand(6, true));
+		// Pick up first tote and go to second
+		addSequential(new ArmSetAngleCommand(500));
 		addSequential(new DriveToObjectCommand());
-		// addSequential(new DriveSetDistanceCommand(12 * 3));
+
+		// Set tote down and back up a little
+		addSequential(new ArmSetAngleCommand(400));
+		addSequential(new DriveSetDistanceCommand(-5));
+
+		// Completely lower arm, Go to tote stack, Pick up
+		addSequential(new ArmSetAngleCommand(0));
+		addSequential(new DriveToObjectCommand());
+		addSequential(new ArmSetAngleCommand(300));
+
+		// Turn left, go to autozone, set down stack
+		addSequential(new TurnCommand(90));
+		addSequential(new DriveSetDistanceCommand(50));
+
 	}
 }
