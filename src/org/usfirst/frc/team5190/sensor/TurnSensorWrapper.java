@@ -37,16 +37,25 @@ public class TurnSensorWrapper implements PIDSource {
 	}
 
 	protected synchronized void update() {
-		turnCount += countOutOfRange();
-		currentValue = turnCount * 180 + src.pidGet();
+		double currentReading = src.pidGet();
+		int countUpdate = countOutOfRange();
+		turnCount += countUpdate;
+		currentValue = 180 * turnCount;
+		if (countUpdate == 1) {
+			currentValue += 180 - (-1 * currentReading);
+		} else if (countUpdate == -1) {
+			currentValue += 180 - currentReading;
+		} else {
+			currentValue += currentReading;
+		}
 		prevValue = src.pidGet();
 	}
 
 	protected int countOutOfRange() {
 		double currentReading = src.pidGet();
-		if (prevValue - currentReading > 350) {
+		if ((int) prevValue - (int) currentReading == 360) {
 			return 1;
-		} else if (prevValue - currentReading < -350) {
+		} else if ((int) prevValue - (int) currentReading == -360) {
 			return -1;
 		} else {
 			return 0;
