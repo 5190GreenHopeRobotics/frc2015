@@ -13,8 +13,10 @@ public class OneToteCommandGroup extends CommandGroup {
 
 	public OneToteCommandGroup() {
 		addSequential(new NavigationCalibratingCommand());
-		addSequential(new ArmSetAngleCommand(450));
-		addSequential(new DriveSetDistanceCommand(-15));
+		addSequential(new ArmSetAngleCommand(0));
+		addSequential(new DriveSetDistanceCommand(21));
+		addSequential(new ArmSetAngleCommand(100));
+		addSequential(new DriveSetDistanceCommand(-25));
 	}
 
 }
