@@ -7,7 +7,7 @@ public class CherryPickCommandGroup extends CommandGroup {
 	public CherryPickCommandGroup() {
 		addSequential(new NavigationCalibratingCommand());
 		addSequential(new ArmSetAngleCommand(600));
-		addSequential(new CherryPickerRetractCommand());
+		// addSequential(new CherryPickerRetractCommand());
 		addSequential(new DriveSetDistanceCommand(-15));
 	}
 }
