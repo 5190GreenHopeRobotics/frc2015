@@ -16,7 +16,7 @@ public class OneToteCommandGroup extends CommandGroup {
 		addSequential(new ArmSetAngleCommand(0));
 		addSequential(new DriveSetDistanceCommand(21));
 		addSequential(new ArmSetAngleCommand(100));
-		addSequential(new DriveSetDistanceCommand(-60));
+		addSequential(new DriveSetDistanceCommand(-80));
 		addSequential(new TurnCommand(-90));
 		addSequential(new ArmSetAngleCommand(7));
 		addSequential(new DriveSetDistanceCommand(-10));
