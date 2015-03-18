@@ -48,8 +48,8 @@ public class TurnCommand extends Command {
 		pidController = new PIDController(TURN_P, TURN_I, TURN_D, pidSource,
 				pidOutput, period);
 		;
-		pidController.setContinuous(true);
-		pidController.setInputRange(-180, 180);
+		// pidController.setContinuous(true);
+		// pidController.setInputRange(-180, 180);
 		pidController.setAbsoluteTolerance(TURN_TOLERANCE);
 		pidController.setOutputRange(-1, 1);
 	}

@@ -2,7 +2,6 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.DriveSetDistanceCommand;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TurnCommand;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
@@ -69,7 +68,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
 		SmartDashboard.putData(NavigationSubsystem.getInstance());
 
-		SmartDashboard.putData(new DriveSetDistanceCommand(20));
+		SmartDashboard.putData(new TurnCommand(180));
 	}
 
 	private void initializeOI() {
