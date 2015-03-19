@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnCommand extends Command {
-	private static final double TURN_P = 0.01;
-	private static final double TURN_I = 0;
-	private static final double TURN_D = 0;
+	private static final double TURN_P = 0.04;
+	private static final double TURN_I = 0.0005;
+	private static final double TURN_D = 2;
 	private static final double TURN_UPDATE_PERIOD = 0.01;
-	private static final double TURN_TOLERANCE = 4;
+	private static final double TURN_TOLERANCE = 10;
 	protected double numbersOfTurn = 0;
 	private Preferences prefs = Preferences.getInstance();
 

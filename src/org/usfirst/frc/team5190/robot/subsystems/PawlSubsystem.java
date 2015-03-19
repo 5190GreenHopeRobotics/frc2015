@@ -29,6 +29,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	private static final double PAWL_LOCK_D = 0;
 	private static final double PAWL_LOCK_UPDATE_PERIOD = 0.01;
 	private static final double PAWL_TICK_DELTA = 5;
+	private static final double PAWL_POWER_CAP = 0.2;
 
 	private static PawlSubsystem instance;
 
@@ -47,6 +48,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	private double lockP = PAWL_LOCK_P;
 	private double lockI = PAWL_LOCK_I;
 	private double lockD = PAWL_LOCK_D;
+	private double powerCap = PAWL_POWER_CAP;
 	private boolean limitReached = false;
 
 	private PawlSubsystem() {
@@ -194,5 +196,6 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 			}
 		}
 		tickDelta = prefs.getDouble("pawl.tick.delta", PAWL_TICK_DELTA);
+		powerCap = prefs.getDouble("pawl.power.cap", PAWL_POWER_CAP);
 	}
 }
