@@ -73,7 +73,7 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 		}
 	}
 
-	private void keepRetracted() {
+	public void keepRetracted() {
 		this.cherryPickerController.set(KEEP_CHERRY_PICKER_RETRACTED_POWER);
 	}
 

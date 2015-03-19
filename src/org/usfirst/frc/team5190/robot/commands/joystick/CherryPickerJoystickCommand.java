@@ -23,6 +23,7 @@ public class CherryPickerJoystickCommand extends Command {
 	@Override
 	protected void execute() {
 		cherryPickerSubsystem.operate(Robot.oi.getCherryPickerAxis());
+
 	}
 
 	@Override
