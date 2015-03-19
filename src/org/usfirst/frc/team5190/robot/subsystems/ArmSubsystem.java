@@ -5,6 +5,8 @@ import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.ArmJoystickCommand;
+import org.usfirst.frc.team5190.robot.config.Configurable;
+import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -14,7 +16,8 @@ import edu.wpi.first.wpilibj.Preferences;
 /**
  * the arm subsystem
  */
-public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
+public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
+		Configurable {
 	private static ArmSubsystem instance;
 
 	private static final int ARM_RANGE = 363;
@@ -78,6 +81,9 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 	private ArmSubsystem() {
 		super("ArmSubsystem");
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
+		ConfigurationManager.getInstance().addConfigurable(this);
+
+		updateConfiguration();
 
 		armBottomOffset = prefs.getInt("arm.bottom.offset", ARM_BOTTOM_OFFSET);
 		armRange = prefs.getInt("arm.range", ARM_RANGE);
@@ -87,8 +93,6 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.set(0);
 		armCANTalonLeft.setFeedbackDevice(FeedbackDevice.AnalogPot);
 		armCANTalonLeft.enableBrakeMode(true);
-		armCANTalonLeft.setReverseSoftLimit(armBottomOffset);
-		armCANTalonLeft.setForwardSoftLimit(armBottomOffset + armRange);
 		armCANTalonLeft.enableForwardSoftLimit(true);
 		armCANTalonLeft.enableReverseSoftLimit(true);
 		armCANTalonLeft.setSafetyEnabled(false);
@@ -202,4 +206,17 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable {
 		armCANTalonLeft.set(0);
 	}
 
+	@Override
+	public void updateConfiguration() {
+		int armBottomOffset = prefs.getInt("arm.bottom.offset",
+				ARM_BOTTOM_OFFSET);
+		int armRange = prefs.getInt("arm.range", ARM_RANGE);
+		if (armBottomOffset != this.armBottomOffset
+				|| armRange != this.armRange) {
+			this.armBottomOffset = armBottomOffset;
+			this.armRange = armRange;
+			armCANTalonLeft.setReverseSoftLimit(armBottomOffset);
+			armCANTalonLeft.setForwardSoftLimit(armRange);
+		}
+	}
 }
