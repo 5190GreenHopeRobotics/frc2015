@@ -28,8 +28,8 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	private static final double PAWL_LOCK_I = 0;
 	private static final double PAWL_LOCK_D = 0;
 	private static final double PAWL_LOCK_UPDATE_PERIOD = 0.01;
-	private static final double PAWL_TICK_DELTA = 5;
 	private static final double PAWL_POWER_CAP = 0.2;
+	private static final boolean PAWL_DISABLE_PID = false;
 
 	private static PawlSubsystem instance;
 
@@ -39,17 +39,14 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	private Jaguar motor;
 	private Potentiometer pawlPotentiometer;
 	private DigitalInput clutchEngagedSwitch;
-
-	private double tickDelta = PAWL_TICK_DELTA;
-
-	// private PIDController angleController;
 	private PIDController lockController;
 
 	private double lockP = PAWL_LOCK_P;
 	private double lockI = PAWL_LOCK_I;
 	private double lockD = PAWL_LOCK_D;
 	private double powerCap = PAWL_POWER_CAP;
-	private boolean limitReached = false;
+	private boolean disablePid = false;
+	private boolean locked = false;
 
 	private PawlSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
@@ -76,9 +73,6 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 				PAWL_LOCK_UPDATE_PERIOD);
 		lockController = new PIDController(lockP, lockI, lockD, encoder, this,
 				lockPidUpdatePeriod);
-
-		// angleController = new PIDController(0.005, 0, 0, pawlPotentiometer,
-		// motor);
 	}
 
 	public static PawlSubsystem getInstance() {
@@ -115,38 +109,33 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	}
 
 	public void movePawl(double power) {
-		int moveTicks = (int) Math.round(power * tickDelta);
+		if (disablePid) {
 
+		}
 		if (clutchEngaged()) {
-			synchronized (lockController) {
-				if (!lockController.isEnable()) {
-					lockController.setSetpoint(encoder.get() + moveTicks);
-					lockController.enable();
-				} else {
-					double angle = getAngle();
-					if ((angle < 30 && angle > -30)
-							|| (angle < -30 && power > 0)
-							|| (angle > 30 && power < 0)) {
-						lockController.setSetpoint(encoder.get() + moveTicks);
-						limitReached = false;
-					} else {
-						if (!limitReached) {
-							limitReached = true;
-							lockController.setSetpoint(encoder.get());
-						}
-
+			if (power > 0.2 || power < -0.2) {
+				if (locked) {
+					lockController.reset();
+					locked = false;
+				}
+				set(power);
+			} else {
+				if (!locked) {
+					synchronized (lockController) {
+						lockController.setSetpoint(encoder.get());
+						lockController.enable();
 					}
+					locked = true;
 				}
 			}
 		} else {
-			synchronized (lockController) {
-				if (lockController.isEnable()) {
-					lockController.reset();
-				}
+			if (locked) {
+				lockController.reset();
+				locked = false;
 			}
 			// still allow motor movement when clutch not engaged in case there
 			// is an issue with the clutch engaged switch
-			motor.set(power);
+			set(power);
 		}
 
 	}
@@ -154,17 +143,12 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 	@Override
 	public void pidWrite(double output) {
 		System.out.println("Pawl: " + output);
-		if (output > 0.1) {
-			output = 0.1;
-		} else if (output < -0.1) {
-			output = 0.1;
-		}
 		set(output);
 	}
 
 	private void set(double power) {
 		// Invert the motor
-		motor.set(-power);
+		motor.set(-power * powerCap);
 	}
 
 	public boolean clutchEngaged() {
@@ -195,7 +179,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 				lockController.enable();
 			}
 		}
-		tickDelta = prefs.getDouble("pawl.tick.delta", PAWL_TICK_DELTA);
 		powerCap = prefs.getDouble("pawl.power.cap", PAWL_POWER_CAP);
+		disablePid = prefs.getBoolean("pawl.disable.pid", PAWL_DISABLE_PID);
 	}
 }
