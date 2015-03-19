@@ -44,7 +44,7 @@ public class TurnSensorWrapper implements PIDSource {
 		if (countUpdate == 1) {
 			currentValue += 180 - (-1 * currentReading);
 		} else if (countUpdate == -1) {
-			currentValue += 180 - currentReading;
+			currentValue -= 180 - currentReading;
 		} else {
 			currentValue += currentReading;
 		}
