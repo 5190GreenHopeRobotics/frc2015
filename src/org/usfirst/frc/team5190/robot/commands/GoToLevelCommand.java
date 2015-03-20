@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GoToLevelCommand extends Command {
 	private final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
-	private static final int[] levels = { 7, 167, 283 };
-	private static final int level0 = 7;
-	private static final int level1 = 167;
-	private static final int level2 = 283;
+	private static final int[] levels = { 320, 480, 596 };
+	private static final int level0 = 320;
+	private static final int level1 = 480;
+	private static final int level2 = 596;
 	private double goToAngLevel;
-	private static final double ARM_SET_ANGLE_TOLERANCE = 2;
+	private static final double ARM_SET_ANGLE_TOLERANCE = 5;
 	private double tolerance;
 	private SetArmAngle setArmAngle;
 	private Preferences prefs = Preferences.getInstance();
