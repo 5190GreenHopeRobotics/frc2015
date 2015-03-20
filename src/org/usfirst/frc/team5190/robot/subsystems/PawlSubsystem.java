@@ -110,34 +110,35 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 
 	public void movePawl(double power) {
 		if (disablePid) {
-
-		}
-		if (clutchEngaged()) {
-			if (power > 0.2 || power < -0.2) {
+			set(power);
+		} else {
+			if (clutchEngaged()) {
+				if (power > 0.2 || power < -0.2) {
+					if (locked) {
+						lockController.reset();
+						locked = false;
+					}
+					set(power);
+				} else {
+					if (!locked) {
+						synchronized (lockController) {
+							lockController.setSetpoint(encoder.get());
+							lockController.enable();
+						}
+						locked = true;
+					}
+				}
+			} else {
 				if (locked) {
 					lockController.reset();
 					locked = false;
 				}
+				// still allow motor movement when clutch not engaged in case
+				// there
+				// is an issue with the clutch engaged switch
 				set(power);
-			} else {
-				if (!locked) {
-					synchronized (lockController) {
-						lockController.setSetpoint(encoder.get());
-						lockController.enable();
-					}
-					locked = true;
-				}
 			}
-		} else {
-			if (locked) {
-				lockController.reset();
-				locked = false;
-			}
-			// still allow motor movement when clutch not engaged in case there
-			// is an issue with the clutch engaged switch
-			set(power);
 		}
-
 	}
 
 	@Override
@@ -165,18 +166,20 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 
 	@Override
 	public void updateConfiguration() {
-		double p = prefs.getDouble("pawl.lock.p", PAWL_LOCK_P);
-		double i = prefs.getDouble("pawl.lock.i", PAWL_LOCK_I);
-		double d = prefs.getDouble("pawl.lock.d", PAWL_LOCK_D);
-		if (p != lockP || i != lockI || d != lockD) {
-			boolean wasEnabled = lockController.isEnable();
-			lockController.reset();
-			lockController.setPID(p, i, d);
-			lockP = p;
-			lockI = i;
-			lockD = d;
-			if (wasEnabled) {
-				lockController.enable();
+		if (lockController != null) {
+			double p = prefs.getDouble("pawl.lock.p", PAWL_LOCK_P);
+			double i = prefs.getDouble("pawl.lock.i", PAWL_LOCK_I);
+			double d = prefs.getDouble("pawl.lock.d", PAWL_LOCK_D);
+			if (p != lockP || i != lockI || d != lockD) {
+				boolean wasEnabled = lockController.isEnable();
+				lockController.reset();
+				lockController.setPID(p, i, d);
+				lockP = p;
+				lockI = i;
+				lockD = d;
+				if (wasEnabled) {
+					lockController.enable();
+				}
 			}
 		}
 		powerCap = prefs.getDouble("pawl.power.cap", PAWL_POWER_CAP);

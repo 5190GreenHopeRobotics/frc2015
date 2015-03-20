@@ -6,11 +6,11 @@ import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import edu.wpi.first.wpilibj.Preferences;
 
 public class ScaleInputsOI implements OI, Configurable {
-	private static final double FORWARD_REVERSE_SCALING = 0.6;
-	private static final double LEFT_RIGHT_SCALING = 0.8;
+	private static final double FORWARD_REVERSE_SCALING = 0.9;
+	private static final double LEFT_RIGHT_SCALING = 1.0;
 	private static final double ARM_SCALING = 0.5;
 	private static final double CHERRY_PICKER_SCALING = 0.5;
-	private static final double PAWL_SCALING = 0.2;
+	private static final double PAWL_SCALING = 1.0;
 
 	private Preferences pref = Preferences.getInstance();
 	private double forwardReverseScalingValue;

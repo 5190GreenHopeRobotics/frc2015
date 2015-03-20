@@ -20,8 +20,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		Configurable {
 	private static ArmSubsystem instance;
 
-	private static final int ARM_RANGE = 363;
-	private static final int ARM_BOTTOM_OFFSET = 520;
+	private static final int ARM_RANGE = 361;
+	private static final int ARM_BOTTOM_OFFSET = 206;
 
 	private static final double ARM_SET_ANGLE_P = 12.5;
 	private static final double ARM_SET_ANGLE_I = 0.05;
@@ -85,6 +85,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 
 		armBottomOffset = prefs.getInt("arm.bottom.offset", ARM_BOTTOM_OFFSET);
 		armRange = prefs.getInt("arm.range", ARM_RANGE);
+		armBottomOffset = ARM_BOTTOM_OFFSET;
+		armRange = ARM_RANGE;
 		armCANTalonLeft = new CANTalon(RobotMap.ARM_TALONSRX_LEFT_CAN_ID);
 		controlMode = ControlMode.PercentVbus;
 		armCANTalonLeft.changeControlMode(controlMode);

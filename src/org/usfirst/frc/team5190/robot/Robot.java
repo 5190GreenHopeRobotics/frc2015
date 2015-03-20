@@ -2,8 +2,8 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.NullCommand;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.TurnCommand;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
 		autonomousChooser
 				.addObject("Cherry Pick", new CherryPickCommandGroup());
-		autonomousChooser.addObject("Test Turn", new TurnCommand(180));
+		autonomousChooser.addObject("Do Nothing", new NullCommand());
 		scheduler = Scheduler.getInstance();
 
 		// add scheduler, autonomous chooser, and subsystems to dashboard
