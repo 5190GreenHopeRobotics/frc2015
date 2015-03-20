@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Preferences.IncompatibleTypeException;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @author sdai the drive train subsystem
@@ -24,7 +25,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		Displayable, Configurable {
 	private static DriveTrainSubsystem instance;
 
-	private static final double DRIVE_VELOCITY_P = 3;
+	private static final double DRIVE_VELOCITY_P = 0.5;
 	private static final double DRIVE_VELOCITY_I = 0;
 	private static final double DRIVE_VELOCITY_D = 1000;
 	private static final double DRIVE_VELOCITY_RAMP_RATE = 24;
@@ -173,7 +174,6 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		frontLeft = new CANTalon(RobotMap.FRONTLEFT);
 		frontLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontLeft.setSafetyEnabled(false);
-		frontLeft.setPID(0.5, 0.002, 0, 0, 100, 0, 0);
 		frontLeft.changeControlMode(ControlMode.Speed);
 		frontLeft.set(0);
 
@@ -190,18 +190,20 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		frontRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontRight.reverseOutput(true);
 		frontRight.reverseSensor(true);
-		frontRight.changeControlMode(ControlMode.Speed);
 		frontRight.setSafetyEnabled(false);
+		frontRight.changeControlMode(ControlMode.Speed);
 		frontRight.set(0);
 
 		// back right
 		backRight = new CANTalon(RobotMap.BACKRIGHT);
 		backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backRight.changeControlMode(ControlMode.Follower);
+		backRight.reverseOutput(false);
+		backRight.reverseSensor(true);
 		backRight.setSafetyEnabled(false);
+		backRight.changeControlMode(ControlMode.Follower);
 		backRight.set(frontRight.getDeviceID());
 
-		configureVelocityPID();
+		// configureVelocityPID();
 	}
 
 	private void configureVelocityPID() {
@@ -217,9 +219,9 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			frontLeft.setPID(p, i, d, 0, izone, rampRate, profile);
 			frontRight.setPID(p, i, d, 0, izone, rampRate, profile);
 
-			System.out.println("Drive Velocity P: " + p + " I: " + i + " D: "
-					+ d + " rampRate: " + rampRate + " izone: " + izone
-					+ " profile: " + profile);
+			SmartDashboard.putString("Drive PID", "Drive Velocity P: " + p
+					+ " I: " + i + " D: " + d + " rampRate: " + rampRate
+					+ " izone: " + izone + " profile: " + profile);
 		} catch (IncompatibleTypeException e) {
 			System.out.println("Failed to set configuration for drive train. "
 					+ e.getMessage());
@@ -273,18 +275,20 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 					rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 				}
 			}
-
-			if (moarPowah) {
-				frontLeft.setF(leftMotorSpeed * 100);
-				frontRight.setF(rightMotorSpeed * 100);
-			} else {
-				frontLeft.setF(0);
-				frontRight.setF(0);
-			}
+			//
+			// if (moarPowah) {
+			// frontLeft.setF(leftMotorSpeed * 100);
+			// frontRight.setF(rightMotorSpeed * 100);
+			// } else {
+			// frontLeft.setF(0);
+			// frontRight.setF(0);
+			// }
 
 			// Scale up to rpm
 			leftMotorSpeed *= velocityRange;
 			rightMotorSpeed *= velocityRange;
+
+			SmartDashboard.putNumber("Velocity Range", velocityRange);
 
 			frontLeft.set(leftMotorSpeed);
 			frontRight.set(rightMotorSpeed);
@@ -313,7 +317,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	protected void init() {
 		// configure PID again in case the values were updated while the robot
 		// as disabled
-		configureVelocityPID();
+		// configureVelocityPID();
 	}
 
 	@Override

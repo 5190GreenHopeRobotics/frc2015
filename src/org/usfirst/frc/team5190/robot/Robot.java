@@ -3,7 +3,6 @@ package org.usfirst.frc.team5190.robot;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.PickTrashCanCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.TurnCommand;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
@@ -48,17 +47,21 @@ public class Robot extends IterativeRobot {
 	public Robot() {
 
 		initializeOI();
-
-		CameraServer server = CameraServer.getInstance();
-		server.setQuality(50);
-		server.startAutomaticCapture("cam0");
+		try {
+			CameraServer server = CameraServer.getInstance();
+			server.setQuality(25);
+			server.setSize(1);
+			server.startAutomaticCapture("cam0");
+		} catch (Exception e) {
+			System.out
+					.println("Camera failed to start, check the wire connection");
+			e.printStackTrace();
+		}
 
 		autonomousChooser = new SendableChooser();
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
 		autonomousChooser
 				.addObject("Cherry Pick", new CherryPickCommandGroup());
-		autonomousChooser.addObject("One Trash Can",
-				new PickTrashCanCommandGroup());
 		autonomousChooser.addObject("Test Turn", new TurnCommand(180));
 		scheduler = Scheduler.getInstance();
 
@@ -70,8 +73,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(PawlSubsystem.getInstance());
 		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
 		SmartDashboard.putData(NavigationSubsystem.getInstance());
-
-		SmartDashboard.putData(new TurnCommand(180));
 	}
 
 	private void initializeOI() {
