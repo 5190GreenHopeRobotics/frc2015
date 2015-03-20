@@ -2,8 +2,9 @@ package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
-import org.usfirst.frc.team5190.robot.commands.DriveSetDistanceCommand;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.PickTrashCanCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.TurnCommand;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
@@ -56,7 +57,9 @@ public class Robot extends IterativeRobot {
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
 		autonomousChooser
 				.addObject("Cherry Pick", new CherryPickCommandGroup());
-
+		autonomousChooser.addObject("One Trash Can",
+				new PickTrashCanCommandGroup());
+		autonomousChooser.addObject("Test Turn", new TurnCommand(180));
 		scheduler = Scheduler.getInstance();
 
 		// add scheduler, autonomous chooser, and subsystems to dashboard
@@ -68,7 +71,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
 		SmartDashboard.putData(NavigationSubsystem.getInstance());
 
-		SmartDashboard.putData(new DriveSetDistanceCommand(20));
+		SmartDashboard.putData(new TurnCommand(180));
 	}
 
 	private void initializeOI() {

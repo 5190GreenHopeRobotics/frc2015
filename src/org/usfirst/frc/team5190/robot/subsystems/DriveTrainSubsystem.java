@@ -24,19 +24,19 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		Displayable, Configurable {
 	private static DriveTrainSubsystem instance;
 
-	private static final double DRIVE_VELOCITY_P = 0.5;
+	private static final double DRIVE_VELOCITY_P = 3;
 	private static final double DRIVE_VELOCITY_I = 0;
-	private static final double DRIVE_VELOCITY_D = 0;
-	private static final double DRIVE_VELOCITY_RAMP_RATE = 0;
+	private static final double DRIVE_VELOCITY_D = 1000;
+	private static final double DRIVE_VELOCITY_RAMP_RATE = 24;
 	private static final int DRIVE_VELOCITY_IZONE = 0;
 	private static final int DRIVE_VELOCITY_PROFILE = 0;
-	private static final double DRIVE_VELOCITY_RANGE = 1000;
+	private static final double DRIVE_VELOCITY_RANGE = 275;
 
-	private static final double DRIVE_SET_DISTANCE_P = 2.0;
+	private static final double DRIVE_SET_DISTANCE_P = 1.5;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
 	private static final double DRIVE_SET_DISTANCE_D = 0;
 	private static final double DRIVE_SET_DISTANCE_TOLERANCE = 1.0;
-	private static final double TICKS_IN_INCH = 47;
+	private static final double TICKS_IN_INCH = 52;
 
 	/**
 	 * The maximum power for driving under PID control for going a specific
