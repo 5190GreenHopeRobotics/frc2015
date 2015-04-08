@@ -1,9 +1,10 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
-import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.DriveSetDistanceCommand;
 import org.usfirst.frc.team5190.robot.commands.NullCommand;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
+import org.usfirst.frc.team5190.robot.commands.PickTrashCanCommandGroup;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import org.usfirst.frc.team5190.robot.oi.DisplayableOI;
 import org.usfirst.frc.team5190.robot.oi.OI;
@@ -17,7 +18,6 @@ import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.PawlSubsystem;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -47,21 +47,12 @@ public class Robot extends IterativeRobot {
 	public Robot() {
 
 		initializeOI();
-		try {
-			CameraServer server = CameraServer.getInstance();
-			server.setQuality(25);
-			server.setSize(1);
-			server.startAutomaticCapture("cam0");
-		} catch (Exception e) {
-			System.out
-					.println("Camera failed to start, check the wire connection");
-			e.printStackTrace();
-		}
 
 		autonomousChooser = new SendableChooser();
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
-		autonomousChooser
-				.addObject("Cherry Pick", new CherryPickCommandGroup());
+		autonomousChooser.addObject("One Can", new PickTrashCanCommandGroup());
+		autonomousChooser.addObject("Drive Forward",
+				new DriveSetDistanceCommand(60));
 		autonomousChooser.addObject("Do Nothing", new NullCommand());
 		scheduler = Scheduler.getInstance();
 

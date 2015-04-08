@@ -143,7 +143,7 @@ public class PawlSubsystem extends Subsystem implements Displayable,
 
 	@Override
 	public void pidWrite(double output) {
-		System.out.println("Pawl: " + output);
+		// System.out.println("Pawl: " + output);
 		set(output);
 	}
 
