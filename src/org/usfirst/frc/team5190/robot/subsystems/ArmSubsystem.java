@@ -47,6 +47,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 	private int armRange;
 	
 	private double armLiftLoad;
+	private double armLiftPower;
+	private double armLiftLoadFactor;
 
 	private Preferences prefs = Preferences.getInstance();
 
@@ -107,6 +109,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		armCANTalonRight.setSafetyEnabled(false);
 		
 		armLiftLoad = 5.0;	//default arm load
+		armLiftPower = 1.0;
 	}
 
 	public static ArmSubsystem getInstance() {
@@ -145,15 +148,15 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 				//this only calculates when the arm is in hold mode	
 				//but, I noticed this doesn't always run when I think it will....must
 				//press on the arm and move it a bit before this runs....huh?
-				computeArmLoad();
+				
 			}
+			computeArmLoad();
 		}
 	}
 	
 	private void computeArmLoad() {
 		double loadMinimum = 0.0;	//in lbs
 		double loadMaximum = 40.0;	
-		double armLiftPower = 0.0;
 		double armLiftLoadTemp;
 		double armLiftLoadFilterFactor = 3.0;
 		double armLiftLoadPowerFactor = .125;
@@ -176,11 +179,18 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		
 		//Filter it
 		armLiftLoad += (armLiftLoadTemp - armLiftLoad) / armLiftLoadFilterFactor;
+		if(armLiftLoad > 1.25){
+			armLiftLoadFactor = 1.15;
+		}
+		else{
+			armLiftLoadFactor = 1.0;
+
+		}
 		
 	}
 	
 	public double getArmLoadFactor(){	
-		return armLiftLoad;
+		return armLiftLoadFactor;
 	}
 
 	/**
@@ -256,6 +266,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		display.putBoolean("Arm Low Soft Limit", getAngle() <= 0);
 		display.putNumber("Arm Angle Degrees", getAngleDegrees());
 		display.putNumber("Arm Load Factor", getArmLoadFactor());
+		display.putNumber("Arm Lift Power", armLiftPower);
 		
 		
 	}

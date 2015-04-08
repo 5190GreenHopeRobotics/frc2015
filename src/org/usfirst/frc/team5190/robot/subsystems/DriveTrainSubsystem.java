@@ -270,11 +270,13 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 //This is one way to adjust drive power, with the trigger button
 //and the throttle slider on the joystick....gotta have moarPowah!
 			
-			//Axis Z is the throttle slider on the joystick
+			//Scale the throttle input to be 50-100%
 			tempThrottle = Robot.oi.getFlightStickSpeed();
+			tempThrottle = tempThrottle / 2 + 0.5;
 			
 			//Here is another add....using the current/voltage to calculate hold power of lift motors 
 			//This is directly proportional to the load on the arm (geometry has to be taken into account)
+			//Load factor is a bit slow to change, so we are just adding 15% when above a threshold
 			rotateValue *= armSubsystem.getArmLoadFactor();
 			
 			if(!moarPowah){				//back 'er down unless you pull the trigger
