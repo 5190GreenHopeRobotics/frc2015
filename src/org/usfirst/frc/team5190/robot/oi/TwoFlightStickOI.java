@@ -73,7 +73,9 @@ public class TwoFlightStickOI extends AbstractOI {
 	 * @return speed from throttle on joystick (slider)
 	 */
 	public double getFlightStickSpeed() {
-		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+//		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+		//this makes the function's math work better with the arcadeDrive function
+		return  -(flightStickDrive.getThrottle() - 1.0) / 2.0;
 	}
 
 	/**

@@ -33,6 +33,15 @@ public class GamepadOI extends AbstractOI {
 	public double getLeftRightAxis() {
 		return -gamepad.getRawAxis(LogitechGamepad.RIGHT_JOYSTICK_X_AXIS);
 	}
+	
+	/**
+	 * @return speed from throttle on joystick (slider)
+	 */
+	public double getFlightStickSpeed() {
+		return 1.0;
+//		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+	}
+	
 
 	@Override
 	public double getArmAxis() {

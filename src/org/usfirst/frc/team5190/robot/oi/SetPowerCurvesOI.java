@@ -35,6 +35,11 @@ public class SetPowerCurvesOI implements OI {
 	public double getArmAxis() {
 		return OIUtils.scaledCubic(0.8, sourceOI.getArmAxis());
 	}
+	
+	@Override
+	public double getFlightStickSpeed() {
+		return OIUtils.scaledCubic(1.0, sourceOI.getFlightStickSpeed());
+	}
 
 	@Override
 	public double getCherryPickerAxis() {

@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
+import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.DriveWithArcadeCommand;
 import org.usfirst.frc.team5190.robot.config.Configurable;
@@ -11,12 +12,15 @@ import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Preferences.IncompatibleTypeException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
 /**
  * @author sdai the drive train subsystem
@@ -31,7 +35,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	private static final double DRIVE_VELOCITY_RAMP_RATE = 24;
 	private static final int DRIVE_VELOCITY_IZONE = 0;
 	private static final int DRIVE_VELOCITY_PROFILE = 0;
-	private static final double DRIVE_VELOCITY_RANGE = 275;
+	private static final double DRIVE_VELOCITY_RANGE = 500;
 
 	private static final double DRIVE_SET_DISTANCE_P = 1.5;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
@@ -54,6 +58,8 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 
 	private boolean moarPowah;
 
+	private final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
+	
 	private class AveragedEncoderTicksPIDSource implements PIDSource {
 
 		@Override
@@ -258,23 +264,52 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		if (!disable) {
 			double leftMotorSpeed = 0.0;
 			double rightMotorSpeed = 0.0;
-			if (moveValue > 0.0) {
-				if (rotateValue > 0.0) {
-					leftMotorSpeed = moveValue - rotateValue;
-					rightMotorSpeed = Math.max(moveValue, rotateValue);
-				} else {
-					leftMotorSpeed = Math.max(moveValue, -rotateValue);
-					rightMotorSpeed = moveValue + rotateValue;
-				}
-			} else {
-				if (rotateValue > 0.0) {
-					leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-					rightMotorSpeed = moveValue + rotateValue;
-				} else {
-					leftMotorSpeed = moveValue - rotateValue;
-					rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
-				}
+			double tempThrottle = 1.0;
+			double loadFactor = 1.0;
+			
+//This is one way to adjust drive power, with the trigger button
+//and the throttle slider on the joystick....gotta have moarPowah!
+			
+			//Axis Z is the throttle slider on the joystick
+			tempThrottle = Robot.oi.getFlightStickSpeed();
+			
+			//Here is another add....using the current/voltage to calculate hold power of lift motors 
+			//This is directly proportional to the load on the arm (geometry has to be taken into account)
+			rotateValue *= armSubsystem.getArmLoadFactor();
+			
+			if(!moarPowah){				//back 'er down unless you pull the trigger
+				moveValue *= tempThrottle;
+				rotateValue *= tempThrottle;
 			}
+
+			//simplified speed calculation
+			leftMotorSpeed = moveValue - rotateValue;
+			rightMotorSpeed = moveValue + rotateValue;
+//End - this is one way....
+			
+			
+			
+			//End - arm power gain method for turning
+			
+			
+//This is the drive power function we ran at the 2015 Regionals
+//			if (moveValue > 0.0) {
+//				if (rotateValue > 0.0) {
+//					leftMotorSpeed = moveValue - rotateValue;
+//					rightMotorSpeed = Math.max(moveValue, rotateValue);
+//				} else {
+//					leftMotorSpeed = Math.max(moveValue, -rotateValue);
+//					rightMotorSpeed = moveValue + rotateValue;
+//				}
+//			} else {
+//				if (rotateValue > 0.0) {
+//					leftMotorSpeed = -Math.max(-moveValue, rotateValue);
+//					rightMotorSpeed = moveValue + rotateValue;
+//				} else {
+//					leftMotorSpeed = moveValue - rotateValue;
+//					rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+//				}
+//			}
 			//
 			// if (moarPowah) {
 			// frontLeft.setF(leftMotorSpeed * 100);

@@ -46,6 +46,14 @@ public class TwoGamepadOI extends AbstractOI {
 	}
 
 	/**
+	 * @return speed from throttle on joystick (slider)
+	 */
+	public double getFlightStickSpeed() {
+		return 1.0;
+//		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+	}
+	
+	/**
 	 * @return gamepad Shoot Left Joystick, y axis
 	 */
 	@Override

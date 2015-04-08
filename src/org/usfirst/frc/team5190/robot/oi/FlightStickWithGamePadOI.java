@@ -70,6 +70,14 @@ public class FlightStickWithGamePadOI extends AbstractOI {
 	}
 
 	/**
+	 * @return speed from throttle on joystick (slider)
+	 */
+	public double getFlightStickSpeed() {
+		return 1.0;
+//		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+	}
+	
+	/**
 	 * @return Left stick, y axis from Logitech gamepad for shooting
 	 */
 	@Override

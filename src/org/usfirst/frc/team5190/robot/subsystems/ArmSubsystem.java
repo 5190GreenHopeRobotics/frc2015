@@ -45,6 +45,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 	private ControlMode controlMode;
 	private int armBottomOffset;
 	private int armRange;
+	
+	private double armLiftLoad;
 
 	private Preferences prefs = Preferences.getInstance();
 
@@ -103,6 +105,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		armCANTalonRight.reverseOutput(true);
 		armCANTalonRight.enableBrakeMode(true);
 		armCANTalonRight.setSafetyEnabled(false);
+		
+		armLiftLoad = 5.0;	//default arm load
 	}
 
 	public static ArmSubsystem getInstance() {
@@ -137,9 +141,67 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 				armCANTalonLeft.set(armCANTalonLeft.getPosition());
 				controlMode = ControlMode.Position;
 			}
+			else{	
+				//this only calculates when the arm is in hold mode	
+				//but, I noticed this doesn't always run when I think it will....must
+				//press on the arm and move it a bit before this runs....huh?
+				computeArmLoad();
+			}
 		}
 	}
+	
+	private void computeArmLoad() {
+		double loadMinimum = 0.0;	//in lbs
+		double loadMaximum = 40.0;	
+		double armLiftPower = 0.0;
+		double armLiftLoadTemp;
+		double armLiftLoadFilterFactor = 3.0;
+		double armLiftLoadPowerFactor = .25;
+		
+		//Arm Load is a function of lift power and arm angle 				
+		armLiftPower = (armCANTalonLeft.getBusVoltage() * armCANTalonLeft.getOutputCurrent());
 
+		armLiftLoadTemp = armLiftPower * Math.cos(Math.toRadians(getAngleDegrees())); 
+		
+//		//ratio of arm length (lever arm) to front wheel lever arm
+		//use this if we want actual units and not just some factor
+//		armLiftLoadTemp *= 2.1;
+		
+		//something to get the value close to the right power adjustment at the arcadeDrive
+		armLiftLoadTemp *= armLiftLoadPowerFactor;
+		
+		//limit it
+		armLiftLoadTemp = Math.min(loadMaximum, armLiftLoadTemp);
+		armLiftLoadTemp = Math.max(loadMinimum, armLiftLoadTemp);
+		
+		//Filter it
+		armLiftLoad += (armLiftLoadTemp - armLiftLoad) / armLiftLoadFilterFactor;
+		
+	}
+	
+	public double getArmLoadFactor(){	
+		return armLiftLoad;
+	}
+
+	/**
+	 * Arm Potentiometer position value shifted by the Arm bottom offset. Will
+	 * be in the
+	 */
+	public double getAngleDegrees() {
+		double degreesFromPosition = 0.0;
+		//VERY hard coded.....
+		double degreeFactor = 0.33;
+		double degreeOffset = -45.0;
+				
+		degreesFromPosition = (getAngle() * degreeFactor) + degreeOffset;
+		
+		//limit it
+		degreesFromPosition = Math.min(60, degreesFromPosition);
+		degreesFromPosition = Math.max(-60, degreesFromPosition);
+				
+		return degreesFromPosition;
+	}
+	
 	/**
 	 * Arm Potentiometer position value shifted by the Arm bottom offset. Will
 	 * be in the
@@ -192,7 +254,10 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 				armCANTalonLeft.isRevLimitSwitchClosed());
 		display.putBoolean("Arm High Soft Limit", getAngle() >= armRange);
 		display.putBoolean("Arm Low Soft Limit", getAngle() <= 0);
-
+		display.putNumber("Arm Angle Degrees", getAngleDegrees());
+		display.putNumber("Arm Load Factor", getArmLoadFactor());
+		
+		
 	}
 
 	@Override

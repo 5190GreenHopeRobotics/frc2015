@@ -20,6 +20,7 @@ public class DisplayableOI implements OI, Displayable {
 		display.putNumber("Arm Axis", sourceOI.getArmAxis());
 		display.putNumber("Cherry Picker Axis", sourceOI.getCherryPickerAxis());
 		display.putNumber("Pawl Axis", sourceOI.getPawlAxis());
+		display.putNumber("Throttle", sourceOI.getFlightStickSpeed());
 	}
 
 	@Override
@@ -35,6 +36,11 @@ public class DisplayableOI implements OI, Displayable {
 	@Override
 	public double getArmAxis() {
 		return sourceOI.getArmAxis();
+	}
+	
+	@Override
+	public double getFlightStickSpeed() {
+		return sourceOI.getFlightStickSpeed();
 	}
 
 	@Override
