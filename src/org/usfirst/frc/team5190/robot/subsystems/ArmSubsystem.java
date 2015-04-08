@@ -156,20 +156,20 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		double armLiftPower = 0.0;
 		double armLiftLoadTemp;
 		double armLiftLoadFilterFactor = 3.0;
-		double armLiftLoadPowerFactor = .25;
+		double armLiftLoadPowerFactor = .125;
 		
 		//Arm Load is a function of lift power and arm angle 				
-		armLiftPower = (armCANTalonLeft.getBusVoltage() * armCANTalonLeft.getOutputCurrent());
-
+		armLiftPower = 2.0 * (armCANTalonLeft.getBusVoltage() * armCANTalonLeft.getOutputCurrent());
+		
+		//something to get the value close to the right power adjustment at the arcadeDrive
+		armLiftPower *= armLiftLoadPowerFactor;
+		
 		armLiftLoadTemp = armLiftPower * Math.cos(Math.toRadians(getAngleDegrees())); 
 		
 //		//ratio of arm length (lever arm) to front wheel lever arm
 		//use this if we want actual units and not just some factor
 //		armLiftLoadTemp *= 2.1;
-		
-		//something to get the value close to the right power adjustment at the arcadeDrive
-		armLiftLoadTemp *= armLiftLoadPowerFactor;
-		
+			
 		//limit it
 		armLiftLoadTemp = Math.min(loadMaximum, armLiftLoadTemp);
 		armLiftLoadTemp = Math.max(loadMinimum, armLiftLoadTemp);
