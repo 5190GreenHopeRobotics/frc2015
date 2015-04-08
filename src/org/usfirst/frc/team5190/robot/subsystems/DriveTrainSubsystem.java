@@ -43,7 +43,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	 * The maximum power for driving under PID control for going a specific
 	 * distance
 	 */
-	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -150, 150 };
+	public static final double[] DRIVE_SET_DISTANCE_OUTPUT_RANGE = { -250, 250 };
 
 	public static final double TALON_CLOSED_LOOP_RAMP_SPEED = 48.0;
 

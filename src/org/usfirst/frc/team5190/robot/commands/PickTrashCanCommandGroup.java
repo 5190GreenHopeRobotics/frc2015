@@ -9,11 +9,8 @@ public class PickTrashCanCommandGroup extends CommandGroup {
 
 	public PickTrashCanCommandGroup() {
 		addSequential(new NavigationCalibratingCommand());
-		addSequential(new DriveToObjectCommand());
-		addSequential(new ArmSetAngleCommand(300));
-		addSequential(new DriveSetDistanceCommand(-80));
+		addSequential(new ArmSetAngleCommand(273));
+		addSequential(new DriveSetDistanceCommand(-60));
 		addSequential(new TurnCommand(-90));
-		addSequential(new ArmSetAngleCommand(7));
-		addSequential(new DriveSetDistanceCommand(-10));
 	}
 }

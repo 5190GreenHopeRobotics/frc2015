@@ -21,6 +21,7 @@ public class ArmSetAngleCommand extends Command {
 	public ArmSetAngleCommand(double angle) {
 		requires(armSubsystem);
 		this.angle = angle;
+		setTimeout(2);
 	}
 
 	protected void initialize() {
@@ -37,8 +38,8 @@ public class ArmSetAngleCommand extends Command {
 	protected boolean isFinished() {
 		double topAngleRange = angle + tolerance;
 		double lowerAngleRange = angle - tolerance;
-		return lowerAngleRange < armSubsystem.getAngle()
-				&& topAngleRange > armSubsystem.getAngle();
+		return (lowerAngleRange < armSubsystem.getAngle() && topAngleRange > armSubsystem
+				.getAngle()) || isTimedOut();
 
 	}
 
