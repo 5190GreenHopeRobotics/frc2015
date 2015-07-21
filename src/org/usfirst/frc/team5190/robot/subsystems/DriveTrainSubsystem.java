@@ -35,7 +35,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	private static final double DRIVE_VELOCITY_RAMP_RATE = 24;
 	private static final int DRIVE_VELOCITY_IZONE = 0;
 	private static final int DRIVE_VELOCITY_PROFILE = 0;
-	private static final double DRIVE_VELOCITY_RANGE = 500;
+	private static final double DRIVE_VELOCITY_RANGE = 1000;
 
 	private static final double DRIVE_SET_DISTANCE_P = 1.5;
 	private static final double DRIVE_SET_DISTANCE_I = 0;
@@ -264,6 +264,8 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		if (!disable) {
 			double leftMotorSpeed = 0.0;
 			double rightMotorSpeed = 0.0;
+			double t_left = 0.0;
+			double t_right = 0.0;
 			double tempThrottle = 1.0;
 			double loadFactor = 1.0;
 			
@@ -285,11 +287,16 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			}
 
 			//simplified speed calculation
-			leftMotorSpeed = moveValue - rotateValue;
-			rightMotorSpeed = moveValue + rotateValue;
+//			leftMotorSpeed = moveValue - rotateValue ;
+//			rightMotorSpeed = moveValue + rotateValue;
 //End - this is one way....
 			
-			
+			//Thank you Cheezy Poofs!!
+			t_left = moveValue - rotateValue ;
+			t_right = moveValue + rotateValue;
+
+			leftMotorSpeed = t_left + skim(t_right);
+			rightMotorSpeed = t_right + skim(t_left);
 			
 			//End - arm power gain method for turning
 			
@@ -331,6 +338,15 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			frontRight.set(rightMotorSpeed);
 		}
 	}
+	
+	double skim(double v) {
+		  // gain determines how much to skim off the top
+		  if (v > 1.0)
+		    return -((v - 1.0) * 0.5);
+		  else if (v < -1.0)
+		    return -((v + 1.0) * 0.5);
+		  return 0;
+		}
 
 	public void tankDrive(double leftPower, double rightPower) {
 		if (!disable) {

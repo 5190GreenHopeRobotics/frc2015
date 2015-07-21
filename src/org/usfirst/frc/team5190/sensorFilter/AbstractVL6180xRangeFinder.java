@@ -71,10 +71,21 @@ public abstract class AbstractVL6180xRangeFinder {
 	protected I2CPlus i2c;
 
 	protected byte[] distance;
+	protected boolean isInitialized;
+	protected boolean dataValid;
+	protected byte[] sensorStatus;
+	
+	class allChipIDInfo{
+		public byte chipID;
+		public byte idModelRevMajor;
+		public byte idModelRevMinor;
+		public byte idModuleRevMajor;
+		public byte idModuleRevMinor;
+	}
 
 	public boolean vl6180xInit() {
 		byte[] data = new byte[1]; // for temp data storage
-	
+		
 		boolean status = i2c.read16bitRegister(
 				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_FRESH_OUT_OF_RESET, 1,
 				data);
@@ -124,23 +135,32 @@ public abstract class AbstractVL6180xRangeFinder {
 		// Recommended settings from datasheet
 		// http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
 	
+		//TS - Set group parameter hold to stop any writes to firmware from inside device:
+		//SYSTEM__GROUPED_PARAMETER_HOLD
+		
+		//TS - The next command is overwritten down below!!
 		// Enable Interrupts on Conversion Complete (any source)
 		i2c.write16bitRegister(
 				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_INTERRUPT_CONFIG_GPIO,
 				(4 << 3) | (4)); // Set GPIO1 high when sample complete
-	
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_MODE_GPIO1, 0x10); // Set
+
+		//TS turning this off for now, since we don't have anything wired to GPIO1
+		//reset value of 0x20 high-Zs the output
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_MODE_GPIO1, 0x10); // Set
 																			// GPIO1
 																			// high
 																			// when
 																			// sample
 																			// complete
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD,
-				0x30); // Set Avg sample period
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_SYSALS_ANALOGUE_GAIN, 0x46); // Set
+		//TS - turning this off since 0x30 is the reset value
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD,
+//				0x30); // Set Avg sample period
+
+		//turning it off to just use the standard gain of 1.0, that comes out of reset
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSALS_ANALOGUE_GAIN, 0x46); // Set
 																			// the
 																			// ALS
 																			// gain
@@ -161,24 +181,34 @@ public abstract class AbstractVL6180xRangeFinder {
 																					// time
 																					// to
 																					// 100ms
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_SYSRANGE_VHV_RECALIBRATE, 0x01); // perform
+		//TS - this is redundant as the VHV calibration is:
+		//A VHV calibration is run once at power-up and then automatically after every N range measurements defined by the SYSRANGE__VHV_REPEAT_RATE		
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSRANGE_VHV_RECALIBRATE, 0x01); // perform
 																				// a
 																				// single
 																				// temperature
 																				// calibration
 		// Optional settings from datasheet
 		// http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
+		//TS - this has to be something faster than the 100ms that we are cycling, 
+		//In fact, it would be better to be some odd value so the rates don't syncrhonize
 		i2c.write16bitRegister(
 				AbstractVL6180xRangeFinder.VL6180X_SYSRANGE_INTERMEASUREMENT_PERIOD,
-				0x09); // Set default ranging inter-measurement period to 100ms
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_SYSALS_INTERMEASUREMENT_PERIOD,
-				0x0A); // Set default ALS inter-measurement period to 100ms
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_INTERRUPT_CONFIG_GPIO,
-				0x24); // Configures interrupt on ‘New Sample Ready threshold
+				0x06); // Set default ranging inter-measurement period to = change to 70ms
+
+		//TS - if we start doing something with the Ambient light settings, then this should b used
+		//for now it isn't needed, default is 0xFF / off
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSALS_INTERMEASUREMENT_PERIOD,
+//				0x0A); // Set default ALS inter-measurement period to 100ms
+		
+		//TS - Duplicate of above command
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_INTERRUPT_CONFIG_GPIO,
+//				0x24); // Configures interrupt on ‘New Sample Ready threshold
 						// event’
+		
 		// Additional settings defaults from community
 		i2c.write16bitRegister(
 				AbstractVL6180xRangeFinder.VL6180X_SYSRANGE_MAX_CONVERGENCE_TIME,
@@ -189,48 +219,91 @@ public abstract class AbstractVL6180xRangeFinder {
 		i2c.write16bitRegisterAnd16bitData(
 				AbstractVL6180xRangeFinder.VL6180X_SYSRANGE_EARLY_CONVERGENCE_ESTIMATE,
 				0x7B);
-		i2c.write16bitRegisterAnd16bitData(
-				AbstractVL6180xRangeFinder.VL6180X_SYSALS_INTEGRATION_PERIOD, 0x64);
+
+		//TS - this is a repeat of a command above
+//		i2c.write16bitRegisterAnd16bitData(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSALS_INTEGRATION_PERIOD, 0x64);
 	
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD,
-				0x30);
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_SYSALS_ANALOGUE_GAIN, 0x40);
-		i2c.write16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_FIRMWARE_RESULT_SCALER, 0x01);
+		//TS - this is the reset value
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_READOUT_AVERAGING_SAMPLE_PERIOD,
+//				0x30);
+		
+		//TS - Repeat of the command above, but it sets the gain to 20
+		//which just gets reset back to 1.0 in getAmbientLight()
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_SYSALS_ANALOGUE_GAIN, 0x40);
+		//TS - this is the reset value
+//		i2c.write16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_FIRMWARE_RESULT_SCALER, 0x01);
+		
+		//TS - Clear group parameter re-enable writes to FW
+		//SYSTEM__GROUPED_PARAMETER_HOLD
+		
 	}
 
 	public void getIdentification() {
 		byte[] buffer = new byte[1];
+		byte[] idData = new byte[5];
 		boolean status;
 		status = i2c.read16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_ID, 1,
-				buffer);
-		System.out.println("idModel: " + Byte.toUnsignedInt(buffer[0]));
-		buffer = new byte[1];
+				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_ID, 1,buffer);
+		idData[0] = buffer[0];
+
 		status = i2c.read16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_REV_MAJOR,
-				1, buffer);
-		System.out.println("idModelRevMajor: " + Byte.toUnsignedInt(buffer[0]));
-		buffer = new byte[1];
+				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_REV_MAJOR,1, buffer);
+		idData[1] = buffer[0];
+				
 		status = i2c.read16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_REV_MINOR,
-				1, buffer);
-		System.out.println("idModelRevMinor: " + Byte.toUnsignedInt(buffer[0]));
-		buffer = new byte[1];
+				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_REV_MINOR,1, buffer);
+		idData[2] = buffer[0];
+		
 		status = i2c.read16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODULE_REV_MAJOR,
-				1, buffer);
-		System.out
-				.println("idModuleRevMajor: " + Byte.toUnsignedInt(buffer[0]));
-		buffer = new byte[1];
+				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODULE_REV_MAJOR,1, buffer);
+		idData[3] = buffer[0];
+		
 		status = i2c.read16bitRegister(
-				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODULE_REV_MINOR,
-				1, buffer);
-		System.out
-				.println("idModuleRevMinor: " + Byte.toUnsignedInt(buffer[0]));
+				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODULE_REV_MINOR,1, buffer);
+		idData[4] = buffer[0];		
+		
+		System.out.println("VL6180 ID Data: " + Byte.toUnsignedInt(idData[0]));
+		System.out.println("idModelRevMajor: " + Byte.toUnsignedInt(idData[1]));
+		System.out.println("idModelRevMinor: " + Byte.toUnsignedInt(idData[2]));
+		System.out.println("idModuleRevMajor: " + Byte.toUnsignedInt(idData[3]));		
+		System.out.println("idModuleRevMinor: " + Byte.toUnsignedInt(idData[4]));
+		
 	}
+	
+//	public void getIdentification() {
+//		byte[] buffer = new byte[1];
+//		boolean status;
+//		status = i2c.read16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_ID, 1,
+//				buffer);
+//		System.out.println("idModel: " + Byte.toUnsignedInt(buffer[0]));
+//		buffer = new byte[1];
+//		status = i2c.read16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_REV_MAJOR,
+//				1, buffer);
+//		System.out.println("idModelRevMajor: " + Byte.toUnsignedInt(buffer[0]));
+//		buffer = new byte[1];
+//		status = i2c.read16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODEL_REV_MINOR,
+//				1, buffer);
+//		System.out.println("idModelRevMinor: " + Byte.toUnsignedInt(buffer[0]));
+//		buffer = new byte[1];
+//		status = i2c.read16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODULE_REV_MAJOR,
+//				1, buffer);
+//		System.out
+//				.println("idModuleRevMajor: " + Byte.toUnsignedInt(buffer[0]));
+//		buffer = new byte[1];
+//		status = i2c.read16bitRegister(
+//				AbstractVL6180xRangeFinder.VL6180X_IDENTIFICATION_MODULE_REV_MINOR,
+//				1, buffer);
+//		System.out
+//				.println("idModuleRevMinor: " + Byte.toUnsignedInt(buffer[0]));
+//	}
 
 	public float getAmbientLight(VL6180x_als_gain VL6180X_ALS_GAIN) {
 		// First load in Gain we are using, do it everytime incase someone
@@ -245,7 +318,11 @@ public abstract class AbstractVL6180xRangeFinder {
 		i2c.write16bitRegister(AbstractVL6180xRangeFinder.VL6180X_SYSALS_START,
 				0x01);
 	
+		//NO!!! - this should be a check of als data ready bit
 		Timer.delay(1); // give it time...
+		//INSTEAD - Set a timeout time
+		//Read the status register to see if the conversion is done
+		//Loop until it is ready or timeout happens
 	
 		i2c.write16bitRegister(
 				AbstractVL6180xRangeFinder.VL6180X_SYSTEM_INTERRUPT_CLEAR, 0x07);

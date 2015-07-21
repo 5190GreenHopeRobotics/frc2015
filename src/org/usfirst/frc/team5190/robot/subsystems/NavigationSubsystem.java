@@ -107,5 +107,9 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		display.putNumber("Lidar Distance", lidar.getDistance());
 		display.putNumber("Left Rangefinder", rangeFinderLeft.getDistance());
 		display.putNumber("Right RangeFinder", rangeFinderRight.getDistance());
+//		display.putBoolean("Left Range Init", rangeFinderLeft.isInitialized());
+//		display.putBoolean("Right Range Init", rangeFinderRight.isInitialized());
+		
+
 	}
 }

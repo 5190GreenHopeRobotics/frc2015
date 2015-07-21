@@ -43,6 +43,9 @@ public class Lidar implements PIDSource {
 
 	// Start polling for period in milliseconds
 	public void start(int period) {
+		if(period < 100){
+			period = 100;
+		}
 		updater.scheduleAtFixedRate(new LIDARUpdater(), 0, period);
 	}
 
@@ -53,11 +56,19 @@ public class Lidar implements PIDSource {
 
 	// Update distance variable
 	public void update() {
-		i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
-		Timer.delay(0.04); // Delay for measurement to be taken
+//		Timer.delay(0.04); // Delay for measurement to be taken
 		i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance); // Read in
 														// measurement
+		i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
 	}
+	
+	// Update distance variable
+//	public void update() {
+//		i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
+//		Timer.delay(0.04); // Delay for measurement to be taken
+//		i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance); // Read in
+//														// measurement
+//	}
 
 	// Timer task to keep distance updated
 	private class LIDARUpdater extends TimerTask {
