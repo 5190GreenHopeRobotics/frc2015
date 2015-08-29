@@ -13,15 +13,21 @@ import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Preferences;
 
+import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
+
 /**
  * the arm subsystem
  */
 public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		Configurable {
+	
+	private NavigationSubsystem navigationSubsystem = NavigationSubsystem
+			.getInstance();
+	
 	private static ArmSubsystem instance;
 
 	private static final int ARM_RANGE = 361;
-	private static final int ARM_BOTTOM_OFFSET = 206;
+	private static final int ARM_BOTTOM_OFFSET = 100;
 
 	private static final double ARM_SET_ANGLE_P = 12.5;
 	private static final double ARM_SET_ANGLE_I = 0.05;
@@ -49,6 +55,8 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 	private double armLiftLoad;
 	private double armLiftPower;
 	private double armLiftLoadFactor;
+	
+	private double localRightSensor;
 
 	private Preferences prefs = Preferences.getInstance();
 
@@ -130,6 +138,12 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 	}
 
 	public void moveArm(double power) {
+		localRightSensor = navigationSubsystem.getRightSensorDistance();
+		if(localRightSensor <= 200.0){
+			if(power < 0.0){
+				power = 0.0;
+			}
+		}
 		if (power > 0.05 || power < -0.05) {
 			if (controlMode != ControlMode.PercentVbus) {
 				armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);
@@ -267,6 +281,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 		display.putNumber("Arm Angle Degrees", getAngleDegrees());
 		display.putNumber("Arm Load Factor", getArmLoadFactor());
 		display.putNumber("Arm Lift Power", armLiftPower);
+		display.putNumber("XXXX Right Sensor", localRightSensor);
 		
 		
 	}

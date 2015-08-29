@@ -62,6 +62,11 @@ public class NavigationSubsystem extends Subsystem implements Displayable {
 		return (leftDistance + rightDistance) / 2;
 	}
 
+	public int getRightSensorDistance() {
+		int rightDistance = rangeFinderRight.getDistance();
+		return rightDistance;
+	}
+	
 	public double getLidarDistanceFromObject() {
 		return lidar.getDistance();
 	}
