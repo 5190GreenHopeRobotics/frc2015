@@ -12,15 +12,12 @@ import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Preferences.IncompatibleTypeException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
 
 /**
  * @author sdai the drive train subsystem
@@ -59,7 +56,68 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 	private boolean moarPowah;
 
 	private final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
-	
+
+	// data variables
+	private double p = 0;
+	private double i = 0;
+	private double d = 0;
+	private int izone = 0;
+	private int profile = 0;
+	private double rampRate = 0;
+	private double leftMotorSpeed = 0.0;
+	private double rightMotorSpeed = 0.0;
+	private double t_left = 0.0;
+	private double t_right = 0.0;
+	private double tempThrottle = 1.0;
+	private double loadFactor = 1.0;
+
+	private void getPIDFromConfiguration() {
+		p = prefs.getDouble("dt.distance.p", DRIVE_SET_DISTANCE_P);
+		i = prefs.getDouble("dt.distance.i", DRIVE_SET_DISTANCE_I);
+		d = prefs.getDouble("dt.distance.d", DRIVE_SET_DISTANCE_D);
+	}
+
+	private void getPIDAttrFromConfiguration() {
+		rampRate = prefs.getDouble("dt.velocity.ramp.rate",
+				DRIVE_VELOCITY_RAMP_RATE);
+		izone = prefs.getInt("dt.velocity.izone", DRIVE_VELOCITY_IZONE);
+		profile = prefs.getInt("dt.velocity.profile", DRIVE_VELOCITY_PROFILE);
+	}
+
+	/**
+	 * Scale the throttle input to be 50-100%
+	 */
+	private void scaleThrottle() {
+		tempThrottle = Robot.oi.getFlightStickSpeed();
+		tempThrottle = tempThrottle / 2 + 0.5;
+	}
+
+	private void calculateMotorSpeed(double moveValue, double rotateValue) {
+		t_left = moveValue - rotateValue;
+		t_right = moveValue + rotateValue;
+
+		leftMotorSpeed = t_left + skim(t_right);
+		rightMotorSpeed = t_right + skim(t_left);
+
+		leftMotorSpeed *= velocityRange;
+		rightMotorSpeed *= velocityRange;
+	}
+
+	/**
+	 * using the current/voltage to calculate hold power of lift motors. This is
+	 * directly proportional to the load on the arm (geometry has to be taken
+	 * into account). Load factor is a bit slow to change, so we are just adding
+	 * 15% when above a threshold
+	 * 
+	 * @param rotateValue
+	 *            the rotateValue
+	 * @return scaled rotate value
+	 */
+	private double scaleRotateValue(double rotateValue) {
+		rotateValue *= armSubsystem.getArmLoadFactor();
+		return rotateValue;
+	}
+
 	private class AveragedEncoderTicksPIDSource implements PIDSource {
 
 		@Override
@@ -111,9 +169,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		 */
 		public void start(double distance) {
 			AveragedEncoderTicksPIDSource averagedEncoder = new AveragedEncoderTicksPIDSource();
-			double p = prefs.getDouble("dt.distance.p", DRIVE_SET_DISTANCE_P);
-			double i = prefs.getDouble("dt.distance.i", DRIVE_SET_DISTANCE_I);
-			double d = prefs.getDouble("dt.distance.d", DRIVE_SET_DISTANCE_D);
+			getPIDFromConfiguration();
 			pidController = new PIDController(p, i, d, averagedEncoder,
 					new DriveStraightPIDOutput(), 0.01);
 			double tolerance = inchesToTicks(prefs.getDouble(
@@ -214,14 +270,8 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 
 	private void configureVelocityPID() {
 		try {
-			double p = prefs.getDouble("dt.velocity.p", DRIVE_VELOCITY_P);
-			double i = prefs.getDouble("dt.velocity.i", DRIVE_VELOCITY_I);
-			double d = prefs.getDouble("dt.velocity.d", DRIVE_VELOCITY_D);
-			double rampRate = prefs.getDouble("dt.velocity.ramp.rate",
-					DRIVE_VELOCITY_RAMP_RATE);
-			int izone = prefs.getInt("dt.velocity.izone", DRIVE_VELOCITY_IZONE);
-			int profile = prefs.getInt("dt.velocity.profile",
-					DRIVE_VELOCITY_PROFILE);
+			getPIDFromConfiguration();
+			getPIDAttrFromConfiguration();
 			frontLeft.setPID(p, i, d, 0, izone, rampRate, profile);
 			frontRight.setPID(p, i, d, 0, izone, rampRate, profile);
 
@@ -244,6 +294,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		disable = flag;
 	}
 
+	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithArcadeCommand());
 	}
@@ -260,93 +311,43 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		return new DriveStraightPIDOutput();
 	}
 
+	/**
+	 * the new arcade drive, for 2015 version, see github history
+	 * 
+	 * @param moveValue
+	 * @param rotateValue
+	 */
 	public void arcadeDrive(double moveValue, double rotateValue) {
 		if (!disable) {
-			double leftMotorSpeed = 0.0;
-			double rightMotorSpeed = 0.0;
-			double t_left = 0.0;
-			double t_right = 0.0;
-			double tempThrottle = 1.0;
-			double loadFactor = 1.0;
-			
-//This is one way to adjust drive power, with the trigger button
-//and the throttle slider on the joystick....gotta have moarPowah!
-			
-			//Scale the throttle input to be 50-100%
-			tempThrottle = Robot.oi.getFlightStickSpeed();
-			tempThrottle = tempThrottle / 2 + 0.5;
-			
-			//Here is another add....using the current/voltage to calculate hold power of lift motors 
-			//This is directly proportional to the load on the arm (geometry has to be taken into account)
-			//Load factor is a bit slow to change, so we are just adding 15% when above a threshold
-			rotateValue *= armSubsystem.getArmLoadFactor();
-			
-			if(!moarPowah){				//back 'er down unless you pull the trigger
+
+			// This is one way to adjust drive power, with the trigger button
+			// and the throttle slider on the joystick....gotta have moarPowah!
+
+			scaleThrottle();
+
+			// Here is another add....
+			rotateValue = scaleRotateValue(rotateValue);
+
+			if (!moarPowah) { // back 'er down unless you pull the trigger
 				moveValue *= tempThrottle;
 				rotateValue *= tempThrottle;
 			}
 
-			//simplified speed calculation
-//			leftMotorSpeed = moveValue - rotateValue ;
-//			rightMotorSpeed = moveValue + rotateValue;
-//End - this is one way....
-			
-			//Thank you Cheezy Poofs!!
-			t_left = moveValue - rotateValue ;
-			t_right = moveValue + rotateValue;
-
-			leftMotorSpeed = t_left + skim(t_right);
-			rightMotorSpeed = t_right + skim(t_left);
-			
-			//End - arm power gain method for turning
-			
-			
-//This is the drive power function we ran at the 2015 Regionals
-//			if (moveValue > 0.0) {
-//				if (rotateValue > 0.0) {
-//					leftMotorSpeed = moveValue - rotateValue;
-//					rightMotorSpeed = Math.max(moveValue, rotateValue);
-//				} else {
-//					leftMotorSpeed = Math.max(moveValue, -rotateValue);
-//					rightMotorSpeed = moveValue + rotateValue;
-//				}
-//			} else {
-//				if (rotateValue > 0.0) {
-//					leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-//					rightMotorSpeed = moveValue + rotateValue;
-//				} else {
-//					leftMotorSpeed = moveValue - rotateValue;
-//					rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
-//				}
-//			}
-			//
-			// if (moarPowah) {
-			// frontLeft.setF(leftMotorSpeed * 100);
-			// frontRight.setF(rightMotorSpeed * 100);
-			// } else {
-			// frontLeft.setF(0);
-			// frontRight.setF(0);
-			// }
-
-			// Scale up to rpm
-			leftMotorSpeed *= velocityRange;
-			rightMotorSpeed *= velocityRange;
-
-			SmartDashboard.putNumber("Velocity Range", velocityRange);
+			calculateMotorSpeed(moveValue, rotateValue);
 
 			frontLeft.set(leftMotorSpeed);
 			frontRight.set(rightMotorSpeed);
 		}
 	}
-	
+
 	double skim(double v) {
-		  // gain determines how much to skim off the top
-		  if (v > 1.0)
-		    return -((v - 1.0) * 0.5);
-		  else if (v < -1.0)
-		    return -((v + 1.0) * 0.5);
-		  return 0;
-		}
+		// gain determines how much to skim off the top
+		if (v > 1.0)
+			return -((v - 1.0) * 0.5);
+		else if (v < -1.0)
+			return -((v + 1.0) * 0.5);
+		return 0;
+	}
 
 	public void tankDrive(double leftPower, double rightPower) {
 		if (!disable) {
@@ -359,7 +360,9 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		moarPowah = moarPlease;
 	}
 
+	@Override
 	public void displayValues(Display display) {
+		display.putNumber("Velocity Range", velocityRange);
 		display.putNumber("Left Speed", frontLeft.getSpeed());
 		display.putNumber("Right Speed", frontRight.getSpeed());
 		display.putNumber("Left Position", frontLeft.getPosition());
