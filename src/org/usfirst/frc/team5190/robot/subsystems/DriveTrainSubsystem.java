@@ -118,6 +118,12 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		return rotateValue;
 	}
 
+	private PIDController createBasicPIDController(PIDSource src, PIDOutput out) {
+		getPIDFromConfiguration();
+		PIDController result = new PIDController(p, i, d, src, out, 0.01);
+		return result;
+	}
+
 	private class AveragedEncoderTicksPIDSource implements PIDSource {
 
 		@Override
@@ -160,6 +166,14 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			ticksInInch = prefs.getDouble("dt.ticks.in.inch", TICKS_IN_INCH);
 		}
 
+		private void configurePIDController() {
+			double tolerance = inchesToTicks(prefs.getDouble(
+					"dt.distance.tolerance", DRIVE_SET_DISTANCE_TOLERANCE));
+			pidController.setAbsoluteTolerance(tolerance);
+			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
+					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
+		}
+
 		/**
 		 * Drive a specific distance
 		 * 
@@ -169,14 +183,9 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 		 */
 		public void start(double distance) {
 			AveragedEncoderTicksPIDSource averagedEncoder = new AveragedEncoderTicksPIDSource();
-			getPIDFromConfiguration();
-			pidController = new PIDController(p, i, d, averagedEncoder,
-					new DriveStraightPIDOutput(), 0.01);
-			double tolerance = inchesToTicks(prefs.getDouble(
-					"dt.distance.tolerance", DRIVE_SET_DISTANCE_TOLERANCE));
-			pidController.setAbsoluteTolerance(tolerance);
-			pidController.setOutputRange(DRIVE_SET_DISTANCE_OUTPUT_RANGE[0],
-					DRIVE_SET_DISTANCE_OUTPUT_RANGE[1]);
+			pidController = createBasicPIDController(averagedEncoder,
+					new DriveStraightPIDOutput());
+			configurePIDController();
 			double startPoint = averagedEncoder.pidGet();
 			double endPoint = startPoint + inchesToTicks(distance);
 			pidController.setSetpoint(endPoint);
