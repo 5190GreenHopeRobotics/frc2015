@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5190.robot;
 
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
-import org.usfirst.frc.team5190.robot.commands.CherryPickCommandGroup;
 import org.usfirst.frc.team5190.robot.commands.NullCommand;
 import org.usfirst.frc.team5190.robot.commands.OneToteCommandGroup;
 import org.usfirst.frc.team5190.robot.config.ConfigurationManager;
@@ -11,7 +10,6 @@ import org.usfirst.frc.team5190.robot.oi.ScaleInputsOI;
 import org.usfirst.frc.team5190.robot.oi.SetPowerCurvesOI;
 import org.usfirst.frc.team5190.robot.oi.TwoFlightStickOI;
 import org.usfirst.frc.team5190.robot.subsystems.ArmSubsystem;
-import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team5190.robot.subsystems.LifecycleSubsystemManager;
 import org.usfirst.frc.team5190.robot.subsystems.NavigationSubsystem;
@@ -60,8 +58,6 @@ public class Robot extends IterativeRobot {
 
 		autonomousChooser = new SendableChooser();
 		autonomousChooser.addDefault("One Tote", new OneToteCommandGroup());
-		autonomousChooser
-				.addObject("Cherry Pick", new CherryPickCommandGroup());
 		autonomousChooser.addObject("Do Nothing", new NullCommand());
 		scheduler = Scheduler.getInstance();
 
@@ -70,8 +66,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Autonomous Sequence", autonomousChooser);
 		SmartDashboard.putData(DriveTrainSubsystem.getInstance());
 		SmartDashboard.putData(ArmSubsystem.getInstance());
-//		SmartDashboard.putData(PawlSubsystem.getInstance());
-		SmartDashboard.putData(CherryPickerSubsystem.getInstance());
 		SmartDashboard.putData(NavigationSubsystem.getInstance());
 	}
 
