@@ -8,7 +8,8 @@ import org.usfirst.frc.team5190.robot.commands.joystick.CherryPickerJoystickComm
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Talon;
+//import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -20,14 +21,16 @@ public class CherryPickerSubsystem extends Subsystem implements Displayable {
 	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.1;
 
 	// DIO ports temporary in this class.
-	private Talon cherryPickerController;
+//	private Talon cherryPickerController;
+	private Jaguar cherryPickerController;
 	private Counter minLimitSwitch;
 	private Counter maxLimitSwitch;
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	private CherryPickerSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
-		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
+//		cherryPickerController = new Talon(RobotMap.CHERRY_PICKER_TALON_PORT);
+		cherryPickerController = new Jaguar(RobotMap.CHERRY_PICKER_JAGUAR_PORT);
 		minLimitSwitch = new Counter(new DigitalInput(
 				RobotMap.CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT));
 		maxLimitSwitch = new Counter(new DigitalInput(

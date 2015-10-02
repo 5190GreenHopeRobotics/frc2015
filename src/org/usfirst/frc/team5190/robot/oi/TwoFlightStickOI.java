@@ -9,15 +9,18 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class TwoFlightStickOI extends AbstractOI {
 	private Joystick flightStickDrive;
 	private Joystick flightStickShoot;
+	private Joystick buttonBox;
+	
 	private double cherryPickerButtonSpeed = 1.0;
 
 	public TwoFlightStickOI() {
-		this(0, 1);
+		this(0, 1, 2);
 	}
 
-	public TwoFlightStickOI(int portDrive, int portShoot) {
+	public TwoFlightStickOI(int portDrive, int portShoot, int portButtonBox) {
 		flightStickDrive = new Joystick(portDrive);
 		flightStickShoot = new Joystick(portShoot);
+		buttonBox = new Joystick(portButtonBox);
 
 		initializeButtons();
 
@@ -141,6 +144,17 @@ public class TwoFlightStickOI extends AbstractOI {
 	protected Button getMoarPowahButton() {
 		return new JoystickButton(flightStickDrive, LogitechExtreme3D.TRIGGER);
 	}
+	
+	@Override
+	protected Button getIntakeDirectionINSwitch() {
+		return new JoystickButton(buttonBox, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+	}
+	
+	@Override
+	protected Button getIntakeDirectionOUTSwitch() {
+		return new JoystickButton(buttonBox, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+	}
+	
 
 }
 // hail hydra

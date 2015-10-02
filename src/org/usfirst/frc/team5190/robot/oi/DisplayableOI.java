@@ -21,6 +21,8 @@ public class DisplayableOI implements OI, Displayable {
 		display.putNumber("Cherry Picker Axis", sourceOI.getCherryPickerAxis());
 		display.putNumber("Pawl Axis", sourceOI.getPawlAxis());
 		display.putNumber("Throttle", sourceOI.getFlightStickSpeed());
+//		display.putNumber("Intake Axis", sourceOI.getIntakeAxis());
+
 	}
 
 	@Override
