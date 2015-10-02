@@ -6,13 +6,10 @@ import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.IntakeJoystickCommand;
 
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 //import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wp
+
 /**
  *
  */
@@ -24,8 +21,8 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	// DIO ports temporary in this class.
 	private Talon leftIntakeController;
 	private Talon rightIntakeController;
-//	private Counter minLimitSwitch;
-//	private Counter maxLimitSwitch;
+	// private Counter minLimitSwitch;
+	// private Counter maxLimitSwitch;
 	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	private IntakeSubsystem() {
@@ -46,13 +43,14 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		return instance;
 	}
 
+	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new IntakeJoystickCommand());
 	}
 
 	public void runIntake(double power) {
-		
-		//Read Direction Switch
+
+		// Read Direction Switch
 		if (power > 0.05 || power < -0.05) {
 			leftIntakeController.set(power);
 			rightIntakeController.set(power);
@@ -65,13 +63,14 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	public void stopIntake() {
 		leftIntakeController.set(0);
 		rightIntakeController.set(0);
-		}
+	}
 
 	// Display Values
+	@Override
 	public void displayValues(Display display) {
-//		display.putBoolean("CP Max Limit", reachedMaxLimit());
-//		display.putBoolean("CP Min Limit", reachedMinLimit());
-//		display.putNumber("CP Power", cherryPickerController.getSpeed());
+		// display.putBoolean("CP Max Limit", reachedMaxLimit());
+		// display.putBoolean("CP Min Limit", reachedMinLimit());
+		// display.putNumber("CP Power", cherryPickerController.getSpeed());
 	}
 
 }
