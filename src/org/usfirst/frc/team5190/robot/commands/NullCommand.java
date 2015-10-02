@@ -2,27 +2,27 @@ package org.usfirst.frc.team5190.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ *
+ */
 public class NullCommand extends Command {
 
-	@Override
-	protected void initialize() {
-	}
+    public NullCommand() {
 
-	@Override
-	protected void execute() {
-	}
+    }
+    protected void initialize() {
+    }
 
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
+    protected void execute() {
+    }
 
-	@Override
-	protected void end() {
-	}
+    protected boolean isFinished() {
+        return false;
+    }
 
-	@Override
-	protected void interrupted() {
-	}
-
+ 
+    protected void end() {
+    }
+    protected void interrupted() {
+    }
 }

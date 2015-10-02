@@ -3,12 +3,9 @@ package org.usfirst.frc.team5190.robot.oi;
 import org.usfirst.frc.team5190.robot.commands.GoToLevelCommand;
 import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.commands.MoarPowahCommand;
-import org.usfirst.frc.team5190.robot.commands.ZeroPawlCommand;
-import org.usfirst.frc.team5190.robot.joystick.LogitechExtreme3D;
-import org.usfirst.frc.team5190.robot.commands.IntakeMotorRunStopCommand;
-
+import org.usfirst.frc.team5190.robot.commands.IntakeCommand;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+//import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public abstract class AbstractOI implements OI {
 
@@ -18,7 +15,6 @@ public abstract class AbstractOI implements OI {
 	protected void initializeButtons() {
 		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
 		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
-		getZeroPawlButton().whenPressed(new ZeroPawlCommand());
 		getKillButton().whenPressed(new KillCommand());
 
 		Button moarPowahButton = getMoarPowahButton();
@@ -26,12 +22,12 @@ public abstract class AbstractOI implements OI {
 		moarPowahButton.whenReleased(new MoarPowahCommand(false));
 		
 		Button intakeDirectionINSwitch = getIntakeDirectionINSwitch();
-		intakeDirectionINSwitch.whenReleased(new IntakeMotorRunStopCommand(0.0));
-		intakeDirectionINSwitch.whileHeld(new IntakeMotorRunStopCommand(-0.5f));
+		intakeDirectionINSwitch.whenReleased(new IntakeCommand(0));
+		intakeDirectionINSwitch.whileHeld(new IntakeCommand(-0.5));
 
 		Button intakeDirectionOUTSwitch = getIntakeDirectionOUTSwitch();
-		intakeDirectionOUTSwitch.whenReleased(new IntakeMotorRunStopCommand(0.0));
-		intakeDirectionOUTSwitch.whileHeld(new IntakeMotorRunStopCommand(0.5f));
+		intakeDirectionOUTSwitch.whenReleased(new IntakeCommand(0.0));
+		intakeDirectionOUTSwitch.whileHeld(new IntakeCommand(0.5));
 		
 	}
 

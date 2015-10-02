@@ -4,14 +4,14 @@ import org.usfirst.frc.team5190.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeMotorRunStopCommand extends Command {
+public class IntakeCommand extends Command {
 
 	private IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 	private double direction;
 
-	public IntakeMotorRunStopCommand(double direction) {
+	public IntakeCommand(double power) {
 		requires(intakeSubsystem);
-		this.direction = direction;
+		this.direction = power;
 	}
 
 	@Override
