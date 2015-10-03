@@ -31,7 +31,7 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		compressor = new Compressor();
 		controllerLeft = new Solenoid(RobotMap.SOLENOID_LEFT_PCM);
 		controllerRight = new Solenoid(RobotMap.SOLENOID_RIGHT_PCM);
-		compressor.start();
+		compressor.setClosedLoopControl(true);
 	}
 
 	public static IntakeSubsystem getInstance() {
