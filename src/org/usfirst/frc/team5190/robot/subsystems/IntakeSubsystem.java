@@ -9,7 +9,10 @@ import org.usfirst.frc.team5190.robot.commands.joystick.IntakeJoystickCommand;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 /**
  *
  */
@@ -47,7 +50,7 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		//Read Direction Switch
 		if (power > 0.05 || power < -0.05) {
 			leftIntakeController.set(power);
-			rightIntakeController.set(power);
+			rightIntakeController.set(-power);
 		} else {
 			leftIntakeController.set(0);
 			rightIntakeController.set(0);

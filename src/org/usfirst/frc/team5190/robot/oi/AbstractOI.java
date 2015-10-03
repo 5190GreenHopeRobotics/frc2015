@@ -13,8 +13,14 @@ public abstract class AbstractOI implements OI {
 	}
 
 	protected void initializeButtons() {
+<<<<<<< Updated upstream
 		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
 		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
+=======
+//		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
+//		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
+//		getZeroPawlButton().whenPressed(new ZeroPawlCommand());
+>>>>>>> Stashed changes
 		getKillButton().whenPressed(new KillCommand());
 
 		Button moarPowahButton = getMoarPowahButton();
@@ -29,13 +35,17 @@ public abstract class AbstractOI implements OI {
 		intakeDirectionOUTSwitch.whenReleased(new IntakeCommand(0.0));
 		intakeDirectionOUTSwitch.whileHeld(new IntakeCommand(0.5));
 		
+		getBackstopUpSwitch().whenPressed(new GoToLevelCommand(true));		//raise bar
+		getBackstopDownSwitch().whenPressed(new GoToLevelCommand(true));	//lower bar
+
+		
 	}
 
-	protected abstract Button getLevelUpButton();
+//	protected abstract Button getLevelUpButton();
 
-	protected abstract Button getLevelDownButton();
+//	protected abstract Button getLevelDownButton();
 
-	protected abstract Button getZeroPawlButton();
+//	protected abstract Button getZeroPawlButton();
 
 	protected abstract Button getKillButton();
 
@@ -44,5 +54,9 @@ public abstract class AbstractOI implements OI {
 	protected abstract Button getIntakeDirectionINSwitch();
 	
 	protected abstract Button getIntakeDirectionOUTSwitch();
-	
+
+	protected abstract Button getBackstopUpSwitch();
+
+	protected abstract Button getBackstopDownSwitch();
+
 }

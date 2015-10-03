@@ -116,23 +116,23 @@ public class TwoFlightStickOI extends AbstractOI {
 		return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
 	}
 
-	@Override
-	protected Button getLevelUpButton() {
-		return new JoystickButton(flightStickShoot,
-				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
-	}
+//	@Override
+//	protected Button getLevelUpButton() {
+//		return new JoystickButton(flightStickShoot,
+//				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
+//	}
+//
+//	@Override
+//	protected Button getLevelDownButton() {
+//		return new JoystickButton(flightStickShoot,
+//				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+//	}
 
-	@Override
-	protected Button getLevelDownButton() {
-		return new JoystickButton(flightStickShoot,
-				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
-	}
-
-	@Override
-	protected Button getZeroPawlButton() {
-		return new JoystickButton(flightStickShoot,
-				LogitechExtreme3D.BOTTOM_BUTTON_TOP_RIGHT);
-	}
+//	@Override
+//	protected Button getZeroPawlButton() {
+//		return new JoystickButton(flightStickShoot,
+//				LogitechExtreme3D.BOTTOM_BUTTON_TOP_RIGHT);
+//	}
 
 	@Override
 	protected Button getKillButton() {
@@ -147,14 +147,23 @@ public class TwoFlightStickOI extends AbstractOI {
 	
 	@Override
 	protected Button getIntakeDirectionINSwitch() {
-		return new JoystickButton(buttonBox, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
 	}
 	
 	@Override
 	protected Button getIntakeDirectionOUTSwitch() {
-		return new JoystickButton(buttonBox, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
 	}
 	
+	@Override
+	protected Button getBackstopUpSwitch() {
+		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
+	}
+	
+	@Override
+	protected Button getBackstopDownSwitch() {
+		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+	}
 
 }
 // hail hydra

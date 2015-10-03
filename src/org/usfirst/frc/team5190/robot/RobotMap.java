@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class RobotMap {
 	//tote intake
-	public static final int INTAKE_LEFT_TALON_PORT = 5;
-	public static final int INTAKE_RIGHT_TALON_PORT = 6;
+	public static final int INTAKE_LEFT_TALON_PORT = 3;
+	public static final int INTAKE_RIGHT_TALON_PORT = 2;
 	
 	// arm
 	public static final int ARM_TALONSRX_LEFT_CAN_ID = 12;
@@ -14,7 +14,7 @@ public class RobotMap {
 
 	// cherry picker
 //	public static final int CHERRY_PICKER_TALON_PORT = 3;
-	public static final int CHERRY_PICKER_JAGUAR_PORT = 3;
+	public static final int CHERRY_PICKER_JAGUAR_PORT = 1;
 	public static final int CHERRY_PICKER_MIN_LIMIT_SWITCH_PORT = 3;
 	public static final int CHERRY_PICKER_MAX_LIMIT_SWITCH_PORT = 2;
 
