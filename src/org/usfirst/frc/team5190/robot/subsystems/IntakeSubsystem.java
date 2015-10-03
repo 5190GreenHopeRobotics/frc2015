@@ -7,7 +7,6 @@ import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.IntakeJoystickCommand;
 
 import edu.wpi.first.wpilibj.Talon;
-//import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -16,14 +15,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class IntakeSubsystem extends Subsystem implements Displayable {
 	private static IntakeSubsystem instance;
 
-	private static final double KEEP_CHERRY_PICKER_RETRACTED_POWER = -0.1;
-
 	// DIO ports temporary in this class.
 	private Talon leftIntakeController;
 	private Talon rightIntakeController;
-	// private Counter minLimitSwitch;
-	// private Counter maxLimitSwitch;
-	private ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
@@ -53,11 +47,19 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		// Read Direction Switch
 		if (power > 0.05 || power < -0.05) {
 			leftIntakeController.set(power);
-			rightIntakeController.set(power);
+			rightIntakeController.set(-power);
 		} else {
 			leftIntakeController.set(0);
 			rightIntakeController.set(0);
 		}
+	}
+
+	public double findLeftIntakePower() {
+		return leftIntakeController.get();
+	}
+
+	public double findRightIntakePower() {
+		return rightIntakeController.get();
 	}
 
 	public void stopIntake() {
@@ -68,9 +70,7 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	// Display Values
 	@Override
 	public void displayValues(Display display) {
-		// display.putBoolean("CP Max Limit", reachedMaxLimit());
-		// display.putBoolean("CP Min Limit", reachedMinLimit());
-		// display.putNumber("CP Power", cherryPickerController.getSpeed());
+		display.putNumber("LeftIntakePower", findLeftIntakePower());
+		display.putNumber("RightIntakePower", findRightIntakePower());
 	}
-
 }
