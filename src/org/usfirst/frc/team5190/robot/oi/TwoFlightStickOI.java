@@ -10,7 +10,7 @@ public class TwoFlightStickOI extends AbstractOI {
 	private Joystick flightStickDrive;
 	private Joystick flightStickShoot;
 	private Joystick buttonBox;
-	
+
 	private double cherryPickerButtonSpeed = 1.0;
 
 	public TwoFlightStickOI() {
@@ -75,9 +75,11 @@ public class TwoFlightStickOI extends AbstractOI {
 	/**
 	 * @return speed from throttle on joystick (slider)
 	 */
+	@Override
 	public double getFlightStickSpeed() {
-//		return (flightStickDrive.getThrottle() + 1.0) / 2.0;
-		//this makes the function's math work better with the arcadeDrive function
+		// return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+		// this makes the function's math work better with the arcadeDrive
+		// function
 		return -(flightStickDrive.getThrottle() - 1.0) / 2.0;
 	}
 
@@ -116,23 +118,23 @@ public class TwoFlightStickOI extends AbstractOI {
 		return flightStickShoot.getRawAxis(LogitechExtreme3D.Z_ROTATE);
 	}
 
-//	@Override
-//	protected Button getLevelUpButton() {
-//		return new JoystickButton(flightStickShoot,
-//				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
-//	}
-//
-//	@Override
-//	protected Button getLevelDownButton() {
-//		return new JoystickButton(flightStickShoot,
-//				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
-//	}
+	// @Override
+	// protected Button getLevelUpButton() {
+	// return new JoystickButton(flightStickShoot,
+	// LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
+	// }
+	//
+	// @Override
+	// protected Button getLevelDownButton() {
+	// return new JoystickButton(flightStickShoot,
+	// LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+	// }
 
-//	@Override
-//	protected Button getZeroPawlButton() {
-//		return new JoystickButton(flightStickShoot,
-//				LogitechExtreme3D.BOTTOM_BUTTON_TOP_RIGHT);
-//	}
+	// @Override
+	// protected Button getZeroPawlButton() {
+	// return new JoystickButton(flightStickShoot,
+	// LogitechExtreme3D.BOTTOM_BUTTON_TOP_RIGHT);
+	// }
 
 	@Override
 	protected Button getKillButton() {
@@ -144,26 +146,41 @@ public class TwoFlightStickOI extends AbstractOI {
 	protected Button getMoarPowahButton() {
 		return new JoystickButton(flightStickDrive, LogitechExtreme3D.TRIGGER);
 	}
-	
+
 	@Override
 	protected Button getIntakeDirectionINSwitch() {
-		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
-	}
-	
-	@Override
-	protected Button getIntakeDirectionOUTSwitch() {
-		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
-	}
-	
-	@Override
-	protected Button getBackstopUpSwitch() {
-		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
-	}
-	
-	@Override
-	protected Button getBackstopDownSwitch() {
-		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
 	}
 
+	@Override
+	protected Button getIntakeDirectionOUTSwitch() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+	}
+
+	@Override
+	protected Button getBackstopUpSwitch() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
+	}
+
+	@Override
+	protected Button getBackstopDownSwitch() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+	}
+
+	@Override
+	protected Button getPneumaticOnButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
+	}
+
+	@Override
+	protected Button getPneumaticOffButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+	}
 }
 // hail hydra

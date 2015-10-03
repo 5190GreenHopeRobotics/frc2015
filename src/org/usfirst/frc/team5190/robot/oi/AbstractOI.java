@@ -4,6 +4,8 @@ import org.usfirst.frc.team5190.robot.commands.GoToLevelCommand;
 import org.usfirst.frc.team5190.robot.commands.IntakeCommand;
 import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.commands.MoarPowahCommand;
+import org.usfirst.frc.team5190.robot.commands.PneumaticOffCommand;
+import org.usfirst.frc.team5190.robot.commands.PneumaticOnCommand;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 
@@ -32,6 +34,9 @@ public abstract class AbstractOI implements OI {
 		intakeDirectionOUTSwitch.whenReleased(new IntakeCommand(0.0));
 		intakeDirectionOUTSwitch.whileHeld(new IntakeCommand(0.5));
 
+		getPneumaticOnButton().whenPressed(new PneumaticOnCommand());
+		getPneumaticOffButton().whenPressed(new PneumaticOffCommand());
+
 		getBackstopUpSwitch().whenPressed(new GoToLevelCommand(true)); // raise
 																		// bar
 		getBackstopDownSwitch().whenPressed(new GoToLevelCommand(true)); // lower
@@ -39,9 +44,9 @@ public abstract class AbstractOI implements OI {
 
 	}
 
-	// protected abstract Button getLevelUpButton();
+	protected abstract Button getPneumaticOnButton();
 
-	// protected abstract Button getLevelDownButton();
+	protected abstract Button getPneumaticOffButton();
 
 	// protected abstract Button getZeroPawlButton();
 
