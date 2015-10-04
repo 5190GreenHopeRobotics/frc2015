@@ -172,13 +172,13 @@ public class TwoFlightStickOI extends AbstractOI {
 	}
 
 	@Override
-	protected Button getPneumaticOnButton() {
+	protected Button getPneumaticForwardButton() {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
 	}
 
 	@Override
-	protected Button getPneumaticOffButton() {
+	protected Button getPneumaticReverseButton() {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
 	}

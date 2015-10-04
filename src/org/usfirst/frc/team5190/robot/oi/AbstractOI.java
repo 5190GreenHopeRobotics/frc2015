@@ -1,11 +1,10 @@
 package org.usfirst.frc.team5190.robot.oi;
 
-import org.usfirst.frc.team5190.robot.commands.GoToLevelCommand;
 import org.usfirst.frc.team5190.robot.commands.IntakeCommand;
 import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.commands.MoarPowahCommand;
-import org.usfirst.frc.team5190.robot.commands.PneumaticOffCommand;
-import org.usfirst.frc.team5190.robot.commands.PneumaticOnCommand;
+import org.usfirst.frc.team5190.robot.commands.PneumaticExtendCommand;
+import org.usfirst.frc.team5190.robot.commands.PneumaticRetractCommand;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 
@@ -18,9 +17,9 @@ public abstract class AbstractOI implements OI {
 
 	protected void initializeButtons() {
 
-//		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
-//		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
-//		getZeroPawlButton().whenPressed(new ZeroPawlCommand());
+		// getLevelUpButton().whenPressed(new GoToLevelCommand(true));
+		// getLevelDownButton().whenPressed(new GoToLevelCommand(false));
+		// getZeroPawlButton().whenPressed(new ZeroPawlCommand());
 
 		getKillButton().whenPressed(new KillCommand());
 
@@ -36,19 +35,21 @@ public abstract class AbstractOI implements OI {
 		intakeDirectionOUTSwitch.whenReleased(new IntakeCommand(0.0));
 		intakeDirectionOUTSwitch.whileHeld(new IntakeCommand(0.5));
 
-		getPneumaticOnButton().whenPressed(new PneumaticOnCommand());
-		getPneumaticOffButton().whenPressed(new PneumaticOffCommand());
+		getPneumaticForwardButton().whenPressed(new PneumaticExtendCommand());
+		getPneumaticReverseButton().whenPressed(new PneumaticRetractCommand());
 
-		getBackstopUpSwitch().whenPressed(new GoToLevelCommand(true)); // raise
-																		// bar
-		getBackstopDownSwitch().whenPressed(new GoToLevelCommand(true)); // lower
-																			// bar
+		// getBackstopUpSwitch().whenPressed(new GoToLevelCommand(true)); //
+		// raise
+		// // bar
+		// getBackstopDownSwitch().whenPressed(new GoToLevelCommand(true)); //
+		// lower
+		// // bar
 
 	}
 
-	protected abstract Button getPneumaticOnButton();
+	protected abstract Button getPneumaticForwardButton();
 
-	protected abstract Button getPneumaticOffButton();
+	protected abstract Button getPneumaticReverseButton();
 
 	// protected abstract Button getZeroPawlButton();
 

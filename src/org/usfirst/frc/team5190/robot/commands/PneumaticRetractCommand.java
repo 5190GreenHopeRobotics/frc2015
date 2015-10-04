@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PneumaticOffCommand extends Command {
+public class PneumaticRetractCommand extends Command {
 
-	public PneumaticOffCommand() {
+	public PneumaticRetractCommand() {
 		requires(IntakeSubsystem.getInstance());
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		IntakeSubsystem.getInstance().pistonOff();
+		IntakeSubsystem.getInstance().reversePiston();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
