@@ -157,12 +157,12 @@ public class TwoFlightStickOI extends AbstractOI {
 	
 	@Override
 	protected Button getBackstopUpSwitch() {
-		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
+		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
 	}
 	
 	@Override
 	protected Button getBackstopDownSwitch() {
-		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+		return new JoystickButton(flightStickShoot, LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
 	}
 
 }

@@ -13,14 +13,10 @@ public abstract class AbstractOI implements OI {
 	}
 
 	protected void initializeButtons() {
-<<<<<<< Updated upstream
-		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
-		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
-=======
+
 //		getLevelUpButton().whenPressed(new GoToLevelCommand(true));
 //		getLevelDownButton().whenPressed(new GoToLevelCommand(false));
 //		getZeroPawlButton().whenPressed(new ZeroPawlCommand());
->>>>>>> Stashed changes
 		getKillButton().whenPressed(new KillCommand());
 
 		Button moarPowahButton = getMoarPowahButton();

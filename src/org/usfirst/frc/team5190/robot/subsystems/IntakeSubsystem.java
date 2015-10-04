@@ -9,10 +9,9 @@ import org.usfirst.frc.team5190.robot.commands.joystick.IntakeJoystickCommand;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-<<<<<<< Updated upstream
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;;
 
-=======
->>>>>>> Stashed changes
 /**
  *
  */
@@ -22,11 +21,16 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	// DIO ports temporary in this class.
 	private Talon leftIntakeController;
 	private Talon rightIntakeController;
+	
+    public static Compressor Compressor1;
+    public static DoubleSolenoid DoubleSolenoid1;
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		leftIntakeController = new Talon(RobotMap.INTAKE_LEFT_TALON_PORT);
 		rightIntakeController = new Talon(RobotMap.INTAKE_RIGHT_TALON_PORT);
+		Compressor1 = new Compressor(0);
+		DoubleSolenoid1 = new DoubleSolenoid(2, 0, 1);      //PCM0, Port 0, Port 1
 	}
 
 	public static IntakeSubsystem getInstance() {
