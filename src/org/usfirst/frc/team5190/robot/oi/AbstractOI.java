@@ -61,8 +61,8 @@ public abstract class AbstractOI implements OI {
 
 	protected abstract Button getIntakeDirectionOUTSwitch();
 
-	protected abstract Button getBackstopUpSwitch();
-
-	protected abstract Button getBackstopDownSwitch();
+	// protected abstract Button getBackstopUpSwitch();
+	//
+	// protected abstract Button getBackstopDownSwitch();
 
 }

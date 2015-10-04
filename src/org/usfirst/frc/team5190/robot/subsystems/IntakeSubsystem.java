@@ -95,5 +95,6 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	public void displayValues(Display display) {
 		display.putNumber("LeftIntakePower", findLeftIntakePower());
 		display.putNumber("RightIntakePower", findRightIntakePower());
+		display.putBoolean("pressure", isReady());
 	}
 }
