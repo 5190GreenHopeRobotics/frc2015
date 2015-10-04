@@ -170,5 +170,17 @@ public class TwoFlightStickOI extends AbstractOI {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
 	}
+
+	@Override
+	protected Button getWidenIntakeButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_LEFT);
+	}
+
+	@Override
+	protected Button getNarrowIntakeButton() {
+		return new JoystickButton(flightStickShoot,
+				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_RIGHT);
+	}
 }
 // hail hydra

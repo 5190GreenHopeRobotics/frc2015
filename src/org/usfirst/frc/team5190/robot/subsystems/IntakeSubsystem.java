@@ -9,6 +9,7 @@ import org.usfirst.frc.team5190.robot.commands.joystick.IntakeJoystickCommand;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -21,15 +22,18 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	// DIO ports temporary in this class.
 	private Talon leftIntakeController;
 	private Talon rightIntakeController;
-	public static Compressor compressor1;
-	public static DoubleSolenoid doubleSolenoid1;
+	private Compressor compressor1;
+	private DoubleSolenoid doubleSolenoid1;
+	private Solenoid secondSolenoid;
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		leftIntakeController = new Talon(RobotMap.INTAKE_LEFT_TALON_PORT);
 		rightIntakeController = new Talon(RobotMap.INTAKE_RIGHT_TALON_PORT);
 		compressor1 = new Compressor(0);
-		doubleSolenoid1 = new DoubleSolenoid(2, 0, 1); // PCM0, Port 0, Port 1
+		doubleSolenoid1 = new DoubleSolenoid(RobotMap.PCM_MODULE_ID,
+				RobotMap.SOLENOID1_Forward, RobotMap.SOLENOID1_REVERSE);
+		secondSolenoid = new Solenoid(2, 2);
 	}
 
 	public static IntakeSubsystem getInstance() {
@@ -84,6 +88,14 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 
 	public void pistonOff() {
 		doubleSolenoid1.set(Value.kOff);
+	}
+
+	public void widenIntakeWheel() {
+		secondSolenoid.set(true);
+	}
+
+	public void narrowIntakeWheel() {
+		secondSolenoid.set(false);
 	}
 
 	public boolean isReady() {

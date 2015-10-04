@@ -3,8 +3,10 @@ package org.usfirst.frc.team5190.robot.oi;
 import org.usfirst.frc.team5190.robot.commands.IntakeCommand;
 import org.usfirst.frc.team5190.robot.commands.KillCommand;
 import org.usfirst.frc.team5190.robot.commands.MoarPowahCommand;
+import org.usfirst.frc.team5190.robot.commands.NarrowIntakeWheelCommand;
 import org.usfirst.frc.team5190.robot.commands.PneumaticExtendCommand;
 import org.usfirst.frc.team5190.robot.commands.PneumaticRetractCommand;
+import org.usfirst.frc.team5190.robot.commands.WidenIntakeWheelCommand;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 
@@ -38,6 +40,8 @@ public abstract class AbstractOI implements OI {
 		getPneumaticForwardButton().whenPressed(new PneumaticExtendCommand());
 		getPneumaticReverseButton().whenPressed(new PneumaticRetractCommand());
 
+		getWidenIntakeButton().whenPressed(new WidenIntakeWheelCommand());
+		getNarrowIntakeButton().whenPressed(new NarrowIntakeWheelCommand());
 		// getBackstopUpSwitch().whenPressed(new GoToLevelCommand(true)); //
 		// raise
 		// // bar
@@ -61,6 +65,9 @@ public abstract class AbstractOI implements OI {
 
 	protected abstract Button getIntakeDirectionOUTSwitch();
 
+	protected abstract Button getWidenIntakeButton();
+
+	protected abstract Button getNarrowIntakeButton();
 	// protected abstract Button getBackstopUpSwitch();
 	//
 	// protected abstract Button getBackstopDownSwitch();
