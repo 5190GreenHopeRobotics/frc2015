@@ -1,42 +1,43 @@
 package org.usfirst.frc.team5190.robot.commands;
 
-import org.usfirst.frc.team5190.robot.subsystems.CherryPickerSubsystem;
+import org.usfirst.frc.team5190.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class CherryPickerRetractCommand extends Command {
-	private CherryPickerSubsystem cherryPickerSubsystem = CherryPickerSubsystem
-			.getInstance();
+public class PneumaticOffCommand extends Command {
 
-	public CherryPickerRetractCommand() {
-		requires(cherryPickerSubsystem);
+	public PneumaticOffCommand() {
+		requires(IntakeSubsystem.getInstance());
 	}
 
 	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
+		IntakeSubsystem.getInstance().pistonOff();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
-		cherryPickerSubsystem.operate(-0.2);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
-		return cherryPickerSubsystem.reachedMinLimit();
+		return true;
 	}
 
 	// Called once after isFinished returns true
+	@Override
 	protected void end() {
-		cherryPickerSubsystem.stopCherryPicker();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
-		cherryPickerSubsystem.stopCherryPicker();
 	}
 }
