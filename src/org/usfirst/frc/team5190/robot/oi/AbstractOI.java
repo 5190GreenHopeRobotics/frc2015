@@ -8,7 +8,6 @@ import org.usfirst.frc.team5190.robot.commands.PneumaticExtendCommand;
 import org.usfirst.frc.team5190.robot.commands.PneumaticRetractCommand;
 import org.usfirst.frc.team5190.robot.commands.PneumaticStopCommand;
 import org.usfirst.frc.team5190.robot.commands.WidenIntakeWheelCommand;
-
 import edu.wpi.first.wpilibj.buttons.Button;
 
 //import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -29,15 +28,11 @@ public abstract class AbstractOI implements OI {
 		Button moarPowahButton = getMoarPowahButton();
 		moarPowahButton.whenPressed(new MoarPowahCommand(true));
 		moarPowahButton.whenReleased(new MoarPowahCommand(false));
-
-		Button intakeDirectionINSwitch = getIntakeDirectionINSwitch();
-		intakeDirectionINSwitch.whenReleased(new IntakeCommand(0));
-		intakeDirectionINSwitch.whileHeld(new IntakeCommand(-0.5));
-
-		Button intakeDirectionOUTSwitch = getIntakeDirectionOUTSwitch();
-		intakeDirectionOUTSwitch.whenReleased(new IntakeCommand(0.0));
-		intakeDirectionOUTSwitch.whileHeld(new IntakeCommand(0.5));
-
+		
+		getIntakeDirectionINSwitch().whenPressed(new IntakeCommand(.5));
+		getIntakeDirectionOUTSwitch().whenPressed(new IntakeCommand(-.5));
+		//getIntakeDirectionBOTHSwitches().whenPressed(new IntakeCommand(0));
+		
 		getPneumaticForwardButton().whenPressed(new PneumaticExtendCommand());
 		getPneumaticForwardButton().whenReleased(new PneumaticStopCommand());		//added for third solenoid
 		
@@ -45,13 +40,31 @@ public abstract class AbstractOI implements OI {
 		getPneumaticReverseButton().whenReleased(new PneumaticStopCommand());		//added for third solenoid
 
 		getWidenIntakeButton().whenPressed(new WidenIntakeWheelCommand());
+
 		getNarrowIntakeButton().whenPressed(new NarrowIntakeWheelCommand());
-		// getBackstopUpSwitch().whenPressed(new GoToLevelCommand(true)); //
-		// raise
-		// // bar
-		// getBackstopDownSwitch().whenPressed(new GoToLevelCommand(true)); //
-		// lower
-		// // bar
+		getNarrowIntakeButton().whenReleased(new WidenIntakeWheelCommand());		//allows one button squeeze/release
+
+		
+		//*************************************************************************
+		//*****************TEMPORARY FOR PRACTICE ONLY!!!!!!***********************
+		//*************************************************************************		
+		getIntakeDirectionINSwitch2().whenPressed(new IntakeCommand(.5));
+		getIntakeDirectionOUTSwitch2().whenPressed(new IntakeCommand(-.5));
+		//getIntakeDirectionBOTHSwitches().whenPressed(new IntakeCommand(0));
+		
+		getPneumaticForwardButton2().whenPressed(new PneumaticExtendCommand());
+		getPneumaticForwardButton2().whenReleased(new PneumaticStopCommand());		//added for third solenoid
+		
+		getPneumaticReverseButton2().whenPressed(new PneumaticRetractCommand());
+		getPneumaticReverseButton2().whenReleased(new PneumaticStopCommand());		//added for third solenoid
+
+		getWidenIntakeButton2().whenPressed(new WidenIntakeWheelCommand());
+
+		getNarrowIntakeButton2().whenPressed(new NarrowIntakeWheelCommand());
+		getNarrowIntakeButton2().whenReleased(new WidenIntakeWheelCommand());		//allows one button squeeze/release
+		//*************************************************************************
+		//*************************************************************************
+		//*************************************************************************		
 
 	}
 
@@ -68,12 +81,25 @@ public abstract class AbstractOI implements OI {
 	protected abstract Button getIntakeDirectionINSwitch();
 
 	protected abstract Button getIntakeDirectionOUTSwitch();
+	
+//	protected abstract Button getIntakeDirectionBOTHSwitches();
 
 	protected abstract Button getWidenIntakeButton();
 
 	protected abstract Button getNarrowIntakeButton();
-	// protected abstract Button getBackstopUpSwitch();
-	//
-	// protected abstract Button getBackstopDownSwitch();
+	
+	//*************************************************************************
+	//*****************TEMPORARY FOR PRACTICE ONLY!!!!!!***********************
+	//*************************************************************************
+	protected abstract Button getPneumaticForwardButton2();
+	protected abstract Button getPneumaticReverseButton2();	
+	protected abstract Button getIntakeDirectionINSwitch2();
+	protected abstract Button getIntakeDirectionOUTSwitch2();
+//	protected abstract Button getIntakeDirectionBOTHSwitches();
+	protected abstract Button getWidenIntakeButton2();
+	protected abstract Button getNarrowIntakeButton2();
+	//*************************************************************************
+	//*************************************************************************
+	//*************************************************************************
 
 }

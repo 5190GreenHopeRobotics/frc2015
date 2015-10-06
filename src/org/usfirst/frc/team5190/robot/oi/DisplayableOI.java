@@ -44,6 +44,11 @@ public class DisplayableOI implements OI, Displayable {
 	public double getFlightStickSpeed() {
 		return sourceOI.getFlightStickSpeed();
 	}
+	
+	@Override
+	public double getShootStickSpeed() {
+		return sourceOI.getShootStickSpeed();
+	}
 
 	@Override
 	public double getCherryPickerAxis() {

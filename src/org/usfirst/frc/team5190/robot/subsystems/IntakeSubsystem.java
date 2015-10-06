@@ -3,6 +3,7 @@ package org.usfirst.frc.team5190.robot.subsystems;
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
+import org.usfirst.frc.team5190.robot.Robot;
 import org.usfirst.frc.team5190.robot.RobotMap;
 import org.usfirst.frc.team5190.robot.commands.joystick.IntakeJoystickCommand;
 
@@ -26,6 +27,8 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	private DoubleSolenoid squeezeSolenoid;
 	private Solenoid lowerSolenoid;
 	private Solenoid raiseSolenoid;
+	
+	double tempThrottle = 1.0;
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
@@ -56,9 +59,15 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void runIntake(double power) {
-
+		
 		// Read Direction Switch
 		if (power > 0.05 || power < -0.05) {
+			
+			tempThrottle = Robot.oi.getShootStickSpeed();
+			tempThrottle = tempThrottle / 2 + 0.5;
+			
+			power *= tempThrottle;
+			
 			leftIntakeController.set(power);
 			rightIntakeController.set(-power);
 		} else {
@@ -100,11 +109,11 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void widenIntakeWheel() {
-		squeezeSolenoid.set(Value.kForward);
+		squeezeSolenoid.set(Value.kReverse);
 	}
 
 	public void narrowIntakeWheel() {
-		squeezeSolenoid.set(Value.kReverse);
+		squeezeSolenoid.set(Value.kForward);
 	}
 
 	//Original from Shilong - modified to switch solenoids to different roles

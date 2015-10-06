@@ -47,6 +47,11 @@ public class ScaleInputsOI implements OI, Configurable {
 	public double getFlightStickSpeed() {
 		return sourceOI.getFlightStickSpeed() * 1.0;
 	}
+	
+	@Override
+	public double getShootStickSpeed() {
+		return sourceOI.getShootStickSpeed() * 1.0;
+	}
 
 	@Override
 	public double getCherryPickerAxis() {

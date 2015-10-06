@@ -40,6 +40,12 @@ public class SetPowerCurvesOI implements OI {
 	public double getFlightStickSpeed() {
 		return OIUtils.scaledCubic(1.0, sourceOI.getFlightStickSpeed());
 	}
+	
+	@Override
+	public double getShootStickSpeed() {
+		return OIUtils.scaledCubic(1.0, sourceOI.getShootStickSpeed());
+	}
+
 
 	@Override
 	public double getCherryPickerAxis() {

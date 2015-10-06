@@ -12,5 +12,7 @@ public interface OI {
 	double getPawlAxis();
 
 	double getFlightStickSpeed();
-	
+
+	double getShootStickSpeed();
+
 }

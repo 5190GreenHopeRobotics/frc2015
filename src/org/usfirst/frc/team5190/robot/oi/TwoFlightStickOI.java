@@ -82,6 +82,15 @@ public class TwoFlightStickOI extends AbstractOI {
 		// function
 		return -(flightStickDrive.getThrottle() - 1.0) / 2.0;
 	}
+	
+	@Override
+	public double getShootStickSpeed() {
+		// return (flightStickDrive.getThrottle() + 1.0) / 2.0;
+		// this makes the function's math work better with the arcadeDrive
+		// function
+		return -(flightStickShoot.getThrottle() - 1.0) / 2.0;
+	}
+	
 
 	/**
 	 * @return Axis for arm (y axis on joystick)
@@ -158,6 +167,11 @@ public class TwoFlightStickOI extends AbstractOI {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
 	}
+	
+//	@Override
+//	protected boolean getIntakeDirectionBOTHSwitches() {
+//		return ANDIntakeButtons.
+//	}
 
 	@Override
 	protected Button getPneumaticForwardButton() {
@@ -182,5 +196,51 @@ public class TwoFlightStickOI extends AbstractOI {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_RIGHT);
 	}
+	
+
+	//*************************************************************************
+	//*****************TEMPORARY FOR PRACTICE ONLY!!!!!!***********************
+	//*************************************************************************
+	@Override
+	protected Button getIntakeDirectionINSwitch2() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_RIGHT);
+	}
+
+	@Override
+	protected Button getIntakeDirectionOUTSwitch2() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
+	}
+	
+	@Override
+	protected Button getPneumaticForwardButton2() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.UPPER_BUTTON_TOP_LEFT);
+	}
+
+	@Override
+	protected Button getPneumaticReverseButton2() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.UPPER_BUTTON_BOTTOM_LEFT);
+	}
+
+	@Override
+	protected Button getWidenIntakeButton2() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_LEFT);
+	}
+
+	@Override
+	protected Button getNarrowIntakeButton2() {
+		return new JoystickButton(flightStickDrive,
+				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_RIGHT);
+	}		
+
+		
+		
+	//*************************************************************************
+	
+	
 }
 // hail hydra
