@@ -44,7 +44,7 @@ public class RobotMap {
 	public static final int SOLENOID1_Forward = 1;
 	public static final int SOLENOID1_REVERSE = 0;
 	public static final int PCM_MODULE_ID = 2;
-	public static final int SOLENOID2_FORWARD = 2;
-	public static final int SOLENOID2_REVERSE = 3;
-	public static final int SOLENOID2_MODULE_ID = 2;
+//	public static final int SOLENOID2_FORWARD = 2;
+//	public static final int SOLENOID2_REVERSE = 3;
+//	public static final int SOLENOID2_MODULE_ID = 2;
 }

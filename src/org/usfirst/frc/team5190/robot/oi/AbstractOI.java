@@ -6,6 +6,7 @@ import org.usfirst.frc.team5190.robot.commands.MoarPowahCommand;
 import org.usfirst.frc.team5190.robot.commands.NarrowIntakeWheelCommand;
 import org.usfirst.frc.team5190.robot.commands.PneumaticExtendCommand;
 import org.usfirst.frc.team5190.robot.commands.PneumaticRetractCommand;
+import org.usfirst.frc.team5190.robot.commands.PneumaticStopCommand;
 import org.usfirst.frc.team5190.robot.commands.WidenIntakeWheelCommand;
 
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -38,7 +39,10 @@ public abstract class AbstractOI implements OI {
 		intakeDirectionOUTSwitch.whileHeld(new IntakeCommand(0.5));
 
 		getPneumaticForwardButton().whenPressed(new PneumaticExtendCommand());
+		getPneumaticForwardButton().whenReleased(new PneumaticStopCommand());		//added for third solenoid
+		
 		getPneumaticReverseButton().whenPressed(new PneumaticRetractCommand());
+		getPneumaticReverseButton().whenReleased(new PneumaticStopCommand());		//added for third solenoid
 
 		getWidenIntakeButton().whenPressed(new WidenIntakeWheelCommand());
 		getNarrowIntakeButton().whenPressed(new NarrowIntakeWheelCommand());

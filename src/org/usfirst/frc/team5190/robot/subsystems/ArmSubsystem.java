@@ -27,7 +27,7 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 	private static ArmSubsystem instance;
 
 	private static final int ARM_RANGE = 361;
-	private static final int ARM_BOTTOM_OFFSET = 100;
+	private static final int ARM_BOTTOM_OFFSET = 0;
 
 	private static final double ARM_SET_ANGLE_P = 12.5;
 	private static final double ARM_SET_ANGLE_I = 0.05;
@@ -138,12 +138,12 @@ public class ArmSubsystem extends LifecycleSubsystem implements Displayable,
 	}
 
 	public void moveArm(double power) {
-		localRightSensor = navigationSubsystem.getRightSensorDistance();
-		if(localRightSensor <= 200.0){
-			if(power < 0.0){
-				power = 0.0;
-			}
-		}
+//		localRightSensor = navigationSubsystem.getRightSensorDistance();
+//		if(localRightSensor <= 200.0){
+//			if(power < 0.0){
+//				power = 0.0;
+//			}
+//		}
 		if (power > 0.05 || power < -0.05) {
 			if (controlMode != ControlMode.PercentVbus) {
 				armCANTalonLeft.changeControlMode(ControlMode.PercentVbus);

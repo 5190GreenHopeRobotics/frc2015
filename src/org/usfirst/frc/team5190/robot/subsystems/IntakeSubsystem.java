@@ -23,17 +23,19 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	private Talon leftIntakeController;
 	private Talon rightIntakeController;
 	private Compressor compressor1;
-	private DoubleSolenoid doubleSolenoid1;
-	private Solenoid secondSolenoid;
+	private DoubleSolenoid squeezeSolenoid;
+	private Solenoid lowerSolenoid;
+	private Solenoid raiseSolenoid;
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
 		leftIntakeController = new Talon(RobotMap.INTAKE_LEFT_TALON_PORT);
 		rightIntakeController = new Talon(RobotMap.INTAKE_RIGHT_TALON_PORT);
 		compressor1 = new Compressor(0);
-		doubleSolenoid1 = new DoubleSolenoid(RobotMap.PCM_MODULE_ID,
+		squeezeSolenoid = new DoubleSolenoid(RobotMap.PCM_MODULE_ID,
 				RobotMap.SOLENOID1_Forward, RobotMap.SOLENOID1_REVERSE);
-		secondSolenoid = new Solenoid(2, 2);
+		lowerSolenoid = new Solenoid(2, 2);
+		raiseSolenoid = new Solenoid(2, 3);
 	}
 
 	public static IntakeSubsystem getInstance() {
@@ -79,24 +81,52 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void forwardPiston() {
-		doubleSolenoid1.set(Value.kForward);
+//		doubleSolenoid1.set(Value.kForward);
+		lowerSolenoid.set(true);
 	}
 
 	public void reversePiston() {
-		doubleSolenoid1.set(Value.kReverse);
+//		doubleSolenoid1.set(Value.kReverse);
+		raiseSolenoid.set(true);		//added third solenoid
 	}
 
+	public void stopPiston() {
+		lowerSolenoid.set(false);
+		raiseSolenoid.set(false);		
+	}
+	
 	public void pistonOff() {
-		doubleSolenoid1.set(Value.kOff);
+		squeezeSolenoid.set(Value.kOff);
 	}
 
 	public void widenIntakeWheel() {
-		secondSolenoid.set(true);
+		squeezeSolenoid.set(Value.kForward);
 	}
 
 	public void narrowIntakeWheel() {
-		secondSolenoid.set(false);
+		squeezeSolenoid.set(Value.kReverse);
 	}
+
+	//Original from Shilong - modified to switch solenoids to different roles
+//	public void forwardPiston() {
+//		doubleSolenoid1.set(Value.kForward);
+//	}
+//
+//	public void reversePiston() {
+//		doubleSolenoid1.set(Value.kReverse);
+//	}
+//
+//	public void pistonOff() {
+//		doubleSolenoid1.set(Value.kOff);
+//	}
+//
+//	public void widenIntakeWheel() {
+//		secondSolenoid.set(true);
+//	}
+//
+//	public void narrowIntakeWheel() {
+//		secondSolenoid.set(false);
+//	}
 
 	public boolean isReady() {
 		return !compressor1.getPressureSwitchValue();
