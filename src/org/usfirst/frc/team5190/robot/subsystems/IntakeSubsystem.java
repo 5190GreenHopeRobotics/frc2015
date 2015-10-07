@@ -1,5 +1,9 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
@@ -27,8 +31,78 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	private DoubleSolenoid squeezeSolenoid;
 	private Solenoid lowerSolenoid;
 	private Solenoid raiseSolenoid;
-	
+	private ButtonTracker tracker;
 	double tempThrottle = 1.0;
+
+	private class ButtonTracker {
+		private boolean firstPressed;
+		private boolean secondPressed;
+		private boolean bothPressed;
+		private boolean isChecking;
+		private Timer timer;
+
+		private class Check extends TimerTask {
+
+			@Override
+			public void run() {
+				synchronized (this) {
+					if (!bothPressed) {
+						firstPressed = false;
+						secondPressed = false;
+					}
+					isChecking = false;
+				}
+
+			}
+
+		}
+
+		protected ButtonTracker() {
+			timer = new Timer();
+		}
+
+		public void firstPressed() {
+			synchronized (this) {
+				firstPressed = true;
+			}
+			if (!isChecking) {
+				timer.schedule(new Check(),
+						new Date(new Date().getTime() + 200));
+				synchronized (this) {
+					isChecking = true;
+					if (secondPressed == true) {
+						bothPressed = true;
+					}
+				}
+			}
+		}
+
+		public void secondPressed() {
+			synchronized (this) {
+				secondPressed = true;
+			}
+			if (!isChecking) {
+				timer.schedule(new Check(),
+						new Date(new Date().getTime() + 200));
+				synchronized (this) {
+					isChecking = true;
+					if (firstPressed = true) {
+						bothPressed = true;
+					}
+				}
+			}
+		}
+
+		public synchronized boolean isBothPressed() {
+			return bothPressed;
+		}
+
+		public synchronized void reset() {
+			firstPressed = false;
+			secondPressed = false;
+			bothPressed = false;
+		}
+	}
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
@@ -39,6 +113,7 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 				RobotMap.SOLENOID1_Forward, RobotMap.SOLENOID1_REVERSE);
 		lowerSolenoid = new Solenoid(2, 2);
 		raiseSolenoid = new Solenoid(2, 3);
+		tracker = new ButtonTracker();
 	}
 
 	public static IntakeSubsystem getInstance() {
@@ -59,15 +134,15 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void runIntake(double power) {
-		
+
 		// Read Direction Switch
 		if (power > 0.05 || power < -0.05) {
-			
+
 			tempThrottle = Robot.oi.getShootStickSpeed();
 			tempThrottle = tempThrottle / 2 + 0.5;
-			
+
 			power *= tempThrottle;
-			
+
 			leftIntakeController.set(power);
 			rightIntakeController.set(-power);
 		} else {
@@ -90,20 +165,20 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	}
 
 	public void forwardPiston() {
-//		doubleSolenoid1.set(Value.kForward);
+		// doubleSolenoid1.set(Value.kForward);
 		lowerSolenoid.set(true);
 	}
 
 	public void reversePiston() {
-//		doubleSolenoid1.set(Value.kReverse);
-		raiseSolenoid.set(true);		//added third solenoid
+		// doubleSolenoid1.set(Value.kReverse);
+		raiseSolenoid.set(true); // added third solenoid
 	}
 
 	public void stopPiston() {
 		lowerSolenoid.set(false);
-		raiseSolenoid.set(false);		
+		raiseSolenoid.set(false);
 	}
-	
+
 	public void pistonOff() {
 		squeezeSolenoid.set(Value.kOff);
 	}
@@ -116,26 +191,26 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		squeezeSolenoid.set(Value.kForward);
 	}
 
-	//Original from Shilong - modified to switch solenoids to different roles
-//	public void forwardPiston() {
-//		doubleSolenoid1.set(Value.kForward);
-//	}
-//
-//	public void reversePiston() {
-//		doubleSolenoid1.set(Value.kReverse);
-//	}
-//
-//	public void pistonOff() {
-//		doubleSolenoid1.set(Value.kOff);
-//	}
-//
-//	public void widenIntakeWheel() {
-//		secondSolenoid.set(true);
-//	}
-//
-//	public void narrowIntakeWheel() {
-//		secondSolenoid.set(false);
-//	}
+	// Original from Shilong - modified to switch solenoids to different roles
+	// public void forwardPiston() {
+	// doubleSolenoid1.set(Value.kForward);
+	// }
+	//
+	// public void reversePiston() {
+	// doubleSolenoid1.set(Value.kReverse);
+	// }
+	//
+	// public void pistonOff() {
+	// doubleSolenoid1.set(Value.kOff);
+	// }
+	//
+	// public void widenIntakeWheel() {
+	// secondSolenoid.set(true);
+	// }
+	//
+	// public void narrowIntakeWheel() {
+	// secondSolenoid.set(false);
+	// }
 
 	public boolean isReady() {
 		return !compressor1.getPressureSwitchValue();
@@ -147,5 +222,24 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		display.putNumber("LeftIntakePower", findLeftIntakePower());
 		display.putNumber("RightIntakePower", findRightIntakePower());
 		display.putBoolean("pressure", isReady());
+	}
+
+	public void firstButtonPressed() {
+		tracker.firstPressed();
+
+	}
+
+	public void secondButtonPressed() {
+		tracker.secondPressed();
+
+	}
+
+	public void reset() {
+		tracker.reset();
+
+	}
+
+	public boolean bothPressed() {
+		return tracker.isBothPressed();
 	}
 }
