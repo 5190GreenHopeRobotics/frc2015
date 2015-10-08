@@ -48,8 +48,8 @@ public abstract class AbstractOI implements OI {
 		//*************************************************************************
 		//*****************TEMPORARY FOR PRACTICE ONLY!!!!!!***********************
 		//*************************************************************************		
-		getIntakeDirectionINSwitch2().whenPressed(new IntakeCommand(.5));
-		getIntakeDirectionOUTSwitch2().whenPressed(new IntakeCommand(-.5));
+		getIntakeDirectionINSwitch2().whenPressed(new IntakeCommand(1.0));		//full power!
+		getIntakeDirectionOUTSwitch2().whenPressed(new IntakeCommand(-1.0));	//full power!
 		//getIntakeDirectionBOTHSwitches().whenPressed(new IntakeCommand(0));
 		
 		getPneumaticForwardButton2().whenPressed(new PneumaticExtendCommand());

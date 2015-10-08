@@ -284,6 +284,7 @@ public class DriveTrainSubsystem extends LifecycleSubsystem implements
 			if(!moarPowah){				//back 'er down unless you pull the trigger
 				moveValue *= tempThrottle;
 				rotateValue *= tempThrottle;
+				rotateValue *= 0.75;		//reducing rotate sensitivity
 			}
 
 			//simplified speed calculation

@@ -97,7 +97,8 @@ public class TwoFlightStickOI extends AbstractOI {
 	 */
 	@Override
 	public double getArmAxis() {
-		return -flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
+		//Modified for THOR - arm up down works more like airplane stick (was "backwards" for Mihir)
+		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
 	/**

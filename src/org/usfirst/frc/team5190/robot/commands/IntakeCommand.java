@@ -16,17 +16,17 @@ public class IntakeCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		if (direction > 0) {
-			intakeSubsystem.firstButtonPressed();
-		} else {
-			intakeSubsystem.secondButtonPressed();
-		}
-		if (!intakeSubsystem.bothPressed()) {
+//		if (direction > 0) {
+//			intakeSubsystem.firstButtonPressed();
+//		} else {
+//			intakeSubsystem.secondButtonPressed();
+//		}
+//		if (!intakeSubsystem.bothPressed()) {
 			intakeSubsystem.runIntake(direction);
-		} else {
-			intakeSubsystem.stopIntake();
-			intakeSubsystem.reset();
-		}
+//		} else {
+//			intakeSubsystem.stopIntake();
+//			intakeSubsystem.reset();
+//		}
 	}
 
 	@Override
