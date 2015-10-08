@@ -1,9 +1,5 @@
 package org.usfirst.frc.team5190.robot.subsystems;
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.usfirst.frc.team5190.dashboard.Display;
 import org.usfirst.frc.team5190.dashboard.Displayable;
 import org.usfirst.frc.team5190.dashboard.SmartDashBoardDisplayer;
@@ -31,78 +27,7 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 	private DoubleSolenoid squeezeSolenoid;
 	private Solenoid lowerSolenoid;
 	private Solenoid raiseSolenoid;
-	private ButtonTracker tracker;
 	double tempThrottle = 1.0;
-
-	private class ButtonTracker {
-		private boolean firstPressed;
-		private boolean secondPressed;
-		private boolean bothPressed;
-		private boolean isChecking;
-		private Timer timer;
-
-		private class Check extends TimerTask {
-
-			@Override
-			public void run() {
-				synchronized (this) {
-					if (!bothPressed) {
-						firstPressed = false;
-						secondPressed = false;
-					}
-					isChecking = false;
-				}
-
-			}
-
-		}
-
-		protected ButtonTracker() {
-			timer = new Timer();
-		}
-
-		public void firstPressed() {
-			synchronized (this) {
-				firstPressed = true;
-			}
-			if (!isChecking) {
-				timer.schedule(new Check(),
-						new Date(new Date().getTime() + 200));
-				synchronized (this) {
-					isChecking = true;
-					if (secondPressed == true) {
-						bothPressed = true;
-					}
-				}
-			}
-		}
-
-		public void secondPressed() {
-			synchronized (this) {
-				secondPressed = true;
-			}
-			if (!isChecking) {
-				timer.schedule(new Check(),
-						new Date(new Date().getTime() + 200));
-				synchronized (this) {
-					isChecking = true;
-					if (firstPressed = true) {
-						bothPressed = true;
-					}
-				}
-			}
-		}
-
-		public synchronized boolean isBothPressed() {
-			return bothPressed;
-		}
-
-		public synchronized void reset() {
-			firstPressed = false;
-			secondPressed = false;
-			bothPressed = false;
-		}
-	}
 
 	private IntakeSubsystem() {
 		SmartDashBoardDisplayer.getInstance().addDisplayable(this);
@@ -113,7 +38,6 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 				RobotMap.SOLENOID1_Forward, RobotMap.SOLENOID1_REVERSE);
 		lowerSolenoid = new Solenoid(2, 2);
 		raiseSolenoid = new Solenoid(2, 3);
-		tracker = new ButtonTracker();
 	}
 
 	public static IntakeSubsystem getInstance() {
@@ -224,22 +148,4 @@ public class IntakeSubsystem extends Subsystem implements Displayable {
 		display.putBoolean("pressure", isReady());
 	}
 
-	public void firstButtonPressed() {
-		tracker.firstPressed();
-
-	}
-
-	public void secondButtonPressed() {
-		tracker.secondPressed();
-
-	}
-
-	public void reset() {
-		tracker.reset();
-
-	}
-
-	public boolean bothPressed() {
-		return tracker.isBothPressed();
-	}
 }

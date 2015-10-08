@@ -82,7 +82,7 @@ public class TwoFlightStickOI extends AbstractOI {
 		// function
 		return -(flightStickDrive.getThrottle() - 1.0) / 2.0;
 	}
-	
+
 	@Override
 	public double getShootStickSpeed() {
 		// return (flightStickDrive.getThrottle() + 1.0) / 2.0;
@@ -90,14 +90,14 @@ public class TwoFlightStickOI extends AbstractOI {
 		// function
 		return -(flightStickShoot.getThrottle() - 1.0) / 2.0;
 	}
-	
 
 	/**
 	 * @return Axis for arm (y axis on joystick)
 	 */
 	@Override
 	public double getArmAxis() {
-		//Modified for THOR - arm up down works more like airplane stick (was "backwards" for Mihir)
+		// Modified for THOR - arm up down works more like airplane stick (was
+		// "backwards" for Mihir)
 		return flightStickShoot.getRawAxis(LogitechExtreme3D.Y_AXIS);
 	}
 
@@ -168,11 +168,11 @@ public class TwoFlightStickOI extends AbstractOI {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
 	}
-	
-//	@Override
-//	protected boolean getIntakeDirectionBOTHSwitches() {
-//		return ANDIntakeButtons.
-//	}
+
+	// @Override
+	// protected boolean getIntakeDirectionBOTHSwitches() {
+	// return ANDIntakeButtons.
+	// }
 
 	@Override
 	protected Button getPneumaticForwardButton() {
@@ -197,11 +197,10 @@ public class TwoFlightStickOI extends AbstractOI {
 		return new JoystickButton(flightStickShoot,
 				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_RIGHT);
 	}
-	
 
-	//*************************************************************************
-	//*****************TEMPORARY FOR PRACTICE ONLY!!!!!!***********************
-	//*************************************************************************
+	// *************************************************************************
+	// *****************TEMPORARY FOR PRACTICE ONLY!!!!!!***********************
+	// *************************************************************************
 	@Override
 	protected Button getIntakeDirectionINSwitch2() {
 		return new JoystickButton(flightStickDrive,
@@ -213,7 +212,7 @@ public class TwoFlightStickOI extends AbstractOI {
 		return new JoystickButton(flightStickDrive,
 				LogitechExtreme3D.UPPER_BUTTON_TOP_RIGHT);
 	}
-	
+
 	@Override
 	protected Button getPneumaticForwardButton2() {
 		return new JoystickButton(flightStickDrive,
@@ -236,12 +235,22 @@ public class TwoFlightStickOI extends AbstractOI {
 	protected Button getNarrowIntakeButton2() {
 		return new JoystickButton(flightStickDrive,
 				LogitechExtreme3D.BOTTOM_BUTTON_CENTER_RIGHT);
-	}		
+	}
 
-		
-		
-	//*************************************************************************
-	
-	
+	@Override
+	protected Button getStopIntakeButton() {
+		return new Button() {
+
+			@Override
+			public boolean get() {
+				return getIntakeDirectionOUTSwitch().get()
+						&& getIntakeDirectionINSwitch().get();
+			}
+
+		};
+	}
+
+	// *************************************************************************
+
 }
 // hail hydra
